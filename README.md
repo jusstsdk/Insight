@@ -1,4 +1,4 @@
-# Newcomers
+# Newcomers Docs
 ## Models
 - Admin
 
