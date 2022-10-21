@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const courseModelSchema = new Schema(
+const courseSchema = new Schema(
 	{
 		title: {
 			type: String,
@@ -49,7 +49,7 @@ const courseModelSchema = new Schema(
 			required: false,
 		},
 		reports: {
-			type: [reportsSchema],
+			type: [reportSchema],
 			required: false,
 		},
 	},
@@ -68,11 +68,11 @@ const exerciseSchema = new Schema({
 	questions: String,
 });
 
-const reportsSchema = new Schema({
+const reportSchema = new Schema({
 	resolved: Boolean,
 	title: String,
 	description: String,
 	reporter: Schema.ObjectId, //Reference trainee/instructor.
 });
 
-module.exports = mongoose.model("Course", courseModelSchema);
+module.exports = mongoose.model("Course", courseSchema);
