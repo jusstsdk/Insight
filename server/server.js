@@ -18,6 +18,10 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/administrators', administratorRoutes)
 
+// endpoints
+app.get('/test', async(req, res) =>{
+})
+
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
