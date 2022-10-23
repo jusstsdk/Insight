@@ -2,9 +2,32 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const ratingSchema = new Schema({
+	rating: Number,
+	review: String,
+	trainee: Schema.ObjectId, //Reference trainee.
+});
+
+const exerciseSchema = new Schema({
+	number: Number,
+	title: String,
+	questions: String,
+});
+
+const reportSchema = new Schema({
+	resolved: Boolean,
+	title: String,
+	description: String,
+	reporter: Schema.ObjectId, //Reference trainee/instructor.
+});
+
 const courseSchema = new Schema(
 	{
 		title: {
+			type: String,
+			required: true,
+		},
+		subject: {
 			type: String,
 			required: true,
 		},
@@ -25,11 +48,11 @@ const courseSchema = new Schema(
 			required: true,
 		},
 		previewVid: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 		instructors: {
-			type: [Schema.ObjectId],
+			type: [{ type: Schema.ObjectId, ref: "Instructors" }],
 			required: true,
 		},
 		subtitle: {
@@ -55,24 +78,5 @@ const courseSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
-const ratingSchema = new Schema({
-	rating: Number,
-	review: String,
-	trainee: Schema.ObjectId, //Reference trainee.
-});
-
-const exerciseSchema = new Schema({
-	number: Number,
-	title: String,
-	questions: String,
-});
-
-const reportSchema = new Schema({
-	resolved: Boolean,
-	title: String,
-	description: String,
-	reporter: Schema.ObjectId, //Reference trainee/instructor.
-});
 
 module.exports = mongoose.model("Course", courseSchema);

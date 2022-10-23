@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Course = require("../models/courseModel");
+
+const ratingSchema = new Schema({
+	rating: Number,
+	review: String,
+	trainee: { type: Schema.ObjectId, ref: "Course" },
+});
 
 const instructorSchema = new Schema(
 	{
@@ -17,29 +24,20 @@ const instructorSchema = new Schema(
 		},
 		minibiography: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		country: {
 			type: String,
-			required: true,
-		},
-		courses: {
-			type: [Schema.ObjectId],
 			required: false,
 		},
+		courses: [{ type: Schema.ObjectId, ref: "Course" }],
 		ratings: {
 			type: [ratingSchema],
 			required: false,
 		},
 	},
-	{ timestamps: true }
+	{ timestamps: false }
 );
-
-const ratingSchema = new Schema({
-	rating: Number,
-	review: String,
-	trainee: Schema.ObjectId,
-});
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;
