@@ -1,6 +1,7 @@
 # To-Do
 
 - validations
+- Decide on what is required in Models.
   
 # Questions
 
