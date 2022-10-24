@@ -6,3 +6,6 @@
 # Questions
 
 - who can rate? how to handle "ref"
+
+# Bugs
+-     "error": "Query was already executed: Instructor.findOneAndUpdate({ _id: new ObjectId(\"63568cee0c9..."
