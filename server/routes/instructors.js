@@ -10,7 +10,6 @@ const {
 const {
 	createCourse,
 	getCourses,
-	filterCourses,
 	searchCourses,
 } = require("../controllers/courseController");
 
@@ -35,10 +34,7 @@ router.put("/:id", updateInstructor);
 router.post("/:id/courses", createCourse);
 
 // View all Courses' Titles given by him/her.
-router.get("/:id/courses/titles", getCourses);
-
-// Filter the courses given by him/her based on a subject or price
-router.get("/:id/courses", filterCourses);
+router.get("/:id/courses", getCourses);
 
 // Search for a course given by him/her based on course title or subject or instructor
 router.get("/:id/courses/search", searchCourses);

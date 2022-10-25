@@ -24,38 +24,35 @@ const createCourse = async (req, res) => {
 	}
 };
 
-// View all Courses' Titles given by him/her.
-const getCourses = async (req, res) => {
-	const { id } = req.params;
-
-	if (!mongoose.Types.ObjectId.isValid(id)) {
-		return res.status(404).json({ error: "No such instructor" });
-	}
-	// add to the database
-	try {
-		const instructor = await Instructor.findById(id).populate("courses");
-		// let titles = instructor.courses.map((course) => course.title);
-		res.status(200).json({ instructor });
-	} catch (error) {
-		res.status(400).json({ error: error.message });
-	}
-};
-
 // Not working
 // Filter the courses given by him/her based on a subject or price
-const filterCourses = async (req, res) => {
-	const { id } = req.params;
-	const { subject, price } = req.query;
-	console.log(req.query);
-	if (!mongoose.Types.ObjectId.isValid(id)) {
+const getCourses = async (req, res) => {
+	let instructorId = req.params.id;
+	let query = {};
+	if (Object.keys(req.query).length > 0) query = { $and: [] };
+	if (req.query.price != null) {
+		query["$and"].push({
+			price: {
+				$lte: req.query.price,
+			},
+		});
+	}
+	if (req.query.subject != null) {
+		query["$and"].push({
+			subjects: {
+				$elemMatch: { $eq: req.query.subject },
+			},
+		});
+	}
+	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
 	// add to the database
 	try {
-		const instructor = await Instructor.findById(id).populate({
+		const instructor = await Instructor.findById(instructorId).populate({
 			path: "courses",
 			// filtering field, you can use mongoDB syntax
-			match: { $and: [{ subjects: { $elemMatch: { $eq: subject } } }, { price: { $lte: price } }] },
+			match: query,
 		});
 		res.status(200).json({ courses: instructor.courses });
 	} catch (error) {
@@ -102,6 +99,5 @@ const searchCourses = async (req, res) => {
 module.exports = {
 	createCourse,
 	getCourses,
-	filterCourses,
 	searchCourses,
 };
