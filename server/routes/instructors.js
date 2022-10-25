@@ -33,10 +33,7 @@ router.put("/:id", updateInstructor);
 // Create a new Course
 router.post("/:id/courses", createCourse);
 
-// View all Courses' Titles given by him/her.
+// View all Courses' Titles given by him/her and search/filter.
 router.get("/:id/courses", getCourses);
-
-// Search for a course given by him/her based on course title or subject or instructor
-router.get("/:id/courses/search", searchCourses);
 
 module.exports = router;

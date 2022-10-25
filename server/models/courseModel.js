@@ -52,7 +52,7 @@ const courseSchema = new Schema(
 			required: true,
 		},
 		instructors: {
-			type: [{ type: Schema.ObjectId, ref: "Instructors" }],
+			type: [{ type: Schema.ObjectId, ref: "Instructor" }],
 			required: true,
 		},
 		subtitle: {
