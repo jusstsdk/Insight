@@ -5,11 +5,14 @@ const {
 	createInstructor,
 	deleteInstructor,
 	updateInstructor,
+} = require("../controllers/instructorController");
+
+const {
 	createCourse,
-	viewTitles,
+	getCourses,
 	filterCourses,
 	searchCourses,
-} = require("../controllers/instructorController");
+} = require("../controllers/courseController");
 
 const router = express.Router();
 
@@ -19,7 +22,7 @@ router.get("/", getInstructors);
 // GET a single Instructor
 router.get("/:id", getInstructor);
 
-// POST a new Instructor
+// Create a new Instructor
 router.post("/", createInstructor);
 
 // DELETE an Instructor
@@ -32,7 +35,7 @@ router.put("/:id", updateInstructor);
 router.post("/:id/courses", createCourse);
 
 // View all Courses' Titles given by him/her.
-router.get("/:id/courses/titles", viewTitles);
+router.get("/:id/courses/titles", getCourses);
 
 // Filter the courses given by him/her based on a subject or price
 router.get("/:id/courses", filterCourses);
