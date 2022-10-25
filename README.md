@@ -3,6 +3,17 @@
 - validations
 - Decide on what is required in Models.
 - force specific query params
+- put course
+- change subtitle model
+- create exams
+- discount logic
+- rate a course / insturctor
+- exercises
+- session
+- sort courses by most popular
+- authentication
+- add notes to student model
+- reports controller
   
 # Questions
 
