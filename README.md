@@ -2,6 +2,7 @@
 
 - validations
 - Decide on what is required in Models.
+- force specific query params
   
 # Questions
 
