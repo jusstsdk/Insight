@@ -14,9 +14,9 @@
    - [ ] force specific query params
 
 1. search courses
-   - [ ] filter
-   - [ ] sort
-   - [ ] search
+   - [x] filter
+   - [x] sort
+   - [x] search
 
 1. update trainee model
    - [ ] add payment
