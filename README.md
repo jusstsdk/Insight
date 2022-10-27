@@ -15,7 +15,7 @@
 
 1. search courses
    - [x] filter
-   - [x] sort
+   - [ ] sort
    - [x] search
 
 1. update trainee model
