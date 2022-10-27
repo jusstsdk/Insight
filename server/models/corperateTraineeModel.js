@@ -2,23 +2,14 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const corprate = new Schema({
-	name: {
-		type: String,
-	},
-});
-
-const courseTraineeSchema = new Schema({
-	courseID: {
-		type: Schema.ObjectId, //references courseModel
-		required: true,
-	},
-	exercisesSolved: [reportSchema],
-});
-
 const exerciseTraineeSchema = new Schema({
 	exerciseID: Schema.ObjectId, //refrences exerciseModel
 	grade: Number,
+});
+
+const courseTraineeSchema = new Schema({
+	courseId: { type: Schema.ObjectId, ref: "Course" },
+	exercisesSolved: [exerciseTraineeSchema],
 });
 
 const corprateTraineeSchema = new Schema(
@@ -39,9 +30,9 @@ const corprateTraineeSchema = new Schema(
 			type: String,
 			required: false,
 		},
-		corperateID: {
-			type: Schema.ObjectId, //references corprate,
-			required: false,
+		corperate: {
+			type: String, //references corprate,
+			required: true,
 		},
 		courses: {
 			type: [courseTraineeSchema],
@@ -51,4 +42,4 @@ const corprateTraineeSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Administrator", administratorSchema);
+module.exports = mongoose.model("CorprateTrainee", corprateTraineeSchema);

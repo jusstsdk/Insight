@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const administratorRoutes = require("./routes/administrators");
 const instructorRoutes = require("./routes/instructors");
+const traineeRoutes = require("./routes/trainees");
 
 // express app
 const app = express();
@@ -12,14 +13,13 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-	console.log(req.path, req.method);
 	next();
 });
 
 // routes
 app.use("/api/administrators", administratorRoutes);
 app.use("/api/instructors", instructorRoutes);
-
+app.use("/api/trainees", traineeRoutes);
 // endpoints
 app.get("/test", async (req, res) => {});
 

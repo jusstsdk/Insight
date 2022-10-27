@@ -11,7 +11,7 @@ const ratingSchema = new Schema({
 const exerciseSchema = new Schema({
 	number: Number,
 	title: String,
-	questions: String,
+	questions: [{ question: String, grade: Number }],
 });
 
 const reportSchema = new Schema({
