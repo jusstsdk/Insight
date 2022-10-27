@@ -44,9 +44,8 @@
    - [ ] student solve an exercise / exam
    - [ ] save the grade
   
-1. ratings
+1. ratings and reviews
    - [ ] rate an instructor / course
-   - [ ] view own rating
 
 1.  reports controller
     - [ ] can report a course
@@ -56,11 +55,7 @@
 1. refunds
    - [ ] request if below 50%
    - [ ] handle refund
-  
-  
+    
 # Questions
 
-- who can rate? how to handle "ref"
-
 # Bugs
--     "error": "Query was already executed: Instructor.findOneAndUpdate({ _id: new ObjectId(\"63568cee0c9..."
