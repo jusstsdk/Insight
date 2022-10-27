@@ -4,20 +4,20 @@ const mongoose = require("mongoose");
 
 // get all instructors
 const getInstructors = async (req, res) => {
-	const instructors = await Instructor.find().sort({ createdAt: -1 });
+	const instructors = await Instructor.find();
 
 	res.status(200).json(instructors);
 };
 
 // get a single instructor
 const getInstructor = async (req, res) => {
-	const { id } = req.params;
+	const instructorId = req.params.id;
 
-	if (!mongoose.Types.ObjectId.isValid(id)) {
+	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findById(id);
+	const instructor = await Instructor.findById(instructorId);
 
 	if (!instructor) {
 		return res.status(404).json({ error: "No such instructor" });
@@ -39,13 +39,13 @@ const createInstructor = async (req, res) => {
 
 // delete a instructor
 const deleteInstructor = async (req, res) => {
-	const { id } = req.params;
+	const instructorId = req.params.id;
 
-	if (!mongoose.Types.ObjectId.isValid(id)) {
+	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findOneAndDelete({ _id: id });
+	const instructor = await Instructor.findOneAndDelete({ _id: instructorId });
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such instructor" });
@@ -56,14 +56,14 @@ const deleteInstructor = async (req, res) => {
 
 // update a instructor
 const updateInstructor = async (req, res) => {
-	const { id } = req.params;
+	const instructorId = req.params.id;
 
-	if (!mongoose.Types.ObjectId.isValid(id)) {
+	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
 	const instructor = await Instructor.findOneAndUpdate(
-		{ _id: id },
+		{ _id: instructorId },
 		req.body,
 		{
 			new: true,
