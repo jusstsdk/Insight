@@ -5,7 +5,7 @@ const {
 	createCorporateTrainee,
 	deleteCorporateTrainee,
 	updateCorporateTrainee,
-} = require("../controllers/corporate-traineeController");
+} = require("../controllers/corporateTraineeController");
 
 const router = express.Router();
 

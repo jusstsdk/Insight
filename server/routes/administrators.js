@@ -1,27 +1,27 @@
-const express = require('express')
+const express = require("express");
 const {
-  getAdministrators, 
-  getAdministrator, 
-  createAdministrator, 
-  deleteAdministrator, 
-  updateAdministrator
-} = require('../controllers/administratorController')
+	getAdministrators,
+	getAdministrator,
+	createAdministrator,
+	deleteAdministrator,
+	updateAdministrator,
+} = require("../controllers/administratorController");
 
-const router = express.Router()
+const router = express.Router();
 
 // GET all administrators
-router.get('/', getAdministrators)
+router.get("/", getAdministrators);
 
 // GET a single administrator
-router.get('/:id', getAdministrator)
+router.get("/:id", getAdministrator);
 
 // POST a new administrator
-router.post('/', createAdministrator)
+router.post("/", createAdministrator);
 
 // DELETE a administrator
-router.delete('/:id', deleteAdministrator)
+router.delete("/:id", deleteAdministrator);
 
 // UPDATE a administrator
-router.put('/:id', updateAdministrator)
+router.put("/:id", updateAdministrator);
 
-module.exports = router
+module.exports = router;

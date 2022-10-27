@@ -12,10 +12,6 @@ const app = express();
 // middleware
 app.use(express.json());
 
-app.use((req, res, next) => {
-	next();
-});
-
 // routes
 app.use("/api/administrators", administratorRoutes);
 app.use("/api/instructors", instructorRoutes);
