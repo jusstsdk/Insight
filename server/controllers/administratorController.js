@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
-	const administrators = await Administrator.find({});
-
+	const administrators = await Administrator.find();
 	res.status(200).json(administrators);
 };
 
