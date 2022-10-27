@@ -35,13 +35,22 @@ const courseSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		price: {
+		originalPrice: {
 			type: Number,
 			required: true,
+			set: (originalPrice) => {
+				this.price = this.originalPrice - (this.originalPrice * this.discount / 100);
+				return originalPrice;
+			}
 		},
+		price: Number,
 		discount: {
 			type: Number,
 			required: false,
+			set: (discount) => {
+				this.price = this.originalPrice - (this.originalPrice * this.discount / 100);
+				return discount;
+			}
 		},
 		totalHours: {
 			type: Number,
