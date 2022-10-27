@@ -63,7 +63,8 @@ const courseSchema = new Schema(
 			type: [String],
 			required: false,
 		},
-		ratings: {
+		rating: Number,
+		reviews: {
 			type: [ratingSchema],
 			required: false,
 		},

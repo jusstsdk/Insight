@@ -7,11 +7,7 @@ const {
 	updateInstructor,
 } = require("../controllers/instructorController");
 
-const {
-	createCourse,
-	getCourses,
-	searchCourses,
-} = require("../controllers/courseController");
+const { createCourseInstructor, getCoursesInstructor } = require("../controllers/courseController");
 
 const router = express.Router();
 
@@ -31,9 +27,9 @@ router.delete("/:id", deleteInstructor);
 router.put("/:id", updateInstructor);
 
 // Create a new Course
-router.post("/:id/courses", createCourse);
+router.post("/:id/courses", createCourseInstructor);
 
 // View all Courses' Titles given by him/her and search/filter.
-router.get("/:id/courses", getCourses);
+router.get("/:id/courses", getCoursesInstructor);
 
 module.exports = router;
