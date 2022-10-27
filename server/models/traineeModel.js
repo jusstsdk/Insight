@@ -61,21 +61,4 @@ const traineeSchema = new Schema(
 	{ timestamps: true }
 );
 
-traineeSchema.virtual("domain").get(function () {
-	return this.email.slice(this.email.indexOf("@") + 1);
-});
-
-traineeSchema
-	.virtual("domain")
-	.get(function () {
-		return `${this.email}`;
-	})
-	.set(function (v) {
-		// `v` is the value being set, so use the value to set
-		// `firstName` and `lastName`.
-		const domain = v.slice(this.email.indexOf("@") + 1);
-		// const lastName = v.substring(v.indexOf(' ') + 1);
-		this.set({ domain });
-	});
-
 module.exports = mongoose.model("Trainee", traineeSchema);

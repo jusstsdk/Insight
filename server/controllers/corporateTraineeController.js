@@ -10,7 +10,7 @@ const getCorporateTrainees = async (req, res) => {
 
 // get a single corporateTrainee
 const getCorporateTrainee = async (req, res) => {
-	const traineeId = req.params;
+	const traineeId = req.params.id;
 
 	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
 		return res.status(404).json({ error: "No such corporate trainee" });
@@ -63,11 +63,9 @@ const updateCorporateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
-	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
-		{ _id: traineeId },
-		req.body,
-		{ new: true }
-	);
+	const corporateTrainee = await CorporateTrainee.findOneAndUpdate({ _id: traineeId }, req.body, {
+		new: true,
+	});
 
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate trainee" });
