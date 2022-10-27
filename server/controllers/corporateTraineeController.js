@@ -51,7 +51,9 @@ const deleteCorporateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
-	const corporateTrainee = await CorporateTrainee.findOneAndDelete({ _id: id });
+	const corporateTrainee = await CorporateTrainee.findOneAndDelete({
+		_id: id,
+	});
 
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate trainee" });

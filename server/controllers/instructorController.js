@@ -28,9 +28,6 @@ const getInstructor = async (req, res) => {
 
 // create a new instructor
 const createInstructor = async (req, res) => {
-	const { username, password, email, minibiography, country, courses, ratings } = req.body;
-	console.log(req.body);
-
 	// add to the database
 	try {
 		const instructor = await Instructor.create(req.body);
@@ -65,9 +62,13 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findOneAndUpdate({ _id: id }, req.body, {
-		new: true,
-	});
+	const instructor = await Instructor.findOneAndUpdate(
+		{ _id: id },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such instructor" });

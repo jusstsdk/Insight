@@ -54,23 +54,35 @@ const getCourses = async (req, res) => {
 	// create filter query from querystring
 	if (req.query.searchQuery != null) {
 		query["$and"].push({
-			"$or": [
-				{ title: { $regex: req.query.searchQuery, $options: "i" }},
-				{ subjects: { $elemMatch: { $regex: req.query.searchQuery, $options: "i" }}},
-				{ "instructors.username": { $regex: req.query.searchQuery, $options: "i" }}
-			]
+			$or: [
+				{ title: { $regex: req.query.searchQuery, $options: "i" } },
+				{
+					subjects: {
+						$elemMatch: {
+							$regex: req.query.searchQuery,
+							$options: "i",
+						},
+					},
+				},
+				{
+					"instructors.username": {
+						$regex: req.query.searchQuery,
+						$options: "i",
+					},
+				},
+			],
 		});
 	}
-	
+
 	console.log(JSON.stringify(query));
 	// find results
 	try {
 		const instructor = await Instructor.findById(instructorId).populate({
 			path: "courses",
 			populate: {
-				path: "instructors"
+				path: "instructors",
 			},
-			match: query
+			match: query,
 		});
 		res.status(200).json({ courses: instructor.courses });
 	} catch (error) {
@@ -102,13 +114,13 @@ const searchCourses = async (req, res) => {
 			match: {
 				$and: [
 					{
-						$or:[
+						$or: [
 							{ title: { $regex: title, $options: "i" } },
 							{ subject: { $regex: subject, $options: "i" } },
-						]
+						],
 					},
-					{ instructors: {$ne: [] } }
-				]
+					{ instructors: { $ne: [] } },
+				],
 			},
 		});
 		res.status(200).json({ courses: instructorById.courses });
