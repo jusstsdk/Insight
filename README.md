@@ -2,6 +2,7 @@
 
 1. Edit Model
    - [ ] remove required
+   - [ ] change reviewer and reporter to author
 
 1. login
    - [ ] authentication
