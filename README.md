@@ -1,5 +1,8 @@
 # To-Do
 
+1. Edit Model
+   - [ ] remove required
+
 1. login
    - [ ] authentication
    - [ ] session
