@@ -2,6 +2,21 @@ const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
 
+// Get a single course
+const getCourse = async (req, res) => {
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		return res.status(404).json({ error: "No such instructor" });
+	}
+
+	const course = await Course.findById(req.params.id);
+
+	if (!course) {
+		return res.status(404).json({ error: "No such Course" });
+	}
+
+	res.status(200).json(course);
+};
+
 // Create a new course
 const createCourseInstructor = async (req, res) => {
 	const instructorId = req.params.id;
@@ -147,4 +162,4 @@ const getCourses = async (req, res) => {
 	}
 };
 
-module.exports = { createCourseInstructor, getCoursesInstructor, getCourses };
+module.exports = { getCourse, getCourses, createCourseInstructor, getCoursesInstructor };
