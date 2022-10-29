@@ -21,6 +21,11 @@ const reportSchema = new Schema({
 	reporter: Schema.ObjectId, //Reference trainee/instructor.
 });
 
+function calculatePopularity(ratings) {
+	this.popularity = ratings.length;
+	return ratings;
+}
+
 const courseSchema = new Schema(
 	{
 		title: {
@@ -35,13 +40,22 @@ const courseSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		price: {
+		originalPrice: {
 			type: Number,
 			required: true,
+			set: (originalPrice) => {
+				this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+				return originalPrice;
+			},
 		},
+		price: Number,
 		discount: {
 			type: Number,
 			required: false,
+			set: (discount) => {
+				this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+				return discount;
+			},
 		},
 		totalHours: {
 			type: Number,
@@ -67,6 +81,7 @@ const courseSchema = new Schema(
 		reviews: {
 			type: [ratingSchema],
 			required: false,
+			set: calculatePopularity,
 		},
 		exercises: {
 			type: [exerciseSchema],
@@ -76,6 +91,7 @@ const courseSchema = new Schema(
 			type: [reportSchema],
 			required: false,
 		},
+		popularity: Number,
 	},
 	{ timestamps: true }
 );

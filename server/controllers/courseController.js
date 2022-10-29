@@ -162,4 +162,17 @@ const getCourses = async (req, res) => {
 	}
 };
 
-module.exports = { getCourse, getCourses, createCourseInstructor, getCoursesInstructor };
+// Update a Course
+const updateCourse = async (req, res) => {
+	let course = await Course.findById(req.params.id);
+	course = Object.assign(course, req.body);
+	let updatedCourse = await course.save();
+
+	if (!updatedCourse) {
+		return res.status(400).json({ error: "No such course" });
+	}
+
+	res.status(200).json(updatedCourse);
+};
+
+module.exports = { getCourse, getCourses, createCourseInstructor, getCoursesInstructor, updateCourse };
