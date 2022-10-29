@@ -22,14 +22,14 @@
    - [ ] sort
    - [x] search
 
-1. update trainee model
+1. update trainee model - Wagdy
    - [ ] add payment
    - [ ] pay for course
    - [ ] discount logic
    - [ ] add notes to student model while watching vid
    - [ ] wallet money
  
-1. course access
+1. course access - Aamena
    - [ ] request course access
    - [ ] view & grant course access
  
@@ -39,7 +39,7 @@
    - [ ] handle adding / removing other instructors
    - [ ] add promotion (insturctor or admin)
   
-1. exams & exercises & course model
+1. exams & exercises & course model - Wael
    - [ ] add certificate to model
    - [ ] make an exercise model for MCQ
    - [ ] instrutctor create exercise / exam in course model
@@ -48,10 +48,10 @@
    - [ ] student solve an exercise / exam
    - [ ] save the grade
   
-1. ratings and reviews
-   - [ ] rate an instructor / course
+1. ratings and reviews - Mahmoud
+   - [ ] rate an instructor / course (CRUD)
 
-1.  reports controller
+1.  reports controller - Yousef
     - [ ] can report a course
     - [ ] can follow up on a report
     - [ ] can handle a report
