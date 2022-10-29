@@ -34,10 +34,7 @@ const corprateTraineeSchema = new Schema(
 			type: String, //references corprate,
 			required: true,
 		},
-		courses: {
-			type: [courseTraineeSchema],
-			required: false,
-		},
+		courses: [courseTraineeSchema]
 	},
 	{ timestamps: true }
 );
