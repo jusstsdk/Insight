@@ -5,13 +5,13 @@ const mongoose = require("mongoose");
 // Get a single course
 const getCourse = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		return res.status(404).json({ error: "No such instructor" });
+		return res.status(404).json({ error: "No such Course (getCourse)" });
 	}
 
 	const course = await Course.findById(req.params.id);
 
 	if (!course) {
-		return res.status(404).json({ error: "No such Course" });
+		return res.status(404).json({ error: "No such Course (getCourse)" });
 	}
 
 	res.status(200).json(course);
@@ -168,7 +168,7 @@ const updateCourse = async (req, res) => {
 	let updatedCourse = await course.save();
 
 	if (!updatedCourse) {
-		return res.status(400).json({ error: "No such course" });
+		return res.status(400).json({ error: "No such course (updateCourse)" });
 	}
 
 	res.status(200).json(updatedCourse);

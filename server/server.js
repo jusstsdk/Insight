@@ -7,6 +7,7 @@ const instructorRoutes = require("./routes/instructors");
 const traineeRoutes = require("./routes/trainees");
 const corporateTrainees = require("./routes/corporateTrainees");
 const courseRoutes = require("./routes/courses");
+const reportRoutes = require("./routes/reports");
 
 // express app
 const app = express();
@@ -20,7 +21,7 @@ app.use("/api/instructors", instructorRoutes);
 app.use("/api/trainees", traineeRoutes);
 app.use("/api/corprateTrainee", corporateTrainees);
 app.use("/api/courses", courseRoutes);
-app.use("/api/reports", courseRoutes);
+app.use("/api/reports", reportRoutes);
 // endpoints
 app.get("/test", async (req, res) => {});
 
