@@ -72,6 +72,7 @@
    - Should we add more filters and sorting
    - How do we calculate popularity
    - Should we handle 3rd party accessing the API
+   - "see all previously reported problems and their statuses" vs "follow up on an unresolved problem"
    
 
 # Bugs
