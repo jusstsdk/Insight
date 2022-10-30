@@ -37,7 +37,7 @@
    - [ ] add vids
    - [ ] edit details
    - [ ] handle adding / removing other instructors
-   - [ ] add promotion (insturctor or admin)
+   - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
    - [ ] add certificate to model
@@ -59,7 +59,19 @@
 1. refunds
    - [ ] request if below 50%
    - [ ] handle refund
+   
+1. Error Handling
     
 # Questions
+   - How to handle editing exercises
+   - Editing instructors
+   - What are subtitles
+   - How to calculate progress
+   - What do we do with the country
+   - JWT vs Sessions
+   - Should we add more filters and sorting
+   - How do we calculate popularity
+   - Should we handle 3rd party accessing the API
+   
 
 # Bugs
