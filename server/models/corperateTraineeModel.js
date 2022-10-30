@@ -16,15 +16,15 @@ const corprateTraineeSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		password: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		email: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		country: {
 			type: String,
@@ -32,7 +32,7 @@ const corprateTraineeSchema = new Schema(
 		},
 		corperate: {
 			type: String, //references corprate,
-			required: true,
+			required: false,
 		},
 		courses: {
 			type: [courseTraineeSchema],

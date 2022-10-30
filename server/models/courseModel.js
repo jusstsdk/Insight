@@ -15,10 +15,26 @@ const exerciseSchema = new Schema({
 });
 
 const reportSchema = new Schema({
-	resolved: Boolean,
 	title: String,
+	type: {
+		type: String,
+		required: true,
+		enum: ["Technical", "Financial", "Other"],
+	},
+	resolved: { type: Boolean, default: false },
 	description: String,
-	reporter: Schema.ObjectId, //Reference trainee/instructor.
+	author: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
+		// will look at the `onModel` property to find the right model.
+		refPath: "reports.traineeType",
+	},
+	traineeType: {
+		type: String,
+		required: true,
+		enum: ["Trainee", "CorprateTrainee"],
+	},
 });
 
 function calculatePopularity(ratings) {

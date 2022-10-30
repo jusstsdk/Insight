@@ -28,7 +28,6 @@ const createCourseInstructor = async (req, res) => {
 	// add to the database
 	try {
 		const course = await Course.create(req.body);
-		console.log(req.body);
 
 		// update instructors in db
 		await Instructor.updateMany({ _id: instructors }, { $push: { courses: course._id } });
@@ -175,4 +174,41 @@ const updateCourse = async (req, res) => {
 	res.status(200).json(updatedCourse);
 };
 
-module.exports = { getCourse, getCourses, createCourseInstructor, getCoursesInstructor, updateCourse };
+// Report a Course
+const reportCourse = async (req, res) => {
+	try {
+		const course = await Course.findByIdAndUpdate(
+			req.params.id,
+			{
+				$push: { reports: req.body },
+			},
+			{ new: true }
+		);
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+// Filter the courses on a subject or price
+const populateReports = async (req, res) => {
+	// find results
+	try {
+		const course = await Course.findById(req.params.id).populate({
+			path: "reports.author",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+module.exports = {
+	getCourse,
+	getCourses,
+	createCourseInstructor,
+	getCoursesInstructor,
+	updateCourse,
+	reportCourse,
+	populateReports,
+};
