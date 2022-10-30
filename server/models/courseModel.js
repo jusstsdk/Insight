@@ -22,6 +22,7 @@ const reportSchema = new Schema({
 		enum: ["Technical", "Financial", "Other"],
 	},
 	resolved: { type: Boolean, default: false },
+	seen: { type: Boolean, default: false },
 	description: String,
 	author: {
 		type: Schema.Types.ObjectId,

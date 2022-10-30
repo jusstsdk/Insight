@@ -203,6 +203,19 @@ const populateReports = async (req, res) => {
 	}
 };
 
+// Filter the courses on a subject or price
+const getReports = async (req, res) => {
+	// find results
+	try {
+		const course = await Course.find({ reports: { $exists: true, $ne: [] } }).populate({
+			path: "reports.author",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: "error.message " });
+	}
+};
+
 module.exports = {
 	getCourse,
 	getCourses,
@@ -211,4 +224,5 @@ module.exports = {
 	updateCourse,
 	reportCourse,
 	populateReports,
+	getReports,
 };
