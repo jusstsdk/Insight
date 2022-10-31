@@ -1,16 +1,32 @@
 const express = require("express");
 
-const { getCourse, getCourses, updateCourse } = require("../controllers/courseController");
+const {
+	getCourse,
+	getCourses,
+	updateCourse,
+	reportCourse,
+	populateReports,
+	getReports,
+} = require("../controllers/courseController");
 
 const router = express.Router();
 
-// GET all Courses
-router.get("/", getCourses);
+// Report a Course
+router.get("/reports", getReports);
+
+// Report a Course
+router.put("/:id/report", reportCourse);
+
+// Report a Course
+router.get("/:id/report", populateReports);
 
 // GET a course
 router.get("/:id", getCourse);
 
 // PUT a Course
 router.put("/:id", updateCourse);
+
+// GET all Courses
+router.get("/", getCourses);
 
 module.exports = router;

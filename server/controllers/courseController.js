@@ -5,13 +5,13 @@ const mongoose = require("mongoose");
 // Get a single course
 const getCourse = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		return res.status(404).json({ error: "No such instructor" });
+		return res.status(404).json({ error: "No such Course (getCourse)" });
 	}
 
 	const course = await Course.findById(req.params.id);
 
 	if (!course) {
-		return res.status(404).json({ error: "No such Course" });
+		return res.status(404).json({ error: "No such Course (getCourse)" });
 	}
 
 	res.status(200).json(course);
@@ -28,7 +28,6 @@ const createCourseInstructor = async (req, res) => {
 	// add to the database
 	try {
 		const course = await Course.create(req.body);
-		console.log(req.body);
 
 		// update instructors in db
 		await Instructor.updateMany({ _id: instructors }, { $push: { courses: course._id } });
@@ -169,10 +168,61 @@ const updateCourse = async (req, res) => {
 	let updatedCourse = await course.save();
 
 	if (!updatedCourse) {
-		return res.status(400).json({ error: "No such course" });
+		return res.status(400).json({ error: "No such course (updateCourse)" });
 	}
 
 	res.status(200).json(updatedCourse);
 };
 
-module.exports = { getCourse, getCourses, createCourseInstructor, getCoursesInstructor, updateCourse };
+// Report a Course
+const reportCourse = async (req, res) => {
+	try {
+		const course = await Course.findByIdAndUpdate(
+			req.params.id,
+			{
+				$push: { reports: req.body },
+			},
+			{ new: true }
+		);
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+// Filter the courses on a subject or price
+const populateReports = async (req, res) => {
+	// find results
+	try {
+		const course = await Course.findById(req.params.id).populate({
+			path: "reports.author",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+// Filter the courses on a subject or price
+const getReports = async (req, res) => {
+	// find results
+	try {
+		const course = await Course.find({ reports: { $exists: true, $ne: [] } }).populate({
+			path: "reports.author",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: "error.message " });
+	}
+};
+
+module.exports = {
+	getCourse,
+	getCourses,
+	createCourseInstructor,
+	getCoursesInstructor,
+	updateCourse,
+	reportCourse,
+	populateReports,
+	getReports,
+};
