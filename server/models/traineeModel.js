@@ -2,17 +2,6 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const questionSchema = new Schema({
-	question: String,
-	grade: Number,
-});
-
-const exerciseSchema = new Schema({
-	exerciseQuestions: [questionSchema],
-	maxGrade: Number, // could be a calculated attribute from total number of questions
-	recievedGrade: Number, // could be a calculated attribute from sum of grades
-});
-
 const traineeSchema = new Schema(
 	{
 		username: {
@@ -35,6 +24,7 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				exercises: [exerciseSchema],
+				progress: Number // range from 0.0 to 1.0
 			},
 		],
 	},

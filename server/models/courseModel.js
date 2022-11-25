@@ -8,10 +8,24 @@ const ratingSchema = new Schema({
 	trainee: Schema.ObjectId, //Reference trainee.
 });
 
+const questionSchema = new Schema({
+	question: String,
+	studentAnswer: String,
+	correctAnswer: String,
+	choices: [String],
+	grade: Boolean,
+});
+
 const exerciseSchema = new Schema({
-	number: Number,
 	title: String,
-	questions: [{ question: String, grade: Number }],
+	questions: [questionSchema],
+	maxGrade: Number, // could be a calculated attribute from total number of questions
+	recievedGrade: Number, // could be a calculated attribute from sum of grades
+});
+
+const subtitleSchema = new Schema({
+	videos: [String],
+	exercises: [exerciseSchema],
 });
 
 const reportSchema = new Schema({
@@ -73,21 +87,10 @@ const courseSchema = new Schema(
 			type: [{ type: Schema.ObjectId, ref: "Instructor" }],
 			required: true,
 		},
-		subtitle: {
-			type: [String],
-			required: true,
-		},
-		vids: {
-			type: [String],
-			required: false,
-		},
+		subtitle: [subtitleSchema],
 		rating: Number,
 		reviews: {
 			type: [ratingSchema],
-			required: false,
-		},
-		exercises: {
-			type: [exerciseSchema],
 			required: false,
 		},
 		reports: {
@@ -98,9 +101,27 @@ const courseSchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+questionSchema.pre("save", function (next) {
+	this.grade = correctAnswer == studentAnswer;
+	next();
+});
+
+exerciseSchema.pre("save", function (next) {
+	this.recievedGrade = 0;
+	this.questions.forEach((question) => {
+		if (question.grade) {
+			this.recievedGrade++;
+		}
+	});
+	next();
+});
+
 courseSchema.pre("save", function (next) {
-	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price =
+		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	next();
 });
+
 module.exports = mongoose.model("Course", courseSchema);
