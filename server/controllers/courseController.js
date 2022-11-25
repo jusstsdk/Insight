@@ -216,6 +216,27 @@ const getReports = async (req, res) => {
 	}
 };
 
+const reviewCourse = async (req, res) => {
+	let courseId = req.params.courseId;
+	const course = await Course.updateOne(
+		{ _id: courseId },
+		{
+			$push: { reviews: req.body },
+			upsert: true,
+		},
+		{ new: true, passRawResult: true }
+	);
+	console.log(course.modifiedCount);
+
+	if (!course) {
+		return res.status(400).json({ error: "No such course" });
+	}
+
+	// console.log(course);
+	// console.log(course);
+	res.status(200).json(course);
+};
+
 module.exports = {
 	getCourse,
 	getCourses,
@@ -225,4 +246,5 @@ module.exports = {
 	reportCourse,
 	populateReports,
 	getReports,
+	reviewCourse,
 };
