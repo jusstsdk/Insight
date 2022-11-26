@@ -215,8 +215,11 @@ const getReports = async (req, res) => {
 };
 
 const reviewCourse = async (req, res) => {
-	let courseId = req.params.courseId;
+	let courseId = req.params.id;
 	const course = await Course.findById(courseId).then((course) => {
+		if (!course) {
+			return res.status(400).json({ error: "No such course" });
+		}
 		const found = course.reviews.some((review, i) => {
 			course.reviews[i].rating = req.body.rating;
 			course.reviews[i].review = req.body.review;

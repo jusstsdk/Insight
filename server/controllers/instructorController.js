@@ -62,16 +62,34 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findOneAndUpdate(
-		{ _id: instructorId },
-		req.body,
-		{
-			new: true,
-		}
-	);
+	const instructor = await Instructor.findOneAndUpdate({ _id: instructorId }, req.body, {
+		new: true,
+	});
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such instructor" });
+	}
+
+	res.status(200).json(instructor);
+};
+
+const reviewInstructor = async (req, res) => {
+	let instructorId = req.params.id;
+	const instructor = await Instructor.findById(instructorId).then((instructor) => {
+		if (!instructor) {
+			return res.status(400).json({ error: "No such Instructor" });
+		}
+		const found = instructor.reviews.some((review, i) => {
+			instructor.reviews[i].rating = req.body.rating;
+			instructor.reviews[i].review = req.body.review;
+			return review.traineeId.toString() === req.body.traineeId;
+		});
+		if (!found) instructor.reviews.push(req.body);
+		instructor.save();
+		return instructor;
+	});
+	if (!instructor) {
+		return res.status(400).json({ error: "No such Instructor" });
 	}
 
 	res.status(200).json(instructor);
@@ -83,4 +101,5 @@ module.exports = {
 	createInstructor,
 	deleteInstructor,
 	updateInstructor,
+	reviewInstructor,
 };

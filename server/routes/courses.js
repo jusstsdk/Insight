@@ -30,7 +30,7 @@ router.put("/:id", updateCourse);
 // GET all Courses
 router.get("/", getCourses);
 
-// Review Course
-router.post("/:courseId/review", reviewCourse);
+// Review a Course
+router.post("/:id/review", reviewCourse);
 
 module.exports = router;

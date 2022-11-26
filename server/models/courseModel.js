@@ -1,23 +1,6 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
-
-const reviewSchema = new Schema({
-	rating: Number,
-	review: String,
-	traineeId: {
-		type: Schema.Types.ObjectId,
-		required: true,
-		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
-		// will look at the `onModel` property to find the right model.
-		refPath: "reviews.traineeType",
-	},
-	traineeType: {
-		type: String,
-		required: true,
-		enum: ["Trainee", "CorprateTrainee"],
-	},
-});
+const reviewSchema = require("./reviewSchema");
 
 const exerciseSchema = new Schema({
 	number: Number,

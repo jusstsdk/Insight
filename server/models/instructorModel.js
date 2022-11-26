@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Course = require("../models/courseModel");
-
-const ratingSchema = new Schema({
-	rating: Number,
-	review: String,
-	trainee: { type: Schema.ObjectId, ref: "Course" },
-});
+const reviewSchema = require("./reviewSchema");
 
 const instructorSchema = new Schema(
 	{
@@ -31,8 +25,8 @@ const instructorSchema = new Schema(
 			required: false,
 		},
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
-		ratings: {
-			type: [ratingSchema],
+		reviews: {
+			type: [reviewSchema],
 			required: false,
 		},
 	},
