@@ -216,20 +216,20 @@ const getReports = async (req, res) => {
 
 const reviewCourse = async (req, res) => {
 	let courseId = req.params.courseId;
-	const course = await Course.findOneAndUpdate(
-		{ _id: courseId },
-		{
-			$push: { reviews: req.body },
-		},
-		{ new: true }
-	);
-
+	const course = await Course.findById(courseId).then((course) => {
+		const found = course.reviews.some((review, i) => {
+			course.reviews[i].rating = req.body.rating;
+			course.reviews[i].review = req.body.review;
+			return review.traineeId.toString() === req.body.traineeId;
+		});
+		if (!found) course.reviews.push(req.body);
+		course.save();
+		return course;
+	});
 	if (!course) {
 		return res.status(400).json({ error: "No such course" });
 	}
 
-	// console.log(course);
-	// console.log(course);
 	res.status(200).json(course);
 };
 

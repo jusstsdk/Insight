@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const reviewSchema = new Schema({
 	rating: Number,
 	review: String,
-	_id: {
+	traineeId: {
 		type: Schema.Types.ObjectId,
 		required: true,
 		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
