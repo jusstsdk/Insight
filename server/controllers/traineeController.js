@@ -1,5 +1,6 @@
-const Trainee = require("../models/traineeModel");
 const mongoose = require("mongoose");
+const Trainee = require("../models/traineeModel");
+const Course = require("../models/courseModel");
 
 // create a new instructor
 const createTrainee = async (req, res) => {
@@ -50,27 +51,57 @@ const requestRefund = async (req, res) => {
 		return res.status(400).json({ error: "No such Course" });
 	}
 
-	const trainee = await Trainee.findById(trainee).then((trainee) => {
-		// if (!trainee) {
-		// 	return res.status(400).json({ error: "No such Trainee" });
-		// }
-		const found = trainee.courses.some((course, i) => {
-			// instructor.reviews[i].rating = req.body.rating;
-			// instructor.reviews[i].review = req.body.review;
-			// return review.traineeId.toString() === req.body.traineeId;
+	const trainee = await Trainee.findById(traineeId)
+		.populate("courses.courseId")
+		.then(async (trainee) => {
+			// if (!trainee) {
+			// 	return res.status(400).json({ error: "No such Trainee" });
+			// }
+			let foundCourse = false;
+			const requestedRefund = trainee.courses.some((course, i) => {
+				if (course.courseId._id.toString() == courseId) {
+					foundCourse = true;
+					if (course.progress < 0.5) {
+						trainee.courses[i].requestedRefund = true;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			});
+			if (foundCourse) {
+				if (requestedRefund) {
+					const updateCourse = await Course.findByIdAndUpdate(
+						courseId,
+						{
+							$push: { refundRequests: traineeId },
+						},
+						{ new: true }
+					);
+					if (!updateCourse) {
+						res.status(400).json("Error: Requested refund Failed!");
+					} else {
+						trainee.save();
+					}
+					res.status(200).json("Requested refund successfully.");
+				} else {
+					res
+						.status(200)
+						.json("Requested refund Failed. Already Completed more than 50% of the course");
+				}
+			} else {
+				res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+			}
+
+			return trainee;
 		});
-		if (!found) instructor.reviews.push(req.body);
-		instructor.save();
-		return instructor;
-	});
 
-	if (!instructor) {
-		return res.status(400).json({ error: "No such instructor" });
+	if (!trainee) {
+		return res.status(400).json({ error: "No such Trainee" });
 	}
-
-	res.status(200).json(instructor);
 };
 
 module.exports = {
 	createTrainee,
+	requestRefund,
 };
