@@ -58,11 +58,14 @@ const requestRefund = async (req, res) => {
 			// 	return res.status(400).json({ error: "No such Trainee" });
 			// }
 			let foundCourse = false;
+			let paidPrice = 0;
 			const requestedRefund = trainee.courses.some((course, i) => {
 				if (course.courseId._id.toString() == courseId) {
 					foundCourse = true;
+
 					if (course.progress < 0.5) {
 						trainee.courses[i].requestedRefund = true;
+						paidPrice = trainee.courses[i].paidPrice;
 						return true;
 					} else {
 						return false;
@@ -74,7 +77,7 @@ const requestRefund = async (req, res) => {
 					const updateCourse = await Course.findByIdAndUpdate(
 						courseId,
 						{
-							$push: { refundRequests: traineeId },
+							$push: { refundRequests: { traineeId: traineeId, paidPrice: paidPrice } },
 						},
 						{ new: true }
 					);

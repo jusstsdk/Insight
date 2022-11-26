@@ -37,6 +37,7 @@ const traineeSchema = new Schema(
 				exercises: [exerciseSchema],
 				progress: Number,
 				requestedRefund: Boolean,
+				paidPrice: Number,
 			},
 		],
 	},

@@ -94,7 +94,7 @@ const courseSchema = new Schema(
 			type: [reportSchema],
 			required: false,
 		},
-		refundRequests: [{ type: Schema.ObjectId, ref: "Trainee" }],
+		refundRequests: [{ traineeId: { type: Schema.ObjectId, ref: "Trainee" }, paidPrice: Number }],
 		popularity: Number,
 	},
 	{ timestamps: true }
