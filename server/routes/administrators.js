@@ -5,9 +5,12 @@ const {
 	createAdministrator,
 	deleteAdministrator,
 	updateAdministrator,
+	getRefundRequests,
 } = require("../controllers/administratorController");
 
 const router = express.Router();
+// Get all Courses with Refunds
+router.get("/refundRequests", getRefundRequests);
 
 // GET all administrators
 router.get("/", getAdministrators);

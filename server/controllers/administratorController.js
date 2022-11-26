@@ -1,5 +1,6 @@
-const Administrator = require("../models/administratorModel");
 const mongoose = require("mongoose");
+const Administrator = require("../models/administratorModel");
+const Course = require("../models/courseModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
@@ -62,11 +63,9 @@ const updateAdministrator = async (req, res) => {
 		return res.status(400).json({ error: "No such administrator" });
 	}
 
-	const administrator = await Administrator.findOneAndUpdate(
-		{ _id: administratorId },
-		req.body,
-		{ new: true }
-	);
+	const administrator = await Administrator.findOneAndUpdate({ _id: administratorId }, req.body, {
+		new: true,
+	});
 
 	if (!administrator) {
 		return res.status(400).json({ error: "No such administrator" });
@@ -75,10 +74,23 @@ const updateAdministrator = async (req, res) => {
 	res.status(200).json(administrator);
 };
 
+// Get all courses with Refunds and populate the TraineeId
+const getRefundRequests = async (req, res) => {
+	try {
+		const course = await Course.find({ refundRequests: { $exists: true, $ne: [] } }).populate({
+			path: "refundRequests.traineeId",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
 module.exports = {
 	getAdministrators,
 	getAdministrator,
 	createAdministrator,
 	deleteAdministrator,
 	updateAdministrator,
+	getRefundRequests,
 };
