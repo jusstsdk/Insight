@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Administrator = require("../models/administratorModel");
 const Course = require("../models/courseModel");
+const Trainee = require("../models/traineeModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
@@ -86,6 +87,24 @@ const getRefundRequests = async (req, res) => {
 	}
 };
 
+// Refund to Trainee's Wallet
+const refundToWallet = async (req, res) => {
+	const traineeId = req.params.traineeId;
+	const refundedAmount = req.body.refundedAmount;
+	try {
+		const trainee = await Trainee.findByIdAndUpdate(
+			traineeId,
+			{
+				$inc: { wallet: refundedAmount },
+			},
+			{ new: true }
+		);
+		res.status(200).json(trainee);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
 module.exports = {
 	getAdministrators,
 	getAdministrator,
@@ -93,4 +112,5 @@ module.exports = {
 	deleteAdministrator,
 	updateAdministrator,
 	getRefundRequests,
+	refundToWallet,
 };

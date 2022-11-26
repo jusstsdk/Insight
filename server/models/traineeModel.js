@@ -40,6 +40,7 @@ const traineeSchema = new Schema(
 				paidPrice: Number,
 			},
 		],
+		wallet: Number,
 	},
 	{ timestamps: true }
 );

@@ -6,11 +6,15 @@ const {
 	deleteAdministrator,
 	updateAdministrator,
 	getRefundRequests,
+	refundToWallet,
 } = require("../controllers/administratorController");
 
 const router = express.Router();
 // Get all Courses with Refunds
 router.get("/refundRequests", getRefundRequests);
+
+// Refund an amount to Trainee's Wallet
+router.put("/:traineeId/refund", refundToWallet);
 
 // GET all administrators
 router.get("/", getAdministrators);
