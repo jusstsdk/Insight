@@ -38,6 +38,39 @@ const payCourse = async (req, res) => {
 	}
 };
 
+// request a refund for a specific course
+const requestRefund = async (req, res) => {
+	const traineeId = req.params.traineeId;
+	const courseId = req.params.courseId;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(400).json({ error: "No such Trainee" });
+	}
+	if (!mongoose.Types.ObjectId.isValid(courseId)) {
+		return res.status(400).json({ error: "No such Course" });
+	}
+
+	const trainee = await Trainee.findById(trainee).then((trainee) => {
+		// if (!trainee) {
+		// 	return res.status(400).json({ error: "No such Trainee" });
+		// }
+		const found = trainee.courses.some((course, i) => {
+			// instructor.reviews[i].rating = req.body.rating;
+			// instructor.reviews[i].review = req.body.review;
+			// return review.traineeId.toString() === req.body.traineeId;
+		});
+		if (!found) instructor.reviews.push(req.body);
+		instructor.save();
+		return instructor;
+	});
+
+	if (!instructor) {
+		return res.status(400).json({ error: "No such instructor" });
+	}
+
+	res.status(200).json(instructor);
+};
+
 module.exports = {
 	createTrainee,
 };
