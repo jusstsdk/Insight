@@ -194,9 +194,7 @@ const reportCourse = async (req, res) => {
 const populateReports = async (req, res) => {
 	// find results
 	try {
-		const course = await Course.findById(req.params.id).populate({
-			path: "reports.author",
-		});
+		const course = await Course.findById(req.params.id).populate("reports.author");
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -218,15 +216,13 @@ const getReports = async (req, res) => {
 
 const reviewCourse = async (req, res) => {
 	let courseId = req.params.courseId;
-	const course = await Course.updateOne(
+	const course = await Course.findOneAndUpdate(
 		{ _id: courseId },
 		{
 			$push: { reviews: req.body },
-			upsert: true,
 		},
-		{ new: true, passRawResult: true }
+		{ new: true }
 	);
-	console.log(course.modifiedCount);
 
 	if (!course) {
 		return res.status(400).json({ error: "No such course" });

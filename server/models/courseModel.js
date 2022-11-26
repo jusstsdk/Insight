@@ -2,10 +2,21 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const ratingSchema = new Schema({
+const reviewSchema = new Schema({
 	rating: Number,
 	review: String,
-	trainee: Schema.ObjectId, //Reference trainee.
+	_id: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
+		// will look at the `onModel` property to find the right model.
+		refPath: "reviews.traineeType",
+	},
+	traineeType: {
+		type: String,
+		required: true,
+		enum: ["Trainee", "CorprateTrainee"],
+	},
 });
 
 const exerciseSchema = new Schema({
@@ -29,12 +40,12 @@ const reportSchema = new Schema({
 		required: true,
 		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
 		// will look at the `onModel` property to find the right model.
-		refPath: "reports.traineeType",
+		refPath: "reports.authorType",
 	},
-	traineeType: {
+	authorType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorprateTrainee"],
+		enum: ["Trainee", "CorprateTrainee", "Instructor"],
 	},
 });
 
@@ -83,7 +94,7 @@ const courseSchema = new Schema(
 		},
 		rating: Number,
 		reviews: {
-			type: [ratingSchema],
+			type: [reviewSchema],
 			required: false,
 		},
 		exercises: {
