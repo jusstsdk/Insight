@@ -1,17 +1,8 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
-
-const questionSchema = new Schema({
-	question: String,
-	grade: Number,
-});
-
-const exerciseSchema = new Schema({
-	exerciseQuestions: [questionSchema],
-	maxGrade: Number, // could be a calculated attribute from total number of questions
-	recievedGrade: Number, // could be a calculated attribute from sum of grades
-});
+const subtitleSchemaModule = require("./schemas/subtitleSchema");
+const subtitleSchema = subtitleSchemaModule.subtitleSchema;
+const exerciseSchema = subtitleSchemaModule.exerciseSchema;
 
 const traineeSchema = new Schema(
 	{
@@ -34,11 +25,34 @@ const traineeSchema = new Schema(
 		courses: [
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
-				exercises: [exerciseSchema],
+				subtitles: [subtitleSchema],
+				progress: Number, // range from 0.0 to 1.0
+				exam: exerciseSchema
 			},
 		],
 	},
 	{ timestamps: true }
 );
+
+traineeSchema.pre("save", function (next) {
+	// calculate progress
+	this.courses.forEach((course) => {
+		let finishedExercisesAndVideoes = 0;
+		let totalExercisesAndVideoes = 0;
+		course.progress = 0;
+		course.subtitles.forEach((subtitle) => {
+			subtitle.videos.foreach((video) => {
+				totalExercisesAndVideoes++;
+				if (video.isWatched) finishedExercisesAndVideoes++;
+			});
+
+			subtitle.exercises.foreach((exercise) => {
+				totalExercisesAndVideoes++;
+				if (exercise.isSolved) finishedExercisesAndVideoes++;
+			});
+		});
+	});
+	next();
+});
 
 module.exports = mongoose.model("Trainee", traineeSchema);

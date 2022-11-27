@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Course = require("../models/courseModel");
 
 const ratingSchema = new Schema({
 	rating: Number,

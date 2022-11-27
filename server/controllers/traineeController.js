@@ -1,5 +1,6 @@
 const Trainee = require("../models/traineeModel");
 const mongoose = require("mongoose");
+const Course = require("../models/courseModel");
 
 // create a new instructor
 const createTrainee = async (req, res) => {
@@ -36,6 +37,24 @@ const payCourse = async (req, res) => {
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
+};
+// Subscribe a student to a course
+const subscribeTraineeToCourse = async (traineeId, courseId) => {
+	const course = await Course.findById(courseId);
+	const trainee = await Trainee.findByIdAndUpdate(
+		traineeId,
+		{
+			$push: {
+				courses: {
+					course: courseId,
+					subtitles: course.subtitles,
+					exam: course.exam,
+				},
+			},
+		},
+		{ new: true }
+	);
+	return trainee;
 };
 
 module.exports = {
