@@ -54,5 +54,7 @@ exerciseSchema.pre("save", function (next) {
 	next();
 });
 
-module.exports.subtitleSchema = subtitleSchema;
-module.exports.exerciseSchema = exerciseSchema;
+module.exports = {
+	subtitleSchema,
+	exerciseSchema
+};

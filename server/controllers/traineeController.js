@@ -38,6 +38,7 @@ const payCourse = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+
 // Subscribe a student to a course
 const subscribeTraineeToCourse = async (traineeId, courseId) => {
 	const course = await Course.findById(courseId);
