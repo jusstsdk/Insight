@@ -1,37 +1,11 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
+const subtitleSchema = require("./schemas/subtitleSchema");
 
 const ratingSchema = new Schema({
 	rating: Number,
 	review: String,
 	trainee: Schema.ObjectId, //Reference trainee.
-});
-
-const questionSchema = new Schema({
-	question: String,
-	studentAnswer: String,
-	correctAnswer: String,
-	choices: [String],
-	grade: Boolean,
-});
-
-const exerciseSchema = new Schema({
-	title: String,
-	questions: [questionSchema],
-	maxGrade: Number, // could be a calculated attribute from total number of questions
-	recievedGrade: Number, // could be a calculated attribute from sum of grades
-});
-
-const videoSchema = new Schema({
-	url: String,
-	watched: Boolean,
-});
-
-const subtitleSchema = new Schema({
-	hours: Number,
-	videos: [videoSchema],
-	exercises: [exerciseSchema],
 });
 
 const reportSchema = new Schema({
@@ -108,21 +82,6 @@ const courseSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
-questionSchema.pre("save", function (next) {
-	this.grade = correctAnswer == studentAnswer;
-	next();
-});
-
-exerciseSchema.pre("save", function (next) {
-	this.recievedGrade = 0;
-	this.questions.forEach((question) => {
-		if (question.grade) {
-			this.recievedGrade++;
-		}
-	});
-	next();
-});
 
 courseSchema.pre("save", function (next) {
 	this.price =
