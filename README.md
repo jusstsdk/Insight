@@ -46,6 +46,7 @@
    - [x] add solutions
    - [ ] student solve an exercise / exam
    - [ ] save the grade
+   - [ ] save the progress
   
 1. ratings and reviews - Mahmoud
    - [ ] rate an instructor / course
