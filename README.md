@@ -9,8 +9,9 @@
    - [ ] session
    - [ ] sign up etc
 
-1. select country
-   - [ ] view local price
+1. country
+   - [ ] select country
+   - [ ] get country from JWT then use post find hook to display local prices
    - [ ] update user country
 
 1. validations
