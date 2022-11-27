@@ -23,7 +23,7 @@
    - [x] search
 
 1. trainee controller
-   - CRUD
+   - [ ] CRUD
    
 1. update trainee model - Wagdy
    - [ ] add payment
