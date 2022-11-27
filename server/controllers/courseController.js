@@ -2,11 +2,6 @@ const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
 
-// Subscribe a student to a course
-const subscribeTraineeToCourse = (traineeId, courseId) => {
-
-}
-
 // Get a single course
 const getCourse = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
