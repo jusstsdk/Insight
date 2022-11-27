@@ -15,8 +15,8 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Technical", "Financial", "Other"],
 	},
-	resolved: { type: Boolean, default: false },
-	seen: { type: Boolean, default: false },
+	isResolved: { type: Boolean, default: false },
+	isSeen: { type: Boolean, default: false },
 	description: String,
 	author: {
 		type: Schema.Types.ObjectId,

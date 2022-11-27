@@ -15,12 +15,12 @@ const exerciseSchema = new Schema({
 	questions: [questionSchema],
 	maxGrade: Number, // could be a calculated attribute from total number of questions
 	recievedGrade: Number, // could be a calculated attribute from sum of grades
-	solved: Boolean,
+	isSolved: Boolean,
 });
 
 const videoSchema = new Schema({
 	url: String,
-	watched: Boolean,
+	isWatched: Boolean,
 });
 
 const subtitleSchema = new Schema({
@@ -44,4 +44,5 @@ exerciseSchema.pre("save", function (next) {
 	next();
 });
 
-module.exports = subtitleSchema;
+module.exports.subtitleSchema = subtitleSchema;
+module.exports.exerciseSchema = exerciseSchema;
