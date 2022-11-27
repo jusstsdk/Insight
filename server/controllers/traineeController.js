@@ -60,4 +60,5 @@ const subscribeTraineeToCourse = async (traineeId, courseId) => {
 
 module.exports = {
 	createTrainee,
+	subscribeTraineeToCourse
 };
