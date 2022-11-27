@@ -22,6 +22,9 @@
    - [ ] sort
    - [x] search
 
+1. trainee controller
+   - CRUD
+   
 1. update trainee model - Wagdy
    - [ ] add payment
    - [ ] pay for course
