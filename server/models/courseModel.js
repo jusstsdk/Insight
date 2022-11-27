@@ -23,8 +23,14 @@ const exerciseSchema = new Schema({
 	recievedGrade: Number, // could be a calculated attribute from sum of grades
 });
 
+const videoSchema = new Schema({
+	url: String,
+	watched: Boolean,
+});
+
 const subtitleSchema = new Schema({
-	videos: [String],
+	hours: Number,
+	videos: [videoSchema],
 	exercises: [exerciseSchema],
 });
 
@@ -87,7 +93,8 @@ const courseSchema = new Schema(
 			type: [{ type: Schema.ObjectId, ref: "Instructor" }],
 			required: true,
 		},
-		subtitle: [subtitleSchema],
+		subtitles: [subtitleSchema],
+		exam: exerciseSchema,
 		rating: Number,
 		reviews: {
 			type: [ratingSchema],
@@ -121,6 +128,9 @@ courseSchema.pre("save", function (next) {
 	this.price =
 		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
+	this.subtitles.forEach(subtitle => {
+		this.totalHours += subtitle.hours;
+	});
 	next();
 });
 
