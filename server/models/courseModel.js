@@ -17,8 +17,8 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Technical", "Financial", "Other"],
 	},
-	isResolved: { type: Boolean, default: false },
-	isSeen: { type: Boolean, default: false },
+	isResolved: Boolean,
+	isSeen: Boolean,
 	description: String,
 	author: {
 		type: Schema.Types.ObjectId,
@@ -36,51 +36,21 @@ const reportSchema = new Schema({
 
 const courseSchema = new Schema(
 	{
-		title: {
-			type: String,
-			required: true,
-		},
-		subjects: {
-			type: [String],
-			required: true,
-		},
-		summary: {
-			type: String,
-			required: true,
-		},
-		originalPrice: {
-			type: Number,
-			required: true,
-		},
+		title: String,
+		subjects: [String],
+		summary: String,
+		originalPrice: Number,
+		discount: Number,
 		price: Number,
-		discount: {
-			type: Number,
-			required: false,
-		},
-		totalHours: {
-			type: Number,
-			required: true,
-		},
-		previewVid: {
-			type: String,
-			required: true,
-		},
-		instructors: {
-			type: [{ type: Schema.ObjectId, ref: "Instructor" }],
-			required: true,
-		},
+		totalHours: Number,
+		previewVideo: String,
+		instructors: [{ type: Schema.ObjectId, ref: "Instructor" }],
 		subtitles: [subtitleSchema],
 		exam: exerciseSchema,
 		rating: Number,
-		reviews: {
-			type: [ratingSchema],
-			required: false,
-		},
-		reports: {
-			type: [reportSchema],
-			required: false,
-		},
+		reviews: [ratingSchema],
 		popularity: Number,
+		reports: [reportSchema],
 	},
 	{ timestamps: true }
 );

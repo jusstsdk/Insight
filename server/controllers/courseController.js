@@ -2,6 +2,11 @@ const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
 
+// Subscribe a student to a course
+const subscribeTraineeToCourse = (traineeId, courseId) => {
+
+}
+
 // Get a single course
 const getCourse = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -37,7 +42,7 @@ const createCourseInstructor = async (req, res) => {
 	}
 };
 
-// Filter the courses given by him/her based on a subject or price
+// Filter the courses given by a specific instructor based on a subject or price
 const getCoursesInstructor = async (req, res) => {
 	// check if valid Id
 	let instructorId = req.params.id;
@@ -190,7 +195,7 @@ const reportCourse = async (req, res) => {
 	}
 };
 
-// Filter the courses on a subject or price
+
 const populateReports = async (req, res) => {
 	// find results
 	try {
@@ -203,7 +208,7 @@ const populateReports = async (req, res) => {
 	}
 };
 
-// Filter the courses on a subject or price
+
 const getReports = async (req, res) => {
 	// find results
 	try {

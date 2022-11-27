@@ -7,7 +7,10 @@ const questionSchema = new Schema({
 	studentAnswer: String,
 	correctAnswer: String,
 	choices: [String],
-	grade: Boolean,
+	grade: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const exerciseSchema = new Schema({
@@ -15,12 +18,18 @@ const exerciseSchema = new Schema({
 	questions: [questionSchema],
 	maxGrade: Number, // could be a calculated attribute from total number of questions
 	recievedGrade: Number, // could be a calculated attribute from sum of grades
-	isSolved: Boolean,
+	isSolved: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const videoSchema = new Schema({
 	url: String,
-	isWatched: Boolean,
+	isWatched: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const subtitleSchema = new Schema({
@@ -30,12 +39,13 @@ const subtitleSchema = new Schema({
 });
 
 questionSchema.pre("save", function (next) {
-	this.grade = correctAnswer == studentAnswer;
+	this.grade = this.correctAnswer == this.studentAnswer;
 	next();
 });
 
 exerciseSchema.pre("save", function (next) {
 	this.recievedGrade = 0;
+	this.maxGrade = this.questions.length;
 	this.questions.forEach((question) => {
 		if (question.grade) {
 			this.recievedGrade++;
