@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const subtitleSchema = require("./schemas/subtitleSchema");
+const subtitleSchemaModule = require("./schemas/subtitleSchema");
+const subtitleSchema = subtitleSchemaModule.subtitleSchema;
+const exerciseSchema = subtitleSchemaModule.exerciseSchema;
 
 const ratingSchema = new Schema({
 	rating: Number,
