@@ -195,7 +195,6 @@ const reportCourse = async (req, res) => {
 	}
 };
 
-
 const populateReports = async (req, res) => {
 	// find results
 	try {
@@ -207,7 +206,6 @@ const populateReports = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
-
 
 const getReports = async (req, res) => {
 	// find results
