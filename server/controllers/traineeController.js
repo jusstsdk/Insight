@@ -32,7 +32,7 @@ const getTrainee = async (req, res) => {
 	if (!trainee) {
 		return res.status(404).json({ error: "No such trainee" });
 	}
-
+	console.log(trainee.courses.length);
 	res.status(200).json(trainee);
 };
 
@@ -103,15 +103,13 @@ const payCourse = async (req, res) => {
 	if (amountPaidByCard > 0) {
 		// console.log("amount paid from wallet = " + trainee.wallet + "\n new balance = 0");
 		// console.log("amount paid from card = " + amountPaidByCard);
-		trainee.wallet = 0;//wallet has less so it goes to zero
+		trainee.wallet = 0; //wallet has less so it goes to zero
 	} else {
 		// console.log("amount paid from wallet = " + course.price);
 		trainee.wallet -= course.price; //wallet has either enough or more than needed
 		// console.log("new balance = " + trainee.wallet);
 		// console.log("amount paid by card = 0");
 	}
-	
-	
 
 	let newCourse = {
 		course: courseId,
@@ -121,7 +119,7 @@ const payCourse = async (req, res) => {
 		requestedRefund: false,
 		paidPrice: course.price,
 	};
-	
+
 	// add to the database
 	trainee.courses.push(newCourse);
 	await trainee.save();
