@@ -26,6 +26,7 @@ const exerciseSchema = new Schema({
 
 const videoSchema = new Schema({
 	url: String,
+	description: String,
 	isWatched: {
         type: Boolean,
         default: false
