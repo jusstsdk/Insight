@@ -104,5 +104,5 @@ module.exports = {
 	createCorporateTrainee,
 	deleteCorporateTrainee,
 	updateCorporateTrainee,
-	subscribeCorporateTraineeToCourse
+	subscribeCorporateTraineeToCourse,
 };
