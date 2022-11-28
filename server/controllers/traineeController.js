@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Trainee = require("../models/traineeModel");
 const Course = require("../models/courseModel");
 
-// create a new instructor
+// create a new trainee
 const createTrainee = async (req, res) => {
 	// add to the database
 	try {
@@ -13,7 +13,72 @@ const createTrainee = async (req, res) => {
 	}
 };
 
-// create a new instructor
+const getTrainees = async (req, res) => {
+	const trainees = await Trainee.find();
+
+	res.status(200).json(trainees);
+};
+
+//get a trainee by id
+const getTrainee = async (req, res) => {
+	const traineeId = req.params.id;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(404).json({ error: "No such trainee" });
+	}
+
+	const trainee = await Trainee.findById(traineeId);
+
+	if (!trainee) {
+		return res.status(404).json({ error: "No such trainee" });
+	}
+
+	res.status(200).json(trainee);
+};
+
+//update a trainee's data
+const updateTrainee = async (req, res) => {
+	// add to the database
+	const traineeId = req.params.id;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(400).json({ error: "No such trainee" });
+	}
+
+	const trainee = await Trainee.findOneAndUpdate(
+		{ _id: traineeId },
+		req.body,
+		{
+			new: true,
+		}
+	);
+
+	if (!trainee) {
+		return res.status(400).json({ error: "No such trainee" });
+	}
+
+	res.status(200).json(trainee);
+};
+
+//delete a trainee
+const deleteTrainee = async (req, res) => {
+	// add to the database
+	const traineeId = req.params.id;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(400).json({ error: "No such trainee" });
+	}
+
+	const trainee = await Trainee.findOneAndDelete({ _id: traineeId });
+
+	if (!trainee) {
+		return res.status(400).json({ error: "No such trainee" });
+	}
+
+	res.status(200).json(trainee);
+};
+
+// create a new trainee
 const payCourse = async (req, res) => {
 	// input: id of course and id of trainee and selected payment method.
 	// the function should find course by id and get price, discount and exercises.
@@ -51,53 +116,6 @@ const requestRefund = async (req, res) => {
 		return res.status(400).json({ error: "No such Course" });
 	}
 
-	// const trainee = await Trainee.findById(traineeId)
-	// 	.populate("courses.courseId")
-	// 	.then(async (trainee) => {
-	// 		// if (!trainee) {
-	// 		// 	return res.status(400).json({ error: "No such Trainee" });
-	// 		// }
-	// 		let foundCourse = false;
-	// 		let paidPrice = 0;
-	// 		const requestedRefund = trainee.courses.some((course, i) => {
-	// 			if (course.courseId._id.toString() == courseId) {
-	// 				foundCourse = true;
-
-	// 				if (course.progress < 0.5) {
-	// 					trainee.courses[i].requestedRefund = true;
-	// 					paidPrice = trainee.courses[i].paidPrice;
-	// 					return true;
-	// 				} else {
-	// 					return false;
-	// 				}
-	// 			}
-	// 		});
-	// 		if (foundCourse) {
-	// 			if (requestedRefund) {
-	// 				const updateCourse = await Course.findByIdAndUpdate(
-	// 					courseId,
-	// 					{
-	// 						$push: { refundRequests: { traineeId: traineeId, paidPrice: paidPrice } },
-	// 					},
-	// 					{ new: true }
-	// 				);
-	// 				if (!updateCourse) {
-	// 					res.status(400).json("Error: Requested refund Failed!");
-	// 				} else {
-	// 					trainee.save();
-	// 				}
-	// 				res.status(200).json("Requested refund successfully.");
-	// 			} else {
-	// 				res
-	// 					.status(200)
-	// 					.json("Requested refund Failed. Already Completed more than 50% of the course");
-	// 			}
-	// 		} else {
-	// 			res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
-	// 		}
-
-	// 		return trainee;
-	// 	});
 	const trainee = await Trainee.findById(traineeId);
 	let paidPrice = 0;
 	const foundCourse = trainee.courses.some((course, i) => {
@@ -116,9 +134,32 @@ const requestRefund = async (req, res) => {
 	} else {
 		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
 	}
+
+// Subscribe a student to a course
+const subscribeTraineeToCourse = async (traineeId, courseId) => {
+	const course = await Course.findById(courseId);
+	const trainee = await Trainee.findByIdAndUpdate(
+		traineeId,
+		{
+			$push: {
+				courses: {
+					course: courseId,
+					subtitles: course.subtitles,
+					exam: course.exam,
+				},
+			},
+		},
+		{ new: true }
+	);
+	return trainee;
 };
 
 module.exports = {
 	createTrainee,
 	requestRefund,
+	getTrainees,
+	getTrainee,
+	updateTrainee,
+	deleteTrainee,
+	subscribeTraineeToCourse,
 };
