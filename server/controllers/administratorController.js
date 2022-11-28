@@ -89,22 +89,28 @@ const getRefundRequests = async (req, res) => {
 
 // Refund to Trainee's Wallet
 const refundToWallet = async (req, res) => {
-	const traineeId = req.params.traineeId;
-	const courseId = req.params.courseId;
-	const refundedAmount = req.body.refundedAmount;
+	const refundId = req.params.refundId;
 	try {
-		const trainee = await Trainee.findByIdAndUpdate(traineeId, {
-			$inc: { wallet: refundedAmount },
-			$pull: { courses: { courseId: mongoose.Types.ObjectId(courseId) } },
-		});
-		const course = await Course.findByIdAndUpdate(
-			courseId,
+		const course = await Course.findOneAndUpdate(
 			{
-				$pull: { refundRequests: { traineeId: mongoose.Types.ObjectId(traineeId) } },
+				refundRequests: { $elemMatch: { _id: refundId } },
+			},
+			{ $pull: { refundRequests: { _id: mongoose.Types.ObjectId(refundId) } } }
+		);
+
+		course.refundRequests = course.refundRequests.filter((request) => request._id == refundId);
+		let courseId = course._id;
+		let traineeId = course.refundRequests[0].trainee;
+		let paidPrice = course.refundRequests[0].paidPrice;
+		const trainee = await Trainee.findByIdAndUpdate(
+			traineeId,
+			{
+				$inc: { wallet: paidPrice },
+				$pull: { courses: { course: mongoose.Types.ObjectId(courseId) } },
 			},
 			{ new: true }
 		);
-		res.status(200).json(course);
+		res.status(200).json(trainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

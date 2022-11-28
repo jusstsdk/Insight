@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/refunds", getRefundRequests);
 
 // Refund an amount to Trainee's Wallet
-router.put("/:traineeId/refund/:courseId", refundToWallet);
+router.put("/refunds/:refundId", refundToWallet);
 
 // GET all administrators
 router.get("/", getAdministrators);
