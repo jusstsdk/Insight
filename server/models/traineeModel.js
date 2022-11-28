@@ -24,10 +24,13 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
-				progress: Number, // range from 0.0 to 1.0
-				exam: exerciseSchema
+        progress: Number, // range from 0.0 to 1.0
+				exam: exerciseSchema,
+				paidPrice: Number,
+				requestedRefund: Boolean,
 			},
 		],
+		wallet: Number,
 	},
 	{ timestamps: true }
 );

@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   createTrainee,
   getTrainees,
@@ -6,6 +7,7 @@ const {
   updateTrainee,
   deleteTrainee,
   subscribeTraineeToCourse,
+  requestRefund,
 } = require("../controllers/traineeController");
 
 const router = express.Router();
@@ -20,5 +22,7 @@ router.get("/:id", getTrainee);
 router.put("/:id", updateTrainee);
 // POST a new administrator
 router.delete("/:id", deleteTrainee);
+
+router.post("/:traineeId/requestRefund/courses/:courseId", requestRefund);
 
 module.exports = router;

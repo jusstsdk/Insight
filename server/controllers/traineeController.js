@@ -1,5 +1,5 @@
-const Trainee = require("../models/traineeModel");
 const mongoose = require("mongoose");
+const Trainee = require("../models/traineeModel");
 const Course = require("../models/courseModel");
 
 // create a new trainee
@@ -104,6 +104,37 @@ const payCourse = async (req, res) => {
 	}
 };
 
+// request a refund for a specific course
+const requestRefund = async (req, res) => {
+	const traineeId = req.params.traineeId;
+	const courseId = req.params.courseId;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(400).json({ error: "No such Trainee" });
+	}
+	if (!mongoose.Types.ObjectId.isValid(courseId)) {
+		return res.status(400).json({ error: "No such Course" });
+	}
+
+	const trainee = await Trainee.findById(traineeId);
+	let paidPrice = 0;
+	const foundCourse = trainee.courses.some((course, i) => {
+		if (course.course._id.toString() == courseId) {
+			trainee.courses[i].requestedRefund = true;
+			paidPrice = trainee.courses[i].paidPrice;
+			trainee.save();
+			return true;
+		}
+	});
+	if (foundCourse) {
+		await Course.findByIdAndUpdate(courseId, {
+			$push: { refundRequests: { trainee: traineeId, paidPrice: paidPrice } },
+		});
+		res.status(200).json("Requested refund successfully.");
+	} else {
+		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+	}
+
 // Subscribe a student to a course
 const subscribeTraineeToCourse = async (traineeId, courseId) => {
 	const course = await Course.findById(courseId);
@@ -125,6 +156,7 @@ const subscribeTraineeToCourse = async (traineeId, courseId) => {
 
 module.exports = {
 	createTrainee,
+	requestRefund,
 	getTrainees,
 	getTrainee,
 	updateTrainee,
