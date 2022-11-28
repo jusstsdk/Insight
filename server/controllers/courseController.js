@@ -193,9 +193,7 @@ const reportCourse = async (req, res) => {
 const populateReports = async (req, res) => {
 	// find results
 	try {
-		const course = await Course.findById(req.params.id).populate({
-			path: "reports.author",
-		});
+		const course = await Course.findById(req.params.id).populate("reports.author");
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -214,6 +212,30 @@ const getReports = async (req, res) => {
 	}
 };
 
+const reviewCourse = async (req, res) => {
+	let courseId = req.params.id;
+	const course = await Course.findById(courseId).then((course) => {
+		if (!course) {
+			return res.status(400).json({ error: "No such course" });
+		}
+		const found = course.reviews.some((review, i) => {
+			if (review.trainee.toString() === req.body.trainee) {
+				course.reviews[i].rating = req.body.rating;
+				course.reviews[i].review = req.body.review;
+				return review.trainee.toString() === req.body.trainee;
+			}
+		});
+		if (!found) course.reviews.push(req.body);
+		course.save();
+		return course;
+	});
+	if (!course) {
+		return res.status(400).json({ error: "No such course" });
+	}
+
+	res.status(200).json(course);
+};
+
 module.exports = {
 	getCourse,
 	getCourses,
@@ -223,4 +245,5 @@ module.exports = {
 	reportCourse,
 	populateReports,
 	getReports,
+	reviewCourse,
 };

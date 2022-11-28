@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
+const reviewSchema = require("./reviewSchema");
 const subtitleSchemaModule = require("./schemas/subtitleSchema");
 const subtitleSchema = subtitleSchemaModule.subtitleSchema;
 const exerciseSchema = subtitleSchemaModule.exerciseSchema;
-
-const ratingSchema = new Schema({
-	rating: Number,
-	review: String,
-	trainee: Schema.ObjectId, //Reference trainee.
-});
 
 const reportSchema = new Schema({
 	title: String,
@@ -23,14 +19,12 @@ const reportSchema = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
 		required: true,
-		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
-		// will look at the `onModel` property to find the right model.
-		refPath: "reports.traineeType",
+		refPath: "reports.authorType",
 	},
-	traineeType: {
+	authorType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorprateTrainee"],
+		enum: ["Trainee", "CorprateTrainee", "Instructor"],
 	},
 });
 
@@ -48,7 +42,19 @@ const courseSchema = new Schema(
 		subtitles: [subtitleSchema],
 		exam: exerciseSchema,
 		rating: Number,
-		reviews: [ratingSchema],
+		reviews: {
+			type: [reviewSchema],
+			required: false,
+		},
+		exercises: {
+			type: [exerciseSchema],
+			required: false,
+		},
+		reports: {
+			type: [reportSchema],
+			required: false,
+		},
+
 		popularity: Number,
 		reports: [reportSchema],
 	},

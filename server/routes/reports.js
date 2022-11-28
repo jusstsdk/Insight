@@ -5,18 +5,22 @@ const {
 	populateReports,
 	getReports,
 	updateReportStatus,
+	getUserReports,
 } = require("../controllers/reportsController");
 
 const router = express.Router();
 
+// Get a User's Reports
+router.get("/authors/:authorId", getUserReports);
+
 // Report a Course
-router.put("/:id/report", reportCourse);
+router.post("/courses/:courseId", reportCourse);
 
 // Get all Courses
-router.get("/:id/report", populateReports);
+router.get("/courses/:courseId", populateReports);
 
 // Mark a Report
-router.put("/:id", updateReportStatus);
+router.put("/:reportId", updateReportStatus);
 
 // Get all Reports
 router.get("/", getReports);
