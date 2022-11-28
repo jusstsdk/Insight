@@ -18,7 +18,7 @@ const reportSchema = new Schema({
 	resolved: { type: Boolean, default: false },
 	seen: { type: Boolean, default: false },
 	description: String,
-	authorId: {
+	author: {
 		type: Schema.Types.ObjectId,
 		required: true,
 		refPath: "reports.authorType",

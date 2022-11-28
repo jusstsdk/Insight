@@ -221,10 +221,10 @@ const reviewCourse = async (req, res) => {
 			return res.status(400).json({ error: "No such course" });
 		}
 		const found = course.reviews.some((review, i) => {
-			if (review.traineeId.toString() === req.body.traineeId) {
+			if (review.trainee.toString() === req.body.trainee) {
 				course.reviews[i].rating = req.body.rating;
 				course.reviews[i].review = req.body.review;
-				return review.traineeId.toString() === req.body.traineeId;
+				return review.trainee.toString() === req.body.trainee;
 			}
 		});
 		if (!found) course.reviews.push(req.body);

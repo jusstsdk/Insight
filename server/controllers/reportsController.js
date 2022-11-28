@@ -58,14 +58,14 @@ const updateReportStatus = async (req, res) => {
 
 // Get all User Reports
 const getUserReports = async (req, res) => {
-	const authorId = req.params.authorId;
+	const authorId = req.params.author;
 
 	try {
 		const courses = await Course.find({
-			reports: { $elemMatch: { authorId: authorId } },
+			reports: { $elemMatch: { author: authorId } },
 		});
 		courses.forEach((course) => {
-			course.reports = course.reports.filter((report) => report.authorId == authorId);
+			course.reports = course.reports.filter((report) => report.author == authorId);
 		});
 		console.log(courses);
 

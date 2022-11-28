@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const reviewSchema = new Schema({
 	rating: Number,
 	review: String,
-	traineeId: {
+	trainee: {
 		type: Schema.Types.ObjectId,
 		required: true,
 		refPath: "reviews.traineeType",

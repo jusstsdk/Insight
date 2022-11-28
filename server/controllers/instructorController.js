@@ -80,11 +80,11 @@ const reviewInstructor = async (req, res) => {
 			return res.status(400).json({ error: "No such Instructor" });
 		}
 		const found = instructor.reviews.some((review, i) => {
-			if (review.traineeId.toString() === req.body.traineeId) {
+			if (review.trainee.toString() === req.body.trainee) {
 				instructor.reviews[i].rating = req.body.rating;
 				instructor.reviews[i].review = req.body.review;
 			}
-			return review.traineeId.toString() === req.body.traineeId;
+			return review.trainee.toString() === req.body.trainee;
 		});
 		if (!found) instructor.reviews.push(req.body);
 		instructor.save();
