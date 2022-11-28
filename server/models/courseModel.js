@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const reviewSchema = require("./reviewSchema");
+const reviewSchema = require("./schemas/reviewSchema");
 const subtitleSchemaModule = require("./schemas/subtitleSchema");
 const subtitleSchema = subtitleSchemaModule.subtitleSchema;
 const exerciseSchema = subtitleSchemaModule.exerciseSchema;
