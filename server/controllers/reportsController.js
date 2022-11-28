@@ -7,25 +7,10 @@ const Instructor = require("../models/instructorModel");
 // Report a Course
 const reportCourse = async (req, res) => {
 	const courseId = req.params.courseId;
-	const authorId = req.body.authorId;
-	console.log(req.body);
 	try {
 		const course = await Course.findByIdAndUpdate(courseId, {
 			$push: { reports: req.body },
 		});
-		if (req.body.authorType == "Trainee") {
-			const author = await Trainee.findByIdAndUpdate(authorId, {
-				$addToSet: { reports: courseId },
-			});
-		} else if (req.body.authorType == "CorprateTrainee") {
-			const author = await CorporateTrainee.findByIdAndUpdate(authorId, {
-				$addToSet: { reports: courseId },
-			});
-		} else if (req.body.authorType == "Instructor") {
-			const author = await Instructor.findByIdAndUpdate(authorId, {
-				$addToSet: { reports: courseId },
-			});
-		}
 
 		res.status(200).json("Course Reported Successfully");
 	} catch (error) {
@@ -74,14 +59,17 @@ const updateReportStatus = async (req, res) => {
 // Get all User Reports
 const getUserReports = async (req, res) => {
 	const authorId = req.params.authorId;
-	const courses = req.body.courses;
 
 	try {
-		const course = await Course.find({
-			_id: { $in: courses },
+		const courses = await Course.find({
 			reports: { $elemMatch: { authorId: authorId } },
 		});
-		res.status(200).json(course);
+		courses.forEach((course) => {
+			course.reports = course.reports.filter((report) => report.authorId == authorId);
+		});
+		console.log(courses);
+
+		res.status(200).json(courses);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

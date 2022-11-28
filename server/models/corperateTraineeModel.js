@@ -35,7 +35,6 @@ const corprateTraineeSchema = new Schema(
 			required: false,
 		},
 		courses: [courseTraineeSchema],
-		reports: [{ type: Schema.ObjectId, ref: "Course" }],
 	},
 	{ timestamps: true }
 );
