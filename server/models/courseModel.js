@@ -59,6 +59,7 @@ courseSchema.pre("save", function (next) {
 	this.price =
 		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
+	this.totalHours = 0;
 	this.subtitles.forEach(subtitle => {
 		this.totalHours += subtitle.hours;
 	});
