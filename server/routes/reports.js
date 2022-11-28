@@ -11,16 +11,16 @@ const {
 const router = express.Router();
 
 // Get a User's Reports
-router.get("/:authorId/reports", getUserReports);
+router.get("/authors/:authorId", getUserReports);
 
 // Report a Course
-router.post("/:courseId/report", reportCourse);
+router.post("/courses/:courseId", reportCourse);
 
 // Get all Courses
-router.get("/:id/report", populateReports);
+router.get("/courses/:courseId", populateReports);
 
 // Mark a Report
-router.put("/:id", updateReportStatus);
+router.put("/:reportId", updateReportStatus);
 
 // Get all Reports
 router.get("/", getReports);

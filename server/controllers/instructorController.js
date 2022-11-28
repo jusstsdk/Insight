@@ -75,6 +75,7 @@ const updateInstructor = async (req, res) => {
 
 const reviewInstructor = async (req, res) => {
 	let instructorId = req.params.id;
+	
 	const instructor = await Instructor.findById(instructorId).then((instructor) => {
 		if (!instructor) {
 			return res.status(400).json({ error: "No such Instructor" });
@@ -90,6 +91,7 @@ const reviewInstructor = async (req, res) => {
 		instructor.save();
 		return instructor;
 	});
+
 	if (!instructor) {
 		return res.status(400).json({ error: "No such Instructor" });
 	}

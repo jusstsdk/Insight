@@ -21,7 +21,7 @@ const reportCourse = async (req, res) => {
 // Get all courses and populate author
 const populateReports = async (req, res) => {
 	try {
-		const course = await Course.findById(req.params.id).populate({
+		const course = await Course.findById(req.params.courseId).populate({
 			path: "reports.author",
 		});
 		res.status(200).json(course);
@@ -49,7 +49,7 @@ const updateReportStatus = async (req, res) => {
 		if (req.body.resolved != null) updateQuery["reports.$.resolved"] = req.body.resolved;
 		if (req.body.seen != null) updateQuery["reports.$.seen"] = req.body.seen;
 
-		const course = await Course.updateOne({ "reports._id": req.params.id }, { $set: updateQuery });
+		const course = await Course.updateOne({ "reports._id": req.params.reportId }, { $set: updateQuery });
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -58,8 +58,8 @@ const updateReportStatus = async (req, res) => {
 
 // Get all User Reports
 const getUserReports = async (req, res) => {
-	const authorId = req.params.author;
-
+	const authorId = req.params.authorId;
+	
 	try {
 		const courses = await Course.find({
 			reports: { $elemMatch: { author: authorId } },
@@ -67,7 +67,6 @@ const getUserReports = async (req, res) => {
 		courses.forEach((course) => {
 			course.reports = course.reports.filter((report) => report.author == authorId);
 		});
-		console.log(courses);
 
 		res.status(200).json(courses);
 	} catch (error) {
