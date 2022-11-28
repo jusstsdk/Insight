@@ -37,7 +37,7 @@ const createCourseInstructor = async (req, res) => {
 	}
 };
 
-// Filter the courses given by him/her based on a subject or price
+// Filter the courses given by a specific instructor based on a subject or price
 const getCoursesInstructor = async (req, res) => {
 	// check if valid Id
 	let instructorId = req.params.id;
@@ -190,7 +190,6 @@ const reportCourse = async (req, res) => {
 	}
 };
 
-// Filter the courses on a subject or price
 const populateReports = async (req, res) => {
 	// find results
 	try {
@@ -201,7 +200,6 @@ const populateReports = async (req, res) => {
 	}
 };
 
-// Filter the courses on a subject or price
 const getReports = async (req, res) => {
 	// find results
 	try {

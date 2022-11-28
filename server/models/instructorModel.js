@@ -16,7 +16,7 @@ const instructorSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		minibiography: {
+		biography: {
 			type: String,
 			required: false,
 		},

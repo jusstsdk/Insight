@@ -4,13 +4,18 @@
    - [ ] remove required
    - [ ] change reviewer and reporter to author
 
+1. Email
+   - [ ] receive an email to change a forgotten password
+   - [ ] receive a certificate as a PDF after completing the course via email
+
 1. login
    - [ ] authentication
    - [ ] session
    - [ ] sign up etc
 
-1. select country
-   - [ ] view local price
+1. country
+   - [ ] select country
+   - [ ] get country from JWT then use post find hook to display local prices
    - [ ] update user country
 
 1. validations
@@ -22,6 +27,9 @@
    - [ ] sort
    - [x] search
 
+1. trainee controller
+   - [ ] CRUD
+   
 1. update trainee model - Wagdy
    - [ ] add payment
    - [ ] pay for course
@@ -34,22 +42,24 @@
    - [ ] view & grant course access
  
 1. instructor put course
-   - [ ] add vids
-   - [ ] edit details
-   - [ ] handle adding / removing other instructors
+   - [ ] add a video per subtitle
+   - [ ] add description of the video
+   - [ ] ~~edit details~~
+   - [ ] ~~handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
-   - [ ] add certificate to model
-   - [ ] make an exercise model for MCQ
+   - [x] make an exercise model for MCQ
    - [ ] instrutctor create exercise / exam in course model
-   - [ ] add hours to subtitles in course model
-   - [ ] add solutions
+   - [x] add hours to subtitles in course model
+   - [x] add solutions
    - [ ] student solve an exercise / exam
    - [ ] save the grade
+   - [ ] save the progress
   
 1. ratings and reviews - Mahmoud
-   - [ ] rate an instructor / course (CRUD)
+   - [ ] rate an instructor / course
+   - [ ] view these reviews
 
 1.  reports controller - Yousef
     - [ ] can report a course
@@ -62,17 +72,26 @@
    
 1. Error Handling
     
+1. Certificate
+   - [ ] "post save" hook to check if 100% progress send email with certificate
+   - [ ] generate personalized certificate
+
 # Questions
-   - How to handle editing exercises
-   - Editing instructors
    - What are subtitles
    - How to calculate progress
-   - What do we do with the country
    - JWT vs Sessions
-   - Should we add more filters and sorting
    - How do we calculate popularity
-   - Should we handle 3rd party accessing the API
    - "see all previously reported problems and their statuses" vs "follow up on an unresolved problem"
    
 
 # Bugs
+
+# Answered
+   - How to handle editing exercises?
+      don't
+   - Editing instructors
+      no editing
+   - What do we do with the country
+      local pricing
+   - Should we handle 3rd party accessing the API
+      No, only frontend sends requests
