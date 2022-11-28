@@ -44,6 +44,9 @@ const requestRefund = async (req, res) => {
 	const traineeId = req.params.traineeId;
 	const courseId = req.params.courseId;
 
+	console.log(courseId);
+	console.log(traineeId);
+
 	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
 		return res.status(400).json({ error: "No such Trainee" });
 	}
@@ -101,7 +104,7 @@ const requestRefund = async (req, res) => {
 	const trainee = await Trainee.findById(traineeId);
 	let paidPrice = 0;
 	const foundCourse = trainee.courses.some((course, i) => {
-		if (course.courseId._id.toString() == courseId) {
+		if (course.course._id.toString() == courseId) {
 			trainee.courses[i].requestedRefund = true;
 			paidPrice = trainee.courses[i].paidPrice;
 			trainee.save();

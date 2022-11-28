@@ -33,7 +33,7 @@ const traineeSchema = new Schema(
 		},
 		courses: [
 			{
-				courseId: { type: Schema.ObjectId, ref: "Course" },
+				course: { type: Schema.ObjectId, ref: "Course" },
 				exercises: [exerciseSchema],
 				progress: Number,
 				requestedRefund: Boolean,

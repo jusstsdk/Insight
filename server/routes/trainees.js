@@ -6,6 +6,6 @@ const router = express.Router();
 // POST a new administrator
 router.post("/", createTrainee);
 
-router.post("/:traineeId/requestRefund/:courseId", requestRefund);
+router.post("/:traineeId/requestRefund/courses/:courseId", requestRefund);
 
 module.exports = router;
