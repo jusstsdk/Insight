@@ -51,56 +51,70 @@ const requestRefund = async (req, res) => {
 		return res.status(400).json({ error: "No such Course" });
 	}
 
-	const trainee = await Trainee.findById(traineeId)
-		.populate("courses.courseId")
-		.then(async (trainee) => {
-			// if (!trainee) {
-			// 	return res.status(400).json({ error: "No such Trainee" });
-			// }
-			let foundCourse = false;
-			let paidPrice = 0;
-			const requestedRefund = trainee.courses.some((course, i) => {
-				if (course.courseId._id.toString() == courseId) {
-					foundCourse = true;
+	// const trainee = await Trainee.findById(traineeId)
+	// 	.populate("courses.courseId")
+	// 	.then(async (trainee) => {
+	// 		// if (!trainee) {
+	// 		// 	return res.status(400).json({ error: "No such Trainee" });
+	// 		// }
+	// 		let foundCourse = false;
+	// 		let paidPrice = 0;
+	// 		const requestedRefund = trainee.courses.some((course, i) => {
+	// 			if (course.courseId._id.toString() == courseId) {
+	// 				foundCourse = true;
 
-					if (course.progress < 0.5) {
-						trainee.courses[i].requestedRefund = true;
-						paidPrice = trainee.courses[i].paidPrice;
-						return true;
-					} else {
-						return false;
-					}
-				}
-			});
-			if (foundCourse) {
-				if (requestedRefund) {
-					const updateCourse = await Course.findByIdAndUpdate(
-						courseId,
-						{
-							$push: { refundRequests: { traineeId: traineeId, paidPrice: paidPrice } },
-						},
-						{ new: true }
-					);
-					if (!updateCourse) {
-						res.status(400).json("Error: Requested refund Failed!");
-					} else {
-						trainee.save();
-					}
-					res.status(200).json("Requested refund successfully.");
-				} else {
-					res
-						.status(200)
-						.json("Requested refund Failed. Already Completed more than 50% of the course");
-				}
-			} else {
-				res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
-			}
+	// 				if (course.progress < 0.5) {
+	// 					trainee.courses[i].requestedRefund = true;
+	// 					paidPrice = trainee.courses[i].paidPrice;
+	// 					return true;
+	// 				} else {
+	// 					return false;
+	// 				}
+	// 			}
+	// 		});
+	// 		if (foundCourse) {
+	// 			if (requestedRefund) {
+	// 				const updateCourse = await Course.findByIdAndUpdate(
+	// 					courseId,
+	// 					{
+	// 						$push: { refundRequests: { traineeId: traineeId, paidPrice: paidPrice } },
+	// 					},
+	// 					{ new: true }
+	// 				);
+	// 				if (!updateCourse) {
+	// 					res.status(400).json("Error: Requested refund Failed!");
+	// 				} else {
+	// 					trainee.save();
+	// 				}
+	// 				res.status(200).json("Requested refund successfully.");
+	// 			} else {
+	// 				res
+	// 					.status(200)
+	// 					.json("Requested refund Failed. Already Completed more than 50% of the course");
+	// 			}
+	// 		} else {
+	// 			res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+	// 		}
 
-			return trainee;
+	// 		return trainee;
+	// 	});
+	const trainee = await Trainee.findById(traineeId);
+	let paidPrice = 0;
+	const foundCourse = trainee.courses.some((course, i) => {
+		if (course.courseId._id.toString() == courseId) {
+			trainee.courses[i].requestedRefund = true;
+			paidPrice = trainee.courses[i].paidPrice;
+			trainee.save();
+			return true;
+		}
+	});
+	if (foundCourse) {
+		await Course.findByIdAndUpdate(courseId, {
+			$push: { refundRequests: { traineeId: traineeId, paidPrice: paidPrice } },
 		});
-
-	if (!trainee) {
-		return res.status(400).json({ error: "No such Trainee" });
+		res.status(200).json("Requested refund successfully.");
+	} else {
+		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
 	}
 };
 

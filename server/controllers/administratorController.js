@@ -90,16 +90,21 @@ const getRefundRequests = async (req, res) => {
 // Refund to Trainee's Wallet
 const refundToWallet = async (req, res) => {
 	const traineeId = req.params.traineeId;
+	const courseId = req.params.courseId;
 	const refundedAmount = req.body.refundedAmount;
 	try {
-		const trainee = await Trainee.findByIdAndUpdate(
-			traineeId,
+		const trainee = await Trainee.findByIdAndUpdate(traineeId, {
+			$inc: { wallet: refundedAmount },
+			$pull: { courses: { courseId: mongoose.Types.ObjectId(courseId) } },
+		});
+		const course = await Course.findByIdAndUpdate(
+			courseId,
 			{
-				$inc: { wallet: refundedAmount },
+				$pull: { refundRequests: { traineeId: mongoose.Types.ObjectId(traineeId) } },
 			},
 			{ new: true }
 		);
-		res.status(200).json(trainee);
+		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
