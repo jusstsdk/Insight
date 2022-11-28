@@ -2,7 +2,7 @@
 
 1. Edit Model
    - [ ] remove required
-   - [ ] change reviewer and reporter to author
+   - [x] change reviewer and reporter to author
 
 1. Email
    - [ ] receive an email to change a forgotten password
@@ -28,7 +28,7 @@
    - [x] search
 
 1. trainee controller
-   - [ ] CRUD
+   - [x] CRUD
    
 1. update trainee model - Wagdy
    - [ ] add payment
@@ -42,33 +42,33 @@
    - [ ] view & grant course access
  
 1. instructor put course
-   - [ ] add a video per subtitle
-   - [ ] add description of the video
+   - [x] add a video per subtitle
+   - [x] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
    - [x] make an exercise model for MCQ
-   - [ ] instrutctor create exercise / exam in course model
+   - [x] instrutctor create exercise / exam in course model
    - [x] add hours to subtitles in course model
    - [x] add solutions
    - [ ] student solve an exercise / exam
-   - [ ] save the grade
-   - [ ] save the progress
+   - [x] save the grade
+   - [x] save the progress
   
 1. ratings and reviews - Mahmoud
-   - [ ] rate an instructor / course
-   - [ ] view these reviews
+   - [x] rate an instructor / course
+   - [x] view these reviews
 
 1.  reports controller - Yousef
-    - [ ] can report a course
-    - [ ] can follow up on a report
-    - [ ] can handle a report
+    - [x] can report a course
+    - [x] can follow up on a report
+    - [x] can handle a report
   
 1. refunds
-   - [ ] request if below 50%
-   - [ ] handle refund
+   - [x] request if below 50%
+   - [x] handle refund
    
 1. Error Handling
     
