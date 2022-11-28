@@ -1,10 +1,41 @@
 const Administrator = require("../models/administratorModel");
 const mongoose = require("mongoose");
+const CorporateTrainee = require("../models/corperateTraineeModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
 	const administrators = await Administrator.find();
 	res.status(200).json(administrators);
+};
+
+//GET all access requests of a all courses
+const getAllCoursesRequests = async (req, res) => {
+	try {
+		const corporateTrainee = await CorporateTrainee.find({
+			requests: { $exists: true, $ne: [] },
+		}).populate({
+			path: "requests",
+		});
+		console.log(corporateTrainee);
+		res.status(200).json({ CorporateTrainee: corporateTrainee });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+//UPDATE grant access to a specific course
+const handleCourseRequest = async (req, res) => {
+	const corporateTrainee = await CorporateTrainee.updateOne(
+		{ "requests._id": req.body.requestId },
+		{ "requests.$.status": req.body.status }
+	);
+	//Body --> course Id, status, corp Trainee Id
+
+	if (!corporateTrainee) {
+		return res.status(400).json({ error: "No such corporate Trainee" });
+	}
+
+	res.status(200).json(corporateTrainee);
 };
 
 // get a single administrator
@@ -81,4 +112,6 @@ module.exports = {
 	createAdministrator,
 	deleteAdministrator,
 	updateAdministrator,
+	getAllCoursesRequests,
+	handleCourseRequest,
 };

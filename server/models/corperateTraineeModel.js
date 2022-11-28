@@ -34,7 +34,13 @@ const corprateTraineeSchema = new Schema(
 			type: String, //references corprate,
 			required: false,
 		},
-		courses: [courseTraineeSchema]
+		courses: [courseTraineeSchema],
+		requests: [
+			{
+				courseId: { type: Schema.ObjectId, ref: "Course" },
+				status: { type: String, default: "Pending" },
+			},
+		],
 	},
 	{ timestamps: true }
 );
