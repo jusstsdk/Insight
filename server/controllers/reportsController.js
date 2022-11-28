@@ -19,7 +19,7 @@ const reportCourse = async (req, res) => {
 };
 
 // Get all courses and populate author
-const populateReports = async (req, res) => {
+const getCourseWithReports = async (req, res) => {
 	try {
 		const course = await Course.findById(req.params.courseId).populate({
 			path: "reports.author",
@@ -31,7 +31,7 @@ const populateReports = async (req, res) => {
 };
 
 // Get all courses with Reports and populate the author
-const getReports = async (req, res) => {
+const getAllCoursesWithReports = async (req, res) => {
 	try {
 		const course = await Course.find({ reports: { $exists: true, $ne: [] } }).populate({
 			path: "reports.author",
@@ -76,8 +76,8 @@ const getUserReports = async (req, res) => {
 
 module.exports = {
 	reportCourse,
-	populateReports,
-	getReports,
+	getCourseWithReports,
+	getAllCoursesWithReports,
 	updateReportStatus,
 	getUserReports,
 };
