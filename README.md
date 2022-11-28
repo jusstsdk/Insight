@@ -38,7 +38,8 @@
    - [ ] view & grant course access
  
 1. instructor put course
-   - [ ] add vids
+   - [ ] add a video per subtitle
+   - [ ] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
