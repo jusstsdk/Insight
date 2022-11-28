@@ -4,6 +4,10 @@
    - [ ] remove required
    - [ ] change reviewer and reporter to author
 
+1. Email
+   - [ ] receive an email to change a forgotten password
+   - [ ] receive a certificate as a PDF after completing the course via email
+
 1. login
    - [ ] authentication
    - [ ] session
