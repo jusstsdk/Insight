@@ -25,6 +25,7 @@ const instructorSchema = new Schema(
 			required: false,
 		},
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
+		reports: [{ type: Schema.ObjectId, ref: "Course" }],
 		reviews: {
 			type: [reviewSchema],
 			required: false,

@@ -34,7 +34,8 @@ const corprateTraineeSchema = new Schema(
 			type: String, //references corprate,
 			required: false,
 		},
-		courses: [courseTraineeSchema]
+		courses: [courseTraineeSchema],
+		reports: [{ type: Schema.ObjectId, ref: "Course" }],
 	},
 	{ timestamps: true }
 );

@@ -18,11 +18,9 @@ const reportSchema = new Schema({
 	resolved: { type: Boolean, default: false },
 	seen: { type: Boolean, default: false },
 	description: String,
-	author: {
+	authorId: {
 		type: Schema.Types.ObjectId,
 		required: true,
-		// Instead of a hardcoded model name in `ref`, `refPath` means Mongoose
-		// will look at the `onModel` property to find the right model.
 		refPath: "reports.authorType",
 	},
 	authorType: {
