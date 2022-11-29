@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useSelector } from "react-redux";
+import { setToken } from "./redux/login";
+import Login from "./components/Login";
+import AdminView from "./components/AdminView";
+import InstructorView from "./components/InstructorView";
+import TraineeView from "./components/TraineeView";
+import CorporateTraineeView from "./components/CorporateTraineeView";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { token, userType } = useSelector((state) => state.loginReducer);
+
+	return (
+		<div>
+			{userType == "" && <Login />}
+			{(() => {
+				// Renders the appropriate View according to the logged in User.
+				if (userType === "admin") {
+					return <AdminView />;
+				} else if (userType === "instructor") {
+					return <InstructorView />;
+				} else if (userType === "trainee") {
+					return <TraineeView />;
+				} else if (userType === "corporateTrainee") {
+					return <CorporateTraineeView />;
+				}
+			})()}
+		</div>
+	);
 }
 
 export default App;

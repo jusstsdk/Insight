@@ -14,15 +14,14 @@ const {
 
 const router = express.Router();
 
-// POST a new administrator
 router.post("/", createTrainee);
-// POST a new administrator
+
 router.get("/", getTrainees);
-// POST a new administrator
+
 router.get("/:id", getTrainee);
-// POST a new administrator
+
 router.put("/:id", updateTrainee);
-// POST a new administrator
+
 router.delete("/:id", deleteTrainee);
 //pay for a course
 router.post("/:tId/courses/:cId/payment", payCourse);

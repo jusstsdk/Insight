@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const jwt = require("jsonwebtoken");
 const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
+const bcrypt = require("bcrypt");
+const Schema = mongoose.Schema;
 
 const paymentMethodSchema = new Schema({
 	cardHolder: {
@@ -60,7 +62,16 @@ const traineeSchema = new Schema(
 	{ timestamps: true }
 );
 
-traineeSchema.pre("save", function (next) {
+traineeSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign(
+		{ _id: this._id, userType: "trainee" },
+		process.env.SECRET
+	);
+	return token;
+};
+
+traineeSchema.pre("save", async function (next) {
+	this.password = await bcrypt.hash(this.password, 10);
 	// calculate progress
 	this.courses.forEach((course) => {
 		let finishedExercisesAndVideoes = 0;
@@ -77,7 +88,8 @@ traineeSchema.pre("save", function (next) {
 				if (exercise.isSolved) finishedExercisesAndVideoes++;
 			});
 		});
-		course.progress = finishedExercisesAndVideoes/totalExercisesAndVideoes;
+		course.progress =
+			finishedExercisesAndVideoes / totalExercisesAndVideoes;
 	});
 	next();
 });
