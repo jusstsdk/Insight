@@ -3,6 +3,7 @@
 1. Edit Model
    - [ ] remove required
    - [x] change reviewer and reporter to author
+   - [ ] hash passwords
 
 1. Email
    - [ ] receive an email to change a forgotten password
