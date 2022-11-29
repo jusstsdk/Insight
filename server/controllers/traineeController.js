@@ -32,7 +32,6 @@ const getTrainee = async (req, res) => {
 	if (!trainee) {
 		return res.status(404).json({ error: "No such trainee" });
 	}
-	console.log(trainee.courses.length);
 	res.status(200).json(trainee);
 };
 
@@ -83,7 +82,7 @@ const payCourse = async (req, res) => {
 	const traineeId = req.params.tId;
 	const courseId = req.params.cId;
 	const cvv = req.body.cvv;
-	const cardIndex = req.body.cardIndex;
+	const cardId = req.body.cardId;
 	//
 	// the function should find course by id and get price, discount and exercises.
 	if (!mongoose.Types.ObjectId.isValid(courseId)) {
@@ -101,22 +100,15 @@ const payCourse = async (req, res) => {
 	let amountPaidByCard = course.price;
 	amountPaidByCard -= trainee.wallet; //deduct the wallet credit from the price
 	if (amountPaidByCard > 0) {
-		// console.log("amount paid from wallet = " + trainee.wallet + "\n new balance = 0");
-		// console.log("amount paid from card = " + amountPaidByCard);
 		trainee.wallet = 0; //wallet has less so it goes to zero
 	} else {
-		// console.log("amount paid from wallet = " + course.price);
 		trainee.wallet -= course.price; //wallet has either enough or more than needed
-		// console.log("new balance = " + trainee.wallet);
-		// console.log("amount paid by card = 0");
 	}
 
 	let newCourse = {
 		course: courseId,
 		subtitles: course.subtitles,
-		progress: 0,
 		exam: course.exam,
-		requestedRefund: false,
 		paidPrice: course.price,
 	};
 
@@ -152,25 +144,6 @@ const deletePaymentMethod = async (req, res) => {
 	await trainee.save();
 	res.status(200).json(trainee);
 };
-
-// Subscribe a student to a course
-// const subscribeTraineeToCourse = async (traineeId, courseId) => {
-// 	const course = await Course.findById(courseId);
-// 	const trainee = await Trainee.findByIdAndUpdate(
-// 		traineeId,
-// 		{
-// 			$push: {
-// 				courses: {
-// 					course: courseId,
-// 					subtitles: course.subtitles,
-// 					exam: course.exam,
-// 				},
-// 			},
-// 		},
-// 		{ new: true }
-// 	);
-// 	return trainee;
-// };
 
 module.exports = {
 	createTrainee,

@@ -62,7 +62,6 @@ const traineeSchema = new Schema(
 
 traineeSchema.pre("save", function (next) {
 	// calculate progress
-	
 	this.courses.forEach((course) => {
 		let finishedExercisesAndVideoes = 0;
 		let totalExercisesAndVideoes = 0;

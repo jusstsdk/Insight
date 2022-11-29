@@ -5,9 +5,9 @@ const {
 	getTrainee,
 	updateTrainee,
 	deleteTrainee,
-  payCourse,
-  addPaymentMethod,
-  deletePaymentMethod,
+	payCourse,
+	addPaymentMethod,
+	deletePaymentMethod,
 } = require("../controllers/traineeController");
 
 const router = express.Router();
