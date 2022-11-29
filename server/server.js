@@ -9,9 +9,12 @@ const corporateTrainees = require("./routes/corporateTrainees");
 const courseRoutes = require("./routes/courses");
 const reportRoutes = require("./routes/reports");
 const usersRoute = require("./routes/users");
+const cors = require("cors");
 
 // express app
 const app = express();
+
+app.use(cors());
 
 // middleware
 app.use(express.json());

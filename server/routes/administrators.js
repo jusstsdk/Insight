@@ -11,16 +11,17 @@ const {
 } = require("../controllers/administratorController");
 
 const router = express.Router();
-// Get all Courses with Refunds
-router.get("/refunds", getRefundRequests);
-
-// Refund an amount to Trainee's Wallet
-router.put("/refunds/:refundId", refundToWallet);
 
 // middleware
 router.use((req, res, next) => {
 	auth(req, res, next, 'admin');
 });
+
+// Get all Courses with Refunds
+router.get("/refunds", getRefundRequests);
+
+// Refund an amount to Trainee's Wallet
+router.put("/refunds/:refundId", refundToWallet);
 
 // GET all administrators
 router.get("/", getAdministrators);

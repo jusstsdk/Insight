@@ -30,7 +30,9 @@ const getInstructor = async (req, res) => {
 const createInstructor = async (req, res) => {
 	// add to the database
 	try {
-		const instructor = await Instructor.create(req.body);
+		let instructor = await Instructor.create(req.body);
+		instructor["_doc"]["x-auth-token"] = instructor.generateAuthToken();
+		instructor["_doc"].userType = "instructor";
 		res.status(200).json(instructor);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
