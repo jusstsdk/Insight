@@ -19,7 +19,7 @@ const administratorSchema = new Schema(
 );
 
 administratorSchema.methods.generateAuthToken = function() { 
-	const token = jwt.sign({ _id: this._id, userType: "admin" }, process.env.myprivatekey); //get the private key from the config file -> environment variable
+	const token = jwt.sign({ _id: this._id, userType: "admin" }, process.env.SECRET); //get the private key from the config file -> environment variable
 	return token;
   }  
 
