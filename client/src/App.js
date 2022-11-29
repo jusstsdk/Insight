@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "./redux/login";
+import axios from "axios";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { token } = useSelector((state) => state.counter);
+	const dispatch = useDispatch();
+	const getTokenFunction = async () => {
+		const config = {
+			method: "get",
+			url: "http://localhost:4000/api/administrators/tokenTest",
+			headers: {},
+		};
+
+		let token = await axios(config);
+		console.log(token);
+		dispatch(setToken(token.data.token));
+	};
+	return (
+		<div className="App">
+			<h1>The token is {token}</h1>
+			<button onClick={() => getTokenFunction()}> Login </button>
+		</div>
+	);
 }
 
 export default App;
