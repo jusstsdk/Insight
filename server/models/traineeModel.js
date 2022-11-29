@@ -1,6 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const {subtitleSchema, exerciseSchema} = require("./schemas/subtitleSchema");
+const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
+
+const paymentMethodSchema = new Schema({
+	cardHolder: {
+		type: String,
+		required: true,
+	},
+	cardNumber: {
+		type: String,
+		match: /\d{16}/,
+	},
+	expiryMonth: {
+		type: Number,
+		min: 1,
+		max: 12,
+	},
+	expiryYear: {
+		type: Number,
+		// min: new Date().getUTCFullYear,
+		// max: 99,
+	},
+});
 
 const traineeSchema = new Schema(
 	{
@@ -24,12 +45,16 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
-        progress: Number, // range from 0.0 to 1.0
+				progress: Number, // range from 0.0 to 1.0
 				exam: exerciseSchema,
-				paidPrice: Number,
 				requestedRefund: Boolean,
+				paidPrice: Number,
 			},
 		],
+		paymentMethods: {
+			type: [paymentMethodSchema],
+			required: false,
+		},
 		wallet: Number,
 	},
 	{ timestamps: true }
@@ -42,12 +67,12 @@ traineeSchema.pre("save", function (next) {
 		let totalExercisesAndVideoes = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
-			subtitle.videos.foreach((video) => {
+			subtitle.videos.forEach((video) => {
 				totalExercisesAndVideoes++;
 				if (video.isWatched) finishedExercisesAndVideoes++;
 			});
 
-			subtitle.exercises.foreach((exercise) => {
+			subtitle.exercises.forEach((exercise) => {
 				totalExercisesAndVideoes++;
 				if (exercise.isSolved) finishedExercisesAndVideoes++;
 			});
