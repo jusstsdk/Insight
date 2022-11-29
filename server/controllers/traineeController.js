@@ -134,6 +134,7 @@ const requestRefund = async (req, res) => {
 	} else {
 		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
 	}
+}
 
 // Subscribe a student to a course
 const subscribeTraineeToCourse = async (traineeId, courseId) => {
@@ -161,5 +162,5 @@ module.exports = {
 	getTrainee,
 	updateTrainee,
 	deleteTrainee,
-	subscribeTraineeToCourse,
-};
+	subscribeTraineeToCourse
+}

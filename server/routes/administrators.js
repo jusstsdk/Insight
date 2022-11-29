@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const {
 	getAdministrators,
 	getAdministrator,
@@ -10,6 +11,12 @@ const {
 } = require("../controllers/administratorController");
 
 const router = express.Router();
+
+// middleware
+router.use((req, res, next) => {
+	auth(req, res, next, 'admin');
+});
+
 // Get all Courses with Refunds
 router.get("/refunds", getRefundRequests);
 
