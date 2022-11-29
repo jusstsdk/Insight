@@ -6,14 +6,18 @@ function App() {
 	const dispatch = useDispatch();
 	const getTokenFunction = async () => {
 		const config = {
-			method: "get",
-			url: "http://localhost:4000/api/administrators/tokenTest",
+			method: "post",
+			url: "http://localhost:4000/api/users/login",
 			headers: {},
+			data: {
+				username: "admin62",
+				password: "pass1",
+			},
 		};
 
-		let token = await axios(config);
-		console.log(token);
-		dispatch(setToken(token.data.token));
+		let response = await axios(config);
+		console.log(response);
+		// dispatch(setToken(response.data.token));
 	};
 	return (
 		<div className="App">
