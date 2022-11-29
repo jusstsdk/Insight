@@ -133,14 +133,17 @@ const addPaymentMethod = async (req, res) => {
 //delete a card
 
 const deletePaymentMethod = async (req, res) => {
-	const traineeId = req.params.id;
+	const traineeId = req.params.tid;
+	const paymentId = req.params.pid;
 
 	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
 		return res.status(404).json({ error: "No such trainee" });
 	}
 
 	const trainee = await Trainee.findById(traineeId);
-	trainee.paymentMethods.splice(req.body.cardIndex - 1, 1); //subtract one as we'll take its number in the list in the FE which starts at 1 but index starts from 0
+	trainee.paymentMethods = trainee.paymentMethods.filter(card => card._id!=paymentId); 
+
+	
 	await trainee.save();
 	res.status(200).json(trainee);
 };
