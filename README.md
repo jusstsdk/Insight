@@ -10,9 +10,10 @@
    - [ ] receive a certificate as a PDF after completing the course via email
 
 1. login
-   - [ ] authentication
-   - [ ] session
-   - [ ] sign up etc
+   - [x] authentication
+   - [x] session
+   - [x] sign up etc
+   - username is unique across all documents?
 
 1. country
    - [ ] select country
