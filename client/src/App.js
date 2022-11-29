@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setToken } from "./redux/login";
-import axios from "axios";
 import Login from "./components/Login";
-import { BrowserRouter } from "react-router-dom";
 import AdminView from "./components/AdminView";
+import InstructorView from "./components/InstructorView";
 import TraineeView from "./components/TraineeView";
+import CorporateTraineeView from "./components/CorporateTraineeView";
 function App() {
 	const { token, userType } = useSelector((state) => state.loginReducer);
 
@@ -13,10 +13,14 @@ function App() {
 			{userType == "" && <Login />}
 			{(() => {
 				// Renders the appropriate View according to the logged in User.
-				if (userType === "Admin") {
+				if (userType === "admin") {
 					return <AdminView />;
-				} else if (userType === "Trainee") {
+				} else if (userType === "instructor") {
+					return <InstructorView />;
+				} else if (userType === "trainee") {
 					return <TraineeView />;
+				} else if (userType === "corporateTrainee") {
+					return <CorporateTraineeView />;
 				}
 			})()}
 		</div>

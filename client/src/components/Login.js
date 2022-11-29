@@ -14,8 +14,8 @@ function Login() {
 				url: "http://localhost:4000/api/users/login",
 				headers: {},
 				data: {
-					username: "admin62",
-					password: "pass1",
+					username: "Harry Potter",
+					password: "H123",
 				},
 			};
 
