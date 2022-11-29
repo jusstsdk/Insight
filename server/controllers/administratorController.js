@@ -30,7 +30,9 @@ const getAdministrator = async (req, res) => {
 const createAdministrator = async (req, res) => {
 	// add to the database
 	try {
-		const administrator = await Administrator.create(req.body);
+		let administrator = await Administrator.create(req.body);
+		administrator["_doc"]["x-auth-token"] = administrator.generateAuthToken();
+		administrator["_doc"].userType = "admin";
 		res.status(200).json(administrator);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

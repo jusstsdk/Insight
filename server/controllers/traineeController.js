@@ -7,6 +7,8 @@ const createTrainee = async (req, res) => {
 	// add to the database
 	try {
 		const trainee = await Trainee.create(req.body);
+		trainee["_doc"]["x-auth-token"] = trainee.generateAuthToken();
+		trainee["_doc"].userType = "trainee";
 		res.status(200).json(trainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

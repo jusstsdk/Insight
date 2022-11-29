@@ -30,7 +30,9 @@ const getCorporateTrainee = async (req, res) => {
 const createCorporateTrainee = async (req, res) => {
 	// add to the database
 	try {
-		const corporateTrainee = await CorporateTrainee.create(req.body);
+		let corporateTrainee = await CorporateTrainee.create(req.body);
+		corporateTrainee["_doc"]["x-auth-token"] = corporateTrainee.generateAuthToken();
+		corporateTrainee["_doc"].userType = "corporateTrainee";
 		res.status(200).json(corporateTrainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
