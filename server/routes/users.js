@@ -15,9 +15,11 @@ router.post("/login", async (req, res) => {
 	if (!user) {
 		console.log("off");
 	}
-	res.header("x-auth-token", token).send({
+	res.status(200).json({
+		"x-auth-token": token,
 		_id: user._id,
 		username: user.username,
+		userType: "Admin",
 	});
 });
 
