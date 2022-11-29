@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 
 const router = express.Router();
 
-// GET all administrators
 router.post("/login", async (req, res) => {
 	//find an existing admin
 	let user = await Administrator.findOne({
@@ -73,7 +72,6 @@ router.post("/login", async (req, res) => {
 	res.sendStatus(404);
 });
 
-// GET a single administrator
 // router.post("/signup", getAdministrator);
 
 module.exports = router;
