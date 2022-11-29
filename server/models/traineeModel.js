@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const {subtitleSchema, exerciseSchema} = require("./schemas/subtitleSchema");
 
@@ -34,6 +35,14 @@ const traineeSchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+traineeSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign(
+		{ _id: this._id, userType: "trainee" },
+		process.env.SECRET
+	);
+	return token;
+};
 
 traineeSchema.pre("save", function (next) {
 	// calculate progress

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const reviewSchema = require("./schemas/reviewSchema");
 
@@ -32,6 +33,14 @@ const instructorSchema = new Schema(
 	},
 	{ timestamps: false }
 );
+
+instructorSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign(
+		{ _id: this._id, userType: "instructor" },
+		process.env.SECRET
+	);
+	return token;
+};
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;
