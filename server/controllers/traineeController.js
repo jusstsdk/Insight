@@ -1,5 +1,5 @@
-const Trainee = require("../models/traineeModel");
 const mongoose = require("mongoose");
+const Trainee = require("../models/traineeModel");
 const Course = require("../models/courseModel");
 
 // create a new trainee
@@ -130,8 +130,8 @@ const addPaymentMethod = async (req, res) => {
 	await trainee.save();
 	res.status(200).json(trainee);
 };
-//delete a card
 
+//delete a card
 const deletePaymentMethod = async (req, res) => {
 	const traineeId = req.params.tid;
 	const paymentId = req.params.pid;
@@ -146,10 +146,43 @@ const deletePaymentMethod = async (req, res) => {
 	
 	await trainee.save();
 	res.status(200).json(trainee);
+  
+// request a refund for a specific course
+const requestRefund = async (req, res) => {
+	const traineeId = req.params.traineeId;
+	const courseId = req.params.courseId;
+
+	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
+		return res.status(400).json({ error: "No such Trainee" });
+	}
+	if (!mongoose.Types.ObjectId.isValid(courseId)) {
+		return res.status(400).json({ error: "No such Course" });
+	}
+
+	const trainee = await Trainee.findById(traineeId);
+	let paidPrice = 0;
+	const foundCourse = trainee.courses.some((course, i) => {
+		if (course.course._id.toString() == courseId) {
+			trainee.courses[i].requestedRefund = true;
+			paidPrice = trainee.courses[i].paidPrice;
+			trainee.save();
+			return true;
+		}
+	});
+	if (foundCourse) {
+		await Course.findByIdAndUpdate(courseId, {
+			$push: { refundRequests: { trainee: traineeId, paidPrice: paidPrice } },
+		});
+		res.status(200).json("Requested refund successfully.");
+	} else {
+		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+	}
+}
 };
 
 module.exports = {
 	createTrainee,
+	requestRefund,
 	getTrainees,
 	getTrainee,
 	updateTrainee,
@@ -157,4 +190,5 @@ module.exports = {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
+	subscribeTraineeToCourse
 };

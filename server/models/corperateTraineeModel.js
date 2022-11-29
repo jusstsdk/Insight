@@ -53,6 +53,7 @@ corprateTraineeSchema.pre("save", function (next) {
 				if (exercise.isSolved) finishedExercisesAndVideoes++;
 			});
 		});
+		course.progress = finishedExercisesAndVideoes/totalExercisesAndVideoes;
 	});
 	next();
 });
