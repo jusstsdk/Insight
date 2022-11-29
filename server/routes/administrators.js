@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const {
 	getAdministrators,
 	getAdministrator,
@@ -15,6 +16,11 @@ router.get("/refunds", getRefundRequests);
 
 // Refund an amount to Trainee's Wallet
 router.put("/refunds/:refundId", refundToWallet);
+
+// middleware
+router.use((req, res, next) => {
+	auth(req, res, next, 'admin');
+});
 
 // GET all administrators
 router.get("/", getAdministrators);
