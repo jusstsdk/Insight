@@ -3,16 +3,17 @@
 1. Edit Model
    - [ ] remove required
    - [x] change reviewer and reporter to author
-   - [ ] hash passwords
+   - [x] hash passwords
 
 1. Email
    - [ ] receive an email to change a forgotten password
    - [ ] receive a certificate as a PDF after completing the course via email
 
 1. login
-   - [ ] authentication
-   - [ ] session
-   - [ ] sign up etc
+   - [x] authentication
+   - [x] session
+   - [x] sign up etc
+   - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
 
 1. country
    - [ ] select country
