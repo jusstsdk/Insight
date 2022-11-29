@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const {subtitleSchema, exerciseSchema} = require("./schemas/subtitleSchema");
+const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
 
 const traineeSchema = new Schema(
 	{
@@ -16,6 +16,18 @@ const traineeSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		firstName: {
+			type: String,
+			required: true,
+		},
+		lastName: {
+			type: String,
+			required: true,
+		},
+		gender: {
+			type: String,
+			required: true,
+		},
 		country: {
 			type: String,
 			required: false,
@@ -24,7 +36,7 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
-        progress: Number, // range from 0.0 to 1.0
+				progress: Number, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				paidPrice: Number,
 				requestedRefund: Boolean,
@@ -52,7 +64,8 @@ traineeSchema.pre("save", function (next) {
 				if (exercise.isSolved) finishedExercisesAndVideoes++;
 			});
 		});
-		course.progress = finishedExercisesAndVideoes/totalExercisesAndVideoes;
+		course.progress =
+			finishedExercisesAndVideoes / totalExercisesAndVideoes;
 	});
 	next();
 });
