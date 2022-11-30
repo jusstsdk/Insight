@@ -52,10 +52,10 @@ function Login() {
 	}, []);
 	return (
 		<div id="main-form" className="d-flex flex-column align-items-center text-center">
-			{/* Title */}
 			{/* Sign in Form */}
 			<main className="form-signin">
 				<form>
+					{/* Title */}
 					<h1 id="login-page-title" className="align-self-center">
 						Coursera hehe
 					</h1>

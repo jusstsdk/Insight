@@ -1,29 +1,16 @@
-import { useSelector } from "react-redux";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
-import AdminView from "./components/AdminView";
-import InstructorView from "./components/InstructorView";
-import TraineeView from "./components/TraineeView";
-import CorporateTraineeView from "./components/CorporateTraineeView";
+import Home from "./pages/Home";
+import { useSelector } from "react-redux";
+
 function App() {
 	const userType = useSelector((state) => state.loginReducer).userType;
 	return (
-		<>
+		<div className="App">
 			{userType === "" && <Login />}
-			{(() => {
-				// Renders the appropriate View according to the logged in User.
-				if (userType === "admin") {
-					return <AdminView />;
-				} else if (userType === "instructor") {
-					return <InstructorView />;
-				} else if (userType === "trainee") {
-					return <TraineeView />;
-				} else if (userType === "corporateTrainee") {
-					return <CorporateTraineeView />;
-				}
-			})()}
+			<Home />
 			{userType !== "" && <Logout />}
-		</>
+		</div>
 	);
 }
 
