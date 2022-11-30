@@ -13,10 +13,11 @@ export const loginSlice = createSlice({
 		setUserType: (state, action) => {
 			state.userType = action.payload.userType;
 		},
+		logout: (state) => {},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setUserType } = loginSlice.actions;
+export const { setToken, setUserType, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;

@@ -46,13 +46,9 @@ const updateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such trainee" });
 	}
 
-	const trainee = await Trainee.findOneAndUpdate(
-		{ _id: traineeId },
-		req.body,
-		{
-			new: true,
-		}
-	);
+	const trainee = await Trainee.findOneAndUpdate({ _id: traineeId }, req.body, {
+		new: true,
+	});
 
 	if (!trainee) {
 		return res.status(400).json({ error: "No such trainee" });
@@ -143,12 +139,11 @@ const deletePaymentMethod = async (req, res) => {
 	}
 
 	const trainee = await Trainee.findById(traineeId);
-	trainee.paymentMethods = trainee.paymentMethods.filter(card => card._id!=paymentId); 
+	trainee.paymentMethods = trainee.paymentMethods.filter((card) => card._id != paymentId);
 
-	
 	await trainee.save();
 	res.status(200).json(trainee);
-  
+};
 // request a refund for a specific course
 const requestRefund = async (req, res) => {
 	const traineeId = req.params.traineeId;
@@ -179,9 +174,7 @@ const requestRefund = async (req, res) => {
 	} else {
 		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
 	}
-}
 };
-
 module.exports = {
 	createTrainee,
 	requestRefund,
@@ -192,5 +185,5 @@ module.exports = {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
-	subscribeTraineeToCourse
+	// subscribeTraineeToCourse,
 };

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { setToken } from "./redux/login";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import AdminView from "./components/AdminView";
 import InstructorView from "./components/InstructorView";
 import TraineeView from "./components/TraineeView";
@@ -9,8 +9,8 @@ function App() {
 	const { token, userType } = useSelector((state) => state.loginReducer);
 
 	return (
-		<div>
-			{userType == "" && <Login />}
+		<>
+			{userType === "" && <Login />}
 			{(() => {
 				// Renders the appropriate View according to the logged in User.
 				if (userType === "admin") {
@@ -23,7 +23,8 @@ function App() {
 					return <CorporateTraineeView />;
 				}
 			})()}
-		</div>
+			{userType !== "" && <Logout />}
+		</>
 	);
 }
 
