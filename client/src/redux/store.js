@@ -7,7 +7,6 @@ const combinedReducer = combineReducers({
 });
 const rootReducer = (state, action) => {
 	if (action.type === "login/logout") {
-		// check for action type
 		state = undefined;
 	}
 	return combinedReducer(state, action);

@@ -6,8 +6,7 @@ import InstructorView from "./components/InstructorView";
 import TraineeView from "./components/TraineeView";
 import CorporateTraineeView from "./components/CorporateTraineeView";
 function App() {
-	const { token, userType } = useSelector((state) => state.loginReducer);
-
+	const userType = useSelector((state) => state.loginReducer).userType;
 	return (
 		<>
 			{userType === "" && <Login />}
