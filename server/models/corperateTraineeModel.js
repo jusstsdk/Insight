@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
-const {subtitleSchema, exerciseSchema} = require("./schemas/subtitleSchema");
+const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
 
 const corprateTraineeSchema = new Schema(
 	{
@@ -43,9 +43,15 @@ const corprateTraineeSchema = new Schema(
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
 				progress: Number, // range from 0.0 to 1.0
-				exam: exerciseSchema
+				exam: exerciseSchema,
 			},
-		]
+		],
+		requests: [
+			{
+				courseId: { type: Schema.ObjectId, ref: "Course" },
+				status: { type: String, default: "Pending" },
+			},
+		],
 	},
 	{ timestamps: true }
 );
@@ -76,7 +82,7 @@ corprateTraineeSchema.pre("save", async function (next) {
 				if (exercise.isSolved) finishedExercisesAndVideoes++;
 			});
 		});
-		course.progress = finishedExercisesAndVideoes/totalExercisesAndVideoes;
+		course.progress = finishedExercisesAndVideoes / totalExercisesAndVideoes;
 	});
 	next();
 });

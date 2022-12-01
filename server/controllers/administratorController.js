@@ -41,9 +41,10 @@ const handleCourseRequest = async (req, res) => {
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate Trainee" });
 	}
+	let corporateTraineeUpdated = {};
 	if (req.body.status == "accepted") {
 		const course = await Course.findById(courseId);
-		const corporateTrainee = await CorporateTrainee.findByIdAndUpdate(
+		corporateTraineeUpdated = await CorporateTrainee.findByIdAndUpdate(
 			traineeId,
 			{
 				$push: {
@@ -58,7 +59,7 @@ const handleCourseRequest = async (req, res) => {
 		);
 	}
 
-	res.status(200).json(corporateTrainee);
+	res.status(200).json(corporateTraineeUpdated);
 };
 
 // get a single administrator
@@ -118,9 +119,13 @@ const updateAdministrator = async (req, res) => {
 		return res.status(400).json({ error: "No such administrator" });
 	}
 
-	const administrator = await Administrator.findOneAndUpdate({ _id: administratorId }, req.body, {
-		new: true,
-	});
+	const administrator = await Administrator.findOneAndUpdate(
+		{ _id: administratorId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!administrator) {
 		return res.status(400).json({ error: "No such administrator" });
@@ -132,7 +137,9 @@ const updateAdministrator = async (req, res) => {
 // Get all courses with Refunds and populate the TraineeId
 const getRefundRequests = async (req, res) => {
 	try {
-		const course = await Course.find({ refundRequests: { $exists: true, $ne: [] } }).populate({
+		const course = await Course.find({
+			refundRequests: { $exists: true, $ne: [] },
+		}).populate({
 			path: "refundRequests.traineeId",
 		});
 		res.status(200).json(course);
@@ -152,7 +159,9 @@ const refundToWallet = async (req, res) => {
 			{ $pull: { refundRequests: { _id: mongoose.Types.ObjectId(refundId) } } }
 		);
 
-		course.refundRequests = course.refundRequests.filter((request) => request._id == refundId);
+		course.refundRequests = course.refundRequests.filter(
+			(request) => request._id == refundId
+		);
 		let courseId = course._id;
 		let traineeId = course.refundRequests[0].trainee;
 		let paidPrice = course.refundRequests[0].paidPrice;
