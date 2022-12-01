@@ -30,7 +30,9 @@ const getInstructor = async (req, res) => {
 const createInstructor = async (req, res) => {
 	// add to the database
 	try {
-		const instructor = await Instructor.create(req.body);
+		let instructor = await Instructor.create(req.body);
+		instructor["_doc"]["x-auth-token"] = instructor.generateAuthToken();
+		instructor["_doc"].userType = "instructor";
 		res.status(200).json(instructor);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -62,16 +64,38 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findOneAndUpdate(
-		{ _id: instructorId },
-		req.body,
-		{
-			new: true,
-		}
-	);
+	const instructor = await Instructor.findOneAndUpdate({ _id: instructorId }, req.body, {
+		new: true,
+	});
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such instructor" });
+	}
+
+	res.status(200).json(instructor);
+};
+
+const reviewInstructor = async (req, res) => {
+	let instructorId = req.params.id;
+	
+	const instructor = await Instructor.findById(instructorId).then((instructor) => {
+		if (!instructor) {
+			return res.status(400).json({ error: "No such Instructor" });
+		}
+		const found = instructor.reviews.some((review, i) => {
+			if (review.trainee.toString() === req.body.trainee) {
+				instructor.reviews[i].rating = req.body.rating;
+				instructor.reviews[i].review = req.body.review;
+			}
+			return review.trainee.toString() === req.body.trainee;
+		});
+		if (!found) instructor.reviews.push(req.body);
+		instructor.save();
+		return instructor;
+	});
+
+	if (!instructor) {
+		return res.status(400).json({ error: "No such Instructor" });
 	}
 
 	res.status(200).json(instructor);
@@ -83,4 +107,5 @@ module.exports = {
 	createInstructor,
 	deleteInstructor,
 	updateInstructor,
+	reviewInstructor,
 };

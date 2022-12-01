@@ -2,23 +2,27 @@ const express = require("express");
 
 const {
 	reportCourse,
-	populateReports,
-	getReports,
+	getCourseWithReports,
+	getAllCoursesWithReports,
 	updateReportStatus,
+	getUserReports,
 } = require("../controllers/reportsController");
 
 const router = express.Router();
 
-// Report a Course
-router.put("/:id/report", reportCourse);
+// Get a User's Reports
+router.get("/authors/:authorId", getUserReports);
 
-// Get all Courses
-router.get("/:id/report", populateReports);
+// Report a Course
+router.post("/courses/:courseId", reportCourse);
+
+// Get a course's reports
+router.get("/courses/:courseId", getCourseWithReports);
 
 // Mark a Report
-router.put("/:id", updateReportStatus);
+router.put("/:reportId", updateReportStatus);
 
-// Get all Reports
-router.get("/", getReports);
+// Get all courses with reports
+router.get("/", getAllCoursesWithReports);
 
 module.exports = router;

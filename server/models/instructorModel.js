@@ -1,12 +1,8 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
-const Course = require("../models/courseModel");
-
-const ratingSchema = new Schema({
-	rating: Number,
-	review: String,
-	trainee: { type: Schema.ObjectId, ref: "Course" },
-});
+const reviewSchema = require("./schemas/reviewSchema");
 
 const instructorSchema = new Schema(
 	{
@@ -22,7 +18,7 @@ const instructorSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		minibiography: {
+		biography: {
 			type: String,
 			required: false,
 		},
@@ -31,13 +27,25 @@ const instructorSchema = new Schema(
 			required: false,
 		},
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
-		ratings: {
-			type: [ratingSchema],
+		reviews: {
+			type: [reviewSchema],
 			required: false,
 		},
 	},
 	{ timestamps: false }
 );
+
+instructorSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign(
+		{ _id: this._id, userType: "instructor" },
+		process.env.SECRET
+	);
+	return token;
+};
+
+instructorSchema.pre("save", async function (next) {
+	this.password = await bcrypt.hash(this.password, 10);
+});
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;

@@ -2,15 +2,22 @@
 
 1. Edit Model
    - [ ] remove required
-   - [ ] change reviewer and reporter to author
+   - [x] change reviewer and reporter to author
+   - [x] hash passwords
+
+1. Email
+   - [ ] receive an email to change a forgotten password
+   - [ ] receive a certificate as a PDF after completing the course via email
 
 1. login
-   - [ ] authentication
-   - [ ] session
-   - [ ] sign up etc
+   - [x] authentication
+   - [x] session
+   - [x] sign up etc
+   - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
 
-1. select country
-   - [ ] view local price
+1. country
+   - [ ] select country
+   - [ ] get country from JWT then use post find hook to display local prices
    - [ ] update user country
 
 1. validations
@@ -22,6 +29,9 @@
    - [ ] sort
    - [x] search
 
+1. trainee controller
+   - [x] CRUD
+   
 1. update trainee model - Wagdy
    - [ ] add payment
    - [ ] pay for course
@@ -34,32 +44,33 @@
    - [ ] view & grant course access
  
 1. instructor put course
-   - [ ] add vids
+   - [x] add a video per subtitle
+   - [x] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
    - [x] make an exercise model for MCQ
-   - [ ] instrutctor create exercise / exam in course model
+   - [x] instrutctor create exercise / exam in course model
    - [x] add hours to subtitles in course model
    - [x] add solutions
    - [ ] student solve an exercise / exam
-   - [ ] save the grade
-   - [ ] save the progress
+   - [x] save the grade
+   - [x] save the progress
   
 1. ratings and reviews - Mahmoud
-   - [ ] rate an instructor / course
-   - [ ] view these reviews
+   - [x] rate an instructor / course
+   - [x] view these reviews
 
 1.  reports controller - Yousef
-    - [ ] can report a course
-    - [ ] can follow up on a report
-    - [ ] can handle a report
+    - [x] can report a course
+    - [x] can follow up on a report
+    - [x] can handle a report
   
 1. refunds
-   - [ ] request if below 50%
-   - [ ] handle refund
+   - [x] request if below 50%
+   - [x] handle refund
    
 1. Error Handling
     

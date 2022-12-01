@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const auth = require("./middleware/auth");
 const express = require("express");
 const mongoose = require("mongoose");
 const administratorRoutes = require("./routes/administrators");
@@ -8,15 +8,19 @@ const traineeRoutes = require("./routes/trainees");
 const corporateTrainees = require("./routes/corporateTrainees");
 const courseRoutes = require("./routes/courses");
 const reportRoutes = require("./routes/reports");
-const corporateTraineeRoutes = require("./routes/corporateTrainees");
+const usersRoute = require("./routes/users");
+const cors = require("cors");
 
 // express app
 const app = express();
+
+app.use(cors());
 
 // middleware
 app.use(express.json());
 
 // routes
+app.use("/api/users", usersRoute);
 app.use("/api/administrators", administratorRoutes);
 app.use("/api/instructors", instructorRoutes);
 app.use("/api/trainees", traineeRoutes);

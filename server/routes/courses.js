@@ -7,6 +7,7 @@ const {
 	reportCourse,
 	populateReports,
 	getReports,
+	reviewCourse,
 } = require("../controllers/courseController");
 
 const router = express.Router();
@@ -28,5 +29,8 @@ router.put("/:id", updateCourse);
 
 // GET all Courses
 router.get("/", getCourses);
+
+// Review a Course
+router.post("/:id/review", reviewCourse);
 
 module.exports = router;
