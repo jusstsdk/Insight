@@ -1,0 +1,12 @@
+#createCourseForm {
+	max-width: 75%;
+	margin: auto;
+}
+
+#floatingLabel {
+	margin-left: 1rem;
+}
+
+#addSubject {
+	width: auto;
+}
