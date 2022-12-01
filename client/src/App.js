@@ -27,7 +27,7 @@ function App() {
 					path="/"
 					element={
 						<Protected>
-							<Navigate to="/home" replace/>
+							<Navigate to="/home" replace />
 						</Protected>
 					}
 				/>
