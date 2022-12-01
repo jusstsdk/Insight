@@ -3,8 +3,9 @@ import AdminView from "../components/AdminView";
 import InstructorView from "../components/InstructorView";
 import TraineeView from "../components/TraineeView";
 import CorporateTraineeView from "../components/CorporateTraineeView";
+import Logout from "../components/Logout";
 function Home() {
-	const userType = useSelector((state) => state.loginReducer).userType;
+	const userType = useSelector((state) => state.userReducer.type);
 	const displayView = () => {
 		// Renders the appropriate View according to the logged in User.
 		switch (userType) {
@@ -16,9 +17,16 @@ function Home() {
 				return <TraineeView />;
 			case "corporateTrainee":
 				return <CorporateTraineeView />;
+				default:
+					return <h1>lol</h1>;
 		}
 	};
-	return displayView();
+	return (
+		<>
+			{displayView()}
+			<Logout />
+		</>
+	);
 }
 
 export default Home;

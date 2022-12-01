@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const loginSlice = createSlice({
+export const userSlice = createSlice({
 	name: "user",
 	initialState: {
 		token: "",
@@ -9,16 +9,16 @@ export const loginSlice = createSlice({
 	},
 	reducers: {
 		setToken: (state, action) => {
-			state.token = action.payload.token;
+			state.token = action.payload;
 		},
 		setType: (state, action) => {
-			state.type = action.payload.userType;
+			state.type = action.payload;
 		},
 		logout: (state) => {},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType: setUserType, logout } = loginSlice.actions;
+export const { setToken, setType, logout } = userSlice.actions;
 
-export default loginSlice.reducer;
+export default userSlice.reducer;

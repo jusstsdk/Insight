@@ -1,15 +1,30 @@
 import Login from "./components/Login";
-import Logout from "./components/Logout";
 import Home from "./pages/Home";
-import { useSelector } from "react-redux";
+import { Link, Route, Routes, useNavigate} from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setType } from "./redux/userSlice";
 
 function App() {
-	const userType = useSelector((state) => state.loginReducer).userType;
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		let storedToken = localStorage.getItem("token");
+		let storedUsertype = localStorage.getItem("userType");
+		if (!(storedToken === null) && !(storedToken === "")) {
+			dispatch(setToken(JSON.parse(storedToken)));
+			dispatch(setType(JSON.parse(storedUsertype)));
+			navigate("/home");
+		} else navigate("/login");
+	}, []);
+
 	return (
 		<div className="App">
-			{userType === "" && <Login />}
-			<Home />
-			{userType !== "" && <Logout />}
+			<Routes>
+				<Route path="/home" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+			</Routes>
 		</div>
 	);
 }
