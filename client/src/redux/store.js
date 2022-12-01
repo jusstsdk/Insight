@@ -1,10 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import userSlice from "./userSlice";
 
-import loginSlice from "./login";
+const combinedReducer = combineReducers({
+	userReducer: userSlice,
+	// ... more reducers
+});
+const rootReducer = (state, action) => {
+	if (action.type === "user/logout") {
+		state = undefined;
+	}
+	return combinedReducer(state, action);
+};
 
 export default configureStore({
-	reducer: {
-		// Define a top-level state field named `todos`, handled by `todosReducer`
-		loginReducer: loginSlice,
-	},
+	reducer: rootReducer,
 });
