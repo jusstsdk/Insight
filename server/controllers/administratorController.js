@@ -1,6 +1,7 @@
 const Administrator = require("../models/administratorModel");
 const mongoose = require("mongoose");
 const CorporateTrainee = require("../models/corperateTraineeModel");
+const Course = require("../models/courseModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
@@ -25,14 +26,34 @@ const getAllCoursesRequests = async (req, res) => {
 
 //UPDATE grant access to a specific course
 const handleCourseRequest = async (req, res) => {
-	const corporateTrainee = await CorporateTrainee.updateOne(
+	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
 		{ "requests._id": req.body.requestId },
 		{ "requests.$.status": req.body.status }
 	);
 	//Body --> course Id, status, corp Trainee Id
-
+	corporateTrainee.requests = corporateTrainee.requests.filter(
+		(request) => request._id == req.body.requestId
+	);
+	let courseId = corporateTrainee.requests[0].courseId;
+	let traineeId = corporateTrainee._id;
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate Trainee" });
+	}
+	if (req.body.status == "accepted") {
+		const course = await Course.findById(courseId);
+		const corporateTrainee = await CorporateTrainee.findByIdAndUpdate(
+			traineeId,
+			{
+				$push: {
+					courses: {
+						course: courseId,
+						subtitles: course.subtitles,
+						exam: course.exam,
+					},
+				},
+			},
+			{ new: true }
+		);
 	}
 
 	res.status(200).json(corporateTrainee);
