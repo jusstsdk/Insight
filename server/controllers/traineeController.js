@@ -139,11 +139,13 @@ const deletePaymentMethod = async (req, res) => {
 	}
 
 	const trainee = await Trainee.findById(traineeId);
+
 	trainee.paymentMethods = trainee.paymentMethods.filter((card) => card._id != paymentId);
 
 	await trainee.save();
 	res.status(200).json(trainee);
 };
+
 // request a refund for a specific course
 const requestRefund = async (req, res) => {
 	const traineeId = req.params.traineeId;
@@ -168,11 +170,15 @@ const requestRefund = async (req, res) => {
 	});
 	if (foundCourse) {
 		await Course.findByIdAndUpdate(courseId, {
-			$push: { refundRequests: { trainee: traineeId, paidPrice: paidPrice } },
+			$push: {
+				refundRequests: { trainee: traineeId, paidPrice: paidPrice },
+			},
 		});
 		res.status(200).json("Requested refund successfully.");
 	} else {
-		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+		res.status(400).json(
+			"Error: Requested refund Failed! Couldn't find Course."
+		);
 	}
 };
 module.exports = {
@@ -185,5 +191,4 @@ module.exports = {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
-	// subscribeTraineeToCourse,
 };

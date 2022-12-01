@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 const reviewSchema = require("./schemas/reviewSchema");
 
@@ -41,6 +42,10 @@ instructorSchema.methods.generateAuthToken = function () {
 	);
 	return token;
 };
+
+instructorSchema.pre("save", async function (next) {
+	this.password = await bcrypt.hash(this.password, 10);
+});
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;

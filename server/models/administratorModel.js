@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const Schema = mongoose.Schema;
@@ -25,5 +26,10 @@ administratorSchema.methods.generateAuthToken = function () {
 	);
 	return token;
 };
+
+administratorSchema.pre("save", async function (next) {
+	this.password = await bcrypt.hash(this.password, 10);
+	next();
+});
 
 module.exports = mongoose.model("Administrator", administratorSchema);
