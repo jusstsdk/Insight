@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import userSlice from "./userSlice";
 
-import loginSlice from "./login";
 const combinedReducer = combineReducers({
-	loginReducer: loginSlice,
+	userReducer: userSlice,
 	// ... more reducers
 });
 const rootReducer = (state, action) => {
-	if (action.type === "login/logout") {
+	if (action.type === "user/logout") {
 		state = undefined;
 	}
 	return combinedReducer(state, action);

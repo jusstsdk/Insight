@@ -1,16 +1,16 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../redux/login";
+import { logout } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Logout() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const logoutFunction = async () => {
 		localStorage.clear();
 		dispatch(logout());
-		// navigate("/");
-		window.location.href = "/";
+		navigate("/login");
 	};
 	return <button onClick={() => logoutFunction()}>Logout</button>;
 }
 
-export default Login;
+export default Logout;

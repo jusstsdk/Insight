@@ -1,14 +1,18 @@
 import { useDispatch } from "react-redux";
-import { setToken, setUserType } from "../redux/login";
+import { setToken, setType } from "../redux/userSlice";
 import axios from "axios";
 import { useEffect, createRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 function Login() {
 	const Username = createRef();
 	const Password = createRef();
+	const navigate = useNavigate();
 
 	const [ErrorNotFound, setErrorNotFound] = useState(false);
 	const [MissingInputs, setMissingInputs] = useState(false);
 	const dispatch = useDispatch();
+	
 	const loginFunction = async () => {
 		let username = Username.current.value;
 		let password = Password.current.value;
@@ -25,9 +29,10 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value,
-			},
+				password: Password.current.value
+			}
 		};
+
 		try {
 			let response = await axios(config);
 			let storedToken = response.data["x-auth-token"];
@@ -35,23 +40,19 @@ function Login() {
 			localStorage.setItem("token", JSON.stringify(storedToken));
 			localStorage.setItem("userType", JSON.stringify(storedUsertype));
 
-			dispatch(setToken({ token: storedToken }));
-			dispatch(setUserType({ userType: storedUsertype }));
+			dispatch(setToken(storedToken));
+			dispatch(setType(storedUsertype));
+			navigate("/home");
 		} catch (err) {
 			setErrorNotFound(true);
 		}
 	};
-	useEffect(() => {
-		let storedToken = localStorage.getItem("token");
-		let storedUsertype = localStorage.getItem("userType");
-		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken({ token: JSON.parse(storedToken) }));
-			dispatch(setUserType({ userType: JSON.parse(storedUsertype) }));
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	
 	return (
-		<div id="main-form" className="d-flex flex-column align-items-center text-center">
+		<div
+			id="main-form"
+			className="d-flex flex-column align-items-center text-center"
+		>
 			{/* Sign in Form */}
 			<main className="form-signin">
 				<form>
@@ -87,10 +88,14 @@ function Login() {
 					{/* Error Messages */}
 					<div className="d-flex justify-content-center">
 						{MissingInputs && (
-							<div className="invalid-feedback">Please enter Email address and Password</div>
+							<div className="invalid-feedback">
+								Please enter Email address and Password
+							</div>
 						)}
 						{ErrorNotFound && (
-							<div className="invalid-feedback">Wrong Email address or Password</div>
+							<div className="invalid-feedback">
+								Wrong Email address or Password
+							</div>
 						)}
 					</div>
 
