@@ -4,8 +4,8 @@ import CreateCourse from "../pages/CreateCourse";
 function InstructorView() {
 	return (
 		<Routes>
-			<Route path="/" element={<InstructorHome />} />
-			<Route path="/createCourse" element={<CreateCourse />} />
+			<Route exact path="/" element={<InstructorHome />} />
+			<Route exact path="/createCourse" element={<CreateCourse />} />
 		</Routes>
 	);
 }

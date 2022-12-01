@@ -10,22 +10,16 @@ function Home() {
 		// Renders the appropriate View according to the logged in User.
 		switch (userType) {
 			case "admin":
-				return (
-					<>
-						<BrowserRouter>
-							<AdminView />
-						</BrowserRouter>
-					</>
-				);
-			case "instructor":
-				return <InstructorView />;
+				return <AdminView />;
 			case "trainee":
-				return <TraineeView />;
+				return <InstructorView />;
+			// case "trainee":
+			// 	return <TraineeView />;
 			case "corporateTrainee":
 				return <CorporateTraineeView />;
 		}
 	};
-	return displayView();
+	return <BrowserRouter>{displayView()}</BrowserRouter>;
 }
 
 export default Home;
