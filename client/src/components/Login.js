@@ -8,11 +8,10 @@ function Login() {
 	const Username = createRef();
 	const Password = createRef();
 	const navigate = useNavigate();
-
 	const [ErrorNotFound, setErrorNotFound] = useState(false);
 	const [MissingInputs, setMissingInputs] = useState(false);
 	const dispatch = useDispatch();
-	
+
 	const loginFunction = async () => {
 		let username = Username.current.value;
 		let password = Password.current.value;
