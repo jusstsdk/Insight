@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setToken, setUserType } from "../redux/login";
+import { setToken, setType } from "../redux/loginSlice";
 import axios from "axios";
 import { useEffect, createRef, useState } from "react";
 function Login() {
@@ -35,8 +35,8 @@ function Login() {
 			localStorage.setItem("token", JSON.stringify(storedToken));
 			localStorage.setItem("userType", JSON.stringify(storedUsertype));
 
-			dispatch(setToken({ token: storedToken }));
-			dispatch(setUserType({ userType: storedUsertype }));
+			dispatch(setToken(storedToken));
+			dispatch(setType(storedUsertype));
 		} catch (err) {
 			setErrorNotFound(true);
 		}
@@ -45,8 +45,8 @@ function Login() {
 		let storedToken = localStorage.getItem("token");
 		let storedUsertype = localStorage.getItem("userType");
 		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken({ token: JSON.parse(storedToken) }));
-			dispatch(setUserType({ userType: JSON.parse(storedUsertype) }));
+			dispatch(setToken(JSON.parse(storedToken) ));
+			dispatch(setType(JSON.parse(storedUsertype) ));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
