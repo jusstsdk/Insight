@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 const reviewSchema = require("./schemas/reviewSchema");
 const subtitleSchemaModule = require("./schemas/subtitleSchema");
 const subtitleSchema = subtitleSchemaModule.subtitleSchema;
@@ -44,10 +43,6 @@ const courseSchema = new Schema(
 		rating: Number,
 		reviews: {
 			type: [reviewSchema],
-			required: false,
-		},
-		exercises: {
-			type: [exerciseSchema],
 			required: false,
 		},
 		reports: {
