@@ -12,25 +12,19 @@ function Home() {
 		switch (userType) {
 			case "admin":
 				return <AdminView />;
-			case "trainee":
+			case "instructor":
 				return <InstructorView />;
-			// case "trainee":
-			// 	return <TraineeView />;
+			case "trainee":
+				return <TraineeView />;
 			case "corporateTrainee":
 				return <CorporateTraineeView />;
-			default:
-				return <h1>lol</h1>;
 		}
 	};
 	return (
-		<BrowserRouter>
-			{
-				<>
-					{displayView()}
-					<Logout />
-				</>
-			}
-		</BrowserRouter>
+		<>
+			{displayView()}
+			<Logout />
+		</>
 	);
 }
 
