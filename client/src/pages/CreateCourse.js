@@ -10,8 +10,7 @@ function CreateCourse() {
 			<Form.Group
 				as={Row}
 				className="mb-3 d-flex align-items-center justify-content-start"
-				controlId="formHorizontalEmail"
-			>
+				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
 					Title
 				</Form.Label>
@@ -43,11 +42,7 @@ function CreateCourse() {
 					<Form.Control as="textarea" type="text" placeholder="Summary" rows={3} />
 				</Col>
 			</Form.Group>
-			<AddSubject setSubjects={setSubjects} />
-			{console.log(Subjects)}
-			{Subjects.map((subject, i) => (
-				<h1 key={"subject_" + i}>{subject}</h1>
-			))}
+			<AddSubject Subjects={Subjects} setSubjects={setSubjects} />
 		</Form>
 	);
 }

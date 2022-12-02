@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { setToken, setType } from "../redux/userSlice";
 import axios from "axios";
-import { useEffect, createRef, useState } from "react";
+import { createRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -28,8 +28,8 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value
-			}
+				password: Password.current.value,
+			},
 		};
 
 		try {
@@ -37,7 +37,7 @@ function Login() {
 			let storedToken = response.data["x-auth-token"];
 			let storedUsertype = response.data["userType"];
 			localStorage.setItem("token", JSON.stringify(storedToken));
-			localStorage.setItem("userType", JSON.stringify(storedUsertype));
+			localStorage.setItem("userType", storedUsertype);
 
 			dispatch(setToken(storedToken));
 			dispatch(setType(storedUsertype));
@@ -46,12 +46,9 @@ function Login() {
 			setErrorNotFound(true);
 		}
 	};
-	
+
 	return (
-		<div
-			id="main-form"
-			className="d-flex flex-column align-items-center text-center"
-		>
+		<div id="main-form" className="d-flex flex-column align-items-center text-center">
 			{/* Sign in Form */}
 			<main className="form-signin">
 				<form>
@@ -80,6 +77,7 @@ function Login() {
 							className="form-control"
 							id="floatingPassword"
 							placeholder="Password"
+							autoComplete="on"
 							ref={Password}
 						/>
 						<label htmlFor="floatingPassword">Password</label>
@@ -87,14 +85,10 @@ function Login() {
 					{/* Error Messages */}
 					<div className="d-flex justify-content-center">
 						{MissingInputs && (
-							<div className="invalid-feedback">
-								Please enter Email address and Password
-							</div>
+							<div className="invalid-feedback">Please enter Email address and Password</div>
 						)}
 						{ErrorNotFound && (
-							<div className="invalid-feedback">
-								Wrong Email address or Password
-							</div>
+							<div className="invalid-feedback">Wrong Email address or Password</div>
 						)}
 					</div>
 
@@ -106,8 +100,7 @@ function Login() {
 						onClick={(e) => {
 							e.preventDefault();
 							loginFunction();
-						}}
-					>
+						}}>
 						Sign in
 					</button>
 				</form>
