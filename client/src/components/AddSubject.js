@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { Form, Row, Col, Button, Badge, ListGroup } from "react-bootstrap";
+import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
 import "../css/createCourse.css";
 import TrashIcon from "./TrashIcon";
 function AddSubject(props) {
@@ -10,7 +10,7 @@ function AddSubject(props) {
 		Subject.current.value = "";
 	};
 	return (
-		<Form.Group as={Row}>
+		<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 			<Form.Label column sm={1}>
 				Subjects
 			</Form.Label>
