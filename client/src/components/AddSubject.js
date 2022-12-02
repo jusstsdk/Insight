@@ -15,7 +15,7 @@ function AddSubject(props) {
 				Subjects
 			</Form.Label>
 			<Col sm={2}>
-				<Form.Control type="text" placeholder="Summary" ref={Subject} />
+				<Form.Control type="text" placeholder="Subject" ref={Subject} />
 			</Col>
 			<Button id="addSubject" onClick={handleAddSubject}>
 				Add Subject
