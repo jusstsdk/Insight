@@ -66,19 +66,34 @@ const updateCorporateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
-	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
-		{ _id: traineeId },
-		req.body,
-		{
-			new: true,
-		}
-	);
+	const corporateTrainee = await CorporateTrainee.findOneAndUpdate({ _id: traineeId }, req.body, {
+		new: true,
+	});
 
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
 	res.status(200).json(corporateTrainee);
+};
+// request access to a course
+const requestCourseAccess = async (req, res) => {
+	try {
+		const corporateTraineeId = req.params.id;
+		const corporateTrainee = await CorporateTrainee.findByIdAndUpdate(
+			corporateTraineeId,
+			{ $push: { requests: { courseId: req.body.courseId } } },
+			{
+				new: true,
+			}
+		);
+		if (!corporateTraineeId) {
+			return res.status(400).json({ error: "No such corporate Trainee" });
+		}
+		res.status(200).json(corporateTrainee);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };
 
 // Subscribe a student to a course
@@ -107,4 +122,5 @@ module.exports = {
 	deleteCorporateTrainee,
 	updateCorporateTrainee,
 	subscribeCorporateTraineeToCourse,
+	requestCourseAccess,
 };

@@ -3,11 +3,63 @@ const Administrator = require("../models/administratorModel");
 const Course = require("../models/courseModel");
 const Trainee = require("../models/traineeModel");
 const bcrypt = require("bcrypt");
+const CorporateTrainee = require("../models/corperateTraineeModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {
 	const administrators = await Administrator.find();
 	res.status(200).json(administrators);
+};
+
+//GET all access requests of a all courses
+const getAllCoursesRequests = async (req, res) => {
+	try {
+		const corporateTrainee = await CorporateTrainee.find({
+			requests: { $exists: true, $ne: [] },
+		}).populate({
+			path: "requests",
+		});
+		console.log(corporateTrainee);
+		res.status(200).json({ CorporateTrainee: corporateTrainee });
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+//UPDATE grant access to a specific course
+const handleCourseRequest = async (req, res) => {
+	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
+		{ "requests._id": req.body.requestId },
+		{ "requests.$.status": req.body.status }
+	);
+	//Body --> course Id, status, corp Trainee Id
+	corporateTrainee.requests = corporateTrainee.requests.filter(
+		(request) => request._id == req.body.requestId
+	);
+	let courseId = corporateTrainee.requests[0].courseId;
+	let traineeId = corporateTrainee._id;
+	if (!corporateTrainee) {
+		return res.status(400).json({ error: "No such corporate Trainee" });
+	}
+	let corporateTraineeUpdated = {};
+	if (req.body.status == "accepted") {
+		const course = await Course.findById(courseId);
+		corporateTraineeUpdated = await CorporateTrainee.findByIdAndUpdate(
+			traineeId,
+			{
+				$push: {
+					courses: {
+						course: courseId,
+						subtitles: course.subtitles,
+						exam: course.exam,
+					},
+				},
+			},
+			{ new: true }
+		);
+	}
+
+	res.status(200).json(corporateTraineeUpdated);
 };
 
 // get a single administrator
@@ -67,9 +119,13 @@ const updateAdministrator = async (req, res) => {
 		return res.status(400).json({ error: "No such administrator" });
 	}
 
-	const administrator = await Administrator.findOneAndUpdate({ _id: administratorId }, req.body, {
-		new: true,
-	});
+	const administrator = await Administrator.findOneAndUpdate(
+		{ _id: administratorId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!administrator) {
 		return res.status(400).json({ error: "No such administrator" });
@@ -81,7 +137,9 @@ const updateAdministrator = async (req, res) => {
 // Get all courses with Refunds and populate the TraineeId
 const getRefundRequests = async (req, res) => {
 	try {
-		const course = await Course.find({ refundRequests: { $exists: true, $ne: [] } }).populate({
+		const course = await Course.find({
+			refundRequests: { $exists: true, $ne: [] },
+		}).populate({
 			path: "refundRequests.traineeId",
 		});
 		res.status(200).json(course);
@@ -101,7 +159,9 @@ const refundToWallet = async (req, res) => {
 			{ $pull: { refundRequests: { _id: mongoose.Types.ObjectId(refundId) } } }
 		);
 
-		course.refundRequests = course.refundRequests.filter((request) => request._id == refundId);
+		course.refundRequests = course.refundRequests.filter(
+			(request) => request._id == refundId
+		);
 		let courseId = course._id;
 		let traineeId = course.refundRequests[0].trainee;
 		let paidPrice = course.refundRequests[0].paidPrice;
@@ -127,4 +187,6 @@ module.exports = {
 	updateAdministrator,
 	getRefundRequests,
 	refundToWallet,
+	getAllCoursesRequests,
+	handleCourseRequest,
 };

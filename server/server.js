@@ -27,6 +27,7 @@ app.use("/api/trainees", traineeRoutes);
 app.use("/api/corprateTrainee", corporateTrainees);
 app.use("/api/courses", courseRoutes);
 app.use("/api/reports", reportRoutes);
+
 // endpoints
 app.get("/test", async (req, res) => {});
 
