@@ -9,6 +9,11 @@ function AddSubject(props) {
 		props.setSubjects((subjects) => [...subjects, newSubject]);
 		Subject.current.value = "";
 	};
+	const handleDeleteSubject = (key) => {
+		let newSubjects = props.Subjects.filter((subject, i) => i !== key);
+		props.setSubjects(newSubjects);
+	};
+
 	return (
 		<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 			<Form.Label column sm={1}>
@@ -22,13 +27,15 @@ function AddSubject(props) {
 			</Button>
 			<Col className="overflow-auto">
 				<ListGroup horizontal sm={7} className="flex-wrap">
-					{props.Subjects.map((subject, i) => (
+					{props.Subjects.map((subject, key) => (
 						<ListGroup.Item
-							key={"subject_" + i}
+							key={key}
 							as="li"
 							className="d-flex justify-content-between align-items-center">
 							<div className="fw-bold mr-1">{subject}</div>
-							<TrashIcon key={"trashicon_" + i} />
+							<Button key={key} className="trashButton" onClick={() => handleDeleteSubject(key)}>
+								<TrashIcon key={key} />
+							</Button>
 						</ListGroup.Item>
 					))}
 				</ListGroup>

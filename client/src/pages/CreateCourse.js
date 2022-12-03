@@ -106,7 +106,6 @@ function CreateCourse() {
 					Instructors
 				</Form.Label>
 				<Col sm={8}>
-					{console.log(Instructors)}
 					<DropDownMenu
 						state={AllInstructors}
 						setState={setInstructors}
