@@ -1,9 +1,9 @@
-import { createRef } from "react";
+import { useRef } from "react";
 import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
-import "../css/createCourse.css";
-import TrashIcon from "./TrashIcon";
+import "../../css/createCourse.css";
+import TrashIcon from "../TrashIcon";
 function AddSubject(props) {
-	const Subject = createRef();
+	const Subject = useRef();
 	const handleAddSubject = () => {
 		let newSubject = Subject.current.value;
 		props.setSubjects((subjects) => [...subjects, newSubject]);

@@ -2,8 +2,9 @@ import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import "../css/createCourse.css";
-import AddSubject from "../components/AddSubject";
+import AddSubject from "../components/Instructor/AddSubject";
 import DropDownMenu from "../components/DropDownMenu";
+import AddQuestion from "../components/Instructor/AddQuestion";
 function CreateCourse() {
 	const Title = useRef();
 	const Price = useRef();
@@ -12,6 +13,7 @@ function CreateCourse() {
 	const [Subjects, setSubjects] = useState([]);
 	const [Instructors, setInstructors] = useState([]);
 	const [AllInstructors, setAllInstructors] = useState([]);
+	const [Questions, setQuestions] = useState([]);
 	const instructorId = localStorage.getItem("id");
 	const getData = async () => {
 		const config = {
@@ -116,6 +118,8 @@ function CreateCourse() {
 					/>
 				</Col>
 			</Form.Group>
+
+			<AddQuestion Questions={Questions} setQuestions={setQuestions} />
 			<Col className="d-flex justify-content-center">
 				<Button onClick={(e) => handleCreateCourse(e)}>Create Course</Button>
 			</Col>
