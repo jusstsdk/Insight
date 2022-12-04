@@ -6,6 +6,10 @@ import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType } from "./redux/userSlice";
+import AdminProtected from "./components/AdminProtected";
+import CreateAdmin from "./components/CreateAdmin";
+import CreateCorporateTrainee from "./components/CreateCorporateTrainee";
+import CreateInstructor from "./components/CreateInstructor";
 
 function App() {
 	const dispatch = useDispatch();
@@ -15,8 +19,8 @@ function App() {
 		const storedToken = localStorage.getItem("token");
 		const storedUsertype = localStorage.getItem("userType");
 		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken(JSON.parse(storedToken)));
-			dispatch(setType(JSON.parse(storedUsertype)));
+			dispatch(setToken(storedToken));
+			dispatch(setType(storedUsertype));
 		}
 	}, []);
 
@@ -38,6 +42,30 @@ function App() {
 						<Protected>
 							<Home />
 						</Protected>
+					}
+				/>
+				<Route
+					path="/createAdmin"
+					element={
+						<AdminProtected>
+							<CreateAdmin />
+						</AdminProtected>
+					}
+				/>
+				<Route
+					path="/createCorporateTrainee"
+					element={
+						<AdminProtected>
+							<CreateCorporateTrainee />
+						</AdminProtected>
+					}
+				/>
+				<Route
+					path="/createInstructor"
+					element={
+						<AdminProtected>
+							<CreateInstructor />
+						</AdminProtected>
 					}
 				/>
 			</Routes>

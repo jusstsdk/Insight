@@ -28,16 +28,19 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value
-			}
+				password: Password.current.value,
+			},
 		};
 
 		try {
 			let response = await axios(config);
 			let storedToken = response.data["x-auth-token"];
 			let storedUsertype = response.data["userType"];
-			localStorage.setItem("token", JSON.stringify(storedToken));
-			localStorage.setItem("userType", JSON.stringify(storedUsertype));
+			let storedId = response.data["_id"];
+
+			localStorage.setItem("token", storedToken);
+			localStorage.setItem("userType", storedUsertype);
+			localStorage.setItem("id", storedId);
 
 			dispatch(setToken(storedToken));
 			dispatch(setType(storedUsertype));
@@ -46,7 +49,7 @@ function Login() {
 			setErrorNotFound(true);
 		}
 	};
-	
+
 	return (
 		<div
 			id="main-form"
