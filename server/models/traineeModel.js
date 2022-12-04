@@ -69,7 +69,7 @@ const traineeSchema = new Schema(
 			type: [paymentMethodSchema],
 			required: false,
 		},
-		wallet: Number,
+		wallet: {type: Number, default: 0},
 	},
 	{ timestamps: true }
 );
