@@ -6,6 +6,11 @@ import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
+import AdminProtected from "./components/AdminProtected";
+import CreateAdmin from "./components/CreateAdmin";
+import CreateCorporateTrainee from "./components/CreateCorporateTrainee";
+import CreateInstructor from "./components/CreateInstructor";
+import SignUp from "./components/SignUp";
 
 function App() {
 	const dispatch = useDispatch();
@@ -43,6 +48,31 @@ function App() {
 						</Protected>
 					}
 				/>
+				<Route
+					path="/createAdmin"
+					element={
+						<AdminProtected>
+							<CreateAdmin />
+						</AdminProtected>
+					}
+				/>
+				<Route
+					path="/createCorporateTrainee"
+					element={
+						<AdminProtected>
+							<CreateCorporateTrainee />
+						</AdminProtected>
+					}
+				/>
+				<Route
+					path="/createInstructor"
+					element={
+						<AdminProtected>
+							<CreateInstructor />
+						</AdminProtected>
+					}
+				/>
+				<Route path="/SignUp" element={<SignUp />} />
 			</Routes>
 		</div>
 	);

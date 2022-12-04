@@ -28,8 +28,8 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value
-			}
+				password: Password.current.value,
+			},
 		};
 
 		try {
@@ -50,7 +50,7 @@ function Login() {
 			setErrorNotFound(true);
 		}
 	};
-	
+
 	return (
 		<div
 			id="main-form"
@@ -113,6 +113,17 @@ function Login() {
 						}}
 					>
 						Sign in
+					</button>
+					<button
+						id="SignUpButton"
+						className="w-100 btn btn-lg btn-primary"
+						type="submit"
+						onClick={(e) => {
+							e.preventDefault();
+							navigate("/signUp");
+						}}
+					>
+						Sign up
 					</button>
 				</form>
 			</main>
