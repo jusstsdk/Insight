@@ -80,6 +80,7 @@
    - [ ] generate personalized certificate
 
 # Questions
+   - act as if we called pay API is good enough?
    - What are subtitles
    - How to calculate progress
    - JWT vs Sessions
