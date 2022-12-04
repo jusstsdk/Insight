@@ -1,3 +1,4 @@
+import SearchCourses from "../components/SearchCourses";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import AdminNavbar from "./AdminNavbar";

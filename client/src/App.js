@@ -10,15 +10,15 @@ import { setToken, setType, setUser } from "./redux/userSlice";
 function App() {
 	const dispatch = useDispatch();
 
-	// check if user local storage contains creds
+	// check if user local storage contains credentials
 	useEffect(() => {
 		const storedToken = localStorage.getItem("token");
-		const storedUsertype = localStorage.getItem("userType");
+		const storedUserType = localStorage.getItem("userType");
 		const storedUser = localStorage.getItem("user");
 
 		if (!(storedToken === null) && !(storedToken === "")) {
 			dispatch(setToken(JSON.parse(storedToken)));
-			dispatch(setType(JSON.parse(storedUsertype)));
+			dispatch(setType(JSON.parse(storedUserType)));
 			dispatch(setUser(JSON.parse(storedUser)));
 		}
 	}, []);

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
 
-const corprateTraineeSchema = new Schema(
+const corporateTraineeSchema = new Schema(
 	{
 		username: {
 			type: String,
@@ -34,8 +34,8 @@ const corprateTraineeSchema = new Schema(
 			type: String,
 			required: false,
 		},
-		corperate: {
-			type: String, //references corprate,
+		corporate: {
+			type: String, //references corporate,
 			required: false,
 		},
 		courses: [
@@ -56,35 +56,35 @@ const corprateTraineeSchema = new Schema(
 	{ timestamps: true }
 );
 
-corprateTraineeSchema.methods.generateAuthToken = function () {
+corporateTraineeSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign(
-		{ _id: this._id, userType: "corprateTrainee" },
+		{ _id: this._id, userType: "corporateTrainee" },
 		process.env.SECRET
 	);
 	return token;
 };
 
-corprateTraineeSchema.pre("save", async function (next) {
+corporateTraineeSchema.pre("save", async function (next) {
 	this.password = await bcrypt.hash(this.password, 10);
 	// calculate progress
 	this.courses.forEach((course) => {
-		let finishedExercisesAndVideoes = 0;
-		let totalExercisesAndVideoes = 0;
+		let finishedExercisesAndVideos = 0;
+		let totalExercisesAndVideos = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
 			subtitle.videos.foreach((video) => {
-				totalExercisesAndVideoes++;
-				if (video.isWatched) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (video.isWatched) finishedExercisesAndVideos++;
 			});
 
 			subtitle.exercises.foreach((exercise) => {
-				totalExercisesAndVideoes++;
-				if (exercise.isSolved) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (exercise.isSolved) finishedExercisesAndVideos++;
 			});
 		});
-		course.progress = finishedExercisesAndVideoes / totalExercisesAndVideoes;
+		course.progress = finishedExercisesAndVideos / totalExercisesAndVideos;
 	});
 	next();
 });
 
-module.exports = mongoose.model("CorprateTrainee", corprateTraineeSchema);
+module.exports = mongoose.model("CorporateTrainee", corporateTraineeSchema);

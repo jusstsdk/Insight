@@ -86,22 +86,22 @@ traineeSchema.pre("save", async function (next) {
 	this.password = await bcrypt.hash(this.password, 10);
 	// calculate progress
 	this.courses.forEach((course) => {
-		let finishedExercisesAndVideoes = 0;
-		let totalExercisesAndVideoes = 0;
+		let finishedExercisesAndVideos = 0;
+		let totalExercisesAndVideos = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
 			subtitle.videos.forEach((video) => {
-				totalExercisesAndVideoes++;
-				if (video.isWatched) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (video.isWatched) finishedExercisesAndVideos++;
 			});
 
 			subtitle.exercises.forEach((exercise) => {
-				totalExercisesAndVideoes++;
-				if (exercise.isSolved) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (exercise.isSolved) finishedExercisesAndVideos++;
 			});
 		});
 		course.progress =
-			finishedExercisesAndVideoes / totalExercisesAndVideoes;
+			finishedExercisesAndVideos / totalExercisesAndVideos;
 	});
 	next();
 });

@@ -13,7 +13,7 @@ const reviewSchema = new Schema({
 	traineeType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorprateTrainee"],
+		enum: ["Trainee", "CorporateTrainee"],
 	},
 });
 

@@ -88,7 +88,7 @@ function ListCourses({ setCourses }) {
 					<Form.Control
 						ref={priceFilter}
 						type="text"
-						placeholder="Filter by coures that are cheaper than this"
+						placeholder="Filter by courses that are cheaper than this"
 					/>
 				</Form.Group>
 
@@ -97,7 +97,7 @@ function ListCourses({ setCourses }) {
 					<Form.Control
 						ref={ratingFilter}
 						type="text"
-						placeholder="Filter by coures that are rated higher than this"
+						placeholder="Filter by courses that are rated higher than this"
 					/>
 				</Form.Group>
 
