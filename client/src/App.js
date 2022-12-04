@@ -10,6 +10,7 @@ import AdminProtected from "./components/AdminProtected";
 import CreateAdmin from "./components/CreateAdmin";
 import CreateCorporateTrainee from "./components/CreateCorporateTrainee";
 import CreateInstructor from "./components/CreateInstructor";
+import SignUp from "./components/SignUp";
 
 function App() {
 	const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
 						</AdminProtected>
 					}
 				/>
+				<Route path="/SignUp" element={<SignUp />} />
 			</Routes>
 		</div>
 	);

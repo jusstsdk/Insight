@@ -113,6 +113,17 @@ function Login() {
 					>
 						Sign in
 					</button>
+					<button
+						id="SignUpButton"
+						className="w-100 btn btn-lg btn-primary"
+						type="submit"
+						onClick={(e) => {
+							e.preventDefault();
+							navigate("/signUp");
+						}}
+					>
+						Sign up
+					</button>
 				</form>
 			</main>
 		</div>
