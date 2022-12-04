@@ -35,14 +35,14 @@ function Login() {
 		try {
 			let response = await axios(config);
 			let storedToken = response.data["x-auth-token"];
-			let storedUsertype = response.data["userType"];
+			let storedUserType = response.data["userType"];
 			let storedUser = response.data["user"];
 			localStorage.setItem("token", JSON.stringify(storedToken));
-			localStorage.setItem("userType", JSON.stringify(storedUsertype));
+			localStorage.setItem("userType", JSON.stringify(storedUserType));
 			localStorage.setItem("user", JSON.stringify(storedUser));
 
 			dispatch(setToken(storedToken));
-			dispatch(setType(storedUsertype));
+			dispatch(setType(storedUserType));
 			dispatch(setUser(storedUser));
 			navigate("/home");
 		} catch (err) {

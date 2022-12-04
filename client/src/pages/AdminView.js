@@ -1,4 +1,4 @@
-import SearchCourses from "./SearchCourses";
+import SearchCourses from "../components/SearchCourses";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
