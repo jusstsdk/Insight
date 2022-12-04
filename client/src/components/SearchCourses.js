@@ -1,15 +1,21 @@
 import { Button, Form } from "react-bootstrap";
 import { useRef } from "react";
+import axios from "axios";
 import API from "../api";
+import { useSelector } from "react-redux";
 
 function ListCourses({ setCourses }) {
 	const searchQuery = useRef();
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
+	const ratingFilter = useRef();
+	const country = useSelector((state) => state.userReducer.country);
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		getCourses();
+		const courses = await getCourses();
+		const coursesInLocalCurrency = await changeToLocalCurrency(courses);
+		setCourses(coursesInLocalCurrency);
 	}
 
 	async function getCourses() {
@@ -21,12 +27,26 @@ function ListCourses({ setCourses }) {
 			searchParams.subject = subjectFilter.current.value;
 		if (priceFilter.current.value)
 			searchParams.price = priceFilter.current.value;
+		if (ratingFilter.current.value)
+			searchParams.rating = ratingFilter.current.value;
 
 		const response = await API.get("courses", {
 			params: searchParams
 		});
 
-		setCourses(response.data);
+		return response.data;
+	}
+
+	async function changeToLocalCurrency(courses) {
+		let response = await axios.get("https://api.apilayer.com/exchangerates_data/latest", {
+			headers: {
+				apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
+			},
+			params: {
+				base: "USD"
+			}
+		});
+		
 	}
 
 	return (
@@ -55,7 +75,16 @@ function ListCourses({ setCourses }) {
 					<Form.Control
 						ref={priceFilter}
 						type="text"
-						placeholder="Filter by price"
+						placeholder="Filter by coures that are cheaper than this"
+					/>
+				</Form.Group>
+
+				<Form.Group className="mb-3" controlId="formRatingFilter">
+					<Form.Label>Rating ≥</Form.Label>
+					<Form.Control
+						ref={ratingFilter}
+						type="text"
+						placeholder="Filter by coures that are rated higher than this"
 					/>
 				</Form.Group>
 

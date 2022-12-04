@@ -5,7 +5,7 @@ import Protected from "./components/Protected";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setToken, setType } from "./redux/userSlice";
+import { setToken, setType, setUser } from "./redux/userSlice";
 
 function App() {
 	const dispatch = useDispatch();
@@ -14,9 +14,12 @@ function App() {
 	useEffect(() => {
 		const storedToken = localStorage.getItem("token");
 		const storedUsertype = localStorage.getItem("userType");
+		const storedUser = localStorage.getItem("user");
+
 		if (!(storedToken === null) && !(storedToken === "")) {
 			dispatch(setToken(JSON.parse(storedToken)));
 			dispatch(setType(JSON.parse(storedUsertype)));
+			dispatch(setUser(JSON.parse(storedUser)));
 		}
 	}, []);
 
