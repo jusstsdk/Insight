@@ -8,10 +8,6 @@ function AdminView() {
 	return (
 		<>
 			<h1>Admin</h1>
-			<SearchCourses setCourses={setCourses}/>
-			<Button onClick={(()=>{
-				console.log(courses);
-			})}>Log Courses</Button>
 		</>
 	);
 }
