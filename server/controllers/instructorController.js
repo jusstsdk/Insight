@@ -1,6 +1,7 @@
 const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 // get all instructors
 const getInstructors = async (req, res) => {
@@ -30,7 +31,9 @@ const getInstructor = async (req, res) => {
 const createInstructor = async (req, res) => {
 	// add to the database
 	try {
-		let instructor = await Instructor.create(req.body);
+		let instructorInfo = req.body;
+		instructorInfo.password = await bcrypt.hash(instructorInfo.password, 10);
+		let instructor = await Instructor.create(instructorInfo);
 		instructor["_doc"]["x-auth-token"] = instructor.generateAuthToken();
 		instructor["_doc"].userType = "instructor";
 		res.status(200).json(instructor);

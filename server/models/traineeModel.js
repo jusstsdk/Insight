@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
-const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const paymentMethodSchema = new Schema({
@@ -83,7 +82,6 @@ traineeSchema.methods.generateAuthToken = function () {
 };
 
 traineeSchema.pre("save", async function (next) {
-	this.password = await bcrypt.hash(this.password, 10);
 	// calculate progress
 	this.courses.forEach((course) => {
 		let finishedExercisesAndVideos = 0;
