@@ -7,53 +7,53 @@ const Schema = mongoose.Schema;
 const paymentMethodSchema = new Schema({
 	cardHolder: {
 		type: String,
-		required: true,
+		required: true
 	},
 	cardNumber: {
 		type: String,
-		match: /\d{16}/,
+		match: /\d{16}/
 	},
 	expiryMonth: {
 		type: Number,
 		min: 1,
-		max: 12,
+		max: 12
 	},
 	expiryYear: {
-		type: Number,
+		type: Number
 		// min: new Date().getUTCFullYear,
 		// max: 99,
-	},
+	}
 });
 
 const traineeSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true,
+			required: true
 		},
 		password: {
 			type: String,
-			required: true,
+			required: true
 		},
 		email: {
 			type: String,
-			required: true,
+			required: true
 		},
 		firstName: {
 			type: String,
-			required: true,
+			required: true
 		},
 		lastName: {
 			type: String,
-			required: true,
+			required: true
 		},
 		gender: {
 			type: String,
-			required: true,
+			required: true
 		},
 		country: {
 			type: String,
-			required: false,
+			required: false
 		},
 		courses: [
 			{
@@ -62,14 +62,14 @@ const traineeSchema = new Schema(
 				progress: Number, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				requestedRefund: Boolean,
-				paidPrice: Number,
-			},
+				paidPrice: Number
+			}
 		],
 		paymentMethods: {
 			type: [paymentMethodSchema],
-			required: false,
+			required: false
 		},
-		wallet: {type: Number, default: 0},
+		wallet: { type: Number, default: 0 }
 	},
 	{ timestamps: true }
 );
@@ -100,8 +100,7 @@ traineeSchema.pre("save", async function (next) {
 				if (exercise.isSolved) finishedExercisesAndVideos++;
 			});
 		});
-		course.progress =
-			finishedExercisesAndVideos / totalExercisesAndVideos;
+		course.progress = finishedExercisesAndVideos / totalExercisesAndVideos;
 	});
 	next();
 });
