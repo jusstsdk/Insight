@@ -46,6 +46,7 @@
  
 1. instructor put course
    - [x] add a video per subtitle
+   - [ ] change video format to embedded format
    - [x] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
