@@ -1,4 +1,4 @@
-const CorporateTrainee = require("../models/corperateTraineeModel");
+const CorporateTrainee = require("../models/corporateTraineeModel");
 const mongoose = require("mongoose");
 const Course = require("../models/courseModel");
 

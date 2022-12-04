@@ -5,7 +5,7 @@ import Protected from "./components/Protected";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setToken, setType } from "./redux/userSlice";
+import { setToken, setType, setUser } from "./redux/userSlice";
 import AdminProtected from "./components/AdminProtected";
 import CreateAdmin from "./components/CreateAdmin";
 import CreateCorporateTrainee from "./components/CreateCorporateTrainee";
@@ -15,13 +15,16 @@ import SignUp from "./components/SignUp";
 function App() {
 	const dispatch = useDispatch();
 
-	// check if user local storage contains creds
+	// check if user local storage contains credentials
 	useEffect(() => {
 		const storedToken = localStorage.getItem("token");
-		const storedUsertype = localStorage.getItem("userType");
+		const storedUserType = localStorage.getItem("userType");
+		const storedUser = localStorage.getItem("user");
+
 		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken(storedToken));
-			dispatch(setType(storedUsertype));
+			dispatch(setToken(JSON.parse(storedToken)));
+			dispatch(setType(JSON.parse(storedUserType)));
+			dispatch(setUser(JSON.parse(storedUser)));
 		}
 	}, []);
 

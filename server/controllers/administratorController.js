@@ -3,7 +3,7 @@ const Administrator = require("../models/administratorModel");
 const Course = require("../models/courseModel");
 const Trainee = require("../models/traineeModel");
 const bcrypt = require("bcrypt");
-const CorporateTrainee = require("../models/corperateTraineeModel");
+const CorporateTrainee = require("../models/corporateTraineeModel");
 
 // get all administrators
 const getAdministrators = async (req, res) => {

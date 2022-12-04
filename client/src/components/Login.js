@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setToken, setType } from "../redux/userSlice";
+import { setToken, setType, setUser } from "../redux/userSlice";
 import axios from "axios";
 import { useEffect, createRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,17 +35,18 @@ function Login() {
 		try {
 			let response = await axios(config);
 			let storedToken = response.data["x-auth-token"];
-			let storedUsertype = response.data["userType"];
-			let storedId = response.data["_id"];
-
-			localStorage.setItem("token", storedToken);
-			localStorage.setItem("userType", storedUsertype);
-			localStorage.setItem("id", storedId);
+			let storedUserType = response.data["userType"];
+			let storedUser = response.data["user"];
+			localStorage.setItem("token", JSON.stringify(storedToken));
+			localStorage.setItem("userType", JSON.stringify(storedUserType));
+			localStorage.setItem("user", JSON.stringify(storedUser));
 
 			dispatch(setToken(storedToken));
-			dispatch(setType(storedUsertype));
+			dispatch(setType(storedUserType));
+			dispatch(setUser(storedUser));
 			navigate("/home");
 		} catch (err) {
+			console.log(err);
 			setErrorNotFound(true);
 		}
 	};

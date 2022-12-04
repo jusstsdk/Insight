@@ -13,6 +13,7 @@
    - [x] authentication
    - [x] session
    - [x] sign up etc
+   - [ ] add authentication to all routes
    - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
 
 1. country
@@ -79,6 +80,7 @@
    - [ ] generate personalized certificate
 
 # Questions
+   - act as if we called pay API is good enough?
    - What are subtitles
    - How to calculate progress
    - JWT vs Sessions
