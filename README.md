@@ -82,6 +82,8 @@
 
 # Questions
    - act as if we called pay API is good enough?
+   - who will add the rest of details (adming/instrut/corp)
+   - first last names for the other models?
    - What are subtitles
    - How to calculate progress
    - JWT vs Sessions
