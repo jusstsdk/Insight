@@ -1,4 +1,4 @@
-import Login from "./components/Login";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import Protected from "./components/Protected";

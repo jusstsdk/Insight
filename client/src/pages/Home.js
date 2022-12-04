@@ -4,7 +4,7 @@ import InstructorView from "../components/InstructorView";
 import TraineeView from "./TraineeView";
 import CorporateTraineeView from "./CorporateTraineeView";
 import { BrowserRouter } from "react-router-dom";
-import Logout from "../components/Logout";
+
 function Home() {
 	const userType = useSelector((state) => state.userReducer.type);
 	const displayView = () => {
@@ -23,7 +23,6 @@ function Home() {
 	return (
 		<>
 			{displayView()}
-			<Logout />
 		</>
 	);
 }

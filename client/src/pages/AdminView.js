@@ -1,11 +1,13 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import AdminNavbar from "../components/AdminNavbar";
 
 function AdminView() {
 	const navigate = useNavigate();
 
 	return (
 		<div>
+			<AdminNavbar />
 			<h1>Admin</h1>
 			<Button
 				onClick={() => {
