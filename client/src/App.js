@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
-import AdminProtected from "./components/AdminProtected";
 import CreateAdmin from "./components/CreateAdmin";
 import CreateCorporateTrainee from "./components/CreateCorporateTrainee";
 import CreateInstructor from "./components/CreateInstructor";
@@ -51,25 +50,25 @@ function App() {
 				<Route
 					path="/createAdmin"
 					element={
-						<AdminProtected>
+						<Protected authorizedUserType="admin">
 							<CreateAdmin />
-						</AdminProtected>
+						</Protected>
 					}
 				/>
 				<Route
 					path="/createCorporateTrainee"
 					element={
-						<AdminProtected>
+						<Protected authorizedUserType="admin">
 							<CreateCorporateTrainee />
-						</AdminProtected>
+						</Protected>
 					}
 				/>
 				<Route
 					path="/createInstructor"
 					element={
-						<AdminProtected>
+						<Protected authorizedUserType="admin">
 							<CreateInstructor />
-						</AdminProtected>
+						</Protected>
 					}
 				/>
 				<Route path="/SignUp" element={<SignUp />} />

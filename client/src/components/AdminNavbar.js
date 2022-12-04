@@ -31,13 +31,25 @@ function AdminNavbar() {
 								title="Create User"
 								id="basic-nav-dropdown"
 							>
-								<NavDropdown.Item href="#action/3.1">
+								<NavDropdown.Item
+									onClick={() => {
+										navigate("/createAdmin");
+									}}
+								>
 									Admin
 								</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.2">
+								<NavDropdown.Item
+									onClick={() => {
+										navigate("/createCorporateTrainee");
+									}}
+								>
 									Corporate Trainee
 								</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.3">
+								<NavDropdown.Item
+									onClick={() => {
+										navigate("/createInstructor");
+									}}
+								>
 									Instructor
 								</NavDropdown.Item>
 							</NavDropdown>
