@@ -6,6 +6,8 @@ import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
+import CourseDetails from "./pages/CourseDetails";
+import CourseList from "./components/CourseList";
 
 function App() {
 	const dispatch = useDispatch();
@@ -40,6 +42,22 @@ function App() {
 					element={
 						<Protected>
 							<Home />
+						</Protected>
+					}
+				/>
+				<Route
+					path="/CourseList"
+					element={
+						<Protected authorizedUserType="corporateTrainee">
+							<CourseList />
+						</Protected>
+					}
+				/>
+				<Route
+					path="/CourseDetails/:id"
+					element={
+						<Protected authorizedUserType="corporateTrainee">
+							<CourseDetails />
 						</Protected>
 					}
 				/>
