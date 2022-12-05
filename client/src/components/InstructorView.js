@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import InstructorHome from "../pages/InstrcutorHome";
 import CreateCourse from "../pages/CreateCourse";
+import React from "react";
 function InstructorView() {
 	return (
 		<Routes>
