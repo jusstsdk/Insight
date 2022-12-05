@@ -4,6 +4,7 @@
    - [ ] remove required
    - [x] change reviewer and reporter to author
    - [x] hash passwords
+   - [ ] add rating to instructor model
 
 1. Email
    - [ ] receive an email to change a forgotten password
