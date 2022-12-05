@@ -26,6 +26,17 @@ function InstructorNavbar() {
 						Home
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Collapse id="basic-navbar-nav">
+						<Nav className="me-auto">
+							<Nav.Link
+								onClick={() => {
+									navigate("createCourse");
+								}}
+							>
+								Create Course
+							</Nav.Link>
+						</Nav>
+					</Navbar.Collapse>
 					<Button onClick={() => logoutFunction()}>Logout</Button>
 				</Container>
 			</Navbar>
