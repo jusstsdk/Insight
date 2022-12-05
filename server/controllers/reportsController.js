@@ -6,6 +6,7 @@ const Instructor = require("../models/instructorModel");
 
 // Report a Course
 const reportCourse = async (req, res) => {
+	console.log(req.body);
 	const courseId = req.params.courseId;
 	try {
 		const course = await Course.findByIdAndUpdate(courseId, {
@@ -33,7 +34,9 @@ const getCourseWithReports = async (req, res) => {
 // Get all courses with Reports and populate the author
 const getAllCoursesWithReports = async (req, res) => {
 	try {
-		const course = await Course.find({ reports: { $exists: true, $ne: [] } }).populate({
+		const course = await Course.find({
+			reports: { $exists: true, $ne: [] },
+		}).populate({
 			path: "reports.author",
 		});
 		res.status(200).json(course);
@@ -46,10 +49,14 @@ const getAllCoursesWithReports = async (req, res) => {
 const updateReportStatus = async (req, res) => {
 	try {
 		let updateQuery = {};
-		if (req.body.resolved != null) updateQuery["reports.$.resolved"] = req.body.resolved;
+		if (req.body.resolved != null)
+			updateQuery["reports.$.resolved"] = req.body.resolved;
 		if (req.body.seen != null) updateQuery["reports.$.seen"] = req.body.seen;
 
-		const course = await Course.updateOne({ "reports._id": req.params.reportId }, { $set: updateQuery });
+		const course = await Course.updateOne(
+			{ "reports._id": req.params.reportId },
+			{ $set: updateQuery }
+		);
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -59,13 +66,15 @@ const updateReportStatus = async (req, res) => {
 // Get all User Reports
 const getUserReports = async (req, res) => {
 	const authorId = req.params.authorId;
-	
+
 	try {
 		const courses = await Course.find({
 			reports: { $elemMatch: { author: authorId } },
 		});
 		courses.forEach((course) => {
-			course.reports = course.reports.filter((report) => report.author == authorId);
+			course.reports = course.reports.filter(
+				(report) => report.author == authorId
+			);
 		});
 
 		res.status(200).json(courses);
