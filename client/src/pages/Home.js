@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import AdminView from "./AdminView";
+import AdminView from "./admin/AdminView";
 import InstructorView from "../components/InstructorView";
-import TraineeView from "./TraineeView";
-import CorporateTraineeView from "./CorporateTraineeView";
+import TraineeView from "./trainee/TraineeView";
+import CorporateTraineeView from "./corporateTrainee/CorporateTraineeView";
 import { BrowserRouter } from "react-router-dom";
 
 function Home() {

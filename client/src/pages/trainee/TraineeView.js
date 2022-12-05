@@ -1,7 +1,3 @@
-import { Button, Form, Card } from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
-import API from "../api";
 import { useSelector } from "react-redux";
 import PersonalInfo from "./PersonalInfo";
 import CourseTraineePOV from "./CourseTraineePOV";

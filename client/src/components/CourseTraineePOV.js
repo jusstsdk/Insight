@@ -7,31 +7,25 @@ import {
 	ListGroup,
 	Tabs,
 	Tab,
-	Accordion,
-	ButtonGroup,
 	Container,
 	Row,
 	Col,
 	Table,
-	Modal,
-	Dropdown,
+	Modal
 } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
 import API from "../api";
 import { useSelector } from "react-redux";
-import { CardHeaderProps } from "react-bootstrap/esm/CardHeader";
-import { useDispatch } from "react-redux";
-import { setToken, setType, setUser } from "../redux/userSlice";
-import { useEffect, createRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useParams } from "react-router-dom";
 
 function CourseTraineePOV() {
 	//current course ID (STATIC FOR NOW)
-	const id = "638b17e31536539c9a1f77f2";
+	const params = useParams();
+	let id = params.id;
 
 	//PREVIEW VIDEO URL, HERE BECAUSE IM IDIOT SHOULD BE MOVED DOWN
 	let url;
@@ -51,12 +45,8 @@ function CourseTraineePOV() {
 
 		let tempInstructors = [];
 		response.data.instructors.map(async (instructor) => {
-			//console.log(course.instructors);
-			// var username;
 			try {
 				const response = await API(`instructors/${instructor}`);
-				//console.log(response);
-				console.log(tempInstructors);
 
 				tempInstructors = [...tempInstructors, response.data];
 
@@ -87,15 +77,12 @@ function CourseTraineePOV() {
 				type: reportType,
 				description: reportDescription.current.value,
 				author: userID,
-				authorType: userType,
-			},
+				authorType: userType
+			}
 		};
-		//console.log(config);
 		setShow(false);
 		try {
 			let response = await axios(config);
-			//console.log(response);
-			//console.log("hi");
 		} catch (err) {
 			console.log(err);
 		}
@@ -121,7 +108,11 @@ function CourseTraineePOV() {
 						<Col>
 							{course.subjects.map((s) => {
 								return (
-									<Badge key={s} bg="primary" className="lead">
+									<Badge
+										key={s}
+										bg="primary"
+										className="lead"
+									>
 										{s}
 									</Badge>
 								);
@@ -133,19 +124,25 @@ function CourseTraineePOV() {
 						id="uncontrolled-tab-example"
 						className="mb-3"
 					>
-						<Tab key="basicInfo" eventKey="basicInfo" title="Basic Info">
+						<Tab
+							key="basicInfo"
+							eventKey="basicInfo"
+							title="Basic Info"
+						>
 							<Row>
 								<Col>
 									<Alert variant="primary" className="lead">
 										Price: {course.price} instead of{" "}
 										<del>{course.originalPrice}</del>
-										!!! {course.discount}% Discount! For limited time only
+										!!! {course.discount}% Discount! For
+										limited time only
 										<Button variant="danger">Buy</Button>
 									</Alert>
 								</Col>
 								<Col>
 									<Alert variant="dark" className="lead">
-										Hours: {course.hours ? course.hours : 50}
+										Hours:{" "}
+										{course.hours ? course.hours : 50}
 									</Alert>
 								</Col>
 							</Row>
@@ -170,7 +167,10 @@ function CourseTraineePOV() {
 								{instructors &&
 									instructors.map((instructor) => {
 										return (
-											<ListGroup.Item key={instructor._id + ""} bg="primary">
+											<ListGroup.Item
+												key={instructor._id + ""}
+												bg="primary"
+											>
 												{instructor.username}
 											</ListGroup.Item>
 										);
@@ -178,7 +178,11 @@ function CourseTraineePOV() {
 							</ListGroup>
 							<Button onClick={handleShow}>Report Course</Button>
 						</Tab>
-						<Tab key="subtititles" eventKey="subtitles" title="Subtitles">
+						<Tab
+							key="subtititles"
+							eventKey="subtitles"
+							title="Subtitles"
+						>
 							<Table striped>
 								<thead>
 									<tr>
@@ -192,7 +196,11 @@ function CourseTraineePOV() {
 										return (
 											<tr>
 												<td>{index + 1}</td>
-												<td>{s.title ? s.title : "No Title."}</td>
+												<td>
+													{s.title
+														? s.title
+														: "No Title."}
+												</td>
 												<td>{s.hours}</td>
 												<td>
 													<Button>View</Button>
@@ -232,7 +240,10 @@ function CourseTraineePOV() {
 					</Modal.Header>
 					<Modal.Body>
 						<Form>
-							<Form.Group className="mb-3" controlId="reportTitle">
+							<Form.Group
+								className="mb-3"
+								controlId="reportTitle"
+							>
 								<Form.Label>Title</Form.Label>
 								<Form.Control
 									ref={reportTitle}
@@ -243,14 +254,19 @@ function CourseTraineePOV() {
 							<Form.Group>
 								<select
 									value={reportType}
-									onChange={(e) => setReportType(e.target.value)}
+									onChange={(e) =>
+										setReportType(e.target.value)
+									}
 								>
 									<option>Technical</option>
 									<option>Financial</option>
 									<option>Other</option>
 								</select>
 							</Form.Group>
-							<Form.Group className="mb-3" controlId="reportDescription">
+							<Form.Group
+								className="mb-3"
+								controlId="reportDescription"
+							>
 								<Form.Label>Description</Form.Label>
 								<Form.Control
 									ref={reportDescription}

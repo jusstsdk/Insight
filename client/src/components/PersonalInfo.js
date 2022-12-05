@@ -1,7 +1,4 @@
-import { Button, Form, Card } from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
-import API from "../api";
+import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function PersonalInfo() {
@@ -12,7 +9,6 @@ function PersonalInfo() {
 	return (
 		<>
 			<Card>
-				<Card.Img />
 				<Card.Body>
 					<Card.Title>
 						Hello, {firstName} {lastName}

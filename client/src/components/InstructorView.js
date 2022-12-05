@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import InstructorHome from "../pages/InstrcutorHome";
-import CreateCourse from "../pages/CreateCourse";
+import InstructorHome from "../pages/instructor/InstrcutorHome";
+import CreateCourse from "../pages/instructor/CreateCourse";
 import React from "react";
 function InstructorView() {
 	const navigate = useNavigate();
