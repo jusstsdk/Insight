@@ -18,6 +18,8 @@ function Home() {
 				return <TraineeView />;
 			case "corporateTrainee":
 				return <CorporateTraineeView />;
+			default:
+			// do nothing
 		}
 	};
 	return (

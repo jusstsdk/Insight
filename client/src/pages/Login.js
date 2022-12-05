@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "../redux/userSlice";
 import axios from "axios";
-import { useEffect, createRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-	const Username = createRef();
-	const Password = createRef();
+	const Username = useRef();
+	const Password = useRef();
 	const navigate = useNavigate();
 	const [ErrorNotFound, setErrorNotFound] = useState(false);
 	const [MissingInputs, setMissingInputs] = useState(false);
@@ -28,8 +28,8 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value
-			}
+				password: Password.current.value,
+			},
 		};
 
 		try {
@@ -66,10 +66,7 @@ function Login() {
 	};
 
 	return (
-		<div
-			id="main-form"
-			className="d-flex flex-column align-items-center text-center"
-		>
+		<div id="main-form" className="d-flex flex-column align-items-center text-center">
 			{/* Sign in Form */}
 			<main className="form-signIn">
 				<form>
@@ -98,6 +95,7 @@ function Login() {
 							className="form-control"
 							id="floatingPassword"
 							placeholder="Password"
+							autoComplete="on"
 							ref={Password}
 						/>
 						<label htmlFor="floatingPassword">Password</label>
@@ -105,14 +103,10 @@ function Login() {
 					{/* Error Messages */}
 					<div className="d-flex justify-content-center">
 						{MissingInputs && (
-							<div className="invalid-feedback">
-								Please enter Email address and Password
-							</div>
+							<div className="invalid-feedback">Please enter Email address and Password</div>
 						)}
 						{ErrorNotFound && (
-							<div className="invalid-feedback">
-								Wrong Email address or Password
-							</div>
+							<div className="invalid-feedback">Wrong Email address or Password</div>
 						)}
 					</div>
 

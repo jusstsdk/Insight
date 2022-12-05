@@ -25,10 +25,11 @@ function App() {
 			dispatch(setType(storedUserType));
 			dispatch(setUser(JSON.parse(storedUser)));
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<div className="App">
+		<>
 			<Routes>
 				<Route path="/" element={<RedirectToHome />} />
 				<Route path="/login" element={<Login />} />
@@ -43,7 +44,7 @@ function App() {
 
 				<Route path="/signUp" element={<SignUp />} />
 			</Routes>
-		</div>
+		</>
 	);
 }
 
