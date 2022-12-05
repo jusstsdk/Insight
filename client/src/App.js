@@ -1,19 +1,14 @@
 import Login from "./pages/Login";
-import Home from "./pages/Home";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import Protected from "./components/Protected";
+import { Route, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
-import CreateAdmin from "./components/admin/CreateAdmin";
-import CreateCorporateTrainee from "./components/admin/CreateCorporateTrainee";
-import CreateInstructor from "./components/admin/CreateInstructor";
 import SignUp from "./components/SignUp";
-import AdminLayout from "./components/admin/AdminLayout";
-import InstructorLayout from "./components/instructor/InstructorLayout";
-import TraineeLayout from "./components/trainee/TraineeLayout";
-import CorporateTraineeLayout from "./components/corporateTrainee/CorporateTraineeLayout";
+import { AdminRoutes } from "./routes/AdminRoutes";
+import { InstructorRoutes } from "./routes/InstructorRoutes";
+import { TraineeRoutes } from "./routes/TraineeRoutes";
+import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
 
 function App() {
 	const dispatch = useDispatch();
@@ -51,51 +46,14 @@ function App() {
 				<Route path="/" element={redirectToHome()} />
 				<Route path="/login" element={<Login />} />
 
+				<Route path="admin/*" element={<AdminRoutes />} />
+				<Route path="/instructor/*" element={<InstructorRoutes />} />
+				<Route path="/trainee/*" element={<TraineeRoutes />} />
 				<Route
-					path="/admin"
-					element={
-						<Protected authorizedUserType={"admin"}>
-							<AdminLayout />
-						</Protected>
-					}
-				>
-					<Route path="createAdmin" element={<CreateAdmin />} />
-					<Route
-						path="createCorporateTrainee"
-						element={<CreateCorporateTrainee />}
-					/>
-					<Route
-						path="createInstructor"
-						element={<CreateInstructor />}
-					/>
-				</Route>
-
-				<Route
-					path="/instructor"
-					element={
-						<Protected authorizedUserType={"instructor"}>
-							<InstructorLayout />
-						</Protected>
-					}
-				></Route>
-
-				<Route
-					path="/trainee"
-					element={
-						<Protected authorizedUserType={"trainee"}>
-							<TraineeLayout />
-						</Protected>
-					}
-				></Route>
-
-				<Route
-					path="/corporateTrainee"
-					element={
-						<Protected authorizedUserType={"corporateTrainee"}>
-							<CorporateTraineeLayout />
-						</Protected>
-					}
-				></Route>
+					path="/corporateTrainee/*"
+					element={<CorporateTraineeRoutes />}
+				/>
+				
 				<Route path="/signUp" element={<SignUp />} />
 			</Routes>
 		</div>
