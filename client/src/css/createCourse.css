@@ -23,3 +23,19 @@
 	height: 1rem;
 	color: #dc3545;
 }
+
+.error {
+	color: #dc3545 !important;
+}
+.accordionHeaderWidth {
+	width: 100%;
+}
+.accordionTrash {
+	border: 0 !important;
+	margin: 0;
+	background-color: #e7f1ff !important;
+	color: #dc3545;
+}
+#hours {
+	margin-left: 1rem;
+}

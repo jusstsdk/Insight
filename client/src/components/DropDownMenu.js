@@ -2,7 +2,6 @@ import { Multiselect } from "multiselect-react-dropdown";
 
 function DropDownMenu(props) {
 	const onChange = (selectedList, selectedItem) => {
-		console.log(selectedList);
 		props.setState(selectedList);
 	};
 	return (
@@ -16,6 +15,8 @@ function DropDownMenu(props) {
 			emptyRecordMsg={props.emptyRecordMsg}
 			closeOnSelect={true}
 			showArrow={true}
+			avoidHighlightFirstOption={true}
+			hidePlaceholder={true}
 		/>
 	);
 }

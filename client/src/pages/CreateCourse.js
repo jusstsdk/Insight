@@ -1,10 +1,12 @@
-import axios from "axios";
-import { useRef, useState, useEffect } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Form, Row, Col, Button, Tab, Tabs, Accordion } from "react-bootstrap";
 import "../css/createCourse.css";
-import AddSubject from "../components/Instructor/AddSubject";
-import DropDownMenu from "../components/DropDownMenu";
-import AddQuestion from "../components/Instructor/AddQuestion";
+import AddExercise from "../components/instructor/AddExercise";
+import AddSubtitle from "../components/instructor/AddSubtitle";
+import AddInfo from "../components/instructor/AddInfo";
+import ViewSubtitle from "../components/instructor/ViewSubtitle";
+import TrashIcon from "../components/TrashIcon";
+
 function CreateCourse() {
 	const Title = useRef();
 	const Price = useRef();
@@ -12,30 +14,10 @@ function CreateCourse() {
 	const PreviewVideo = useRef();
 	const [Subjects, setSubjects] = useState([]);
 	const [Instructors, setInstructors] = useState([]);
-	const [AllInstructors, setAllInstructors] = useState([]);
-	const [Questions, setQuestions] = useState([]);
-	const instructorId = localStorage.getItem("id");
-	const getData = async () => {
-		const config = {
-			method: "GET",
-			url: `http://localhost:4000/api/instructors`,
-			headers: {},
-		};
 
-		try {
-			let response = await axios(config);
-			let filteredInstructors = response.data.filter((instructor) => {
-				return instructor._id !== instructorId;
-			});
-			setAllInstructors(filteredInstructors);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	useEffect(() => {
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const [Subtitles, setSubtitles] = useState([]);
+	const [Exam, setExam] = useState({});
+	const instructorId = localStorage.getItem("id");
 
 	const handleCreateCourse = async (e) => {
 		e.preventDefault();
@@ -53,73 +35,72 @@ function CreateCourse() {
 				previewVideo: PreviewVideo.current.value,
 			},
 		};
-
+		console.log(config);
 		try {
-			await axios(config);
+			// await axios(config);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	const handleDeleteSubtitle = (key) => {
+		let newSubtitle = Subtitles.filter((subtitle, i) => i !== key);
+		setSubtitles(newSubtitle);
+	};
 	return (
 		<Form className="d-flex flex-column" id="createCourseForm">
 			<Col className="d-flex justify-content-center">
 				<h1>Instructor Create Course</h1>
 			</Col>
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-				controlId="formHorizontalEmail">
-				<Form.Label column sm={1}>
-					Title
-				</Form.Label>
-				<Col sm={3}>
-					<Form.Control type="text" placeholder="Title" ref={Title} />
-				</Col>
 
-				<Form.Label column sm={1}>
-					Price
-				</Form.Label>
-				<Col sm={2}>
-					<Form.Control type="number" placeholder="Price" ref={Price} />
-				</Col>
-			</Form.Group>
-
-			{/* Summary */}
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-				<Form.Label column sm={1}>
-					Summary
-				</Form.Label>
-				<Col sm={10}>
-					<Form.Control as="textarea" type="text" placeholder="Summary" rows={3} ref={Summary} />
-				</Col>
-			</Form.Group>
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-				<Form.Label column sm={2}>
-					Preview Video
-				</Form.Label>
-				<Col sm={5}>
-					<Form.Control type="text" placeholder="Preview Video" ref={PreviewVideo} />
-				</Col>
-			</Form.Group>
-			<AddSubject Subjects={Subjects} setSubjects={setSubjects} />
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-				<Form.Label column sm={2}>
-					Instructors
-				</Form.Label>
-				<Col sm={8}>
-					<DropDownMenu
-						state={AllInstructors}
-						setState={setInstructors}
-						selectedState={Instructors}
-						displayValue="email"
-						placeholder="Select Course Instructors"
-						emptyRecordMsg="You can't add more Instructors."
+			<Tabs defaultActiveKey="addSubtitle" id="uncontrolled-tab-example" className="mb-3" justify>
+				<Tab eventKey="addInfo" title="Add Info">
+					<AddInfo
+						Title={Title}
+						Price={Price}
+						Summary={Summary}
+						PreviewVideo={PreviewVideo}
+						Subjects={Subjects}
+						setSubjects={setSubjects}
+						Instructors={Instructors}
+						setInstructors={setInstructors}
 					/>
-				</Col>
-			</Form.Group>
+				</Tab>
+				<Tab eventKey="addExam" title="Add Exam">
+					<AddExercise type="Exam" state={Exam} setState={setExam} />
+				</Tab>
+				<Tab eventKey="addSubtitle" title="Add Subtitle">
+					<AddSubtitle Subtitles={Subtitles} setSubtitles={setSubtitles} />
+				</Tab>
+			</Tabs>
+			<Accordion>
+				{Subtitles.map((subtitle, subtitle_key) => {
+					return (
+						<Accordion.Item eventKey={`subtitle_${subtitle_key}`}>
+							<div className="d-flex">
+								<Accordion.Header className="accordionHeaderWidth">
+									{subtitle.title}
+								</Accordion.Header>
+								<Button
+									className="accordionTrash"
+									key={subtitle_key}
+									/*onClick={() => props.handleDeleteExercise(subtitle_key)}*/
+								>
+									<TrashIcon />
+								</Button>
+							</div>
+							<Accordion.Body>
+								<Accordion>
+									<Form.Group as={Row}>
+										<ViewSubtitle Exercises={subtitle.exercises} Videos={subtitle.videos} />
+									</Form.Group>
+								</Accordion>
+							</Accordion.Body>
+						</Accordion.Item>
+					);
+				})}
+			</Accordion>
 
-			<AddQuestion Questions={Questions} setQuestions={setQuestions} />
 			<Col className="d-flex justify-content-center">
 				<Button onClick={(e) => handleCreateCourse(e)}>Create Course</Button>
 			</Col>

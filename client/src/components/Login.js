@@ -38,7 +38,7 @@ function Login() {
 			let storedUsertype = response.data["userType"];
 			let storedId = response.data["_id"];
 
-			localStorage.setItem("token", JSON.stringify(storedToken));
+			localStorage.setItem("token", storedToken);
 			localStorage.setItem("userType", storedUsertype);
 			localStorage.setItem("id", storedId);
 
