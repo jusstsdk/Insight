@@ -18,7 +18,7 @@ function CorporateTraineeNavbar() {
 			<Navbar bg="dark" variant="dark" expand="lg">
 				<Container>
 					<Navbar.Brand
-						href="javascript:void(0)"
+						href="#"
 						onClick={() => {
 							navigate("/");
 						}}

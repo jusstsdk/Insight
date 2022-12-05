@@ -1,12 +1,13 @@
 import { Form, Row, Col, Button, Tab, Tabs } from "react-bootstrap";
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
+import {useSelector} from "react-redux"
 
 import DropDownMenu from "../DropDownMenu";
 import AddSubject from "./AddSubject";
 function AddInfo(props) {
 	const [AllInstructors, setAllInstructors] = useState([]);
-	const instructorId = localStorage.getItem("id");
+	const instructorId = useSelector((state) => state.userReducer.user._id);
 
 	const getData = async () => {
 		const config = {
