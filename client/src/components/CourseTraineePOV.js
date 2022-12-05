@@ -29,7 +29,7 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function CourseTraineePOV({ myCourse }) {
+function CourseTraineePOV() {
 	//current course ID (STATIC FOR NOW)
 	const id = "638b17e31536539c9a1f77f2";
 
@@ -42,11 +42,30 @@ function CourseTraineePOV({ myCourse }) {
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
+	const [instructors, setInstructors] = useState();
 
 	async function getCourseFromDB() {
 		const response = await API.get(`courses/${id}`);
+
+		url = response.data.previewVideo;
+
+		let tempInstructors = [];
+		response.data.instructors.map(async (instructor) => {
+			//console.log(course.instructors);
+			// var username;
+			try {
+				const response = await API(`instructors/${instructor}`);
+				//console.log(response);
+				console.log(tempInstructors);
+
+				tempInstructors = [...tempInstructors, response.data];
+
+				setInstructors(tempInstructors);
+			} catch (err) {
+				console.log(err);
+			}
+		});
 		setCourse(response.data);
-		url = course && course.previewVideo;
 	}
 
 	//TO SHOW OR HIDE MODAL OF REPORT COURSE
@@ -83,30 +102,12 @@ function CourseTraineePOV({ myCourse }) {
 	}
 
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
-	const [instructors, setInstructors] = useState([]);
-
-	async function getInstructors() {
-		var tempInstructors = [];
-		course &&
-			course.instructors.map(async (instructor) => {
-				//console.log(course.instructors);
-				// var username;
-				try {
-					const response = await API(`instructors/${instructor}`);
-					//console.log(response);
-					tempInstructors = [...tempInstructors, response.data];
-					//console.log(tempInstructors);
-				} catch (err) {
-					console.log(err);
-				}
-			});
-		setInstructors(tempInstructors);
-		console.log(instructors);
+	async function loadDoc() {
+		await getCourseFromDB();
 	}
 
 	useEffect(() => {
-		getCourseFromDB();
-		getInstructors();
+		loadDoc();
 	}, []);
 
 	return (
