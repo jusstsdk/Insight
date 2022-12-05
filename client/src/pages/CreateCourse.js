@@ -7,6 +7,8 @@ import AddInfo from "../components/instructor/AddInfo";
 import ViewSubtitle from "../components/instructor/ViewSubtitle";
 import TrashIcon from "../components/TrashIcon";
 
+import ViewExercise from "../components/instructor/ViewExercise";
+import ViewCurrentSubtitle from "../components/instructor/ViewCurrentSubtitle";
 function CreateCourse() {
 	const Title = useRef();
 	const Price = useRef();
@@ -52,7 +54,6 @@ function CreateCourse() {
 			<Col className="d-flex justify-content-center">
 				<h1>Instructor Create Course</h1>
 			</Col>
-
 			<Tabs defaultActiveKey="addSubtitle" id="uncontrolled-tab-example" className="mb-3" justify>
 				<Tab eventKey="addInfo" title="Add Info">
 					<AddInfo
@@ -73,12 +74,14 @@ function CreateCourse() {
 					<AddSubtitle Subtitles={Subtitles} setSubtitles={setSubtitles} />
 				</Tab>
 			</Tabs>
+			{console.log(Subtitles)}
 			<Accordion>
 				{Subtitles.map((subtitle, subtitle_key) => {
 					return (
 						<Accordion.Item eventKey={`subtitle_${subtitle_key}`}>
 							<div className="d-flex">
 								<Accordion.Header className="accordionHeaderWidth">
+									{console.log(subtitle.exercises)}
 									{subtitle.title}
 								</Accordion.Header>
 								<Button
@@ -99,6 +102,7 @@ function CreateCourse() {
 						</Accordion.Item>
 					);
 				})}
+				{/* <ViewCurrentSubtitle /> */}
 			</Accordion>
 
 			<Col className="d-flex justify-content-center">

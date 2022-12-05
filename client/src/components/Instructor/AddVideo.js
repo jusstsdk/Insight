@@ -2,14 +2,17 @@ import { useRef } from "react";
 import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
 import "../../css/createCourse.css";
 import TrashIcon from "../TrashIcon";
+import { addVideo } from "../../redux/subtitleSlice";
+import { useDispatch } from "react-redux";
 function AddVideo(props) {
 	const Url = useRef();
 	const Description = useRef();
-
+	const dispatch = useDispatch();
 	const handleAddVideo = () => {
 		let newVideos = { url: Url.current.value, description: Description.current.value };
 		console.log(newVideos);
 		props.setVideos((videos) => [...videos, newVideos]);
+		dispatch(addVideo(newVideos));
 		Url.current.value = "";
 		Description.current.value = "";
 	};

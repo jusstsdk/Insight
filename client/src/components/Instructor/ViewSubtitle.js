@@ -9,9 +9,10 @@ function ViewSubtitle(props) {
 	return (
 		<>
 			<Accordion
-				className={`w-50 ${
-					props.Exercises.length !== 0 || props.Videos.length !== 0 ? "my-3" : ""
-				}`}>
+			// className={`w-50 ${
+			// 	props.Exercises.length !== 0 || props.Videos.length !== 0 ? "my-3" : ""
+			// }`}
+			>
 				{props.Exercises.map((exercise, exercise_key) => {
 					return (
 						<Accordion.Item eventKey={`exercise_${exercise_key}`}>
@@ -39,9 +40,10 @@ function ViewSubtitle(props) {
 				})}
 			</Accordion>
 			<Accordion
-				className={`w-50 ${
-					props.Exercises.length !== 0 || props.Videos.length !== 0 ? "my-3" : ""
-				}`}>
+			// className={`w-50 ${
+			// 	props.Exercises.length !== 0 || props.Videos.length !== 0 ? "my-3" : ""
+			// }`}
+			>
 				{props.Videos.map((video, url_key) => {
 					return (
 						<Accordion.Item eventKey={`question_${url_key}`}>

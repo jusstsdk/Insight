@@ -6,10 +6,12 @@ import AddVideo from "./AddVideo";
 import TrashIcon from "../TrashIcon";
 import ViewExercise from "./ViewExercise";
 import ViewSubtitle from "./ViewSubtitle";
+import { useDispatch } from "react-redux";
+import { setTitle, setHours, clearSubtitle } from "../../redux/subtitleSlice";
 function AddSubtitle(props) {
+	const dispatch = useDispatch();
 	const Title = useRef();
 	const Hours = useRef();
-
 	const [Exercises, setExercises] = useState([]);
 	const [Videos, setVideos] = useState([]);
 
@@ -21,6 +23,7 @@ function AddSubtitle(props) {
 			videos: Videos,
 		};
 		props.setSubtitles((subtitles) => [...subtitles, newSubtitle]);
+		dispatch(clearSubtitle());
 		Title.current.value = "";
 		Hours.current.value = "";
 		setExercises([]);
@@ -46,14 +49,28 @@ function AddSubtitle(props) {
 					Subtitle Title
 				</Form.Label>
 				<Col sm={3}>
-					<Form.Control type="text" placeholder="Title" ref={Title} />
+					<Form.Control
+						type="text"
+						placeholder="Title"
+						ref={Title}
+						onChange={(e) => {
+							dispatch(setTitle(e.target.value));
+						}}
+					/>
 				</Col>
 
 				<Form.Label id="hours" column sm={1}>
 					Hours
 				</Form.Label>
 				<Col sm={2}>
-					<Form.Control type="number" placeholder="Hours" ref={Hours} />
+					<Form.Control
+						type="number"
+						placeholder="Hours"
+						ref={Hours}
+						onChange={(e) => {
+							dispatch(setHours(e.target.value));
+						}}
+					/>
 				</Col>
 				<Col sm={2}>
 					<Button id="addSubject" onClick={handleAddSubtitle}>

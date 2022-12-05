@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
 import { Form, Row, Col, Button, InputGroup, Card, Popover, OverlayTrigger } from "react-bootstrap";
 import "../../css/createCourse.css";
+import { useDispatch } from "react-redux";
+import { setTitle, addQuestions } from "../../redux/exerciseSlice";
 function AddQuestion(props) {
+	const dispatch = useDispatch();
 	const Question = useRef();
 	const FirstChoice = useRef();
 	const SecondChoice = useRef();
@@ -40,6 +43,7 @@ function AddQuestion(props) {
 		FourthChoice.current.value = "";
 		setChoices(["", "", "", ""]);
 		setCorrectAnswer("default");
+		dispatch(addQuestions(newQuestion));
 		props.setQuestions((questions) => [...questions, newQuestion]);
 	};
 	const popover = (

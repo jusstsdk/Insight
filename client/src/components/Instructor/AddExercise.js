@@ -3,11 +3,19 @@ import { Form, Row, Col, Button, Card, Accordion, ListGroup } from "react-bootst
 import AddQuestion from "./AddQuestion";
 import "../../css/createCourse.css";
 import ViewExercise from "./ViewExercise";
+import { useSelector, useDispatch } from "react-redux";
+import { addExercise } from "../../redux/subtitleSlice";
+import { setExerciseTitle, addQuestions, removeQuestions } from "../../redux/exerciseSlice";
+
 function AddExercise(props) {
+	const dispatch = useDispatch();
 	const Title = useRef();
 	const [Questions, setQuestions] = useState([]);
+	const exerciseTitle = useSelector((state) => state.exerciseReducer.title);
 	const handleDeleteQuestion = (key) => {
 		let newQuestions = Questions.filter((question, i) => i !== key);
+		// remove question from questions
+		dispatch(addQuestions(newQuestions));
 		setQuestions(newQuestions);
 	};
 	const handleAddExercise = () => {
@@ -19,6 +27,9 @@ function AddExercise(props) {
 			props.setState(newExercise);
 		} else {
 			props.setState((exercises) => [...exercises, newExercise]);
+			dispatch(setExerciseTitle(""));
+			dispatch(removeQuestions([]));
+			dispatch(addExercise(newExercise));
 		}
 		Title.current.value = "";
 		setQuestions([]);
@@ -31,7 +42,14 @@ function AddExercise(props) {
 					{props.type} title
 				</Form.Label>
 				<Col sm={7}>
-					<Form.Control type="text" placeholder="Title" ref={Title} />
+					<Form.Control
+						type="text"
+						placeholder="Title"
+						ref={Title}
+						onChange={(e) => {
+							dispatch(setExerciseTitle(e.target.value));
+						}}
+					/>
 				</Col>
 				<Col>
 					<Button id="addSubject" onClick={handleAddExercise}>
