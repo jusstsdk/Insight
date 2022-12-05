@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Course = require("../models/courseModel");
 const Trainee = require("../models/traineeModel");
-const CorporateTrainee = require("../models/corperateTraineeModel");
+const CorporateTrainee = require("../models/corporateTraineeModel");
 const Instructor = require("../models/instructorModel");
 
 // Report a Course

@@ -3,11 +3,13 @@ import InstructorHome from "../pages/InstrcutorHome";
 import CreateCourse from "../pages/CreateCourse";
 import React from "react";
 function InstructorView() {
+	const navigate = useNavigate();
+
 	return (
-		<Routes>
-			<Route exact path="/" element={<InstructorHome />} />
-			<Route exact path="/createCourse" element={<CreateCourse />} />
-		</Routes>
+		<>
+			<h1>Instructor View</h1>
+			<button onClick={() => navigate("/createCourse")}>Create Course</button>
+		</>
 	);
 }
 

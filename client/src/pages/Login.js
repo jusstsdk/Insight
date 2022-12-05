@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "../redux/userSlice";
 import axios from "axios";
-import { useEffect, createRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-	const Username = createRef();
-	const Password = createRef();
+	const Username = useRef();
+	const Password = useRef();
 	const navigate = useNavigate();
 	const [ErrorNotFound, setErrorNotFound] = useState(false);
 	const [MissingInputs, setMissingInputs] = useState(false);
@@ -28,36 +28,47 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value
-			}
+				password: Password.current.value,
+			},
 		};
 
 		try {
-			let response = await axios(config);
-			let storedToken = response.data["x-auth-token"];
-			let storedUsertype = response.data["userType"];
-			let storedUser = response.data["user"];
-			localStorage.setItem("token", JSON.stringify(storedToken));
-			localStorage.setItem("userType", JSON.stringify(storedUsertype));
+			const response = await axios(config);
+			const storedToken = response.data["x-auth-token"];
+			const storedUserType = response.data["userType"];
+			const storedUser = response.data["user"];
+			localStorage.setItem("token", storedToken);
+			localStorage.setItem("userType", storedUserType);
 			localStorage.setItem("user", JSON.stringify(storedUser));
 
 			dispatch(setToken(storedToken));
-			dispatch(setType(storedUsertype));
+			dispatch(setType(storedUserType));
 			dispatch(setUser(storedUser));
-			navigate("/home");
+
+			switch (storedUserType) {
+				case "admin":
+					navigate("/admin");
+					break;
+				case "instructor":
+					navigate("/instructor");
+					break;
+				case "trainee":
+					navigate("/trainee");
+					break;
+				case "corporateTrainee":
+					navigate("/corporateTrainee");
+					break;
+			}
 		} catch (err) {
 			console.log(err);
 			setErrorNotFound(true);
 		}
 	};
-	
+
 	return (
-		<div
-			id="main-form"
-			className="d-flex flex-column align-items-center text-center"
-		>
+		<div id="main-form" className="d-flex flex-column align-items-center text-center">
 			{/* Sign in Form */}
-			<main className="form-signin">
+			<main className="form-signIn">
 				<form>
 					{/* Title */}
 					<h1 id="login-page-title" className="align-self-center">
@@ -84,6 +95,7 @@ function Login() {
 							className="form-control"
 							id="floatingPassword"
 							placeholder="Password"
+							autoComplete="on"
 							ref={Password}
 						/>
 						<label htmlFor="floatingPassword">Password</label>
@@ -91,14 +103,10 @@ function Login() {
 					{/* Error Messages */}
 					<div className="d-flex justify-content-center">
 						{MissingInputs && (
-							<div className="invalid-feedback">
-								Please enter Email address and Password
-							</div>
+							<div className="invalid-feedback">Please enter Email address and Password</div>
 						)}
 						{ErrorNotFound && (
-							<div className="invalid-feedback">
-								Wrong Email address or Password
-							</div>
+							<div className="invalid-feedback">Wrong Email address or Password</div>
 						)}
 					</div>
 
@@ -113,6 +121,17 @@ function Login() {
 						}}
 					>
 						Sign in
+					</button>
+					<button
+						id="SignUpButton"
+						className="w-100 btn btn-lg btn-primary"
+						type="submit"
+						onClick={(e) => {
+							e.preventDefault();
+							navigate("/signUp");
+						}}
+					>
+						Sign up
 					</button>
 				</form>
 			</main>

@@ -1,4 +1,4 @@
-const CorporateTrainee = require("../models/corperateTraineeModel");
+const CorporateTrainee = require("../models/corporateTraineeModel");
 const mongoose = require("mongoose");
 const Course = require("../models/courseModel");
 
@@ -30,6 +30,8 @@ const getCorporateTrainee = async (req, res) => {
 const createCorporateTrainee = async (req, res) => {
 	// add to the database
 	try {
+		let corporateTraineeInfo = req.body;
+		corporateTraineeInfo.password = await bcrypt.hash(corporateTraineeInfo.password, 10);
 		let corporateTrainee = await CorporateTrainee.create(req.body);
 		corporateTrainee["_doc"]["x-auth-token"] = corporateTrainee.generateAuthToken();
 		corporateTrainee["_doc"].userType = "corporateTrainee";
