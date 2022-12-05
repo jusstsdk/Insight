@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
-import AdminView from "../components/AdminView";
+import AdminView from "./AdminView";
 import InstructorView from "../components/InstructorView";
-import TraineeView from "../components/TraineeView";
-import CorporateTraineeView from "../components/CorporateTraineeView";
-import Logout from "../components/Logout";
+import TraineeView from "./TraineeView";
+import CorporateTraineeView from "./CorporateTraineeView";
+import { BrowserRouter } from "react-router-dom";
+
 function Home() {
 	const userType = useSelector((state) => state.userReducer.type);
 	const displayView = () => {
@@ -24,7 +25,6 @@ function Home() {
 	return (
 		<>
 			{displayView()}
-			<Logout />
 		</>
 	);
 }

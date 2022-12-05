@@ -1,59 +1,58 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
-const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const paymentMethodSchema = new Schema({
 	cardHolder: {
 		type: String,
-		required: true,
+		required: true
 	},
 	cardNumber: {
 		type: String,
-		match: /\d{16}/,
+		match: /\d{16}/
 	},
 	expiryMonth: {
 		type: Number,
 		min: 1,
-		max: 12,
+		max: 12
 	},
 	expiryYear: {
-		type: Number,
+		type: Number
 		// min: new Date().getUTCFullYear,
 		// max: 99,
-	},
+	}
 });
 
 const traineeSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true,
+			required: true
 		},
 		password: {
 			type: String,
-			required: true,
+			required: true
 		},
 		email: {
 			type: String,
-			required: true,
+			required: true
 		},
 		firstName: {
 			type: String,
-			required: true,
+			required: true
 		},
 		lastName: {
 			type: String,
-			required: true,
+			required: true
 		},
 		gender: {
 			type: String,
-			required: true,
+			required: true
 		},
 		country: {
 			type: String,
-			required: false,
+			required: false
 		},
 		courses: [
 			{
@@ -62,14 +61,14 @@ const traineeSchema = new Schema(
 				progress: Number, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				requestedRefund: Boolean,
-				paidPrice: Number,
-			},
+				paidPrice: Number
+			}
 		],
 		paymentMethods: {
 			type: [paymentMethodSchema],
-			required: false,
+			required: false
 		},
-		wallet: Number,
+		wallet: { type: Number, default: 0 }
 	},
 	{ timestamps: true }
 );
@@ -83,25 +82,23 @@ traineeSchema.methods.generateAuthToken = function () {
 };
 
 traineeSchema.pre("save", async function (next) {
-	this.password = await bcrypt.hash(this.password, 10);
 	// calculate progress
 	this.courses.forEach((course) => {
-		let finishedExercisesAndVideoes = 0;
-		let totalExercisesAndVideoes = 0;
+		let finishedExercisesAndVideos = 0;
+		let totalExercisesAndVideos = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
 			subtitle.videos.forEach((video) => {
-				totalExercisesAndVideoes++;
-				if (video.isWatched) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (video.isWatched) finishedExercisesAndVideos++;
 			});
 
 			subtitle.exercises.forEach((exercise) => {
-				totalExercisesAndVideoes++;
-				if (exercise.isSolved) finishedExercisesAndVideoes++;
+				totalExercisesAndVideos++;
+				if (exercise.isSolved) finishedExercisesAndVideos++;
 			});
 		});
-		course.progress =
-			finishedExercisesAndVideoes / totalExercisesAndVideoes;
+		course.progress = finishedExercisesAndVideos / totalExercisesAndVideos;
 	});
 	next();
 });

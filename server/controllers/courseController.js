@@ -116,7 +116,9 @@ const getCourses = async (req, res) => {
 	if (req.query.subject != null) {
 		query["$and"].push({
 			subjects: {
-				$elemMatch: { $eq: req.query.subject },
+				$elemMatch: { 
+					$regex: req.query.subject,
+					$options: "i", },
 			},
 		});
 	}

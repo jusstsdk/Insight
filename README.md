@@ -13,7 +13,9 @@
    - [x] authentication
    - [x] session
    - [x] sign up etc
+   - [ ] add authentication to all routes
    - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
+   - [ ] refreshing should keep me in the same page
 
 1. country
    - [ ] select country
@@ -45,6 +47,7 @@
  
 1. instructor put course
    - [x] add a video per subtitle
+   - [ ] change video format to embedded format
    - [x] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
@@ -79,6 +82,9 @@
    - [ ] generate personalized certificate
 
 # Questions
+   - act as if we called pay API is good enough?
+   - who will add the rest of details (adming/instrut/corp)
+   - first last names for the other models?
    - What are subtitles
    - How to calculate progress
    - JWT vs Sessions

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setToken, setType, setId } from "../redux/userSlice";
+import { setToken, setType, setUser } from "../redux/userSlice";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,20 +33,34 @@ function Login() {
 		};
 
 		try {
-			let response = await axios(config);
-			let storedToken = response.data["x-auth-token"];
-			let storedUsertype = response.data["userType"];
-			let storedId = response.data["_id"];
-
+			const response = await axios(config);
+			const storedToken = response.data["x-auth-token"];
+			const storedUserType = response.data["userType"];
+			const storedUser = response.data["user"];
 			localStorage.setItem("token", storedToken);
-			localStorage.setItem("userType", storedUsertype);
-			localStorage.setItem("id", storedId);
+			localStorage.setItem("userType", storedUserType);
+			localStorage.setItem("user", JSON.stringify(storedUser));
 
 			dispatch(setToken(storedToken));
-			dispatch(setType(storedUsertype));
-			dispatch(setId(storedId));
-			navigate("/home");
+			dispatch(setType(storedUserType));
+			dispatch(setUser(storedUser));
+
+			switch (storedUserType) {
+				case "admin":
+					navigate("/admin");
+					break;
+				case "instructor":
+					navigate("/instructor");
+					break;
+				case "trainee":
+					navigate("/trainee");
+					break;
+				case "corporateTrainee":
+					navigate("/corporateTrainee");
+					break;
+			}
 		} catch (err) {
+			console.log(err);
 			setErrorNotFound(true);
 		}
 	};
@@ -54,7 +68,7 @@ function Login() {
 	return (
 		<div id="main-form" className="d-flex flex-column align-items-center text-center">
 			{/* Sign in Form */}
-			<main className="form-signin">
+			<main className="form-signIn">
 				<form>
 					{/* Title */}
 					<h1 id="login-page-title" className="align-self-center">
@@ -104,8 +118,20 @@ function Login() {
 						onClick={(e) => {
 							e.preventDefault();
 							loginFunction();
-						}}>
+						}}
+					>
 						Sign in
+					</button>
+					<button
+						id="SignUpButton"
+						className="w-100 btn btn-lg btn-primary"
+						type="submit"
+						onClick={(e) => {
+							e.preventDefault();
+							navigate("/signUp");
+						}}
+					>
+						Sign up
 					</button>
 				</form>
 			</main>

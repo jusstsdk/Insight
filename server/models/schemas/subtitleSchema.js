@@ -17,7 +17,7 @@ const exerciseSchema = new Schema({
 	title: String,
 	questions: [questionSchema],
 	maxGrade: Number, // could be a calculated attribute from total number of questions
-	recievedGrade: Number, // could be a calculated attribute from sum of grades
+	receivedGrade: Number, // could be a calculated attribute from sum of grades
 	isSolved: {
         type: Boolean,
         default: false
@@ -46,11 +46,11 @@ questionSchema.pre("save", function (next) {
 });
 
 exerciseSchema.pre("save", function (next) {
-	this.recievedGrade = 0;
+	this.receivedGrade = 0;
 	this.maxGrade = this.questions.length;
 	this.questions.forEach((question) => {
 		if (question.grade) {
-			this.recievedGrade++;
+			this.receivedGrade++;
 		}
 	});
 	next();

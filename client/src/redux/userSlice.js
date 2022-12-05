@@ -5,7 +5,7 @@ export const userSlice = createSlice({
 	initialState: {
 		token: "",
 		type: "",
-		id: "",
+		user:{}
 	},
 	reducers: {
 		setToken: (state, action) => {
@@ -14,14 +14,14 @@ export const userSlice = createSlice({
 		setType: (state, action) => {
 			state.type = action.payload;
 		},
-		setId: (state, action) => {
-			state.id = action.payload;
+		setUser: (state, action) => {
+			state.user = action.payload;
 		},
 		logout: (state) => {},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setId, logout } = userSlice.actions;
+export const { setToken, setType, setUser, logout } = userSlice.actions;
 
 export default userSlice.reducer;

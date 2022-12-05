@@ -24,9 +24,10 @@ app.use("/api/users", usersRoute);
 app.use("/api/administrators", administratorRoutes);
 app.use("/api/instructors", instructorRoutes);
 app.use("/api/trainees", traineeRoutes);
-app.use("/api/corprateTrainee", corporateTrainees);
+app.use("/api/corporateTrainees", corporateTrainees);
 app.use("/api/courses", courseRoutes);
 app.use("/api/reports", reportRoutes);
+
 // endpoints
 app.get("/test", async (req, res) => {});
 

@@ -10,7 +10,7 @@ const reportSchema = new Schema({
 	type: {
 		type: String,
 		required: true,
-		enum: ["Technical", "Financial", "Other"],
+		enum: ["Technical", "Financial", "Other"]
 	},
 	isResolved: Boolean,
 	isSeen: Boolean,
@@ -18,13 +18,13 @@ const reportSchema = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
 		required: true,
-		refPath: "reports.authorType",
+		refPath: "reports.authorType"
 	},
 	authorType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorprateTrainee", "Instructor"],
-	},
+		enum: ["Trainee", "CorporateTrainee", "Instructor"]
+	}
 });
 
 const courseSchema = new Schema(
@@ -41,17 +41,15 @@ const courseSchema = new Schema(
 		subtitles: [subtitleSchema],
 		exam: exerciseSchema,
 		rating: Number,
-		reviews: {
-			type: [reviewSchema],
-			required: false,
-		},
-		reports: {
-			type: [reportSchema],
-			required: false,
-		},
-		refundRequests: [{ trainee: { type: Schema.ObjectId, ref: "Trainee" }, paidPrice: Number }],
-		popularity: Number,
+		reviews: [reviewSchema],
 		reports: [reportSchema],
+		refundRequests: [
+			{
+				trainee: { type: Schema.ObjectId, ref: "Trainee" },
+				paidPrice: Number
+			}
+		],
+		popularity: Number
 	},
 	{ timestamps: true }
 );
@@ -61,7 +59,12 @@ courseSchema.pre("save", function (next) {
 		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
-	this.subtitles.forEach(subtitle => {
+	let totalRatingsValue = 0;
+	this.reviews.forEach((review) => {
+		totalRatingsValue += review.rating;
+	});
+	this.rating = totalRatingsValue / this.reviews.length;
+	this.subtitles.forEach((subtitle) => {
 		this.totalHours += subtitle.hours;
 	});
 	next();
