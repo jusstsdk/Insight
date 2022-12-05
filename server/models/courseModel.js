@@ -49,8 +49,7 @@ const courseSchema = new Schema(
 				paidPrice: Number
 			}
 		],
-		popularity: Number,
-		reports: [reportSchema]
+		popularity: Number
 	},
 	{ timestamps: true }
 );

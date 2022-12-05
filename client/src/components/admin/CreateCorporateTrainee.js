@@ -2,26 +2,31 @@ import { useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import SelectCountry from "./SelectCountry";
+import SelectCountry from "../SelectCountry";
 
-function CreateInstructor() {
+function CreateCorporateTrainee() {
 	const token = localStorage.getItem("token");
 	const Username = useRef();
 	const Password = useRef();
 	const Email = useRef();
-	const Biography = useRef();
+	const FirstName = useRef();
+	const LastName = useRef();
+	const [Gender, setGender] = useState("");
 	const [Country, setCountry] = useState("");
-	const handleCreateInstructor = async () => {
+	const handleCreateCorporateTrainee = async () => {
 		const config = {
 			method: "POST",
-			url: "http://localhost:4000/api/instructors/",
+			url: "http://localhost:4000/api/corprateTrainee/",
 			headers: { authorization: "Bearer " + token },
 			data: {
 				username: Username.current.value,
 				password: Password.current.value,
 				email: Email.current.value,
-				biography: Biography.current.value,
+				firstName: FirstName.current.value,
+				lastName: LastName.current.value,
+				gender: Gender,
 				country: Country,
+				corporate: null,
 			},
 		};
 		try {
@@ -32,7 +37,7 @@ function CreateInstructor() {
 	};
 	return (
 		<div>
-			<h1> create an instructor </h1>
+			<h1> create a Corporate Trainee </h1>
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label> Username </Form.Label>
@@ -50,28 +55,45 @@ function CreateInstructor() {
 					<Form.Label> Email </Form.Label>
 					<Form.Control ref={Email} type="email" placeholder="Enter Email" />
 				</Form.Group>
-				<Form.Group className="mb-3" controlId="ControlTextareaBiography">
-					<Form.Label> Biography </Form.Label>
+				<Form.Group className="mb-3" controlId="formBasicFirstName">
+					<Form.Label> First name </Form.Label>
 					<Form.Control
-						ref={Biography}
-						placeholder="Enter Biography"
-						as="textarea"
-						rows={3}
+						ref={FirstName}
+						type="firstName"
+						placeholder="Enter firstName"
 					/>
 				</Form.Group>
+				<Form.Group className="mb-3" controlId="formBasicLastName">
+					<Form.Label> Last name </Form.Label>
+					<Form.Control
+						ref={LastName}
+						type="lastName"
+						placeholder="Enter lastName"
+					/>
+				</Form.Group>
+				<Form.Select
+					onChange={(e) => {
+						setGender(e.target.value);
+					}}
+					aria-label="Default select example"
+				>
+					<option>Select Gender</option>
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+				</Form.Select>
 				<SelectCountry Country={Country} setCountry={setCountry} />
 				<Button
 					onClick={(e) => {
 						e.preventDefault();
-						handleCreateInstructor();
+						handleCreateCorporateTrainee();
 					}}
 					variant="primary"
 					type="submit"
 				>
-					Add Instructor
+					Add Corporate Trainee
 				</Button>
 			</Form>
 		</div>
 	);
 }
-export default CreateInstructor;
+export default CreateCorporateTrainee;

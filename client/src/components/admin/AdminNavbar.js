@@ -1,6 +1,6 @@
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { logout } from "../redux/userSlice";
+import { logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 function AdminNavbar() {
@@ -18,8 +18,9 @@ function AdminNavbar() {
 			<Navbar bg="dark" variant="dark" expand="lg">
 				<Container>
 					<Navbar.Brand
+						href="javascript:void(0)"
 						onClick={() => {
-							navigate("/home");
+							navigate("/");
 						}}
 					>
 						Home
@@ -33,21 +34,21 @@ function AdminNavbar() {
 							>
 								<NavDropdown.Item
 									onClick={() => {
-										navigate("/createAdmin");
+										navigate("createAdmin");
 									}}
 								>
 									Admin
 								</NavDropdown.Item>
 								<NavDropdown.Item
 									onClick={() => {
-										navigate("/createCorporateTrainee");
+										navigate("createCorporateTrainee");
 									}}
 								>
 									Corporate Trainee
 								</NavDropdown.Item>
 								<NavDropdown.Item
 									onClick={() => {
-										navigate("/createInstructor");
+										navigate("createInstructor");
 									}}
 								>
 									Instructor

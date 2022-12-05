@@ -28,23 +28,37 @@ function Login() {
 			headers: {},
 			data: {
 				username: Username.current.value,
-				password: Password.current.value,
-			},
+				password: Password.current.value
+			}
 		};
 
 		try {
-			let response = await axios(config);
-			let storedToken = response.data["x-auth-token"];
-			let storedUserType = response.data["userType"];
-			let storedUser = response.data["user"];
-			localStorage.setItem("token", JSON.stringify(storedToken));
-			localStorage.setItem("userType", JSON.stringify(storedUserType));
+			const response = await axios(config);
+			const storedToken = response.data["x-auth-token"];
+			const storedUserType = response.data["userType"];
+			const storedUser = response.data["user"];
+			localStorage.setItem("token", storedToken);
+			localStorage.setItem("userType", storedUserType);
 			localStorage.setItem("user", JSON.stringify(storedUser));
 
 			dispatch(setToken(storedToken));
 			dispatch(setType(storedUserType));
 			dispatch(setUser(storedUser));
-			navigate("/home");
+
+			switch (storedUserType) {
+				case "admin":
+					navigate("/admin");
+					break;
+				case "instructor":
+					navigate("/instructor");
+					break;
+				case "trainee":
+					navigate("/trainee");
+					break;
+				case "corporateTrainee":
+					navigate("/corporateTrainee");
+					break;
+			}
 		} catch (err) {
 			console.log(err);
 			setErrorNotFound(true);
@@ -57,7 +71,7 @@ function Login() {
 			className="d-flex flex-column align-items-center text-center"
 		>
 			{/* Sign in Form */}
-			<main className="form-signin">
+			<main className="form-signIn">
 				<form>
 					{/* Title */}
 					<h1 id="login-page-title" className="align-self-center">
