@@ -1,6 +1,5 @@
 import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
@@ -9,6 +8,7 @@ import { AdminRoutes } from "./routes/AdminRoutes";
 import { InstructorRoutes } from "./routes/InstructorRoutes";
 import { TraineeRoutes } from "./routes/TraineeRoutes";
 import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
+import { RedirectToHome } from "./components/RedirectToHome";
 
 function App() {
 	const dispatch = useDispatch();
@@ -27,23 +27,10 @@ function App() {
 		}
 	}, []);
 
-	function redirectToHome() {
-		switch (storedUserType) {
-			case "admin":
-				return <Navigate to="/admin" replace />;
-			case "instructor":
-				return <Navigate to="/instructor" replace />;
-			case "trainee":
-				return <Navigate to="/trainee" replace />;
-			case "corporateTrainee":
-				return <Navigate to="/corporateTrainee" replace />;
-		}
-	}
-
 	return (
 		<div className="App">
 			<Routes>
-				<Route path="/" element={redirectToHome()} />
+				<Route path="/" element={<RedirectToHome />} />
 				<Route path="/login" element={<Login />} />
 
 				<Route path="admin/*" element={<AdminRoutes />} />
@@ -53,7 +40,7 @@ function App() {
 					path="/corporateTrainee/*"
 					element={<CorporateTraineeRoutes />}
 				/>
-				
+
 				<Route path="/signUp" element={<SignUp />} />
 			</Routes>
 		</div>
