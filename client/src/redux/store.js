@@ -1,8 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
-
+import subtitleSlice from "./subtitleSlice";
+import exerciseSlice from "./exerciseSlice";
 const combinedReducer = combineReducers({
 	userReducer: userSlice,
+	subtitleReducer: subtitleSlice,
+	exerciseReducer: exerciseSlice,
 	// ... more reducers
 });
 const rootReducer = (state, action) => {

@@ -1,10 +1,15 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Protected = ({ children }) => {
+const Protected = ({children, authorizedUserType}) => {
 	const userType = useSelector((state) => state.userReducer.type);
-
-	if (!userType) {
+	
+	if (!authorizedUserType && userType === "guest") {
+		return <Navigate to="/login" replace />;
+	} else if (
+		authorizedUserType &&
+		userType !== authorizedUserType
+	) {
 		return <Navigate to="/login" replace />;
 	}
 

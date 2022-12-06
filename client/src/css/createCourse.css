@@ -9,4 +9,33 @@
 
 #addSubject {
 	width: auto;
+	height: 2.5rem;
+}
+
+.trashButton {
+	padding: 0 !important;
+	border: 0 !important;
+	margin-left: 0.5rem;
+	background-color: #fff !important;
+}
+.trashIcon {
+	width: 1rem;
+	height: 1rem;
+	color: #dc3545;
+}
+
+.error {
+	color: #dc3545 !important;
+}
+.accordionHeaderWidth {
+	width: 100%;
+}
+.accordionTrash {
+	border: 0 !important;
+	margin: 0;
+	background-color: #e7f1ff !important;
+	color: #dc3545;
+}
+#hours {
+	margin-left: 1rem;
 }

@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const Trainee = require("../models/traineeModel");
 const Course = require("../models/courseModel");
+const bcrypt = require("bcrypt");
 
 // create a new trainee
 const createTrainee = async (req, res) => {
 	// add to the database
 	try {
-		const trainee = await Trainee.create(req.body);
+		let traineeInfo = req.body;
+		traineeInfo.password = await bcrypt.hash(traineeInfo.password, 10);
+		const trainee = await Trainee.create(traineeInfo);
 		trainee["_doc"]["x-auth-token"] = trainee.generateAuthToken();
 		trainee["_doc"].userType = "trainee";
 		res.status(200).json(trainee);

@@ -1,49 +1,47 @@
-import Login from "./components/Login";
-import Home from "./pages/Home";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import Protected from "./components/Protected";
-import { Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
 import CourseDetails from "./pages/CourseDetails";
 import CourseList from "./pages/CourseList";
+import SignUp from "./components/SignUp";
+import { AdminRoutes } from "./routes/AdminRoutes";
+import { InstructorRoutes } from "./routes/InstructorRoutes";
+import { TraineeRoutes } from "./routes/TraineeRoutes";
+import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
+import { RedirectToHome } from "./components/RedirectToHome";
 
 function App() {
 	const dispatch = useDispatch();
 
-	// check if user local storage contains creds
-	useEffect(() => {
-		const storedToken = localStorage.getItem("token");
-		const storedUsertype = localStorage.getItem("userType");
-		const storedUser = localStorage.getItem("user");
+	// check if user local storage contains credentials
 
+	const storedToken = localStorage.getItem("token");
+	const storedUserType = localStorage.getItem("userType");
+	const storedUser = localStorage.getItem("user");
+
+	useEffect(() => {
 		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken(JSON.parse(storedToken)));
-			dispatch(setType(JSON.parse(storedUsertype)));
+			dispatch(setToken(storedToken));
+			dispatch(setType(storedUserType));
 			dispatch(setUser(JSON.parse(storedUser)));
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<div className="App">
+		<>
 			<Routes>
-				<Route
-					path="/"
-					element={
-						<Protected>
-							<Navigate to="/home" replace />
-						</Protected>
-					}
-				/>
+				<Route path="/" element={<RedirectToHome />} />
 				<Route path="/login" element={<Login />} />
+
+				<Route path="/admin/*" element={<AdminRoutes />} />
+				<Route path="/instructor/*" element={<InstructorRoutes />} />
+				<Route path="/trainee/*" element={<TraineeRoutes />} />
 				<Route
-					path="/home"
-					element={
-						<Protected>
-							<Home />
-						</Protected>
-					}
+					path="/corporateTrainee/*"
+					element={<CorporateTraineeRoutes />}
 				/>
 				<Route
 					path="/CourseList"
@@ -61,8 +59,10 @@ function App() {
 						</Protected>
 					}
 				/>
+
+				<Route path="/signUp" element={<SignUp />} />
 			</Routes>
-		</div>
+		</>
 	);
 }
 

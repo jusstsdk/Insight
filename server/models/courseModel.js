@@ -23,7 +23,7 @@ const reportSchema = new Schema({
 	authorType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorprateTrainee", "Instructor"]
+		enum: ["Trainee", "CorporateTrainee", "Instructor"]
 	}
 });
 
@@ -49,8 +49,7 @@ const courseSchema = new Schema(
 				paidPrice: Number
 			}
 		],
-		popularity: Number,
-		reports: [reportSchema]
+		popularity: Number
 	},
 	{ timestamps: true }
 );

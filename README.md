@@ -4,6 +4,11 @@
    - [ ] remove required
    - [x] change reviewer and reporter to author
    - [x] hash passwords
+   - [ ] add rating to instructor model
+   - [ ] first and last name
+   - [ ] remove discount after a while as instructor
+   - [ ] add discount as admin
+   - [ ] add notes to videos
 
 1. Email
    - [ ] receive an email to change a forgotten password
@@ -15,6 +20,7 @@
    - [x] sign up etc
    - [ ] add authentication to all routes
    - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
+   - [ ] refreshing should keep me in the same page
 
 1. country
    - [ ] select country
@@ -46,6 +52,7 @@
  
 1. instructor put course
    - [x] add a video per subtitle
+   - [ ] change video format to embedded format
    - [x] add description of the video
    - [ ] ~~edit details~~
    - [ ] ~~handle adding / removing other instructors~~
@@ -80,12 +87,21 @@
    - [ ] generate personalized certificate
 
 # Questions
+   - money owed per month instructor?
+   - accept conditions when?
+   - what does the certificate look like? how to create one?
+   - most viewed course vs most popular vs just most reviewed
+   - act as if we called pay API is good enough?
+   - view but not open course?
+   - who will add the rest of details (adming/instrut/corp)
+   - first last names for the other models?
    - What are subtitles
-   - How to calculate progress
-   - JWT vs Sessions
+   - How to calculate progress? do we need to keep track of watched video time as well?
+   - handle refresh logic?
    - How do we calculate popularity
-   - "see all previously reported problems and their statuses" vs "follow up on an unresolved problem"
-   
+   - responsiveness
+   - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
+   - sending emails to reset passwords and other emails not needed?
 
 # Bugs
 

@@ -9,7 +9,7 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
-	const country = useSelector((state) => state.userReducer.country);
+	const country = useSelector((state) => state.userReducer.user.country);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -41,15 +41,28 @@ function ListCourses({ setCourses }) {
 	}
 
 	async function changeToLocalCurrency(courses) {
-		let response = await axios.get("https://api.apilayer.com/exchangerates_data/latest", {
-			headers: {
-				apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
-			},
-			params: {
-				base: "USD"
+		const responseCountryApi = await axios.get(
+			`https://restcountries.com/v3.1/name/${country}`
+		);
+		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
+		const response = await axios.get(
+			"https://api.apilayer.com/exchangerates_data/latest",
+			{
+				headers: {
+					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
+				},
+				params: {
+					base: "USD"
+				}
 			}
+		);
+		const exchangeRate = response.data.rates[localCurrency];
+
+		courses.forEach(course => {
+			course.price *= exchangeRate
 		});
 		
+		return courses;
 	}
 
 	return (
@@ -78,7 +91,7 @@ function ListCourses({ setCourses }) {
 					<Form.Control
 						ref={priceFilter}
 						type="text"
-						placeholder="Filter by coures that are cheaper than this"
+						placeholder="Filter by courses that are cheaper than this"
 					/>
 				</Form.Group>
 
@@ -87,7 +100,7 @@ function ListCourses({ setCourses }) {
 					<Form.Control
 						ref={ratingFilter}
 						type="text"
-						placeholder="Filter by coures that are rated higher than this"
+						placeholder="Filter by courses that are rated higher than this"
 					/>
 				</Form.Group>
 
