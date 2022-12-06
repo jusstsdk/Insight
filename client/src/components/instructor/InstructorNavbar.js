@@ -21,8 +21,7 @@ function InstructorNavbar() {
 						href="#"
 						onClick={() => {
 							navigate("/");
-						}}
-					>
+						}}>
 						Home
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -31,9 +30,14 @@ function InstructorNavbar() {
 							<Nav.Link
 								onClick={() => {
 									navigate("createCourse");
-								}}
-							>
+								}}>
 								Create Course
+							</Nav.Link>
+							<Nav.Link
+								onClick={() => {
+									navigate("editProfile");
+								}}>
+								Edit Profile
 							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
