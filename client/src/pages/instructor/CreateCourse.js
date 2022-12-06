@@ -37,7 +37,6 @@ function CreateCourse() {
 				previewVideo: PreviewVideo.current.value,
 			},
 		};
-		console.log(config);
 		try {
 			// await axios(config);
 		} catch (err) {
@@ -74,14 +73,12 @@ function CreateCourse() {
 					<AddSubtitle Subtitles={Subtitles} setSubtitles={setSubtitles} />
 				</Tab>
 			</Tabs>
-			{console.log(Subtitles)}
 			<Accordion>
 				{Subtitles.map((subtitle, subtitle_key) => {
 					return (
 						<Accordion.Item eventKey={`subtitle_${subtitle_key}`}>
 							<div className="d-flex">
 								<Accordion.Header className="accordionHeaderWidth">
-									{console.log(subtitle.exercises)}
 									{subtitle.title}
 								</Accordion.Header>
 								<Button

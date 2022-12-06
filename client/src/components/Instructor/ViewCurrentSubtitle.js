@@ -15,7 +15,6 @@ function ViewCurrentSubtitle() {
 	const exerciseQuestions = useSelector((state) => state.exerciseReducer.questions);
 	const [currentSubititleDeleted, setcurrentSubititleDeleted] = useState(false);
 	const handleDeleteCurerntSubtitle = () => {
-		console.log("blah");
 		dispatch(clearSubtitle());
 		dispatch(clearExercise());
 		setcurrentSubititleDeleted(true);
@@ -40,7 +39,6 @@ function ViewCurrentSubtitle() {
 							{[...subtitleExercises].map((exercise, exercise_key) => {
 								return (
 									<Accordion.Item id="currentsub" eventKey={`exercise_${exercise_key}`}>
-										{console.log("hi all")}
 										<div className="d-flex">
 											<Accordion.Header className="accordionHeaderWidth">
 												{exercise.title}

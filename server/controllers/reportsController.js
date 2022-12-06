@@ -6,7 +6,6 @@ const Instructor = require("../models/instructorModel");
 
 // Report a Course
 const reportCourse = async (req, res) => {
-	console.log(req.body);
 	const courseId = req.params.courseId;
 	try {
 		const course = await Course.findByIdAndUpdate(courseId, {

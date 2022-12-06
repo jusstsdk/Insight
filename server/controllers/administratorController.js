@@ -19,7 +19,6 @@ const getAllCoursesRequests = async (req, res) => {
 		}).populate({
 			path: "requests",
 		});
-		console.log(corporateTrainee);
 		res.status(200).json({ CorporateTrainee: corporateTrainee });
 	} catch (error) {
 		res.status(400).json({ error: error.message });

@@ -10,7 +10,6 @@ function AddVideo(props) {
 	const dispatch = useDispatch();
 	const handleAddVideo = () => {
 		let newVideos = { url: Url.current.value, description: Description.current.value };
-		console.log(newVideos);
 		props.setVideos((videos) => [...videos, newVideos]);
 		dispatch(addVideo(newVideos));
 		Url.current.value = "";

@@ -1,14 +1,19 @@
 import { Routes, Route } from "react-router-dom";
 import CorporateTraineeLayout from "../components/corporateTrainee/CorporateTraineeLayout";
 import Protected from "../components/Protected";
+import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
+import CourseDetails from "../pages/corporateTrainee/CourseDetails";
+import CourseList from "../pages/corporateTrainee/CourseList";
 
 export function CorporateTraineeRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"corporateTrainee"}>
-				<CorporateTraineeLayout />
-				<Routes></Routes>
-			</Protected>
+			<CorporateTraineeLayout />
+			<Routes>
+				<Route path="" element={<CorporateTraineeView />} />
+				<Route path="courses" element={<CourseList />} />
+				<Route path="courses/:id" element={<CourseDetails />} />
+			</Routes>
 		</>
 	);
 }

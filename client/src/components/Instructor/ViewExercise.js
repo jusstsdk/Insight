@@ -3,7 +3,6 @@ import TrashIcon from "../TrashIcon";
 function ViewExercise(props) {
 	return (
 		<>
-			{/* {console.log(props.Questions)} */}
 			{props.Questions.map((question, key) => {
 				return (
 					<Accordion.Item eventKey={`question_${key}`}>

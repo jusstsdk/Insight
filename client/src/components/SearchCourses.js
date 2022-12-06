@@ -14,11 +14,8 @@ function ListCourses({ setCourses }) {
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const courses = await getCourses();
-		setCourses(courses);
-		//console.log(courses);
 		const coursesInLocalCurrency = await changeToLocalCurrency(courses);
-		// setCourses(coursesInLocalCurrency);
-		// console.log(coursesInLocalCurrency);
+		setCourses(coursesInLocalCurrency);
 	}
 
 	async function getCourses() {

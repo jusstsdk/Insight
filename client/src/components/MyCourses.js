@@ -26,7 +26,6 @@ const MyCourses = () => {
 			newCourses.push(fullCourse);
 			
 		}));
-		console.log(newCourses);
 		setCourses(newCourses);
 	}
 	useEffect(() => {

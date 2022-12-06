@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
-import API from "../api";
+import API from "../../api";
 
 
 
@@ -10,7 +10,6 @@ const CourseDetails = () => {
     async function getCourse(id) {
     
         const response = await API.get("courses/" + id);
-        // console.log(response.data);
         setCourse(response.data);
     }
     
