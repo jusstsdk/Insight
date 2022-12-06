@@ -27,6 +27,23 @@ const getInstructor = async (req, res) => {
 	res.status(200).json(instructor);
 };
 
+// get a single instructor
+const getInstructorReviews = async (req, res) => {
+	const instructorId = req.params.id;
+
+	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
+		return res.status(404).json({ error: "No such instructor" });
+	}
+
+	const instructor = await Instructor.findById(instructorId).populate("reviews.trainee");
+	console.log(instructor);
+	if (!instructor) {
+		return res.status(404).json({ error: "No such instructor" });
+	}
+
+	res.status(200).json(instructor);
+};
+
 // create a new instructor
 const createInstructor = async (req, res) => {
 	// add to the database
@@ -80,7 +97,7 @@ const updateInstructor = async (req, res) => {
 
 const reviewInstructor = async (req, res) => {
 	let instructorId = req.params.id;
-	
+
 	const instructor = await Instructor.findById(instructorId).then((instructor) => {
 		if (!instructor) {
 			return res.status(400).json({ error: "No such Instructor" });
@@ -111,4 +128,5 @@ module.exports = {
 	deleteInstructor,
 	updateInstructor,
 	reviewInstructor,
+	getInstructorReviews,
 };
