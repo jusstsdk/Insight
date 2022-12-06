@@ -101,6 +101,7 @@
    - How do we calculate popularity
    - responsiveness
    - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
+   - sending emails to reset passwords and other emails not needed?
 
 # Bugs
 
