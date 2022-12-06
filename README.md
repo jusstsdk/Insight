@@ -99,6 +99,7 @@
    - How to calculate progress
    - handle refresh logic?
    - How do we calculate popularity
+   - responsiveness
 
 # Bugs
 
