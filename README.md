@@ -97,10 +97,8 @@
    - first last names for the other models?
    - What are subtitles
    - How to calculate progress
-   - JWT vs Sessions
+   - handle refresh logic?
    - How do we calculate popularity
-   - "see all previously reported problems and their statuses" vs "follow up on an unresolved problem"
-   
 
 # Bugs
 
