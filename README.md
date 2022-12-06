@@ -9,6 +9,7 @@
    - [ ] remove discount after a while as instructor
    - [ ] add discount as admin
    - [ ] add notes to videos
+   - [ ] add currency to my courses (maybe update trainee model)
 
 1. Email
    - [ ] receive an email to change a forgotten password
