@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import { Form, Row, Col, Button, Card, Tabs, Tab, Accordion, ListGroup } from "react-bootstrap";
-import "../../css/createCourse.css";
+import "../../../css/createCourse.css";
 import AddExercise from "./AddExercise";
 import AddVideo from "./AddVideo";
-import TrashIcon from "../TrashIcon";
+import TrashIcon from "../../TrashIcon";
 import ViewExercise from "./ViewExercise";
 function ViewSubtitle(props) {
 	return (

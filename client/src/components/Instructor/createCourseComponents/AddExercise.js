@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import { Form, Row, Col, Button, Card, Accordion, ListGroup } from "react-bootstrap";
 import AddQuestion from "./AddQuestion";
-import "../../css/createCourse.css";
+import "../../../css/createCourse.css";
 import ViewExercise from "./ViewExercise";
 import { useSelector, useDispatch } from "react-redux";
-import { addExercise } from "../../redux/subtitleSlice";
-import { setExerciseTitle, addQuestions, removeQuestions } from "../../redux/exerciseSlice";
+import { addExercise } from "../../../redux/subtitleSlice";
+import { setExerciseTitle, addQuestions, removeQuestions } from "../../../redux/exerciseSlice";
 
 function AddExercise(props) {
 	const dispatch = useDispatch();
