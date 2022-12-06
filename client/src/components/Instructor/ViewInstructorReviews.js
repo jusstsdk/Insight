@@ -7,6 +7,8 @@ import InstructorReviewCard from "./InstructorReviewCard";
 function ViewInstructorReviews() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const [Reviews, setReviews] = useState([]);
+
+	// Gets all Instructor's Review populated with Trainee's information.
 	const getInstructorReviews = async () => {
 		const config = {
 			method: "GET",
@@ -14,28 +16,26 @@ function ViewInstructorReviews() {
 		};
 		try {
 			const response = await axios(config);
-			console.log(response.data.reviews);
 			setReviews(response.data.reviews);
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
 	useEffect(() => {
 		getInstructorReviews();
 	}, []);
+
 	return (
 		<Container className="my-3">
-			{/* <h1>hi{console.log(instructorId)}</h1> */}
-			{/* <Stars stars={1} /> */}
 			<Col lg={8} className="d-flex flex-column justify-content-center m-auto">
 				{Reviews.map((review) => (
-					<>
-						<InstructorReviewCard
-							traineeEmail={review.trainee.email}
-							review={review.review}
-							rating={review.rating}
-						/>
-					</>
+					<InstructorReviewCard
+						key={"review_" + review.trainee.email}
+						traineeEmail={review.trainee.email}
+						review={review.review}
+						rating={review.rating}
+					/>
 				))}
 			</Col>
 		</Container>

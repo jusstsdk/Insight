@@ -9,11 +9,11 @@ function Stars(props) {
 	const func = () => {
 		let stars = [];
 		for (let i = 0; i < fullStars; i++) {
-			stars.push(<BsStarFill color={"#FFD700"} />);
+			stars.push(<BsStarFill key={"fullStar_" + i} color={"#FFD700"} />);
 		}
-		if (halfStars) stars.push(<BsStarHalf color={"#FFD700"} />);
+		if (halfStars) stars.push(<BsStarHalf ey={"halfStar"} color={"#FFD700"} />);
 		for (let i = 0; i < emptyStars; i++) {
-			stars.push(<BsStar color={"#FFD700"} />);
+			stars.push(<BsStar key={"emptyStar_" + i} color={"#FFD700"} />);
 		}
 		return stars;
 	};

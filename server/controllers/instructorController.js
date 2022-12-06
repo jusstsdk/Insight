@@ -35,8 +35,12 @@ const getInstructorReviews = async (req, res) => {
 		return res.status(404).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findById(instructorId).populate("reviews.trainee");
-	console.log(instructor);
+	const instructor = await Instructor.findById(instructorId).populate(
+		"reviews.trainee",
+		"_id email"
+	);
+	// instructor.reviews.map((review) => review.trainee.email);
+	// console.log(instructor);
 	if (!instructor) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
