@@ -96,7 +96,7 @@
    - who will add the rest of details (adming/instrut/corp)
    - first last names for the other models?
    - What are subtitles
-   - How to calculate progress
+   - How to calculate progress? do we need to keep track of watched video time as well?
    - handle refresh logic?
    - How do we calculate popularity
    - responsiveness
