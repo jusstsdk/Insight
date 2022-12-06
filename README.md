@@ -5,6 +5,10 @@
    - [x] change reviewer and reporter to author
    - [x] hash passwords
    - [ ] add rating to instructor model
+   - [ ] first and last name
+   - [ ] remove discount after a while as instructor
+   - [ ] add discount as admin
+   - [ ] add notes to videos
 
 1. Email
    - [ ] receive an email to change a forgotten password
@@ -83,7 +87,12 @@
    - [ ] generate personalized certificate
 
 # Questions
+   - money owed per month instructor?
+   - accept conditions when?
+   - what does the certificate look like? how to create one?
+   - most viewed course vs most popular vs just most reviewed
    - act as if we called pay API is good enough?
+   - view but not open course?
    - who will add the rest of details (adming/instrut/corp)
    - first last names for the other models?
    - What are subtitles
