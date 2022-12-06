@@ -25,9 +25,9 @@ function CourseCard({ course }) {
 				<Card.Body>
 					<Card.Title>{course.title}</Card.Title>
 					<Card.Text>
-						<p>total hours : {course.totalHours}</p>
-						<p>price : {course.price}</p>
-						<p>rating : {course.rating}</p>
+						total hours : {course.totalHours}
+						price : {course.price}
+						rating : {course.rating}
 						<Button variant="primary" onClick={handleShow}>
 							view details
 						</Button>

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
 import CourseDetails from "./pages/CourseDetails";
-import CourseList from "./components/CourseList";
+import CourseList from "./pages/CourseList";
 
 function App() {
 	const dispatch = useDispatch();
