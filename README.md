@@ -100,6 +100,7 @@
    - handle refresh logic?
    - How do we calculate popularity
    - responsiveness
+   - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
 
 # Bugs
 
