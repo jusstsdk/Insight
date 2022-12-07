@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
-import "../../css/createCourse.css";
-import TrashIcon from "../TrashIcon";
-import { addVideo } from "../../redux/subtitleSlice";
+import "../../../css/createCourse.css";
+import TrashIcon from "../../TrashIcon";
+import { addVideo } from "../../../redux/subtitleSlice";
 import { useDispatch } from "react-redux";
 function AddVideo(props) {
 	const Url = useRef();

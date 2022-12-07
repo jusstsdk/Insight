@@ -6,6 +6,7 @@ const {
 	deleteInstructor,
 	updateInstructor,
 	reviewInstructor,
+	getInstructorReviews,
 } = require("../controllers/instructorController");
 
 const { createCourseInstructor, getCoursesInstructor } = require("../controllers/courseController");
@@ -35,5 +36,8 @@ router.get("/:id/courses", getCoursesInstructor);
 
 // Review an Instructor
 router.post("/:id/review", reviewInstructor);
+
+// Review an Instructor
+router.get("/:id/reviews", getInstructorReviews);
 
 module.exports = router;

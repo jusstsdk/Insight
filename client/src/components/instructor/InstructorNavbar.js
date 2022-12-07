@@ -39,6 +39,18 @@ function InstructorNavbar() {
 								}}>
 								Edit Profile
 							</Nav.Link>
+							<Nav.Link
+								onClick={() => {
+									navigate("viewInstructorReviews");
+								}}>
+								View Reviews
+							</Nav.Link>
+							<Nav.Link
+								onClick={() => {
+									navigate("viewInstructorCourses");
+								}}>
+								View Courses
+							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
 					<Button onClick={() => logoutFunction()}>Logout</Button>

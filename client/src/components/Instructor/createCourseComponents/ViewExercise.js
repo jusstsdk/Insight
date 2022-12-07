@@ -1,5 +1,5 @@
 import { Accordion, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
-import TrashIcon from "../TrashIcon";
+import TrashIcon from "../../TrashIcon";
 function ViewExercise(props) {
 	return (
 		<>
