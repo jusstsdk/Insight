@@ -20,6 +20,7 @@ export default function Profile() {
 							</Popover.Body>
 						</Popover>
 					}
+					rootClose
 				>
 					<Button>Profile</Button>
 				</OverlayTrigger>
@@ -40,6 +41,7 @@ export default function Profile() {
 							</Popover.Body>
 						</Popover>
 					}
+					rootClose
 				>
 					<Button>Profile</Button>
 				</OverlayTrigger>
