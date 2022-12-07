@@ -43,7 +43,13 @@ function InstructorNavbar() {
 								onClick={() => {
 									navigate("viewInstructorReviews");
 								}}>
-								View My Reviews
+								View Reviews
+							</Nav.Link>
+							<Nav.Link
+								onClick={() => {
+									navigate("viewInstructorCourses");
+								}}>
+								View Courses
 							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>

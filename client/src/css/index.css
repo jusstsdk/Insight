@@ -15,3 +15,18 @@ code {
 #main-form {
 	height: 100%;
 }
+
+.courseCardLabel {
+	width: 10% !important;
+}
+
+.viewCourseButton,
+.starsContainer,
+.priceContainer {
+	margin-left: auto;
+}
+
+.courseCardTitle,
+priceLabel {
+	width: fit-content !important;
+}

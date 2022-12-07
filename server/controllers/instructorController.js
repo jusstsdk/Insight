@@ -27,7 +27,7 @@ const getInstructor = async (req, res) => {
 	res.status(200).json(instructor);
 };
 
-// get a single instructor
+// get a single instructor's reviews populated with Trainee
 const getInstructorReviews = async (req, res) => {
 	const instructorId = req.params.id;
 
@@ -39,8 +39,6 @@ const getInstructorReviews = async (req, res) => {
 		"reviews.trainee",
 		"_id email"
 	);
-	// instructor.reviews.map((review) => review.trainee.email);
-	// console.log(instructor);
 	if (!instructor) {
 		return res.status(404).json({ error: "No such instructor" });
 	}

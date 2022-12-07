@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Form, Col, Row, Button, Container } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import Stars from "../Stars";
 import InstructorReviewCard from "./InstructorReviewCard";
 function ViewInstructorReviews() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
