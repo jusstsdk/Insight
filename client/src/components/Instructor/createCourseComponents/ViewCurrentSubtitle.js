@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Row, Col, Button, Tab, Tabs, Accordion } from "react-bootstrap";
-import TrashIcon from "../TrashIcon";
+import TrashIcon from "../../TrashIcon";
 import ViewExercise from "./ViewExercise";
-import { clearSubtitle } from "../../redux/subtitleSlice";
-import { clearExercise } from "../../redux/exerciseSlice";
+import { clearSubtitle } from "../../../redux/subtitleSlice";
+import { clearExercise } from "../../../redux/exerciseSlice";
 import { useState } from "react";
 function ViewCurrentSubtitle() {
 	const subtitleTitle = useSelector((state) => state.subtitleReducer.title);

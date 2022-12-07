@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import { Form, Row, Col, Button, Tab, Tabs, Accordion } from "react-bootstrap";
 import "../../css/createCourse.css";
-import AddExercise from "../../components/instructor/AddExercise";
-import AddSubtitle from "../../components/instructor/AddSubtitle";
-import AddInfo from "../../components/instructor/AddInfo";
-import ViewSubtitle from "../../components/instructor/ViewSubtitle";
+import AddExercise from "../../components/instructor/createCourseComponents/AddExercise";
+import AddSubtitle from "../../components/instructor/createCourseComponents/AddSubtitle";
+import AddInfo from "../../components/instructor/createCourseComponents/AddInfo";
+import ViewSubtitle from "../../components/instructor/createCourseComponents/ViewSubtitle";
 import TrashIcon from "../../components/TrashIcon";
+import ViewExercise from "../../components/instructor/createCourseComponents/ViewExercise";
+import ViewCurrentSubtitle from "../../components/instructor/createCourseComponents/ViewCurrentSubtitle";
 
-import ViewExercise from "../../components/instructor/ViewExercise";
-import ViewCurrentSubtitle from "../../components/instructor/ViewCurrentSubtitle";
 function CreateCourse() {
 	const Title = useRef();
 	const Price = useRef();

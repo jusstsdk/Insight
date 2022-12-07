@@ -10,7 +10,7 @@ const reportSchema = new Schema({
 	type: {
 		type: String,
 		required: true,
-		enum: ["Technical", "Financial", "Other"]
+		enum: ["Technical", "Financial", "Other"],
 	},
 	isResolved: Boolean,
 	isSeen: Boolean,
@@ -18,13 +18,13 @@ const reportSchema = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
 		required: true,
-		refPath: "reports.authorType"
+		refPath: "reports.authorType",
 	},
 	authorType: {
 		type: String,
 		required: true,
-		enum: ["Trainee", "CorporateTrainee", "Instructor"]
-	}
+		enum: ["trainee", "corporateTrainee", "instructor"],
+	},
 });
 
 const courseSchema = new Schema(
@@ -46,17 +46,16 @@ const courseSchema = new Schema(
 		refundRequests: [
 			{
 				trainee: { type: Schema.ObjectId, ref: "Trainee" },
-				paidPrice: Number
-			}
+				paidPrice: Number,
+			},
 		],
-		popularity: Number
+		popularity: Number,
 	},
 	{ timestamps: true }
 );
 
 courseSchema.pre("save", function (next) {
-	this.price =
-		this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;
