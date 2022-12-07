@@ -9,6 +9,7 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
+	const choosenCountry = useRef();
 	const country = useSelector((state) => state.userReducer.user.country);
 
 	async function handleSubmit(e) {
@@ -38,10 +39,13 @@ function ListCourses({ setCourses }) {
 	}
 
 	async function changeToLocalCurrency(courses) {
+		if (!country) country = "USA";
 		const responseCountryApi = await axios.get(
 			`https://restcountries.com/v3.1/name/${country}`
 		);
-		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
+		const localCurrency = Object.keys(
+			responseCountryApi.data[0].currencies
+		)[0];
 		const response = await axios.get(
 			"https://api.apilayer.com/exchangerates_data/latest",
 			{
@@ -55,10 +59,10 @@ function ListCourses({ setCourses }) {
 		);
 		const exchangeRate = response.data.rates[localCurrency];
 
-		courses.forEach(course => {
-			course.price *= exchangeRate
+		courses.forEach((course) => {
+			course.price *= exchangeRate;
 		});
-		
+
 		return courses;
 	}
 

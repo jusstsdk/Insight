@@ -1,7 +1,8 @@
-import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import Profile from "../Profile";
 
 function InstructorNavbar() {
 	const dispatch = useDispatch();
@@ -21,7 +22,8 @@ function InstructorNavbar() {
 						href="#"
 						onClick={() => {
 							navigate("/");
-						}}>
+						}}
+					>
 						Home
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -30,18 +32,20 @@ function InstructorNavbar() {
 							<Nav.Link
 								onClick={() => {
 									navigate("createCourse");
-								}}>
+								}}
+							>
 								Create Course
 							</Nav.Link>
 							<Nav.Link
 								onClick={() => {
 									navigate("editProfile");
-								}}>
+								}}
+							>
 								Edit Profile
 							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
-					<Button onClick={() => logoutFunction()}>Logout</Button>
+					<Profile />
 				</Container>
 			</Navbar>
 		</>

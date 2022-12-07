@@ -1,4 +1,3 @@
-import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -8,6 +7,7 @@ import { AdminRoutes } from "./routes/AdminRoutes";
 import { InstructorRoutes } from "./routes/InstructorRoutes";
 import { TraineeRoutes } from "./routes/TraineeRoutes";
 import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
+import { GuestRoutes } from "./routes/GuestRoutes";
 import { RedirectToHome } from "./components/RedirectToHome";
 
 function App() {
@@ -25,22 +25,20 @@ function App() {
 			dispatch(setType(storedUserType));
 			dispatch(setUser(JSON.parse(storedUser)));
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<>
 			<Routes>
 				<Route path="/" element={<RedirectToHome />} />
-				<Route path="/login" element={<Login />} />
-
+				<Route path="/guest" element={<GuestRoutes />} />
 				<Route path="/admin/*" element={<AdminRoutes />} />
 				<Route path="/instructor/*" element={<InstructorRoutes />} />
 				<Route path="/trainee/*" element={<TraineeRoutes />} />
 				<Route
 					path="/corporateTrainee/*"
 					element={<CorporateTraineeRoutes />}
-				/>				
+				/>
 
 				<Route path="/signUp" element={<SignUp />} />
 			</Routes>

@@ -1,7 +1,8 @@
-import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import Profile from "../Profile";
 
 function TraineeNavbar() {
 	const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function TraineeNavbar() {
 							</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
-					<Button onClick={() => logoutFunction()}>Logout</Button>
+					<Profile/>
 				</Container>
 			</Navbar>
 		</>

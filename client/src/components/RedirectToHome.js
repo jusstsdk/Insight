@@ -14,6 +14,6 @@ export function RedirectToHome() {
 		case "corporateTrainee":
 			return <Navigate to="/corporateTrainee" replace />;
 		default:
-			return <Navigate to="/login" replace />;
+			return <Navigate to="/guest" replace />;
 	}
 }

@@ -1,18 +1,18 @@
-import {  Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import Profile from "../Profile";
 
-function CorporateTraineeNavbar() {
+function GuestNavbar() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const logoutFunction = async () => {
-		localStorage.clear();
-		dispatch(logout());
-		navigate("/login");
-	};
+	// const logoutFunction = async () => {
+	// 	localStorage.clear();
+	// 	dispatch(logout());
+	// 	navigate("/login");
+	// };
 
 	return (
 		<>
@@ -37,12 +37,12 @@ function CorporateTraineeNavbar() {
 								Search
 							</Nav.Link>
 						</Nav>
-					</Navbar.Collapse>
                     <Profile/>
+					</Navbar.Collapse>
 				</Container>
 			</Navbar>
 		</>
 	);
 }
 
-export default CorporateTraineeNavbar;
+export default GuestNavbar;
