@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setToken, setType, setUser } from "./redux/userSlice";
-import SignUp from "./components/SignUp";
+import SignUp from "./pages/SignUp";
 import { AdminRoutes } from "./routes/AdminRoutes";
 import { InstructorRoutes } from "./routes/InstructorRoutes";
 import { TraineeRoutes } from "./routes/TraineeRoutes";
@@ -31,7 +31,7 @@ function App() {
 		<>
 			<Routes>
 				<Route path="/" element={<RedirectToHome />} />
-				<Route path="/guest" element={<GuestRoutes />} />
+				<Route path="/guest/*" element={<GuestRoutes />} />
 				<Route path="/admin/*" element={<AdminRoutes />} />
 				<Route path="/instructor/*" element={<InstructorRoutes />} />
 				<Route path="/trainee/*" element={<TraineeRoutes />} />
@@ -39,8 +39,6 @@ function App() {
 					path="/corporateTrainee/*"
 					element={<CorporateTraineeRoutes />}
 				/>
-
-				<Route path="/signUp" element={<SignUp />} />
 			</Routes>
 		</>
 	);

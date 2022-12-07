@@ -17,12 +17,13 @@ export default function Profile() {
 							<Popover.Header as="h3">{`Login to your profile`}</Popover.Header>
 							<Popover.Body>
 								<Login />
+								<a href="guest/signUp">Sign Up</a>
 							</Popover.Body>
 						</Popover>
 					}
 					rootClose
 				>
-					<Button>Profile</Button>
+					<Button>Sign in</Button>
 				</OverlayTrigger>
 			</>
 		);
