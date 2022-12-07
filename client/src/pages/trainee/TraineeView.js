@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import PersonalInfo from "./PersonalInfo";
 import CourseTraineePOV from "./CourseTraineePOV";
+import MyCourses from "../../components/trainee/MyCourses";
+
 
 function TraineeView() {
 	const { firstName, lastName, gender, courses, paymentMethods } = useSelector(
@@ -13,7 +15,7 @@ function TraineeView() {
 	return (
 		<>
 			<PersonalInfo></PersonalInfo>
-			<CourseTraineePOV course={myCourse}></CourseTraineePOV>
+			<MyCourses />
 		</>
 	);
 }

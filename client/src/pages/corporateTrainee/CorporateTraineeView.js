@@ -1,4 +1,4 @@
-import MyCourses from "../../components/MyCourses";
+import MyCourses from "../../components/corporateTrainee/MyCourses";
 function CorporateTraineeView() {
 	return (
 		<>
