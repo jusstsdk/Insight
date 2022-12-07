@@ -17,7 +17,7 @@ function CourseCard({ course }) {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const handleOpen = () => {
-		navigate("courses/" + course._id);
+		navigate(course._id);
 	};
 	return (
 		<>
