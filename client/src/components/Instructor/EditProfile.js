@@ -1,13 +1,19 @@
 import axios from "axios";
-import { useRef, useState } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
+
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Form, Col, Button } from "react-bootstrap";
+
 function EditProfile() {
-	const User = JSON.parse(localStorage.getItem("user"));
-	const [Email, setEmail] = useState(JSON.parse(localStorage.getItem("user")).email);
-	const [Biography, setBiography] = useState(JSON.parse(localStorage.getItem("user")).biography);
+	const User = useSelector((state) => state.userReducer.user);
+	const [Email, setEmail] = useState(useSelector((state) => state.userReducer.user.email));
+	const [Biography, setBiography] = useState(
+		useSelector((state) => state.userReducer.user.biography)
+	);
 
 	const handleEditProfile = async (e) => {
 		e.preventDefault();
+
 		const config = {
 			method: "PUT",
 			url: `http://localhost:4000/api/instructors/${User._id}`,
@@ -18,8 +24,11 @@ function EditProfile() {
 			},
 		};
 		try {
-			const response = await axios(config);
-			console.log(response);
+			await axios(config);
+			const localUser = JSON.parse(localStorage.getItem("user"));
+			localUser.email = Email;
+			localUser.biography = Biography;
+			localStorage.setItem("user", JSON.stringify(localUser));
 		} catch (err) {
 			console.log(err);
 		}
