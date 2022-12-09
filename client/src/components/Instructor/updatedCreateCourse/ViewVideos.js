@@ -12,7 +12,9 @@ export default function ViewVideos(props) {
 				return (
 					<Accordion.Item eventKey={`video_${url_key}`} key={`video_${url_key}`}>
 						<div className="d-flex">
-							<Accordion.Header className="accordionHeaderWidth">{video.url}</Accordion.Header>
+							<Accordion.Header className="accordionHeaderWidth">
+								<h6>{video.url}</h6>
+							</Accordion.Header>
 							{props.delete && (
 								<Button
 									className="accordionTrash"

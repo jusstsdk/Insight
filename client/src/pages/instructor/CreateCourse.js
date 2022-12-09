@@ -14,25 +14,38 @@ export default function CreateCourse() {
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
-	const Info = useSelector((state) => state.createCourseReducer.info);
+
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
 	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
-
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
+
+	const InfoTitle = useSelector((state) => state.infoReducer.title);
+	const InfoSummary = useSelector((state) => state.infoReducer.summary);
+	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
+	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
+	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
 
 	const handleCreateCourse = async (e) => {
 		e.preventDefault();
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
 			headers: {},
 			data: {
-				...Info,
+				title: InfoTitle,
+				summary: InfoSummary,
+				originalPrice: InfoOriginalPrice,
+				previewVideo: InfoPreviewVideo,
+				subjects: InfoSubjects,
+				instructors: instructorsIds,
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 			},
 		};
 		try {
+			console.log(config);
 			await axios(config);
 		} catch (err) {
 			console.log(err);

@@ -18,7 +18,8 @@ export default function ViewSubtitles() {
 					<Accordion.Item eventKey={`subtitle_${subtitle_key}`} key={`subtitle_${subtitle_key}`}>
 						<div className="d-flex">
 							<Accordion.Header className="accordionHeaderWidth">
-								{subtitle.title} {subtitle.hours}
+								<h6 className="me-3">{subtitle.title}</h6>
+								<h6>Hours: {subtitle.hours}</h6>
 							</Accordion.Header>
 
 							<Button

@@ -16,7 +16,7 @@ export default function ViewExercises(props) {
 						<Accordion.Item eventKey={`exercise_${exercise_key}`} key={`exercise_${exercise_key}`}>
 							<div className="d-flex">
 								<Accordion.Header className="accordionHeaderWidth">
-									{exercise.title}
+									<h6>{exercise.title}</h6>
 								</Accordion.Header>
 								{props.delete && (
 									<Button

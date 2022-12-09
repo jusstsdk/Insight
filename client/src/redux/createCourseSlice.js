@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 export const createCourseSlice = createSlice({
 	name: "createCourse",
 	initialState: {
-		info: {},
-
 		examTitle: "",
 		examQuestions: [],
 
@@ -19,10 +17,6 @@ export const createCourseSlice = createSlice({
 		exerciseQuestions: [],
 	},
 	reducers: {
-		setInfo: (state, action) => {
-			state.info = action.payload;
-		},
-
 		setExamTitle: (state, action) => {
 			state.examTitle = action.payload;
 		},

@@ -1,17 +1,20 @@
 import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 
-export default function AddSubject(props) {
+import { addSubject, removeSubject } from "../../../redux/infoSlice";
+
+export default function AddSubject() {
+	const dispatch = useDispatch();
+
 	const Subject = useRef();
+	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
+
 	const handleAddSubject = () => {
 		let newSubject = Subject.current.value;
-		props.setSubjects((subjects) => [...subjects, newSubject]);
 		Subject.current.value = "";
-	};
-	const handleDeleteSubject = (key) => {
-		let newSubjects = props.Subjects.filter((subject, i) => i !== key);
-		props.setSubjects(newSubjects);
+		dispatch(addSubject(newSubject));
 	};
 
 	return (
@@ -27,13 +30,16 @@ export default function AddSubject(props) {
 			</Button>
 			<Col className="overflow-auto">
 				<ListGroup horizontal sm={7} className="flex-wrap">
-					{props.Subjects.map((subject, key) => (
+					{InfoSubjects.map((subject, key) => (
 						<ListGroup.Item
 							key={key}
 							as="li"
 							className="d-flex justify-content-between align-items-center">
 							<div className="fw-bold mr-1">{subject}</div>
-							<Button key={key} className="trashButton" onClick={() => handleDeleteSubject(key)}>
+							<Button
+								key={key}
+								className="trashButton"
+								onClick={() => dispatch(removeSubject(key))}>
 								<BsTrash key={key} className="trashIcon" />
 							</Button>
 						</ListGroup.Item>
