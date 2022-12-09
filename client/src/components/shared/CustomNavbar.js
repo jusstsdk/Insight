@@ -13,7 +13,7 @@ export default function CustomNavbar() {
 	const displayView = () => {
 		// Renders the appropriate View according to the logged in User.
 		switch (userType) {
-			case "admin":
+			case "administrator":
 				return <AdminNavbarButtons />;
 			case "instructor":
 				return <InstructorNavbarButtons />;

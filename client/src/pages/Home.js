@@ -10,7 +10,7 @@ function Home() {
 	const displayView = () => {
 		// Renders the appropriate View according to the logged in User.
 		switch (userType) {
-			case "admin":
+			case "administrator":
 				return <AdminView />;
 			case "instructor":
 				return <InstructorView />;

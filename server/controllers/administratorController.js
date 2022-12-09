@@ -86,7 +86,7 @@ const createAdministrator = async (req, res) => {
 		adminInfo.password = await bcrypt.hash(adminInfo.password, 10);
 		let administrator = await Administrator.create(adminInfo);
 		administrator["_doc"]["x-auth-token"] = administrator.generateAuthToken();
-		administrator["_doc"].userType = "admin";
+		administrator["_doc"].userType = "administrator";
 		res.status(200).json(administrator);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

@@ -38,7 +38,7 @@ export default function Login() {
 		);
 
 		switch (responseUserType) {
-			case "admin":
+			case "administrator":
 				navigate("/admin");
 				break;
 			case "instructor":
