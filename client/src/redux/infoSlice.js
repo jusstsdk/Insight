@@ -32,6 +32,14 @@ export const infoSlice = createSlice({
 		setInstructors: (state, action) => {
 			state.instructors = [...action.payload];
 		},
+		clearInfo: (state, action) => {
+			state.title = "";
+			state.summary = "";
+			state.originalPrice = 0;
+			state.previewVideo = "";
+			state.subjects = [];
+			state.instructors = [];
+		},
 
 		// // logout: (state) => {},
 	},
@@ -46,6 +54,7 @@ export const {
 	addSubject,
 	removeSubject,
 	setInstructors,
+	clearInfo,
 } = infoSlice.actions;
 
 export default infoSlice.reducer;

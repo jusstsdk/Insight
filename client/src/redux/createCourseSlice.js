@@ -26,7 +26,6 @@ export const createCourseSlice = createSlice({
 		removeExamQuestions: (state, action) => {
 			state.examQuestions = state.examQuestions.filter((question, i) => i !== action.payload);
 		},
-
 		addSubtitle: (state, action) => {
 			let newSubtitle = {
 				title: state.subtitleTitle,
@@ -40,7 +39,6 @@ export const createCourseSlice = createSlice({
 			state.subtitleExercises = [];
 			state.subtitles = [...state.subtitles, newSubtitle];
 		},
-
 		removeSubtitle: (state, action) => {
 			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
 		},
@@ -64,15 +62,12 @@ export const createCourseSlice = createSlice({
 				(exercise, i) => i !== action.payload
 			);
 		},
-
 		addVideoToSubtitle: (state, action) => {
 			state.subtitleVideos = [...state.subtitleVideos, action.payload];
 		},
-
 		removeSubtitleVideos: (state, action) => {
 			state.subtitleVideos = state.subtitleVideos.filter((video, i) => i !== action.payload);
 		},
-
 		setExerciseTitle: (state, action) => {
 			state.exerciseTitle = action.payload;
 		},
@@ -83,6 +78,11 @@ export const createCourseSlice = createSlice({
 			state.exerciseQuestions = state.exerciseQuestions.filter(
 				(question, i) => i !== action.payload
 			);
+		},
+		clearCreateCourse: (state, action) => {
+			state.examTitle = "";
+			state.examQuestions = [];
+			state.subtitles = [];
 		},
 
 		// // logout: (state) => {},
@@ -106,6 +106,7 @@ export const {
 	addExerciseToSubtitleExercises,
 	removeSubtitle,
 	removeExerciseFromSubtitleExercises,
+	clearCreateCourse,
 } = createCourseSlice.actions;
 
 export default createCourseSlice.reducer;

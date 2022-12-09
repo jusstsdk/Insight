@@ -1,16 +1,20 @@
 import axios from "axios";
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Col } from "react-bootstrap";
 
 import "../../css/createCourse.css";
+
+import { clearInfo } from "../../redux/infoSlice";
+import { clearCreateCourse } from "../../redux/createCourseSlice";
 
 import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
 import AddExam from "../../components/instructor/updatedCreateCourse/AddExam";
 import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
 
 export default function CreateCourse() {
+	const dispatch = useDispatch();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -49,6 +53,8 @@ export default function CreateCourse() {
 			const localUser = JSON.parse(localStorage.getItem("user"));
 			localUser.courses = [...localUser.courses, response.data._id];
 			localStorage.setItem("user", JSON.stringify(localUser));
+			dispatch(clearInfo());
+			dispatch(clearCreateCourse());
 		} catch (err) {
 			console.log(err);
 		}
