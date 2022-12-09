@@ -1,21 +1,24 @@
 import { Accordion, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
-import TrashIcon from "../../TrashIcon";
-function ViewExercise(props) {
+import { BsTrash } from "react-icons/bs";
+
+export default function ViewExercise(props) {
 	return (
 		<>
-			{props.Questions.map((question, key) => {
+			{props.Questions.map((question, question_key) => {
 				return (
-					<Accordion.Item eventKey={`question_${key}`} key={`question_${key}`}>
+					<Accordion.Item eventKey={`question_${question_key}`} key={`question_${question_key}`}>
 						<div className="d-flex">
 							<Accordion.Header className="accordionHeaderWidth">
 								{question.question}
 							</Accordion.Header>
-							<Button
-								className="accordionTrash"
-								key={key}
-								onClick={() => props.handleDeleteQuestion(key)}>
-								<TrashIcon />
-							</Button>
+							{props.delete && (
+								<Button
+									className="accordionTrash"
+									key={question_key}
+									onClick={() => props.handleDeleteQuestion(question_key)}>
+									<BsTrash key={"exercise_trash_" + question_key} className="trashIcon" />
+								</Button>
+							)}
 						</div>
 						<Accordion.Body>
 							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">
@@ -27,7 +30,7 @@ function ViewExercise(props) {
 										{question.choices.map((choice, choice_key) => {
 											return (
 												<ListGroup.Item
-													key={`question_${key}_choice_${choice_key}`}
+													key={`question_${question_key}_choice_${choice_key}`}
 													variant={choice === question.correctAnswer ? "success" : ""}>
 													{choice}
 												</ListGroup.Item>
@@ -43,4 +46,3 @@ function ViewExercise(props) {
 		</>
 	);
 }
-export default ViewExercise;
