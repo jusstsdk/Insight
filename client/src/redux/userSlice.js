@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import api from "../api";
 
 export const userSlice = createSlice({
 	name: "user",
@@ -20,9 +21,15 @@ export const userSlice = createSlice({
 		setUser: (state, action) => {
 			state.user = action.payload;
 		},
+		setCountry: (state, action) => {
+			state.user.country = action.payload;
+			api.put(`/${state.type}s/${state.user._id}`, {
+				country: action.payload,
+			});
+		},
 		login: (state, action) => {
-			localStorage.setItem("token", action.payload.type);
-			localStorage.setItem("userType", action.payload.token);
+			localStorage.setItem("token", action.payload.token);
+			localStorage.setItem("userType", action.payload.type);
 			localStorage.setItem("user", JSON.stringify(action.payload.user));
 
 			state.type = action.payload.type;
@@ -42,6 +49,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setUser, logout, login } = userSlice.actions;
+export const { setToken, setType, setUser, logout, login, setCountry } =
+	userSlice.actions;
 
 export default userSlice.reducer;

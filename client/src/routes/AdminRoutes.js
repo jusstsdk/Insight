@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import AdminLayout from "../components/admin/AdminLayout";
 import CreateAdmin from "../components/admin/CreateAdmin";
 import CreateCorporateTrainee from "../components/admin/CreateCorporateTrainee";
 import CreateInstructor from "../components/admin/CreateInstructor";
-import Protected from "../components/Protected";
+import Layout from "../components/shared/Layout";
+import Protected from "../components/shared/Protected";
 
 export function AdminRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"admin"}>
-				<AdminLayout />
+				<Layout />
 				<Routes>
 					<Route path="createAdmin" element={<CreateAdmin />} />
 					<Route

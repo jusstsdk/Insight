@@ -9,7 +9,6 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
-	const choosenCountry = useRef();
 	const country = useSelector((state) => state.userReducer.user.country);
 
 	async function handleSubmit(e) {

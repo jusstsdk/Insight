@@ -1,29 +1,31 @@
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setToken, setType, setUser } from "./redux/userSlice";
-import SignUp from "./pages/SignUp";
+import { login } from "./redux/userSlice";
 import { AdminRoutes } from "./routes/AdminRoutes";
 import { InstructorRoutes } from "./routes/InstructorRoutes";
 import { TraineeRoutes } from "./routes/TraineeRoutes";
 import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
 import { GuestRoutes } from "./routes/GuestRoutes";
-import { RedirectToHome } from "./components/RedirectToHome";
+import { RedirectToHome } from "./components/shared/RedirectToHome";
 
 function App() {
 	const dispatch = useDispatch();
 
-	// check if user local storage contains credentials
-
-	const storedToken = localStorage.getItem("token");
-	const storedUserType = localStorage.getItem("userType");
-	const storedUser = localStorage.getItem("user");
-
 	useEffect(() => {
-		if (!(storedToken === null) && !(storedToken === "")) {
-			dispatch(setToken(storedToken));
-			dispatch(setType(storedUserType));
-			dispatch(setUser(JSON.parse(storedUser)));
+		// check if user local storage contains credentials
+		const storedToken = localStorage.getItem("token");
+		const storedUserType = localStorage.getItem("userType");
+		const storedUser = localStorage.getItem("user");
+
+		if (storedToken) {
+			dispatch(
+				login({
+					type: storedUserType,
+					token: storedToken,
+					user: JSON.parse(storedUser),
+				})
+			);
 		}
 	}, []);
 
