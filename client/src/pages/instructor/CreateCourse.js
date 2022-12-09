@@ -45,8 +45,10 @@ export default function CreateCourse() {
 			},
 		};
 		try {
-			console.log(config);
-			await axios(config);
+			const response = await axios(config);
+			const localUser = JSON.parse(localStorage.getItem("user"));
+			localUser.courses = [...localUser.courses, response.data._id];
+			localStorage.setItem("user", JSON.stringify(localUser));
 		} catch (err) {
 			console.log(err);
 		}
