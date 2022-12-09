@@ -63,7 +63,7 @@ export default function Login() {
 						placeholder="Enter username"
 						ref={username}
 					/>
-					<Form.Text className="text-muted" required>
+					<Form.Text className="text-muted">
 						We'll never share your email with anyone else.
 					</Form.Text>
 				</Form.Group>
