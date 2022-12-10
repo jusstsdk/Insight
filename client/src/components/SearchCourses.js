@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 
@@ -13,12 +13,12 @@ function ListCourses({ setCourses }) {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		let courses = await getCourses();
-		courses.forEach((course) => {
-			course.price *= user.exchangeRate;
-		});
-		setCourses(courses);
+		await getCourses();
 	}
+
+	useEffect(() => {
+		getCourses();
+	}, [user.country]);
 
 	async function getCourses() {
 		let searchParams = {};
@@ -32,19 +32,24 @@ function ListCourses({ setCourses }) {
 		if (ratingFilter.current.value)
 			searchParams.rating = ratingFilter.current.value;
 
+		let courses;
+
 		if (userType == "instructor") {
 			const response = await API.get(`${user._id}/courses`, {
 				params: searchParams,
 			});
-
-			return response.data;
+			courses = response.data;
 		} else {
 			const response = await API.get("courses", {
 				params: searchParams,
 			});
-
-			return response.data;
+			courses = response.data;
 		}
+
+		courses.forEach((course) => {
+			course.price *= user.exchangeRate;
+		});
+		setCourses(courses);
 	}
 
 	return (
