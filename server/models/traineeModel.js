@@ -54,6 +54,7 @@ const traineeSchema = new Schema(
 			type: String,
 			required: false
 		},
+		currency: String,
 		courses: [
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },

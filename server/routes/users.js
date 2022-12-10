@@ -17,7 +17,7 @@ router.post("/login", async (req, res) => {
 			const token = user.generateAuthToken();
 			res.status(200).json({
 				"x-auth-token": token,
-				userType: "admin",
+				userType: "administrator",
 				user: user._doc
 			});
 		} else {

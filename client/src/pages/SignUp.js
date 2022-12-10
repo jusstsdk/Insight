@@ -2,9 +2,9 @@ import { useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import SelectCountry from "./SelectCountry";
+import CountryDropdown from "../components/shared/CountryDropdown";
 
-function CreateTrainee() {
+export default function SignUp() {
 	const token = localStorage.getItem("token");
 	const Username = useRef();
 	const Password = useRef();
@@ -49,11 +49,19 @@ function CreateTrainee() {
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control ref={Password} type="password" placeholder="Password" />
+					<Form.Control
+						ref={Password}
+						type="password"
+						placeholder="Password"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label> Email </Form.Label>
-					<Form.Control ref={Email} type="email" placeholder="Enter Email" />
+					<Form.Control
+						ref={Email}
+						type="email"
+						placeholder="Enter Email"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicFirstName">
 					<Form.Label> First name </Form.Label>
@@ -81,7 +89,7 @@ function CreateTrainee() {
 					<option value="male">Male</option>
 					<option value="female">Female</option>
 				</Form.Select>
-				<SelectCountry Country={Country} setCountry={setCountry} />
+				<CountryDropdown Country={Country} setCountry={setCountry} />
 				<Button
 					onClick={(e) => {
 						e.preventDefault();
@@ -96,4 +104,3 @@ function CreateTrainee() {
 		</div>
 	);
 }
-export default CreateTrainee;
