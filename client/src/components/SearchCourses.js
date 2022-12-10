@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 
-function ListCourses({ setCourses }) {
+function ListCourses({ setCourses, searchInInstructorCourses }) {
 	const searchQuery = useRef();
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
@@ -34,7 +34,7 @@ function ListCourses({ setCourses }) {
 
 		let courses;
 
-		if (userType == "instructor") {
+		if (searchInInstructorCourses) {
 			const response = await API.get(`${user._id}/courses`, {
 				params: searchParams,
 			});
