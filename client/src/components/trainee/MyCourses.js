@@ -31,6 +31,7 @@ const MyCourses = () => {
 	}
 	useEffect(() => {
 		getCourses();
+		
 	}, []);
 	return (
 		courses && (
