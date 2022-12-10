@@ -1,6 +1,5 @@
 import { Button, Form } from "react-bootstrap";
 import { useRef } from "react";
-import axios from "axios";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 
@@ -10,7 +9,6 @@ function ListCourses({ setCourses }) {
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
 	const user = useSelector((state) => state.userReducer.user);
-
 	const userType = useSelector((state) => state.userReducer.type);
 
 	async function handleSubmit(e) {
