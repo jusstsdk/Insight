@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import SelectCountry from "../SelectCountry";
+import CountryDropdown from "../shared/CountryDropdown";
 
 function CreateInstructor() {
 	const token = localStorage.getItem("token");
@@ -59,7 +59,7 @@ function CreateInstructor() {
 						rows={3}
 					/>
 				</Form.Group>
-				<SelectCountry Country={Country} setCountry={setCountry} />
+				<CountryDropdown Country={Country} setCountry={setCountry} />
 				<Button
 					onClick={(e) => {
 						e.preventDefault();

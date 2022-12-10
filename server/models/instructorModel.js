@@ -7,29 +7,30 @@ const instructorSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true,
+			required: true
 		},
 		password: {
 			type: String,
-			required: true,
+			required: true
 		},
 		email: {
 			type: String,
-			required: true,
+			required: true
 		},
 		biography: {
 			type: String,
-			required: false,
+			required: false
 		},
 		country: {
 			type: String,
-			required: false,
+			required: false
 		},
+		currency: String,
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
 		reviews: {
 			type: [reviewSchema],
-			required: false,
-		},
+			required: false
+		}
 	},
 	{ timestamps: false }
 );

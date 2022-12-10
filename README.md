@@ -90,12 +90,12 @@
 
 # Questions
    - money owed per month instructor?
-   - accept conditions when?
+   - accept conditions when? // First Login
    - what does the certificate look like? how to create one?
    - most viewed course vs most popular vs just most reviewed
-   - act as if we called pay API is good enough?
+   - act as if we called pay API is good enough? // Stripe API
    - view but not open course?
-   - who will add the rest of details (adming/instrut/corp)
+   - who will add the rest of details (admin/instrut/corp) // First Login
    - first last names for the other models?
    - What are subtitles
    - How to calculate progress? do we need to keep track of watched video time as well?
@@ -103,7 +103,8 @@
    - How do we calculate popularity
    - responsiveness
    - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
-   - sending emails to reset passwords and other emails not needed?
+   - sending emails to reset passwords and other emails not needed? // Needed
+   - What is "follow up on an unresolved problem"?
 
 # Bugs
 
