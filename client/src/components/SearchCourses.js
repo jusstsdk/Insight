@@ -23,27 +23,23 @@ function ListCourses({ setCourses }) {
 	async function getCourses() {
 		let searchParams = {};
 
-		if (searchQuery.current.value)
-			searchParams.searchQuery = searchQuery.current.value;
-		if (subjectFilter.current.value)
-			searchParams.subject = subjectFilter.current.value;
-		if (priceFilter.current.value)
-			searchParams.price = priceFilter.current.value;
-		if (ratingFilter.current.value)
-			searchParams.rating = ratingFilter.current.value;
+		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
+		if (subjectFilter.current.value) searchParams.subject = subjectFilter.current.value;
+		if (priceFilter.current.value) searchParams.price = priceFilter.current.value;
+		if (ratingFilter.current.value) searchParams.rating = ratingFilter.current.value;
 
 		let courses;
 
 		if (userType == "instructor") {
-			const response = await API.get(`${user._id}/courses`, {
+			const response = await API.get(`instructors/${user._id}/courses`, {
 				params: searchParams,
 			});
-			courses = response.data;
+			courses = response.data.courses;
 		} else {
 			const response = await API.get("courses", {
 				params: searchParams,
 			});
-			courses = response.data;
+			courses = response.data.courses;
 		}
 
 		courses.forEach((course) => {
@@ -66,11 +62,7 @@ function ListCourses({ setCourses }) {
 
 				<Form.Group className="mb-3" controlId="formSubjectFilter">
 					<Form.Label>Subject</Form.Label>
-					<Form.Control
-						ref={subjectFilter}
-						type="text"
-						placeholder="Filter by a subject"
-					/>
+					<Form.Control ref={subjectFilter} type="text" placeholder="Filter by a subject" />
 				</Form.Group>
 
 				<Form.Group className="mb-3" controlId="formPriceFilter">

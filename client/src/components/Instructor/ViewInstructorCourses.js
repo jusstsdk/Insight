@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import CourseCard from "./CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
+	console.log(instructorId);
 	const [Courses, setCourses] = useState([]);
 
 	// Gets all Instructor's Review populated with Trainee's information.
@@ -15,7 +16,6 @@ function ViewInstructorCourses() {
 		};
 		try {
 			const response = await axios(config);
-			console.log(response.data.courses);
 			setCourses(response.data.courses);
 		} catch (err) {
 			console.log(err);

@@ -7,6 +7,12 @@ export default function InstructorNavbarButtons() {
 		<>
 			<Nav.Link
 				onClick={() => {
+					navigate("courses");
+				}}>
+				Search
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
 					navigate("createCourse");
 				}}>
 				Create Course

@@ -5,22 +5,18 @@ import ViewInstructorReviews from "../components/instructor/ViewInstructorReview
 import ViewInstructorCourses from "../components/instructor/ViewInstructorCourses";
 import Protected from "../components/shared/Protected";
 import Layout from "../components/shared/Layout";
+import CourseList from "../pages/corporateTrainee/CourseList";
 export function InstructorRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"instructor"}>
 				<Layout />
 				<Routes>
+					<Route path="courses" element={<CourseList />} />
 					<Route path="createCourse" element={<CreateCourse />} />
 					<Route path="editProfile" element={<EditProfile />} />
-					<Route
-						path="viewInstructorReviews"
-						element={<ViewInstructorReviews />}
-					/>
-					<Route
-						path="viewInstructorCourses"
-						element={<ViewInstructorCourses />}
-					/>
+					<Route path="viewInstructorReviews" element={<ViewInstructorReviews />} />
+					<Route path="viewInstructorCourses" element={<ViewInstructorCourses />} />
 				</Routes>
 			</Protected>
 		</>
