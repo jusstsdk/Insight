@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import api from "../api";
+import api from "../functions/api";
+import axios from "axios";
 
 export const userSlice = createSlice({
 	name: "user",
@@ -19,13 +20,15 @@ export const userSlice = createSlice({
 			state.type = action.payload;
 		},
 		setUser: (state, action) => {
+			localStorage.setItem("user", JSON.stringify(action.payload));
 			state.user = action.payload;
 		},
 		setCountry: (state, action) => {
 			state.user.country = action.payload;
-			api.put(`/${state.type}s/${state.user._id}`, {
-				country: action.payload,
-			});
+			if (state.type !== "guest")
+				api.put(`/${state.type}s/${state.user._id}`, {
+					country: action.payload,
+				});
 		},
 		login: (state, action) => {
 			localStorage.setItem("token", action.payload.token);

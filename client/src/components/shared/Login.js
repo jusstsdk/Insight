@@ -27,7 +27,31 @@ export default function Login() {
 		const response = await axios(config);
 		const responseToken = response.data["x-auth-token"];
 		const responseUserType = response.data["userType"];
-		const responseUser = response.data["user"];
+		let responseUser = response.data["user"];
+
+		const responseCountryApi = await axios.get(
+			`https://restcountries.com/v3.1/name/${responseUser.country}`
+		);
+		const localCurrency = Object.keys(
+			responseCountryApi.data[0].currencies
+		)[0];
+
+		responseUser.currency = localCurrency;
+
+		const responseExchangeRate = await axios.get(
+			"https://api.apilayer.com/exchangerates_data/latest",
+			{
+				headers: {
+					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff",
+				},
+				params: {
+					base: "USD",
+				},
+			}
+		);
+		const exchangeRate = responseExchangeRate.data.rates[localCurrency];
+
+		responseUser.exchangeRate = exchangeRate;
 
 		dispatch(
 			login({

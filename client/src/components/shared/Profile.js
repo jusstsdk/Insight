@@ -2,6 +2,7 @@ import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Login from "./Login";
 import ProfilePopover from "./ProfilePopover";
+import SelectCountryPopover from "./SelectCountryPopover";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
@@ -18,12 +19,13 @@ export default function Profile() {
 							<Popover.Body>
 								<Login />
 								<a href="guest/signUp">Sign Up</a>
+								<SelectCountryPopover />
 							</Popover.Body>
 						</Popover>
 					}
 					rootClose
 				>
-					<Button>Sign in</Button>
+					<Button>Profile</Button>
 				</OverlayTrigger>
 			</>
 		);
@@ -38,6 +40,7 @@ export default function Profile() {
 						<Popover id={`popover-positioned-bottom`}>
 							<Popover.Header as="h3">{`Profile`}</Popover.Header>
 							<Popover.Body>
+								<SelectCountryPopover />
 								<ProfilePopover />
 							</Popover.Body>
 						</Popover>

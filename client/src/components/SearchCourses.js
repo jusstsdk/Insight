@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
-import API from "../api";
+import API from "../functions/api";
 import { useSelector } from "react-redux";
 
 function ListCourses({ setCourses }) {
@@ -9,13 +9,17 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
-	const country = useSelector((state) => state.userReducer.user.country);
+	const exchangeRate = useSelector(
+		(state) => state.userReducer.user.exchangeRate
+	);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		const courses = await getCourses();
-		const coursesInLocalCurrency = await changeToLocalCurrency(courses);
-		setCourses(coursesInLocalCurrency);
+		let courses = await getCourses();
+		courses.forEach((course) => {
+			course.price *= exchangeRate;
+		});
+		setCourses(courses);
 	}
 
 	async function getCourses() {
@@ -31,38 +35,10 @@ function ListCourses({ setCourses }) {
 			searchParams.rating = ratingFilter.current.value;
 
 		const response = await API.get("courses", {
-			params: searchParams
+			params: searchParams,
 		});
 
 		return response.data;
-	}
-
-	async function changeToLocalCurrency(courses) {
-		if (!country) country = "USA";
-		const responseCountryApi = await axios.get(
-			`https://restcountries.com/v3.1/name/${country}`
-		);
-		const localCurrency = Object.keys(
-			responseCountryApi.data[0].currencies
-		)[0];
-		const response = await axios.get(
-			"https://api.apilayer.com/exchangerates_data/latest",
-			{
-				headers: {
-					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
-				},
-				params: {
-					base: "USD"
-				}
-			}
-		);
-		const exchangeRate = response.data.rates[localCurrency];
-
-		courses.forEach((course) => {
-			course.price *= exchangeRate;
-		});
-
-		return courses;
 	}
 
 	return (

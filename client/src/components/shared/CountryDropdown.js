@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-function SelectCountry(props) {
+function CountryDropdown(props) {
 	return (
 		<Form.Select
 			value={props.Country}
@@ -36,7 +36,9 @@ function SelectCountry(props) {
 			<option value="Bermuda">Bermuda</option>
 			<option value="Bhutan">Bhutan</option>
 			<option value="Bolivia">Bolivia</option>
-			<option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
+			<option value="Bosnia and Herzegowina">
+				Bosnia and Herzegowina
+			</option>
 			<option value="Botswana">Botswana</option>
 			<option value="Bouvet Island">Bouvet Island</option>
 			<option value="Brazil">Brazil</option>
@@ -52,7 +54,9 @@ function SelectCountry(props) {
 			<option value="Canada">Canada</option>
 			<option value="Cape Verde">Cape Verde</option>
 			<option value="Cayman Islands">Cayman Islands</option>
-			<option value="Central African Republic">Central African Republic</option>
+			<option value="Central African Republic">
+				Central African Republic
+			</option>
 			<option value="Chad">Chad</option>
 			<option value="Chile">Chile</option>
 			<option value="China">China</option>
@@ -81,7 +85,9 @@ function SelectCountry(props) {
 			<option value="Eritrea">Eritrea</option>
 			<option value="Estonia">Estonia</option>
 			<option value="Ethiopia">Ethiopia</option>
-			<option value="Falkland Islands">Falkland Islands (Malvinas)</option>
+			<option value="Falkland Islands">
+				Falkland Islands (Malvinas)
+			</option>
 			<option value="Faroe Islands">Faroe Islands</option>
 			<option value="Fiji">Fiji</option>
 			<option value="Finland">Finland</option>
@@ -137,12 +143,12 @@ function SelectCountry(props) {
 			<option value="Kyrgyzstan">Kyrgyzstan</option>
 			<option value="Lao">Lao People's Democratic Republic</option>
 			<option value="Latvia">Latvia</option>
-			<option value="Lebanon" selected>
-				Lebanon
-			</option>
+			<option value="Lebanon">Lebanon</option>
 			<option value="Lesotho">Lesotho</option>
 			<option value="Liberia">Liberia</option>
-			<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+			<option value="Libyan Arab Jamahiriya">
+				Libyan Arab Jamahiriya
+			</option>
 			<option value="Liechtenstein">Liechtenstein</option>
 			<option value="Lithuania">Lithuania</option>
 			<option value="Luxembourg">Luxembourg</option>
@@ -182,7 +188,9 @@ function SelectCountry(props) {
 			<option value="Nigeria">Nigeria</option>
 			<option value="Niue">Niue</option>
 			<option value="Norfolk Island">Norfolk Island</option>
-			<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+			<option value="Northern Mariana Islands">
+				Northern Mariana Islands
+			</option>
 			<option value="Norway">Norway</option>
 			<option value="Oman">Oman</option>
 			<option value="Pakistan">Pakistan</option>
@@ -203,7 +211,9 @@ function SelectCountry(props) {
 			<option value="Rwanda">Rwanda</option>
 			<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
 			<option value="Saint LUCIA">Saint LUCIA</option>
-			<option value="Saint Vincent">Saint Vincent and the Grenadines</option>
+			<option value="Saint Vincent">
+				Saint Vincent and the Grenadines
+			</option>
 			<option value="Samoa">Samoa</option>
 			<option value="San Marino">San Marino</option>
 			<option value="Sao Tome and Principe">Sao Tome and Principe</option>
@@ -223,7 +233,9 @@ function SelectCountry(props) {
 			<option value="Span">Spain</option>
 			<option value="SriLanka">Sri Lanka</option>
 			<option value="St. Helena">St. Helena</option>
-			<option value="St. Pierre and Miguelon">St. Pierre and Miquelon</option>
+			<option value="St. Pierre and Miguelon">
+				St. Pierre and Miquelon
+			</option>
 			<option value="Sudan">Sudan</option>
 			<option value="Suriname">Suriname</option>
 			<option value="Svalbard">Svalbard and Jan Mayen Islands</option>
@@ -257,7 +269,9 @@ function SelectCountry(props) {
 			<option value="Vanuatu">Vanuatu</option>
 			<option value="Venezuela">Venezuela</option>
 			<option value="Vietnam">Viet Nam</option>
-			<option value="Virgin Islands (British)">Virgin Islands (British)</option>
+			<option value="Virgin Islands (British)">
+				Virgin Islands (British)
+			</option>
 			<option value="Virgin Islands (U.S)">Virgin Islands (U.S.)</option>
 			<option value="Wallis and Futana Islands">
 				Wallis and Futuna Islands
@@ -271,4 +285,4 @@ function SelectCountry(props) {
 	);
 }
 
-export default SelectCountry;
+export default CountryDropdown;
