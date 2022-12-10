@@ -9,15 +9,15 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
-	const exchangeRate = useSelector(
-		(state) => state.userReducer.user.exchangeRate
-	);
+	const user = useSelector((state) => state.userReducer.user);
+
+	const userType = useSelector((state) => state.userReducer.type);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 		let courses = await getCourses();
 		courses.forEach((course) => {
-			course.price *= exchangeRate;
+			course.price *= user.exchangeRate;
 		});
 		setCourses(courses);
 	}
@@ -34,11 +34,19 @@ function ListCourses({ setCourses }) {
 		if (ratingFilter.current.value)
 			searchParams.rating = ratingFilter.current.value;
 
-		const response = await API.get("courses", {
-			params: searchParams,
-		});
+		if (userType == "instructor") {
+			const response = await API.get(`${user._id}/courses`, {
+				params: searchParams,
+			});
 
-		return response.data;
+			return response.data;
+		} else {
+			const response = await API.get("courses", {
+				params: searchParams,
+			});
+
+			return response.data;
+		}
 	}
 
 	return (
