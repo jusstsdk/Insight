@@ -42,18 +42,19 @@ function ListCourses({ setCourses }) {
 			`https://restcountries.com/v3.1/name/${country}`
 		);
 		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
-		const response = await axios.get(
-			"https://api.apilayer.com/exchangerates_data/latest",
-			{
-				headers: {
-					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
-				},
-				params: {
-					base: "USD"
-				}
-			}
-		);
-		const exchangeRate = response.data.rates[localCurrency];
+		// const response = await axios.get(
+		// 	"https://api.apilayer.com/exchangerates_data/latest",
+		// 	{
+		// 		headers: {
+		// 			apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
+		// 		},
+		// 		params: {
+		// 			base: "USD"
+		// 		}
+		// 	}
+		// );
+		// const exchangeRate = response.data.rates[localCurrency];
+		const exchangeRate = 25;
 
 		courses.forEach(course => {
 			course.price *= exchangeRate

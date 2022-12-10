@@ -79,11 +79,10 @@ const deleteTrainee = async (req, res) => {
 };
 
 const payCourse = async (req, res) => {
-	// input: id of course and id of trainee and selected payment method.
+	// input: id of course and id of trainee and card info
 	const traineeId = req.params.tId;
 	const courseId = req.params.cId;
-	const cvv = req.body.cvv;
-	const cardId = req.body.cardId;
+	
 	//
 	// the function should find course by id and get price, discount and exercises.
 	if (!mongoose.Types.ObjectId.isValid(courseId)) {
@@ -102,8 +101,12 @@ const payCourse = async (req, res) => {
 	amountPaidByCard -= trainee.wallet; //deduct the wallet credit from the price
 	if (amountPaidByCard > 0) {
 		trainee.wallet = 0; //wallet has less so it goes to zero
+		//stripe payment using the amountPaidByCard and card that comes from req.body
+
+
 	} else {
-		trainee.wallet -= course.price; //wallet has either enough or more than needed
+		trainee.wallet -= course.price;
+		amountPaidByCard = 0; //wallet has either enough or more than needed
 	}
 
 	let newCourse = {

@@ -20,12 +20,14 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CourseTraineePOV() {
 	//current course ID (STATIC FOR NOW)
+	const navigate = useNavigate();
 	const params = useParams();
 	let id = params.id;
+	const [loaded, setLoaded] = useState(false);
 
 	//PREVIEW VIDEO URL, HERE BECAUSE IM IDIOT SHOULD BE MOVED DOWN
 	let url;
@@ -33,6 +35,7 @@ function CourseTraineePOV() {
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
 	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
+	const trainee = useSelector((state) => state.userReducer.user);
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
@@ -57,9 +60,16 @@ function CourseTraineePOV() {
 		});
 		setCourse(response.data);
 	}
+	
+	//to handle button of request course
+	const [clickable, setClickable] = useState(true);
+	const [buttonText, setButtonText] = useState("");
+	const [showRequestAccess, setShowRequestAccess] = useState(false);
+	const [showBuyCourse, setShowBuyCourse] = useState(false);
 
 	//TO SHOW OR HIDE MODAL OF REPORT COURSE
 	const [showReportBox, setShow] = useState(false);
+	
 	const [reportType, setReportType] = useState("Technical");
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -86,11 +96,67 @@ function CourseTraineePOV() {
 		} catch (err) {
 			console.log(err);
 		}
+			
 	}
-
+	async function handleRequestAccess() {
+		let config = {
+			method: "POST",
+			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
+			data: {
+				courseId: id,
+			}
+		};
+		setClickable(false);
+		setButtonText("Request pending");
+		try {
+			let response = await axios(config);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	async function handleBuyCourse() {
+		navigate("payment");
+	}
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
 		await getCourseFromDB();
+		
+		if(userType === "corporateTrainee"){
+			setShowRequestAccess(true);
+			setButtonText("Request Access");
+			trainee.courses.some((course) => {
+				if (course.course === id) {
+					setShowRequestAccess(false);
+					return true;
+				}
+				return false;
+			});
+			
+			if(showRequestAccess){
+				trainee.requests.some((request) => {
+					if (request.courseId === id) {
+						setClickable(false);
+						setButtonText("Request pending");
+						console.log(true);
+						console.log(request);
+						return true;
+					}
+					return false;
+				});
+				
+			}
+		}else{
+			setShowBuyCourse(true);
+			setButtonText("Buy Course");
+			trainee.courses.some((course) => {
+				if (course.course === id) {
+					setShowBuyCourse(false);
+					return true;
+				}
+				return false;
+			});
+		}
+		setLoaded(true);
 	}
 
 	useEffect(() => {
@@ -98,7 +164,7 @@ function CourseTraineePOV() {
 	}, []);
 
 	return (
-		course && (
+		loaded && course && (
 			<>
 				<Container>
 					<Row>
@@ -130,21 +196,27 @@ function CourseTraineePOV() {
 							title="Basic Info"
 						>
 							<Row>
-								<Col>
+								{showBuyCourse && <Col>
 									<Alert variant="primary" className="lead">
 										Price: {course.price} instead of{" "}
 										<del>{course.originalPrice}</del>
 										!!! {course.discount}% Discount! For
 										limited time only
-										<Button variant="danger">Buy</Button>
+										<Button disabled={!clickable} variant="success" onClick={handleBuyCourse}>{buttonText}</Button>
 									</Alert>
-								</Col>
+								</Col>}
+								
 								<Col>
 									<Alert variant="dark" className="lead">
 										Hours:{" "}
 										{course.hours ? course.hours : 50}
 									</Alert>
 								</Col>
+								{showRequestAccess && <Col>
+									<Alert variant="light" className="lead" >
+										<Button disabled={!clickable} variant="success" onClick={handleRequestAccess }>{buttonText}</Button>
+									</Alert>
+								</Col>}
 							</Row>
 							<Row>
 								<Col>
@@ -289,6 +361,7 @@ function CourseTraineePOV() {
 			</>
 		)
 	);
-}
-
+	
+};
 export default CourseTraineePOV;
+

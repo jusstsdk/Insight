@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import PersonalInfo from "./PersonalInfo";
-import CourseTraineePOV from "./CourseTraineePOV";
+import PersonalInfo from "../../components/PersonalInfo";
+
 import MyCourses from "../../components/trainee/MyCourses";
 
 
