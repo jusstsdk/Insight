@@ -4,7 +4,7 @@ import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView
 import CourseDetails from "../pages/corporateTrainee/CourseTraineePOV";
 import CourseList from "../pages/corporateTrainee/CourseList";
 
-import PaymentRoutes from "./PaymentRoutes";
+import Payment from "../pages/corporateTrainee/Payment";
 
 export function CorporateTraineeRoutes() {
 	return (
@@ -14,7 +14,7 @@ export function CorporateTraineeRoutes() {
 				<Route path="" element={<CorporateTraineeView />} />
 				<Route path="courses" element={<CourseList />} />
 				<Route path="courses/:id" element={<CourseDetails />} />
-				<Route path="courses/:id/payment/*" element={<PaymentRoutes />} />
+				<Route path="courses/:id/payment/*" element={<Payment />} />
 			</Routes>
 		</>
 	);

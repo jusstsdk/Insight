@@ -2,13 +2,14 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../../api";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const params = useParams();
+  const navigate = useNavigate();
 	let courseId = params.id;
 	const userID = useSelector((state) => state.userReducer.user._id);
   const wallet = useSelector((state) => state.userReducer.user.wallet);
@@ -30,15 +31,18 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
+        return_url: "/",
+        redirect : 'if_required'
       },
     });
-
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occured.");
-    }
+    const response = await API.post(`/trainees/${userID}/courses/${courseId}/payment`);
+    navigate("/");
+    
+    // if (error.type === "card_error" || error.type === "validation_error") {
+    //   setMessage(error.message);
+    // } else {
+    //   setMessage(error.message);
+    // }
 
     
 
@@ -49,7 +53,7 @@ export default function CheckoutForm() {
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
+      <button type="primary" disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}
         </span>

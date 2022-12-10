@@ -8,6 +8,7 @@ import CourseCard from "../../components/corporateTrainee/NewCourseCard";
 
 const CourseList = () => {
 	const [courses, setCourses] = useState([]);
+
 	return (
 		<div className="course-list">
 			<ListCourses setCourses={setCourses} />

@@ -35,15 +35,15 @@ function Payment() {
 			method: "POST",
 			url: "http://localhost:4000/create-payment-intent",
 			data: {
-				currency: "USD",
+				currency: "usd",
 				amount: amount,
-				
+				automatic_payment_methods: { enabled: true },
 			},
 		};
 		response = await axios(config);
 		let { clientSecret } = response.data;
 		setClientSecret(clientSecret);
-	};
+	}
 
 	
 

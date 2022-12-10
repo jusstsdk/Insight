@@ -122,6 +122,7 @@ function CourseTraineePOV() {
 		await getCourseFromDB();
 		
 		if(userType === "corporateTrainee"){
+			let ShowRequestAccessTemp = true;
 			setShowRequestAccess(true);
 			setButtonText("Request Access");
 			trainee.courses.some((course) => {
@@ -132,16 +133,13 @@ function CourseTraineePOV() {
 				return false;
 			});
 			
-			if(showRequestAccess){
-				trainee.requests.some((request) => {
+			if(ShowRequestAccessTemp){
+				trainee.requests.forEach((request) => {
 					if (request.courseId === id) {
 						setClickable(false);
 						setButtonText("Request pending");
-						console.log(true);
-						console.log(request);
-						return true;
 					}
-					return false;
+					
 				});
 				
 			}
