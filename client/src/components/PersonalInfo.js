@@ -13,12 +13,10 @@ function PersonalInfo() {
 					<Card.Title>
 						Hello, {firstName} {lastName}
 					</Card.Title>
-					<Card.Text>
-						Your Courses:
-						{courses.map((course) => (
-							<h1>course.Title</h1>
-						))}
-					</Card.Text>
+					Your Courses:
+					{courses.map((course) => (
+						<Card.Text>course.Title</Card.Text>
+					))}
 				</Card.Body>
 			</Card>
 		</>
