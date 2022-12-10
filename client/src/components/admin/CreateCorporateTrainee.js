@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import SelectCountry from "../SelectCountry";
+import CountryDropdown from "../shared/CountryDropdown";
 
 function CreateCorporateTrainee() {
 	const token = localStorage.getItem("token");
@@ -81,7 +81,7 @@ function CreateCorporateTrainee() {
 					<option value="male">Male</option>
 					<option value="female">Female</option>
 				</Form.Select>
-				<SelectCountry Country={Country} setCountry={setCountry} />
+				<CountryDropdown Country={Country} setCountry={setCountry} />
 				<Button
 					onClick={(e) => {
 						e.preventDefault();

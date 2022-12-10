@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
-import API from "../api";
+import API from "../functions/api";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";

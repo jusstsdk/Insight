@@ -1,7 +1,6 @@
 import { Button, Form } from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
-import API from "../api";
+import { useEffect, useRef } from "react";
+import API from "../functions/api";
 import { useSelector } from "react-redux";
 
 function ListCourses({ setCourses }) {
@@ -9,14 +8,17 @@ function ListCourses({ setCourses }) {
 	const subjectFilter = useRef();
 	const priceFilter = useRef();
 	const ratingFilter = useRef();
-	const country = useSelector((state) => state.userReducer.user.country);
+	const user = useSelector((state) => state.userReducer.user);
+	const userType = useSelector((state) => state.userReducer.type);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		const courses = await getCourses();
-		const coursesInLocalCurrency = await changeToLocalCurrency(courses);
-		setCourses(coursesInLocalCurrency);
+		await getCourses();
 	}
+
+	useEffect(() => {
+		getCourses();
+	}, [user.country]);
 
 	async function getCourses() {
 		let searchParams = {};
@@ -30,37 +32,24 @@ function ListCourses({ setCourses }) {
 		if (ratingFilter.current.value)
 			searchParams.rating = ratingFilter.current.value;
 
-		const response = await API.get("courses", {
-			params: searchParams
+		let courses;
+
+		if (userType == "instructor") {
+			const response = await API.get(`${user._id}/courses`, {
+				params: searchParams,
+			});
+			courses = response.data;
+		} else {
+			const response = await API.get("courses", {
+				params: searchParams,
+			});
+			courses = response.data;
+		}
+
+		courses.forEach((course) => {
+			course.price *= user.exchangeRate;
 		});
-
-		return response.data;
-	}
-
-	async function changeToLocalCurrency(courses) {
-		const responseCountryApi = await axios.get(
-			`https://restcountries.com/v3.1/name/${country}`
-		);
-		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
-		// const response = await axios.get(
-		// 	"https://api.apilayer.com/exchangerates_data/latest",
-		// 	{
-		// 		headers: {
-		// 			apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff"
-		// 		},
-		// 		params: {
-		// 			base: "USD"
-		// 		}
-		// 	}
-		// );
-		// const exchangeRate = response.data.rates[localCurrency];
-		const exchangeRate = 25;
-
-		courses.forEach(course => {
-			course.price *= exchangeRate
-		});
-		
-		return courses;
+		setCourses(courses);
 	}
 
 	return (
