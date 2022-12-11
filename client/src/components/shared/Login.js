@@ -102,7 +102,7 @@ export default function Login() {
 				</Form.Group>
 
 				<Button variant="primary" type="submit">
-					Submit
+					Login
 				</Button>
 			</Form>
 		</>
