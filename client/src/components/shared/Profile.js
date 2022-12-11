@@ -1,11 +1,14 @@
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import ProfilePopover from "./ProfilePopover";
 import SelectCountryPopover from "./SelectCountryPopover";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
+	const navigate = useNavigate();
+
 	if (userType == "Guest")
 		return (
 			<>
@@ -18,8 +21,23 @@ export default function Profile() {
 							<Popover.Header as="h3">{`Login to your profile`}</Popover.Header>
 							<Popover.Body>
 								<Login />
-								<a href="guest/signUp">Sign Up</a>
 								<SelectCountryPopover />
+								<Button
+									variant="Link"
+									onClick={() => {
+										navigate("/guest/signUp");
+									}}
+								>
+									Sign Up
+								</Button>
+								<Button
+									variant="Link"
+									onClick={() => {
+										navigate("/guest/forgotPassword");
+									}}
+								>
+									Forgot password?
+								</Button>
 							</Popover.Body>
 						</Popover>
 					}
