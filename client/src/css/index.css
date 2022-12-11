@@ -30,3 +30,11 @@ code {
 priceLabel {
 	width: fit-content !important;
 }
+
+.success {
+	color: #4bb543;
+}
+
+.error {
+	color: #dc3545;
+}

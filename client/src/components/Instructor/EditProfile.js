@@ -1,7 +1,12 @@
 import axios from "axios";
+
 import { useRef, useState } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { addNotification } from "../../redux/notificationsSlice";
+
 function EditProfile() {
+	const dispatch = useDispatch();
 	const User = JSON.parse(localStorage.getItem("user"));
 	const [Email, setEmail] = useState(JSON.parse(localStorage.getItem("user")).email);
 	const [Biography, setBiography] = useState(JSON.parse(localStorage.getItem("user")).biography);
@@ -19,7 +24,13 @@ function EditProfile() {
 		};
 		try {
 			const response = await axios(config);
-			console.log(response);
+			dispatch(
+				addNotification({
+					title: "Edit Profile",
+					info: "Updated Profile Successfully!",
+					color: "success",
+				})
+			);
 		} catch (err) {
 			console.log(err);
 		}
