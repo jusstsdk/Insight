@@ -1,10 +1,13 @@
 import axios from "axios";
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
 
+import { setUser } from "../../redux/userSlice";
+
 function EditProfile() {
+	const dispatch = useDispatch();
 	const User = useSelector((state) => state.userReducer.user);
 	const [Email, setEmail] = useState(useSelector((state) => state.userReducer.user.email));
 	const [Biography, setBiography] = useState(
@@ -25,10 +28,11 @@ function EditProfile() {
 		};
 		try {
 			await axios(config);
-			const localUser = JSON.parse(localStorage.getItem("user"));
-			localUser.email = Email;
-			localUser.biography = Biography;
-			localStorage.setItem("user", JSON.stringify(localUser));
+			let updatedUser = { ...User };
+			updatedUser.email = Email;
+			updatedUser.biography = Biography;
+			console.log(updatedUser);
+			dispatch(setUser(updatedUser));
 		} catch (err) {
 			console.log(err);
 		}

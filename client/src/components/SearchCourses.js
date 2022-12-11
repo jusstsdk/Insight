@@ -44,7 +44,7 @@ function ListCourses({ setCourses, searchInInstructorCourses }) {
 		}
 
 		courses.forEach((course) => {
-			course.price *= user.exchangeRate;
+			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
 		setCourses(courses);
 	}
