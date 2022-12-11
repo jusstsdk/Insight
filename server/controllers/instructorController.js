@@ -54,7 +54,7 @@ const createInstructor = async (req, res) => {
 		instructorInfo.password = await bcrypt.hash(instructorInfo.password, 10);
 		let instructor = await Instructor.create(instructorInfo);
 		instructor["_doc"]["x-auth-token"] = instructor.generateAuthToken();
-		instructor["_doc"].userType = "instructor";
+		instructor["_doc"].userType = "Instructor";
 		res.status(200).json(instructor);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

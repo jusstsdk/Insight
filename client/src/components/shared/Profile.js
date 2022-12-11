@@ -6,7 +6,7 @@ import SelectCountryPopover from "./SelectCountryPopover";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
-	if (userType == "guest")
+	if (userType == "Guest")
 		return (
 			<>
 				<OverlayTrigger

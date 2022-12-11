@@ -8,7 +8,7 @@ import Layout from "../components/shared/Layout";
 export function InstructorRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"instructor"}>
+			<Protected authorizedUserType={"Instructor"}>
 				<Layout />
 				<Routes>
 					<Route path="createCourse" element={<CreateCourse />} />

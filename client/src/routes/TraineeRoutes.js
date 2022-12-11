@@ -9,7 +9,7 @@ import Protected from "../components/shared/Protected";
 export function TraineeRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"trainee"}>
+			<Protected authorizedUserType={"Trainee"}>
 				<Layout />
 				<Routes>
 					<Route path="" element={<TraineeView />} />

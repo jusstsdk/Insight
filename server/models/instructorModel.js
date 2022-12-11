@@ -37,7 +37,7 @@ const instructorSchema = new Schema(
 
 instructorSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign(
-		{ _id: this._id, userType: "instructor" },
+		{ _id: this._id, userType: "Instructor" },
 		process.env.SECRET
 	);
 	return token;

@@ -120,7 +120,7 @@ function CourseTraineePOV() {
 	async function loadDoc() {
 		await getCourseFromDB();
 
-		if (userType === "corporateTrainee") {
+		if (userType === "CorporateTrainee") {
 			let ShowRequestAccessTemp = true;
 			setShowRequestAccess(true);
 			setButtonText("Request Access");

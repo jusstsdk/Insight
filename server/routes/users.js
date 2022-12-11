@@ -18,7 +18,7 @@ router.post("/login", async (req, res) => {
 			const token = user.generateAuthToken();
 			res.status(200).json({
 				"x-auth-token": token,
-				userType: "administrator",
+				userType: "Administrator",
 				user: user._doc,
 			});
 		} else {
@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
 			const token = user.generateAuthToken();
 			res.status(200).json({
 				"x-auth-token": token,
-				userType: "instructor",
+				userType: "Instructor",
 				user: user._doc,
 			});
 		} else {
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
 			const token = user.generateAuthToken();
 			res.status(200).json({
 				"x-auth-token": token,
-				userType: "trainee",
+				userType: "Trainee",
 				user: user._doc,
 			});
 		} else {
@@ -69,7 +69,7 @@ router.post("/login", async (req, res) => {
 			const token = user.generateAuthToken();
 			res.status(200).json({
 				"x-auth-token": token,
-				userType: "corporateTrainee",
+				userType: "CorporateTrainee",
 				user: user._doc,
 			});
 		} else {
@@ -152,28 +152,28 @@ router.post("/resetPassword", async (req, res) => {
 	password = await bcrypt.hash(req.body.password, 10);
 
 	switch (decoded.userType) {
-		case "administrator":
+		case "Administrator":
 			user = await Administrator.findOneAndUpdate(
 				{ _id: decoded._id },
 				{ password: password },
 				{ new: true }
 			);
 			break;
-		case "instructor":
+		case "Instructor":
 			user = await Instructor.findOneAndUpdate(
 				{ _id: decoded._id },
 				{ password: password },
 				{ new: true }
 			);
 			break;
-		case "trainee":
+		case "Trainee":
 			user = await Trainee.findOneAndUpdate(
 				{ _id: decoded._id },
 				{ password: password },
 				{ new: true }
 			);
 			break;
-		case "corporateTrainee":
+		case "CorporateTrainee":
 			user = await CorporateTrainee.findOneAndUpdate(
 				{ _id: decoded._id },
 				{ password: password },

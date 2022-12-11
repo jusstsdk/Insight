@@ -10,7 +10,7 @@ import Payment from "../pages/corporateTrainee/Payment";
 export function CorporateTraineeRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"corporateTrainee"}>
+			<Protected authorizedUserType={"CorporateTrainee"}>
 				<Layout />
 				<Routes>
 					<Route path="" element={<CorporateTraineeView />} />

@@ -62,16 +62,16 @@ export default function Login() {
 		);
 
 		switch (responseUserType) {
-			case "administrator":
+			case "Administrator":
 				navigate("/admin");
 				break;
-			case "instructor":
+			case "Instructor":
 				navigate("/instructor");
 				break;
-			case "trainee":
+			case "Trainee":
 				navigate("/trainee");
 				break;
-			case "corporateTrainee":
+			case "CorporateTrainee":
 				navigate("/corporateTrainee");
 				break;
 		}
