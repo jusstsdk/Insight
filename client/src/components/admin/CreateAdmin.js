@@ -2,12 +2,10 @@ import { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import API from "../../functions/api";
 function CreateAdmin() {
 	const token = localStorage.getItem("token");
 	const Username = useRef();
 	const Password = useRef();
-	const storedToken = localStorage.getItem("token");
 
 	const handleCreateAdmin = async () => {
 		const config = {
@@ -20,11 +18,7 @@ function CreateAdmin() {
 			},
 		};
 		try {
-			// let response = await axios(config);
-			const response2 = await API.get(`reports/`, {
-				headers: { authorization: "Bearer " + storedToken },
-			});
-			console.log(response2);
+			await axios(config);
 		} catch (err) {
 			console.log(err);
 		}
