@@ -1,6 +1,9 @@
 import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import Stars from "../Stars";
 function CourseCard(props) {
+	const currency = useSelector((state) => state.userReducer.user.currency);
+	console.log(currency);
 	return (
 		<Card className="my-3">
 			<Card.Body>
@@ -26,7 +29,9 @@ function CourseCard(props) {
 						<Card.Text>{props.course.summary}</Card.Text>
 					</Col>
 					<Col sm={1} className="priceContainer d-flex justify-content-end">
-						<Card.Text className="priceLabel">{props.course.originalPrice}$</Card.Text>
+						<Card.Text className="priceLabel">
+							{props.course.price} {currency}
+						</Card.Text>
 					</Col>
 				</CardGroup>
 

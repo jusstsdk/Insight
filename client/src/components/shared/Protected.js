@@ -1,8 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 const Protected = ({ children, authorizedUserType }) => {
-	const userType = useSelector((state) => state.userReducer.type);
+	const userType = localStorage.getItem("userType");
 
 	if (authorizedUserType !== null && userType === "guest") {
 		return <Navigate to="/guest" replace />;

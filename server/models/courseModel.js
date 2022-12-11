@@ -33,7 +33,10 @@ const courseSchema = new Schema(
 		subjects: [String],
 		summary: String,
 		originalPrice: Number,
-		discount: Number,
+		discount: {
+			type: Number,
+			default: 0,
+		},
 		price: Number,
 		totalHours: Number,
 		previewVideo: String,

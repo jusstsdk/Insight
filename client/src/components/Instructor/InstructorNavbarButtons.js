@@ -27,13 +27,13 @@ export default function InstructorNavbarButtons() {
 				onClick={() => {
 					navigate("viewInstructorReviews");
 				}}>
-				View Reviews
+				My Reviews
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
 					navigate("viewInstructorCourses");
 				}}>
-				View Courses
+				My Courses
 			</Nav.Link>
 		</>
 	);
