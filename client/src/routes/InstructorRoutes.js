@@ -12,7 +12,7 @@ export function InstructorRoutes() {
 			<Protected authorizedUserType={"instructor"}>
 				<Layout />
 				<Routes>
-					<Route path="courses" element={<CourseList />} />
+					<Route path="courses" element={<CourseList searchInInstructorCourses={false} />} />
 					<Route path="createCourse" element={<CreateCourse />} />
 					<Route path="editProfile" element={<EditProfile />} />
 					<Route path="viewInstructorReviews" element={<ViewInstructorReviews />} />

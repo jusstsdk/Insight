@@ -11,11 +11,11 @@ import {
 	Row,
 	Col,
 	Table,
-	Modal
+	Modal,
 } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
-import API from "../../api";
+import API from "../../functions/api";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -60,7 +60,7 @@ function CourseTraineePOV() {
 		});
 		setCourse(response.data);
 	}
-	
+
 	//to handle button of request course
 	const [clickable, setClickable] = useState(true);
 	const [buttonText, setButtonText] = useState("");
@@ -69,7 +69,7 @@ function CourseTraineePOV() {
 
 	//TO SHOW OR HIDE MODAL OF REPORT COURSE
 	const [showReportBox, setShow] = useState(false);
-	
+
 	const [reportType, setReportType] = useState("Technical");
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -87,8 +87,8 @@ function CourseTraineePOV() {
 				type: reportType,
 				description: reportDescription.current.value,
 				author: userID,
-				authorType: userType
-			}
+				authorType: userType,
+			},
 		};
 		setShow(false);
 		try {
@@ -96,7 +96,6 @@ function CourseTraineePOV() {
 		} catch (err) {
 			console.log(err);
 		}
-			
 	}
 	async function handleRequestAccess() {
 		let config = {
@@ -104,7 +103,7 @@ function CourseTraineePOV() {
 			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
 			data: {
 				courseId: id,
-			}
+			},
 		};
 		setClickable(false);
 		setButtonText("Request pending");
@@ -120,8 +119,8 @@ function CourseTraineePOV() {
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
 		await getCourseFromDB();
-		
-		if(userType === "corporateTrainee"){
+
+		if (userType === "corporateTrainee") {
 			let ShowRequestAccessTemp = true;
 			setShowRequestAccess(true);
 			setButtonText("Request Access");
@@ -132,18 +131,16 @@ function CourseTraineePOV() {
 				}
 				return false;
 			});
-			
-			if(ShowRequestAccessTemp){
+
+			if (ShowRequestAccessTemp) {
 				trainee.requests.forEach((request) => {
 					if (request.courseId === id) {
 						setClickable(false);
 						setButtonText("Request pending");
 					}
-					
 				});
-				
 			}
-		}else{
+		} else {
 			setShowBuyCourse(true);
 			setButtonText("Buy Course");
 			trainee.courses.some((course) => {
@@ -162,7 +159,8 @@ function CourseTraineePOV() {
 	}, []);
 
 	return (
-		loaded && course && (
+		loaded &&
+		course && (
 			<>
 				<Container>
 					<Row>
@@ -172,49 +170,42 @@ function CourseTraineePOV() {
 						<Col>
 							{course.subjects.map((s) => {
 								return (
-									<Badge
-										key={s}
-										bg="primary"
-										className="lead"
-									>
+									<Badge key={s} bg="primary" className="lead">
 										{s}
 									</Badge>
 								);
 							})}
 						</Col>
 					</Row>
-					<Tabs
-						defaultActiveKey="basicInfo"
-						id="uncontrolled-tab-example"
-						className="mb-3"
-					>
-						<Tab
-							key="basicInfo"
-							eventKey="basicInfo"
-							title="Basic Info"
-						>
+					<Tabs defaultActiveKey="basicInfo" id="uncontrolled-tab-example" className="mb-3">
+						<Tab key="basicInfo" eventKey="basicInfo" title="Basic Info">
 							<Row>
-								{showBuyCourse && <Col>
-									<Alert variant="primary" className="lead">
-										Price: {course.price} instead of{" "}
-										<del>{course.originalPrice}</del>
-										!!! {course.discount}% Discount! For
-										limited time only
-										<Button disabled={!clickable} variant="success" onClick={handleBuyCourse}>{buttonText}</Button>
-									</Alert>
-								</Col>}
-								
+								{showBuyCourse && (
+									<Col>
+										<Alert variant="primary" className="lead">
+											Price: {course.price} instead of <del>{course.originalPrice}</del>
+											!!! {course.discount}% Discount! For limited time only
+											<Button disabled={!clickable} variant="success" onClick={handleBuyCourse}>
+												{buttonText}
+											</Button>
+										</Alert>
+									</Col>
+								)}
+
 								<Col>
 									<Alert variant="dark" className="lead">
-										Hours:{" "}
-										{course.hours ? course.hours : 50}
+										Hours: {course.hours ? course.hours : 50}
 									</Alert>
 								</Col>
-								{showRequestAccess && <Col>
-									<Alert variant="light" className="lead" >
-										<Button disabled={!clickable} variant="success" onClick={handleRequestAccess }>{buttonText}</Button>
-									</Alert>
-								</Col>}
+								{showRequestAccess && (
+									<Col>
+										<Alert variant="light" className="lead">
+											<Button disabled={!clickable} variant="success" onClick={handleRequestAccess}>
+												{buttonText}
+											</Button>
+										</Alert>
+									</Col>
+								)}
 							</Row>
 							<Row>
 								<Col>
@@ -237,10 +228,7 @@ function CourseTraineePOV() {
 								{instructors &&
 									instructors.map((instructor) => {
 										return (
-											<ListGroup.Item
-												key={instructor._id + ""}
-												bg="primary"
-											>
+											<ListGroup.Item key={instructor._id + ""} bg="primary">
 												{instructor.username}
 											</ListGroup.Item>
 										);
@@ -248,11 +236,7 @@ function CourseTraineePOV() {
 							</ListGroup>
 							<Button onClick={handleShow}>Report Course</Button>
 						</Tab>
-						<Tab
-							key="subtititles"
-							eventKey="subtitles"
-							title="Subtitles"
-						>
+						<Tab key="subtititles" eventKey="subtitles" title="Subtitles">
 							<Table striped>
 								<thead>
 									<tr>
@@ -266,11 +250,7 @@ function CourseTraineePOV() {
 										return (
 											<tr>
 												<td>{index + 1}</td>
-												<td>
-													{s.title
-														? s.title
-														: "No Title."}
-												</td>
+												<td>{s.title ? s.title : "No Title."}</td>
 												<td>{s.hours}</td>
 												<td>
 													<Button>View</Button>
@@ -310,33 +290,18 @@ function CourseTraineePOV() {
 					</Modal.Header>
 					<Modal.Body>
 						<Form>
-							<Form.Group
-								className="mb-3"
-								controlId="reportTitle"
-							>
+							<Form.Group className="mb-3" controlId="reportTitle">
 								<Form.Label>Title</Form.Label>
-								<Form.Control
-									ref={reportTitle}
-									type="text"
-									placeholder="Title of report."
-								/>
+								<Form.Control ref={reportTitle} type="text" placeholder="Title of report." />
 							</Form.Group>
 							<Form.Group>
-								<select
-									value={reportType}
-									onChange={(e) =>
-										setReportType(e.target.value)
-									}
-								>
+								<select value={reportType} onChange={(e) => setReportType(e.target.value)}>
 									<option>Technical</option>
 									<option>Financial</option>
 									<option>Other</option>
 								</select>
 							</Form.Group>
-							<Form.Group
-								className="mb-3"
-								controlId="reportDescription"
-							>
+							<Form.Group className="mb-3" controlId="reportDescription">
 								<Form.Label>Description</Form.Label>
 								<Form.Control
 									ref={reportDescription}
@@ -359,7 +324,5 @@ function CourseTraineePOV() {
 			</>
 		)
 	);
-	
-};
+}
 export default CourseTraineePOV;
-

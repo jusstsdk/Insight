@@ -2,10 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import ListCourses from "../SearchCourses";
 import CourseCard from "./CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
-	console.log(instructorId);
 	const [Courses, setCourses] = useState([]);
 
 	// Gets all Instructor's Review populated with Trainee's information.
@@ -29,6 +29,7 @@ function ViewInstructorCourses() {
 
 	return (
 		<Container className="my-2">
+			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			{Courses.map((course, i) => (
 				<CourseCard key={"course_" + i} course={course} />
 			))}

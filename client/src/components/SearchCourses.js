@@ -31,7 +31,7 @@ function ListCourses({ setCourses, searchInInstructorCourses }) {
 		let courses;
 
 		if (searchInInstructorCourses) {
-			const response = await API.get(`${user._id}/courses`, {
+			const response = await API.get(`instructors/${user._id}/courses`, {
 				params: searchParams,
 			});
 			courses = response.data.courses;
@@ -39,7 +39,8 @@ function ListCourses({ setCourses, searchInInstructorCourses }) {
 			const response = await API.get("courses", {
 				params: searchParams,
 			});
-			courses = response.data.courses;
+			console.log(response.data);
+			courses = response.data;
 		}
 
 		courses.forEach((course) => {

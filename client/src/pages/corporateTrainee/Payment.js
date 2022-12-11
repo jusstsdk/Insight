@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import API from "../../api";
+import API from "../../functions/api";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
@@ -12,9 +12,8 @@ function Payment() {
 	const [clientSecret, setClientSecret] = useState("");
 	const params = useParams();
 	let courseId = params.id;
-	
+
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
-	
 
 	async function setup() {
 		let response = await API.get(`courses/${courseId}`);
@@ -45,13 +44,9 @@ function Payment() {
 		setClientSecret(clientSecret);
 	}
 
-	
-
 	useEffect(() => {
 		setup();
 	}, []);
-
-
 
 	return (
 		<>
