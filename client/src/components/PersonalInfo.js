@@ -14,10 +14,6 @@ function PersonalInfo() {
 					<Card.Title>
 						Hello, {firstName} {lastName}
 					</Card.Title>
-					Your Courses:
-					{courses.map((course) => (
-						<Card.Text>course.Title</Card.Text>
-					))}
 				</Card.Body>
 			</Card>
 		</>

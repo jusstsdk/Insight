@@ -4,6 +4,8 @@ import TraineeView from "../pages/trainee/TraineeView";
 import CourseList from "../pages/corporateTrainee/CourseList";
 import Layout from "../components/shared/Layout";
 import Payment from "../pages/corporateTrainee/Payment";
+import Protected from "../components/shared/Protected";
+
 export function TraineeRoutes() {
 	return (
 		<>
