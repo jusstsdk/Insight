@@ -12,9 +12,8 @@ function Payment() {
 	const [clientSecret, setClientSecret] = useState("");
 	const params = useParams();
 	let courseId = params.id;
-	
+
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
-	
 
 	async function setup() {
 		let response = await API.get(`courses/${courseId}`);
@@ -45,13 +44,9 @@ function Payment() {
 		setClientSecret(clientSecret);
 	}
 
-	
-
 	useEffect(() => {
 		setup();
 	}, []);
-
-
 
 	return (
 		<>

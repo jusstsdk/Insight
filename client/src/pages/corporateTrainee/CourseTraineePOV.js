@@ -170,27 +170,15 @@ function CourseTraineePOV() {
 						<Col>
 							{course.subjects.map((s) => {
 								return (
-									<Badge
-										key={s}
-										bg="primary"
-										className="lead"
-									>
+									<Badge key={s} bg="primary" className="lead">
 										{s}
 									</Badge>
 								);
 							})}
 						</Col>
 					</Row>
-					<Tabs
-						defaultActiveKey="basicInfo"
-						id="uncontrolled-tab-example"
-						className="mb-3"
-					>
-						<Tab
-							key="basicInfo"
-							eventKey="basicInfo"
-							title="Basic Info"
-						>
+					<Tabs defaultActiveKey="basicInfo" id="uncontrolled-tab-example" className="mb-3">
+						<Tab key="basicInfo" eventKey="basicInfo" title="Basic Info">
 							<Row>
 								{showBuyCourse && (
 									<Col>
@@ -215,13 +203,13 @@ function CourseTraineePOV() {
 
 								<Col>
 									<Alert variant="dark" className="lead">
-										Hours:{" "}
-										{course.hours ? course.hours : 50}
+										Hours: {course.hours ? course.hours : 50}
 									</Alert>
 								</Col>
 								{showRequestAccess && (
 									<Col>
 										<Alert variant="light" className="lead">
+
 											<Button
 												disabled={!clickable}
 												variant="success"
@@ -254,10 +242,7 @@ function CourseTraineePOV() {
 								{instructors &&
 									instructors.map((instructor) => {
 										return (
-											<ListGroup.Item
-												key={instructor._id + ""}
-												bg="primary"
-											>
+											<ListGroup.Item key={instructor._id + ""} bg="primary">
 												{instructor.username}
 											</ListGroup.Item>
 										);
@@ -265,11 +250,7 @@ function CourseTraineePOV() {
 							</ListGroup>
 							<Button onClick={handleShow}>Report Course</Button>
 						</Tab>
-						<Tab
-							key="subtititles"
-							eventKey="subtitles"
-							title="Subtitles"
-						>
+						<Tab key="subtititles" eventKey="subtitles" title="Subtitles">
 							<Table striped>
 								<thead>
 									<tr>
@@ -283,11 +264,7 @@ function CourseTraineePOV() {
 										return (
 											<tr>
 												<td>{index + 1}</td>
-												<td>
-													{s.title
-														? s.title
-														: "No Title."}
-												</td>
+												<td>{s.title ? s.title : "No Title."}</td>
 												<td>{s.hours}</td>
 												<td>
 													<Button>View</Button>
@@ -327,33 +304,18 @@ function CourseTraineePOV() {
 					</Modal.Header>
 					<Modal.Body>
 						<Form>
-							<Form.Group
-								className="mb-3"
-								controlId="reportTitle"
-							>
+							<Form.Group className="mb-3" controlId="reportTitle">
 								<Form.Label>Title</Form.Label>
-								<Form.Control
-									ref={reportTitle}
-									type="text"
-									placeholder="Title of report."
-								/>
+								<Form.Control ref={reportTitle} type="text" placeholder="Title of report." />
 							</Form.Group>
 							<Form.Group>
-								<select
-									value={reportType}
-									onChange={(e) =>
-										setReportType(e.target.value)
-									}
-								>
+								<select value={reportType} onChange={(e) => setReportType(e.target.value)}>
 									<option>Technical</option>
 									<option>Financial</option>
 									<option>Other</option>
 								</select>
 							</Form.Group>
-							<Form.Group
-								className="mb-3"
-								controlId="reportDescription"
-							>
+							<Form.Group className="mb-3" controlId="reportDescription">
 								<Form.Label>Description</Form.Label>
 								<Form.Control
 									ref={reportDescription}

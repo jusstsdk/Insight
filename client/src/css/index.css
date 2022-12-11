@@ -22,7 +22,8 @@ code {
 
 .viewCourseButton,
 .starsContainer,
-.priceContainer {
+.priceContainer,
+.nextButton {
 	margin-left: auto;
 }
 

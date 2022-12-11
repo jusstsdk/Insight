@@ -1,6 +1,4 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 const Protected = ({ children, authorizedUserType }) => {
 	const userType = localStorage.getItem("userType");
 

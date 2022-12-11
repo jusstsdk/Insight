@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import ListCourses from "../SearchCourses";
 import CourseCard from "./CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -15,7 +16,6 @@ function ViewInstructorCourses() {
 		};
 		try {
 			const response = await axios(config);
-			console.log(response.data.courses);
 			setCourses(response.data.courses);
 		} catch (err) {
 			console.log(err);
@@ -24,10 +24,12 @@ function ViewInstructorCourses() {
 
 	useEffect(() => {
 		getCourses();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<Container className="my-2">
+			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			{Courses.map((course, i) => (
 				<CourseCard key={"course_" + i} course={course} />
 			))}

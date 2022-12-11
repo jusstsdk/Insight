@@ -1,18 +1,21 @@
 import axios from "axios";
-
 import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Col, Row, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 
 function EditProfile() {
 	const dispatch = useDispatch();
-	const User = JSON.parse(localStorage.getItem("user"));
-	const [Email, setEmail] = useState(JSON.parse(localStorage.getItem("user")).email);
-	const [Biography, setBiography] = useState(JSON.parse(localStorage.getItem("user")).biography);
+	const User = useSelector((state) => state.userReducer.user);
+	const [Email, setEmail] = useState(useSelector((state) => state.userReducer.user.email));
+	const [Biography, setBiography] = useState(
+		useSelector((state) => state.userReducer.user.biography)
+	);
 
 	const handleEditProfile = async (e) => {
 		e.preventDefault();
+
 		const config = {
 			method: "PUT",
 			url: `http://localhost:4000/api/instructors/${User._id}`,
@@ -23,7 +26,11 @@ function EditProfile() {
 			},
 		};
 		try {
-			const response = await axios(config);
+			await axios(config);
+			let updatedUser = { ...User };
+			updatedUser.email = Email;
+			updatedUser.biography = Biography;
+			dispatch(setUser(updatedUser));
 			dispatch(
 				addNotification({
 					title: "Edit Profile",

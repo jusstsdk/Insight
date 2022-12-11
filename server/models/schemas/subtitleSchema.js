@@ -8,9 +8,9 @@ const questionSchema = new Schema({
 	correctAnswer: String,
 	choices: [String],
 	grade: {
-        type: Boolean,
-        default: false
-    },
+		type: Boolean,
+		default: false,
+	},
 });
 
 const exerciseSchema = new Schema({
@@ -19,9 +19,9 @@ const exerciseSchema = new Schema({
 	maxGrade: Number, // could be a calculated attribute from total number of questions
 	receivedGrade: Number, // could be a calculated attribute from sum of grades
 	isSolved: {
-        type: Boolean,
-        default: false
-    },
+		type: Boolean,
+		default: false,
+	},
 });
 
 const videoSchema = new Schema({
@@ -29,9 +29,9 @@ const videoSchema = new Schema({
 	url: String,
 	description: String,
 	isWatched: {
-        type: Boolean,
-        default: false
-    },
+		type: Boolean,
+		default: false,
+	},
 });
 
 const subtitleSchema = new Schema({
@@ -59,5 +59,5 @@ exerciseSchema.pre("save", function (next) {
 
 module.exports = {
 	subtitleSchema,
-	exerciseSchema
+	exerciseSchema,
 };

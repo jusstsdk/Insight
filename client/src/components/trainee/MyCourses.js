@@ -7,9 +7,7 @@ import ListCourses from "../SearchCourses";
 import CourseCard from "./NewCourseCard";
 
 const MyCourses = () => {
-	const coursesWithId = useSelector(
-		(state) => state.userReducer.user.courses
-	);
+	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 	let newCourses = [];
 	const [courses, setCourses] = useState([]);
 	async function getCourses() {
@@ -31,7 +29,6 @@ const MyCourses = () => {
 	}
 	useEffect(() => {
 		getCourses();
-		
 	}, []);
 	return (
 		courses && (

@@ -1,10 +1,7 @@
 import { useRef, useState } from "react";
-import { Form, Row, Col, Button, InputGroup, Card, Popover, OverlayTrigger } from "react-bootstrap";
-import "../../../css/createCourse.css";
-import { useDispatch } from "react-redux";
-import { setTitle, addQuestions } from "../../../redux/exerciseSlice";
-function AddQuestion(props) {
-	const dispatch = useDispatch();
+import { Form, Row, Col, Button, InputGroup, Popover, OverlayTrigger } from "react-bootstrap";
+
+export default function AddQuestion(props) {
 	const Question = useRef();
 	const FirstChoice = useRef();
 	const SecondChoice = useRef();
@@ -43,8 +40,7 @@ function AddQuestion(props) {
 		FourthChoice.current.value = "";
 		setChoices(["", "", "", ""]);
 		setCorrectAnswer("default");
-		dispatch(addQuestions(newQuestion));
-		props.setQuestions((questions) => [...questions, newQuestion]);
+		props.handleAddQuestion(newQuestion);
 	};
 	const popover = (
 		<Popover id="popover-basic" className="align-items-center">
@@ -113,5 +109,3 @@ function AddQuestion(props) {
 		</>
 	);
 }
-
-export default AddQuestion;

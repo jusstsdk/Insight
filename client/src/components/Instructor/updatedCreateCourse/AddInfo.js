@@ -1,13 +1,30 @@
-import { Form, Row, Col, Button, Tab, Tabs } from "react-bootstrap";
 import axios from "axios";
-import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form, Row, Col, Button } from "react-bootstrap";
 
-import DropDownMenu from "../../DropDownMenu";
+import {
+	setTitle,
+	setSummary,
+	setOriginalPrice,
+	setPreviewVideo,
+	setInstructors,
+} from "../../../redux/infoSlice";
+
 import AddSubject from "./AddSubject";
-function AddInfo(props) {
+import DropDownMenu from "../../DropDownMenu";
+
+export default function AddInfo(props) {
+	const dispatch = useDispatch();
+
 	const [AllInstructors, setAllInstructors] = useState([]);
+
 	const instructorId = useSelector((state) => state.userReducer.user._id);
+	const InfoTitle = useSelector((state) => state.infoReducer.title);
+	const InfoSummary = useSelector((state) => state.infoReducer.summary);
+	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
+	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
 
 	const getData = async () => {
 		const config = {
@@ -26,10 +43,12 @@ function AddInfo(props) {
 			console.log(err);
 		}
 	};
+
 	useEffect(() => {
 		getData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
 	return (
 		<>
 			<Form.Group
@@ -40,14 +59,28 @@ function AddInfo(props) {
 					Title
 				</Form.Label>
 				<Col sm={3}>
-					<Form.Control type="text" placeholder="Title" ref={props.Title} />
+					<Form.Control
+						type="text"
+						placeholder="Title"
+						value={InfoTitle}
+						onChange={(e) => {
+							dispatch(setTitle(e.target.value));
+						}}
+					/>
 				</Col>
 
 				<Form.Label column sm={1}>
 					Price
 				</Form.Label>
 				<Col sm={2}>
-					<Form.Control type="number" placeholder="Price" ref={props.Price} />
+					<Form.Control
+						type="number"
+						placeholder="Price"
+						value={InfoOriginalPrice}
+						onChange={(e) => {
+							dispatch(setOriginalPrice(e.target.value));
+						}}
+					/>
 				</Col>
 			</Form.Group>
 
@@ -62,7 +95,10 @@ function AddInfo(props) {
 						type="text"
 						placeholder="Summary"
 						rows={3}
-						ref={props.Summary}
+						value={InfoSummary}
+						onChange={(e) => {
+							dispatch(setSummary(e.target.value));
+						}}
 					/>
 				</Col>
 			</Form.Group>
@@ -71,10 +107,17 @@ function AddInfo(props) {
 					Preview Video
 				</Form.Label>
 				<Col sm={5}>
-					<Form.Control type="text" placeholder="Preview Video" ref={props.PreviewVideo} />
+					<Form.Control
+						type="text"
+						placeholder="Preview Video"
+						value={InfoPreviewVideo}
+						onChange={(e) => {
+							dispatch(setPreviewVideo(e.target.value));
+						}}
+					/>
 				</Col>
 			</Form.Group>
-			<AddSubject Subjects={props.Subjects} setSubjects={props.setSubjects} />
+			<AddSubject />
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
 					Instructors
@@ -82,15 +125,19 @@ function AddInfo(props) {
 				<Col sm={8}>
 					<DropDownMenu
 						state={AllInstructors}
-						setState={props.setInstructors}
-						selectedState={props.Instructors}
+						selectedState={InfoInstructors}
+						onChange={(selectedList, selectedItem) => {
+							dispatch(setInstructors(selectedList));
+						}}
 						displayValue="email"
 						placeholder="Select Course Instructors"
 						emptyRecordMsg="You can't add more Instructors."
 					/>
 				</Col>
 			</Form.Group>
+			<Col className="nextButton">
+				<Button onClick={() => props.setCurrentTab("addExam")}>Next</Button>
+			</Col>
 		</>
 	);
 }
-export default AddInfo;
