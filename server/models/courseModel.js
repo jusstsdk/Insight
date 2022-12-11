@@ -33,7 +33,10 @@ const courseSchema = new Schema(
 		subjects: [String],
 		summary: String,
 		originalPrice: Number,
-		discount: Number,
+		discount: {
+			type: Number,
+			default: 0,
+		},
 		price: Number,
 		totalHours: Number,
 		previewVideo: String,
@@ -55,7 +58,8 @@ const courseSchema = new Schema(
 );
 
 courseSchema.pre("save", function (next) {
-	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price =
+		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;

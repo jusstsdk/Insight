@@ -25,6 +25,7 @@ const exerciseSchema = new Schema({
 });
 
 const videoSchema = new Schema({
+	title: String,
 	url: String,
 	description: String,
 	isWatched: {
