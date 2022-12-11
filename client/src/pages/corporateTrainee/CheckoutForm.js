@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate, useParams } from "react-router-dom";
-import API from "../../api";
+import API from "../../functions/api";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
