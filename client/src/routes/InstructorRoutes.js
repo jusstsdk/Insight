@@ -9,7 +9,7 @@ import CourseList from "../pages/corporateTrainee/CourseList";
 export function InstructorRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"instructor"}>
+			<Protected authorizedUserType={"Instructor"}>
 				<Layout />
 				<Routes>
 					<Route path="courses" element={<CourseList searchInInstructorCourses={false} />} />

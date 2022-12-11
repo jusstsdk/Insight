@@ -23,7 +23,7 @@ const reportSchema = new Schema({
 	authorType: {
 		type: String,
 		required: true,
-		enum: ["trainee", "corporateTrainee", "instructor"],
+		enum: ["Trainee", "CorporateTrainee", "Instructor"],
 	},
 });
 
@@ -58,7 +58,8 @@ const courseSchema = new Schema(
 );
 
 courseSchema.pre("save", function (next) {
-	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price =
+		this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;

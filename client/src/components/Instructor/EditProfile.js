@@ -1,10 +1,9 @@
 import axios from "axios";
-
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Col, Button } from "react-bootstrap";
-
+import { Form, Col, Row, Button } from "react-bootstrap";
 import { setUser } from "../../redux/userSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function EditProfile() {
 	const dispatch = useDispatch();
@@ -31,8 +30,14 @@ function EditProfile() {
 			let updatedUser = { ...User };
 			updatedUser.email = Email;
 			updatedUser.biography = Biography;
-			console.log(updatedUser);
 			dispatch(setUser(updatedUser));
+			dispatch(
+				addNotification({
+					title: "Edit Profile",
+					info: "Updated Profile Successfully!",
+					color: "success",
+				})
+			);
 		} catch (err) {
 			console.log(err);
 		}

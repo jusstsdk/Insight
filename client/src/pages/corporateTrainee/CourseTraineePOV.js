@@ -120,7 +120,7 @@ function CourseTraineePOV() {
 	async function loadDoc() {
 		await getCourseFromDB();
 
-		if (userType === "corporateTrainee") {
+		if (userType === "CorporateTrainee") {
 			let ShowRequestAccessTemp = true;
 			setShowRequestAccess(true);
 			setButtonText("Request Access");
@@ -182,10 +182,19 @@ function CourseTraineePOV() {
 							<Row>
 								{showBuyCourse && (
 									<Col>
-										<Alert variant="primary" className="lead">
-											Price: {course.price} instead of <del>{course.originalPrice}</del>
-											!!! {course.discount}% Discount! For limited time only
-											<Button disabled={!clickable} variant="success" onClick={handleBuyCourse}>
+										<Alert
+											variant="primary"
+											className="lead"
+										>
+											Price: {course.price} instead of{" "}
+											<del>{course.originalPrice}</del>
+											!!! {course.discount}% Discount! For
+											limited time only
+											<Button
+												disabled={!clickable}
+												variant="success"
+												onClick={handleBuyCourse}
+											>
 												{buttonText}
 											</Button>
 										</Alert>
@@ -200,7 +209,12 @@ function CourseTraineePOV() {
 								{showRequestAccess && (
 									<Col>
 										<Alert variant="light" className="lead">
-											<Button disabled={!clickable} variant="success" onClick={handleRequestAccess}>
+
+											<Button
+												disabled={!clickable}
+												variant="success"
+												onClick={handleRequestAccess}
+											>
 												{buttonText}
 											</Button>
 										</Alert>

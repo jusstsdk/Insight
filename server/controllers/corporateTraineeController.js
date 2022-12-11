@@ -34,7 +34,7 @@ const createCorporateTrainee = async (req, res) => {
 		corporateTraineeInfo.password = await bcrypt.hash(corporateTraineeInfo.password, 10);
 		let corporateTrainee = await CorporateTrainee.create(req.body);
 		corporateTrainee["_doc"]["x-auth-token"] = corporateTrainee.generateAuthToken();
-		corporateTrainee["_doc"].userType = "corporateTrainee";
+		corporateTrainee["_doc"].userType = "CorporateTrainee";
 		res.status(200).json(corporateTrainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

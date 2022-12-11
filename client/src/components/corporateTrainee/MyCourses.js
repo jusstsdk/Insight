@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import API from "../../functions/api";
 import { useSelector } from "react-redux";
-import ListCourses from "../SearchCourses";
 import CourseCard from "./NewCourseCard";
 
 const MyCourses = () => {

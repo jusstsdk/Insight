@@ -5,13 +5,13 @@ export function RedirectToHome() {
 	const userType = useSelector((state) => state.userReducer.type);
 
 	switch (userType) {
-		case "administrator":
+		case "Administrator":
 			return <Navigate to="/admin" replace />;
-		case "instructor":
+		case "Instructor":
 			return <Navigate to="/instructor" replace />;
-		case "trainee":
+		case "Trainee":
 			return <Navigate to="/trainee" replace />;
-		case "corporateTrainee":
+		case "CorporateTrainee":
 			return <Navigate to="/corporateTrainee" replace />;
 		default:
 			return <Navigate to="/guest" replace />;

@@ -11,7 +11,7 @@ const createTrainee = async (req, res) => {
 		traineeInfo.password = await bcrypt.hash(traineeInfo.password, 10);
 		const trainee = await Trainee.create(traineeInfo);
 		trainee["_doc"]["x-auth-token"] = trainee.generateAuthToken();
-		trainee["_doc"].userType = "trainee";
+		trainee["_doc"].userType = "Trainee";
 		res.status(200).json(trainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

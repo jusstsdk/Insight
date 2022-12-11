@@ -38,7 +38,7 @@ export default function SelectCountryPopover() {
 	}
 	return (
 		<>
-			{userType !== "administrator" && (
+			{userType !== "Administrator" && (
 				<CountryDropdown
 					Country={user.country}
 					setCountry={(payload) => {

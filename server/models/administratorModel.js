@@ -20,7 +20,7 @@ const administratorSchema = new Schema(
 
 administratorSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign(
-		{ _id: this._id, userType: "administrator" },
+		{ _id: this._id, userType: "Administrator" },
 		process.env.SECRET
 	);
 	return token;

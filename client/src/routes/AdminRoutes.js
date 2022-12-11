@@ -8,7 +8,7 @@ import Protected from "../components/shared/Protected";
 export function AdminRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"administrator"}>
+			<Protected authorizedUserType={"Administrator"}>
 				<Layout />
 				<Routes>
 					<Route path="createAdmin" element={<CreateAdmin />} />

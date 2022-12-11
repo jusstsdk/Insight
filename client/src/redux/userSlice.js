@@ -6,7 +6,7 @@ export const userSlice = createSlice({
 	name: "user",
 	initialState: {
 		token: "",
-		type: "guest",
+		type: "Guest",
 		user: {
 			country: "USA",
 			currency: "USD",
@@ -25,7 +25,7 @@ export const userSlice = createSlice({
 		},
 		setCountry: (state, action) => {
 			state.user.country = action.payload;
-			if (state.type !== "guest")
+			if (state.type !== "Guest")
 				api.put(`/${state.type}s/${state.user._id}`, {
 					country: action.payload,
 				});
@@ -41,7 +41,7 @@ export const userSlice = createSlice({
 		},
 		logout: (state) => {
 			localStorage.clear();
-			state.type = "guest";
+			state.type = "Guest";
 			state.token = "";
 			state.user = {
 				country: "USA",
