@@ -30,7 +30,7 @@ export default function AdminNavbarButtons() {
 				</NavDropdown.Item>
 			</NavDropdown>
 			<Nav.Link href="#link">Reports</Nav.Link>
-			<Nav.Link href="/courseRequests">Course Requests</Nav.Link>
+			<Nav.Link href="/admin/courseRequests">Course Requests</Nav.Link>
 			<Nav.Link href="#link">Refunds</Nav.Link>
 			<Nav.Link href="#link">Discounts</Nav.Link>
 		</>

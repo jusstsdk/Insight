@@ -1,8 +1,4 @@
-import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
-import axios from "axios";
-import API from "../../functions/api";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import ListCourses from "../../components/SearchCourses";
 import CourseCard from "../../components/CourseCard";
 
@@ -12,12 +8,9 @@ const CourseList = () => {
 	return (
 		<div className="course-list">
 			<ListCourses setCourses={setCourses} />
-
 			{courses &&
-				courses.map((course) => (
-					<div className="course-preview" key={course._id}>
-						<CourseCard course={course} />
-					</div>
+				courses.map((course, i) => (
+					<CourseCard key={"course" + i} course={course} />
 				))}
 		</div>
 	);
