@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import CourseTraineePOV from "../pages/corporateTrainee/CourseTraineePOV";
+import CoursePage from "../pages/sharedTrainee/CoursePage";
 import TraineeView from "../pages/trainee/TraineeView";
-import CourseList from "../pages/corporateTrainee/CourseList";
+import CourseList from "../pages/sharedTrainee/CourseList";
 import Layout from "../components/shared/Layout";
-import Payment from "../pages/corporateTrainee/Payment";
+import Payment from "../pages/trainee/stripe/Payment";
 import Protected from "../components/shared/Protected";
 
 export function TraineeRoutes() {
@@ -14,7 +14,7 @@ export function TraineeRoutes() {
 				<Routes>
 					<Route path="" element={<TraineeView />} />
 					<Route path="courses" element={<CourseList />} />
-					<Route path="courses/:id" element={<CourseTraineePOV />} />
+					<Route path="courses/:id" element={<CoursePage />} />
 					<Route path="courses/:id/payment/*" element={<Payment />} />
 				</Routes>
 			</Protected>

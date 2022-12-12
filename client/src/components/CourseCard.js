@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Stars from "../Stars";
+import Stars from "./Stars";
 function CourseCard({ course }) {
 	const [show, setShow] = useState(false);
 	const navigate = useNavigate();
@@ -39,13 +39,7 @@ function CourseCard({ course }) {
 							))}
 						</Col>
 						<Col className="starsContainer" sm={4} md={4} lg={2}>
-							<Stars
-								stars={
-									course.rating
-										? course.rating
-										: 0
-								}
-							/>
+							<Stars stars={course.rating ? course.rating : 0} />
 						</Col>
 					</CardGroup>
 
@@ -72,18 +66,15 @@ function CourseCard({ course }) {
 						</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
-								
-								{course.instructors.map(
-									(instructor, i) => (
-										<a
-											href="#"
-											key={"instructor_" + i}
-											className="mx-1"
-										>
-											{instructor.username}
-										</a>
-									)
-								)}
+								{course.instructors.map((instructor, i) => (
+									<a
+										href="#"
+										key={"instructor_" + i}
+										className="mx-1"
+									>
+										{instructor.username}
+									</a>
+								))}
 							</ListGroup>
 						</Col>
 						<Col

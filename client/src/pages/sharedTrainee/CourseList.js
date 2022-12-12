@@ -4,7 +4,7 @@ import axios from "axios";
 import API from "../../functions/api";
 import { useSelector } from "react-redux";
 import ListCourses from "../../components/SearchCourses";
-import CourseCard from "../../components/corporateTrainee/NewCourseCard";
+import CourseCard from "../../components/CourseCard";
 
 const CourseList = () => {
 	const [courses, setCourses] = useState([]);
@@ -12,7 +12,7 @@ const CourseList = () => {
 	return (
 		<div className="course-list">
 			<ListCourses setCourses={setCourses} />
-			
+
 			{courses &&
 				courses.map((course) => (
 					<div className="course-preview" key={course._id}>

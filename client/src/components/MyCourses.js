@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import API from "../../functions/api";
+import API from "../functions/api";
 import { useSelector } from "react-redux";
-import CourseCard from "./NewCourseCard";
+import CourseCard from "./CourseCard";
 
 const MyCourses = () => {
-	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
+	const coursesWithId = useSelector(
+		(state) => state.userReducer.user.courses
+	);
 
 	let newCourses = [];
 	const [courses, setCourses] = useState([]);
