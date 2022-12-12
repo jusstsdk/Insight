@@ -32,6 +32,7 @@ export const userSlice = createSlice({
 		},
 		setCourses: (state, action) => {
 			state.user.courses = action.payload;
+			localStorage.setItem("user", JSON.stringify(state.user));
 		},
 		payFromWallet: (state, action) => {
 			state.user.wallet -= action.payload;

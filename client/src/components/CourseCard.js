@@ -11,13 +11,15 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
+import { useSelector } from "react-redux";
 function CourseCard({ course }) {
 	const [show, setShow] = useState(false);
+	const userType = useSelector((state) => state.userReducer.type);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const handleOpen = () => {
-		navigate(course._id);
+		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
 	return (
 		<>
