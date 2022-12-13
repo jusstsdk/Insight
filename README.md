@@ -88,6 +88,7 @@
    - [ ] generate personalized certificate
 
 - [ ] standard pool of subjects
+- [ ] start and end of promotion 
 
 # Questions
    - money owed per month instructor?
