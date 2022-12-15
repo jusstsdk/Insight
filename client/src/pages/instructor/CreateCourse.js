@@ -10,7 +10,7 @@ import { clearInfo } from "../../redux/infoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 
 import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
-import AddExam from "../../components/instructor/updatedCreateCourse/AddExam";
+import AddExam from "../../components/instructor/createCourse/AddExam";
 import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
 
 export default function CreateCourse() {

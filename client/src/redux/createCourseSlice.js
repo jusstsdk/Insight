@@ -23,6 +23,10 @@ export const createCourseSlice = createSlice({
 		addToExamQuestions: (state, action) => {
 			state.examQuestions = [...state.examQuestions, action.payload];
 		},
+		editExamQuestion: (state, action) => {
+			console.log(action.payload);
+			state.examQuestions[action.payload.key] = action.payload.question;
+		},
 		removeExamQuestions: (state, action) => {
 			state.examQuestions = state.examQuestions.filter((question, i) => i !== action.payload);
 		},
@@ -94,6 +98,7 @@ export const {
 	setInfo,
 	setExamTitle,
 	addToExamQuestions,
+	editExamQuestion,
 	removeExamQuestions,
 	addSubtitle,
 	setSubtitleTitle,
