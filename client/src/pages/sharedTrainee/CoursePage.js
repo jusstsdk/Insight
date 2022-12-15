@@ -16,11 +16,12 @@ import {
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { setRequests } from "../../redux/userSlice";
 
 function CourseTraineePOV() {
 	//current course ID (STATIC FOR NOW)
@@ -36,6 +37,7 @@ function CourseTraineePOV() {
 	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
 	const trainee = useSelector((state) => state.userReducer.user);
+	const dispatch = useDispatch();
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
@@ -64,6 +66,7 @@ function CourseTraineePOV() {
 	//to handle button of request course
 	const [clickable, setClickable] = useState(true);
 	const [buttonText, setButtonText] = useState("");
+	const [buttonVariant, setButtonVariant] = useState("success");
 	const [showRequestAccess, setShowRequestAccess] = useState(false);
 	const [showBuyCourse, setShowBuyCourse] = useState(false);
 
@@ -109,6 +112,7 @@ function CourseTraineePOV() {
 		setButtonText("Request pending");
 		try {
 			let response = await axios(config);
+			dispatch(setRequests(response.data.requests))
 		} catch (err) {
 			console.log(err);
 		}
@@ -126,6 +130,7 @@ function CourseTraineePOV() {
 			setButtonText("Request Access");
 			trainee.courses.some((course) => {
 				if (course.course === id) {
+					ShowRequestAccessTemp = false;
 					setShowRequestAccess(false);
 					return true;
 				}
@@ -136,7 +141,17 @@ function CourseTraineePOV() {
 				trainee.requests.forEach((request) => {
 					if (request.courseId === id) {
 						setClickable(false);
-						setButtonText("Request pending");
+						if (request.status == "pending")
+						{
+							setButtonText("Request pending");
+							
+						}else if (request.status == "denied")
+						{
+							setButtonText("Request denied");
+							setButtonVariant("danger");
+						}
+
+						
 					}
 				});
 			}
@@ -212,7 +227,7 @@ function CourseTraineePOV() {
 
 											<Button
 												disabled={!clickable}
-												variant="success"
+												variant={buttonVariant}
 												onClick={handleRequestAccess}
 											>
 												{buttonText}

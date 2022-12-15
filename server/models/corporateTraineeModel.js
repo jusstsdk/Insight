@@ -48,7 +48,7 @@ const corporateTraineeSchema = new Schema(
 		requests: [
 			{
 				courseId: { type: Schema.ObjectId, ref: "Course" },
-				status: { type: String, default: "Pending" },
+				status: { type: String, default: "pending" },
 			},
 		],
 	},

@@ -1,33 +1,43 @@
 import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
-function RequestCard({ request, course, traineeId }) {
+function RequestCard({ request, course }) {
 	const [handled, setHandled] = useState(false);
     const [message, setMessage] = useState("");
+	const [variant, setVariant] = useState("");
+	const [show, setShow] = useState(true);
 
     async function grantAccess() {
-        const response = await api.put("/administrators/requests", {
-            data : {
+        
+		const response = await api.put("/administrators/requests", {
+            
                 requestId : request._id,
                 status : "accepted"
-            }
+            
         });
         setHandled(true);
         setMessage("Access Granted");
+		setVariant("success");
     }
     async function denyAccess() {
         const response = await api.put("/administrators/requests", {
-            data : {
+            
                 requestId : request._id,
                 status : "denied"
-            }
+            
         });
         setHandled(true);
         setMessage("Access Denied");
+		setVariant("danger");
     }
-	
+	useEffect(() => {
+		if(request.status === "denied"){
+			setShow(false);
+		}
+	}, []);
 	return (
+		show && (
 		<Card className="my-3">
 			<Card.Body>
 				{/* Title and Stars */}
@@ -67,14 +77,15 @@ function RequestCard({ request, course, traineeId }) {
 					</Col>
 					<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
                         {!handled && <>
-                            <Button variant="error" onClick={denyAccess}>Deny access</Button>
+                            <Button variant="danger" onClick={denyAccess}>Deny access</Button>
                             <Button variant="success" onClick={grantAccess}>Grant access</Button>
                         </>}
-                        {handled && <h6 className="success">{message}</h6>}
+                        {handled && <h6 className={variant} >{message}</h6>}
 					</Col>
 				</CardGroup>
 			</Card.Body>
 		</Card>
+		)
 	);
 }
 export default RequestCard;

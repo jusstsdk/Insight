@@ -19,7 +19,8 @@ const CourseRequests = () => {
 					<h1>{traineeRequests.username}</h1>
 					<h2>{traineeRequests.corporate}</h2>
 					{traineeRequests.requests.map((request) => (
-						<RequestCard key={request._id} request={request} course={request.courseId} traineeId={traineeRequests._id} />
+						
+						<RequestCard key={request._id} request={request} course={request.courseId} />
 					))}
 				</Container>
 			))}

@@ -25,10 +25,12 @@ const getAllCoursesRequests = async (req, res) => {
 
 //UPDATE grant access to a specific course
 const handleCourseRequest = async (req, res) => {
+	
 	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
 		{ "requests._id": req.body.requestId },
 		{ "requests.$.status": req.body.status }
 	);
+	
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate Trainee" });
 	}
@@ -36,12 +38,14 @@ const handleCourseRequest = async (req, res) => {
 	request = corporateTrainee.requests.filter(
 		(request) => request._id == req.body.requestId
 	);
-	let courseId = request.courseId;
+	
+	let courseId = request[0].courseId;
 	let traineeId = corporateTrainee._id;
 	
 	let corporateTraineeUpdated = {};
 	if (req.body.status == "accepted") {
 		const course = await Course.findById(courseId);
+		
 		corporateTraineeUpdated = await CorporateTrainee.findByIdAndUpdate(
 			traineeId,
 			{
@@ -52,9 +56,12 @@ const handleCourseRequest = async (req, res) => {
 						exam: course.exam,
 					},
 				},
+				$pull: { requests: { _id: req.body.requestId } },
+
 			},
 			{ new: true }
 		);
+		
 	}
 
 	res.status(200).json(corporateTraineeUpdated);
