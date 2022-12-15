@@ -10,12 +10,19 @@ export function TraineeRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"Trainee"}>
-				<Layout />
 				<Routes>
-					<Route path="" element={<TraineeView />} />
-					<Route path="courses" element={<CourseList />} />
-					<Route path="courses/:id" element={<CourseTraineePOV />} />
-					<Route path="courses/:id/payment/*" element={<Payment />} />
+					<Route path="" element={<Layout />}>
+						<Route path="" element={<TraineeView />} />
+						<Route path="courses" element={<CourseList />} />
+						<Route
+							path="courses/:id"
+							element={<CourseTraineePOV />}
+						/>
+						<Route
+							path="courses/:id/payment/*"
+							element={<Payment />}
+						/>
+					</Route>
 				</Routes>
 			</Protected>
 		</>

@@ -8,12 +8,13 @@ import SignUp from "../pages/SignUp";
 export function GuestRoutes() {
 	return (
 		<>
-			<Layout />
 			<Routes>
-				<Route path="" element={<GuestView />} />
-				<Route path="signUp" element={<SignUp />} />
-				<Route path="forgotPassword" element={<ForgotPassword />} />
-				<Route path="resetPassword" element={<ResetPassword />} />
+				<Route path="" element={<Layout />}>
+					<Route path="" element={<GuestView />} />
+					<Route path="signUp" element={<SignUp />} />
+					<Route path="forgotPassword" element={<ForgotPassword />} />
+					<Route path="resetPassword" element={<ResetPassword />} />
+				</Route>
 			</Routes>
 		</>
 	);
