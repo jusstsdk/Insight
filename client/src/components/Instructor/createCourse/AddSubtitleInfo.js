@@ -12,8 +12,12 @@ export default function AddSubtitleInfo(props) {
 
 	// If the component is used for Add, the Title and Hours are default values
 	// If the component is used for Edit, the Title, Hours and SubtitleKey is passed as a prop from the selected Subtitle
-	const [Title, setTitle] = useState(props.case === "Add" ? "" : props.subtitle.title);
-	const [Hours, setHours] = useState(props.case === "Add" ? 0 : props.subtitle.hours);
+	const [Title, setTitle] = useState(
+		props.case === "Add" ? "" : props.subtitle.title ? props.subtitle.title : ""
+	);
+	const [Hours, setHours] = useState(
+		props.case === "Add" ? 0 : props.subtitle.hours ? props.subtitle.hours : 0
+	);
 	const SubtitleKey = props.case === "Add" ? -1 : props.subtitleKey;
 
 	const handleAddSubtitle = () => {
@@ -77,6 +81,7 @@ export default function AddSubtitleInfo(props) {
 					<Form.Label id="hours" column sm={1}>
 						Hours
 					</Form.Label>
+					{console.log(Hours)}
 					<Col sm={2}>
 						<Form.Control
 							type="number"

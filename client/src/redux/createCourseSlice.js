@@ -34,11 +34,13 @@ export const createCourseSlice = createSlice({
 		addSubtitle: (state, action) => {
 			state.subtitles = [...state.subtitles, action.payload];
 		},
-
 		editSubtitleInfo: (state, action) => {
 			console.log(action.payload);
 			state.subtitles[action.payload.key].title = action.payload.subtitle.title;
 			state.subtitles[action.payload.key].hours = action.payload.subtitle.hours;
+		},
+		removeSubtitle: (state, action) => {
+			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
 		},
 
 		// Not sure
@@ -55,9 +57,7 @@ export const createCourseSlice = createSlice({
 		// 	state.subtitleExercises = [];
 		// 	state.subtitles = [...state.subtitles, newSubtitle];
 		// },
-		removeSubtitle: (state, action) => {
-			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
-		},
+
 		setSubtitleTitle: (state, action) => {
 			state.subtitleTitle = action.payload;
 		},
