@@ -25,7 +25,6 @@ const getAllCoursesRequests = async (req, res) => {
 
 //UPDATE grant access to a specific course
 const handleCourseRequest = async (req, res) => {
-	
 	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
 		{ "requests._id": req.body.requestId },
 		{ "requests.$.status": req.body.status }

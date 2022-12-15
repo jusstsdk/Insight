@@ -16,7 +16,7 @@ const router = express.Router();
 
 // middleware
 router.use((req, res, next) => {
-	auth(req, res, next, 'admin');
+	auth(req, res, next, 'Administrator');
 });
 
 // Get all Courses with Refunds
