@@ -81,7 +81,6 @@ export default function AddSubtitleInfo(props) {
 					<Form.Label id="hours" column sm={1}>
 						Hours
 					</Form.Label>
-					{console.log(Hours)}
 					<Col sm={2}>
 						<Form.Control
 							type="number"
