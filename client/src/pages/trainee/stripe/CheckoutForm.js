@@ -1,17 +1,29 @@
-import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useSelector, useDispatch } from "react-redux";
+import {
+	PaymentElement,
+	useStripe,
+	useElements,
+} from "@stripe/react-stripe-js";
 import { useNavigate, useParams } from "react-router-dom";
-import API from "../../functions/api";
+
+import API from "../../../functions/api";
+import {
+	addCourse,
+	payFromWallet,
+	setCourses,
+	setUser,
+} from "../../../redux/userSlice";
 
 export default function CheckoutForm() {
 	const stripe = useStripe();
 	const elements = useElements();
 	const params = useParams();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	let courseId = params.id;
 	const userID = useSelector((state) => state.userReducer.user._id);
+	let user = useSelector((state) => state.userReducer.user);
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
 	const [message, setMessage] = useState(null);
 	const [isProcessing, setIsProcessing] = useState(false);
@@ -35,7 +47,18 @@ export default function CheckoutForm() {
 				redirect: "if_required",
 			},
 		});
-		const response = await API.post(`/trainees/${userID}/courses/${courseId}/payment`);
+		const response = await API.post(
+			`/trainees/${userID}/courses/${courseId}/payment`
+		);
+
+		dispatch(setCourses(response.data.courses));
+		if (response.data.price > wallet) {
+			dispatch(payFromWallet(wallet));
+		} else {
+			dispatch(payFromWallet(response.data.price));
+		}
+		
+
 		navigate("/");
 
 		// if (error.type === "card_error" || error.type === "validation_error") {
@@ -50,8 +73,14 @@ export default function CheckoutForm() {
 	return (
 		<form id="payment-form" onSubmit={handleSubmit}>
 			<PaymentElement id="payment-element" />
-			<button type="primary" disabled={isProcessing || !stripe || !elements} id="submit">
-				<span id="button-text">{isProcessing ? "Processing ... " : "Pay now"}</span>
+			<button
+				type="primary"
+				disabled={isProcessing || !stripe || !elements}
+				id="submit"
+			>
+				<span id="button-text">
+					{isProcessing ? "Processing ... " : "Pay now"}
+				</span>
 			</button>
 			{/* Show any error or success messages */}
 			{message && <div id="payment-message">{message}</div>}

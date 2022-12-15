@@ -5,7 +5,7 @@ import ViewInstructorReviews from "../components/instructor/ViewInstructorReview
 import ViewInstructorCourses from "../components/instructor/ViewInstructorCourses";
 import Protected from "../components/shared/Protected";
 import Layout from "../components/shared/Layout";
-import CourseList from "../pages/corporateTrainee/CourseList";
+import CourseList from "../pages/sharedTrainee/CourseList";
 export function InstructorRoutes() {
 	return (
 		<>

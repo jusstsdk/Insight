@@ -2,10 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
 import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
-import CourseDetails from "../pages/corporateTrainee/CourseTraineePOV";
-import CourseList from "../pages/corporateTrainee/CourseList";
+import CourseDetails from "../pages/sharedTrainee/CoursePage";
+import CourseList from "../pages/sharedTrainee/CourseList";
 
-import Payment from "../pages/corporateTrainee/Payment";
+import Payment from "../pages/trainee/stripe/Payment";
 
 export function CorporateTraineeRoutes() {
 	return (
