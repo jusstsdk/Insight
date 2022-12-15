@@ -17,6 +17,7 @@ export const createCourseSlice = createSlice({
 		exerciseQuestions: [],
 	},
 	reducers: {
+		// Needed
 		setExamTitle: (state, action) => {
 			state.examTitle = action.payload;
 		},
@@ -24,25 +25,36 @@ export const createCourseSlice = createSlice({
 			state.examQuestions = [...state.examQuestions, action.payload];
 		},
 		editExamQuestion: (state, action) => {
-			console.log(action.payload);
 			state.examQuestions[action.payload.key] = action.payload.question;
 		},
 		removeExamQuestions: (state, action) => {
 			state.examQuestions = state.examQuestions.filter((question, i) => i !== action.payload);
 		},
+
 		addSubtitle: (state, action) => {
-			let newSubtitle = {
-				title: state.subtitleTitle,
-				hours: state.subtitleHours,
-				videos: state.subtitleVideos,
-				exercises: state.subtitleExercises,
-			};
-			state.subtitleTitle = "";
-			state.subtitleHours = 0;
-			state.subtitleVideos = [];
-			state.subtitleExercises = [];
-			state.subtitles = [...state.subtitles, newSubtitle];
+			state.subtitles = [...state.subtitles, action.payload];
 		},
+
+		editSubtitleInfo: (state, action) => {
+			console.log(action.payload);
+			state.subtitles[action.payload.key].title = action.payload.subtitle.title;
+			state.subtitles[action.payload.key].hours = action.payload.subtitle.hours;
+		},
+
+		// Not sure
+		// addSubtitle: (state, action) => {
+		// 	let newSubtitle = {
+		// 		title: state.subtitleTitle,
+		// 		hours: state.subtitleHours,
+		// 		videos: state.subtitleVideos,
+		// 		exercises: state.subtitleExercises,
+		// 	};
+		// 	state.subtitleTitle = "";
+		// 	state.subtitleHours = 0;
+		// 	state.subtitleVideos = [];
+		// 	state.subtitleExercises = [];
+		// 	state.subtitles = [...state.subtitles, newSubtitle];
+		// },
 		removeSubtitle: (state, action) => {
 			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
 		},
@@ -101,6 +113,7 @@ export const {
 	editExamQuestion,
 	removeExamQuestions,
 	addSubtitle,
+	editSubtitleInfo,
 	setSubtitleTitle,
 	setSubtitleHours,
 	addVideoToSubtitle,

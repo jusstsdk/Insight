@@ -25,6 +25,7 @@ export default function AddExam(props) {
 
 	return (
 		<>
+			<h1>Adding Course Exam</h1>
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={2}>
 					Exam title

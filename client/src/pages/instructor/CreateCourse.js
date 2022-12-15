@@ -9,9 +9,11 @@ import "../../css/createCourse.css";
 import { clearInfo } from "../../redux/infoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 
-import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
+import AddInfo from "../../components/instructor/createCourse/AddInfo";
 import AddExam from "../../components/instructor/createCourse/AddExam";
 import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
+
+import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
@@ -68,7 +70,7 @@ export default function CreateCourse() {
 				return <AddExam setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
 				return (
-					<AddSubtitle setCurrentTab={setCurrentTab} handleCreateCourse={handleCreateCourse} />
+					<AddSubtitles setCurrentTab={setCurrentTab} handleCreateCourse={handleCreateCourse} />
 				);
 			default:
 		}
