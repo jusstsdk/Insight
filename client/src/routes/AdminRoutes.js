@@ -4,6 +4,7 @@ import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateCorporateTrainee from "../pages/admin/CreateCorporateTrainee";
 import CreateInstructor from "../pages/admin/CreateInstructor";
 import CourseRequests from "../pages/admin/CourseRequests";
+import Promotion from "../components/Promotion";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
 
@@ -11,16 +12,13 @@ export function AdminRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"Administrator"}>
-				<Layout />
 				<Routes>
+				<Route path="" element={<Layout />}>
 					<Route 
 						path="" 
 						element={<AdminView />} 
 					/>
-					<Route 
-						path="createAdmin" 
-						element={<CreateAdmin />} 
-					/>
+					<Route path="createAdmin" element={<CreateAdmin />} />
 					<Route
 						path="createCorporateTrainee"
 						element={<CreateCorporateTrainee />}
@@ -30,8 +28,10 @@ export function AdminRoutes() {
 						element={<CreateInstructor />}
 					/>
 					<Route path="courseRequests" element={<CourseRequests />} />
-				</Routes>
-			</Protected>
+					<Route path="promotion" element={<Promotion />} />
+				</Route>
+			</Routes>
+      </Protected>
 		</>
 	);
 }

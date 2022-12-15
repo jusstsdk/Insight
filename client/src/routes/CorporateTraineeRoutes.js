@@ -11,11 +11,12 @@ export function CorporateTraineeRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"CorporateTrainee"}>
-				<Layout />
 				<Routes>
-					<Route path="" element={<CorporateTraineeView />} />
-					<Route path="courses" element={<CourseList />} />
-					<Route path="courses/:id" element={<CourseDetails />} />
+					<Route path="" element={<Layout />}>
+						<Route path="" element={<CorporateTraineeView />} />
+						<Route path="courses" element={<CourseList />} />
+						<Route path="courses/:id" element={<CourseDetails />} />
+					</Route>
 				</Routes>
 			</Protected>
 		</>

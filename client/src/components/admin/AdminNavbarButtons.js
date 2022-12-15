@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminNavbarButtons() {
 	const navigate = useNavigate();
-    
+
 	return (
 		<>
 			<NavDropdown title="Create User" id="basic-nav-dropdown">
@@ -32,7 +32,13 @@ export default function AdminNavbarButtons() {
 			<Nav.Link href="#link">Reports</Nav.Link>
 			<Nav.Link href="/admin/courseRequests">Course Requests</Nav.Link>
 			<Nav.Link href="#link">Refunds</Nav.Link>
-			<Nav.Link href="#link">Discounts</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("promotion");
+				}}
+			>
+				Discounts
+			</Nav.Link>
 		</>
 	);
 }

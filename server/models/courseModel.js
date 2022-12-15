@@ -37,6 +37,18 @@ const courseSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
+		promotion: {
+			startDate: Date,
+			endDate: Date,
+			discount: {
+				type: Number,
+				default: 0,
+			},
+			offeredBy: {
+				type: String,
+				enum: ["Administrator", "Instructor"],
+			},
+		},
 		price: Number,
 		totalHours: Number,
 		previewVideo: String,
@@ -59,7 +71,8 @@ const courseSchema = new Schema(
 
 courseSchema.pre("save", function (next) {
 	this.price =
-		this.originalPrice - (this.originalPrice * this.discount) / 100;
+		this.originalPrice -
+		(this.originalPrice * this.promotion.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;
