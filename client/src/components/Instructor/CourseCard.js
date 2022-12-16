@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Stars from "../Stars";
 function CourseCard(props) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
-	console.log(currency);
 	return (
 		<Card className="my-3">
 			<Card.Body>

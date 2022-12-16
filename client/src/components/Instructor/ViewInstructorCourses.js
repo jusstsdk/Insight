@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ListCourses from "../SearchCourses";
+import SearchCourses from "../SearchCourses";
 import CourseCard from "./CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -29,7 +29,7 @@ function ViewInstructorCourses() {
 
 	return (
 		<Container className="my-2">
-			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			{Courses.map((course, i) => (
 				<CourseCard key={"course_" + i} course={course} />
 			))}
