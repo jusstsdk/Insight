@@ -70,6 +70,7 @@ export default function AddExam(props) {
 				</Button>
 			</Col>
 			<AddQuestion
+				case="Add"
 				handleAddQuestion={handleAddQuestion}
 				show={showAddModal}
 				handleClose={handleAddModalClose}

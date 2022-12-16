@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
 	Form,
 	Row,
@@ -11,22 +11,34 @@ import {
 } from "react-bootstrap";
 
 export default function AddQuestion(props) {
-	const Question = useRef();
-	const FirstChoice = useRef();
-	const SecondChoice = useRef();
-	const ThirdChoice = useRef();
-	const FourthChoice = useRef();
-	const [Choices, setChoices] = useState(["", "", "", ""]);
-	const [CorrectAnswer, setCorrectAnswer] = useState("default");
+	const [Question, setQuestion] = useState(props.case === "Add" ? "" : props.question.question);
+	const [FirstChoice, setFirstChoice] = useState(
+		props.case === "Add" ? "" : props.question.choices[0]
+	);
+	const [SecondChoice, setSecondChoice] = useState(
+		props.case === "Add" ? "" : props.question.choices[1]
+	);
+	const [ThirdChoice, setThirdChoice] = useState(
+		props.case === "Add" ? "" : props.question.choices[2]
+	);
+	const [FourthChoice, setFourthChoice] = useState(
+		props.case === "Add" ? "" : props.question.choices[3]
+	);
+	const [Choices, setChoices] = useState(
+		props.case === "Add" ? ["", "", "", ""] : props.question.choices
+	);
+	const [CorrectAnswer, setCorrectAnswer] = useState(
+		props.case === "Add" ? "default" : props.question.correctAnswer
+	);
 
 	const [MissingCorrectAnswer, setMissingCorrectAnswer] = useState(false);
 
 	const handleAddQuestion = (e) => {
 		if (
-			(CorrectAnswer !== FirstChoice.current.value) &
-			(CorrectAnswer !== SecondChoice.current.value) &
-			(CorrectAnswer !== ThirdChoice.current.value) &
-			(CorrectAnswer !== FourthChoice.current.value) &
+			(CorrectAnswer !== FirstChoice) &
+			(CorrectAnswer !== SecondChoice) &
+			(CorrectAnswer !== ThirdChoice) &
+			(CorrectAnswer !== FourthChoice) &
 			(CorrectAnswer !== "default")
 		) {
 			setMissingCorrectAnswer(true);
@@ -38,18 +50,22 @@ export default function AddQuestion(props) {
 			return;
 		} else setMissingCorrectAnswer(false);
 		let newQuestion = {
-			question: Question.current.value,
+			question: Question,
 			choices: Choices,
 			correctAnswer: CorrectAnswer,
 		};
-		Question.current.value = "";
-		FirstChoice.current.value = "";
-		SecondChoice.current.value = "";
-		ThirdChoice.current.value = "";
-		FourthChoice.current.value = "";
+		setQuestion("");
+		setFirstChoice("");
+		setSecondChoice("");
+		setThirdChoice("");
+		setFourthChoice("");
 		setChoices(["", "", "", ""]);
 		setCorrectAnswer("default");
-		props.handleAddQuestion(newQuestion);
+		if (props.case === "Add") props.handleAddQuestion(newQuestion);
+		else {
+			props.handleAddQuestion(props.question_key, newQuestion);
+		}
+		props.handleClose();
 	};
 	const popover = (
 		<Popover id="popover-basic" className="align-items-center">
@@ -57,6 +73,9 @@ export default function AddQuestion(props) {
 			<Popover.Body className="error">Please choose a correct answer</Popover.Body>
 		</Popover>
 	);
+	useEffect(() => {
+		setChoices([FirstChoice, SecondChoice, ThirdChoice, FourthChoice]);
+	}, [FirstChoice, SecondChoice, ThirdChoice, FourthChoice]);
 	return (
 		<>
 			<Modal
@@ -80,31 +99,49 @@ export default function AddQuestion(props) {
 							Question
 						</Form.Label>
 						<Col sm={7}>
-							<Form.Control type="text" placeholder="Question" ref={Question} />
+							<Form.Control
+								type="text"
+								placeholder="Question"
+								value={Question}
+								onChange={(e) => setQuestion(e.target.value)}
+							/>
 						</Col>
 					</Form.Group>
 					<InputGroup
 						className="mb-3"
-						onChange={() => {
-							setChoices([
-								FirstChoice.current.value,
-								SecondChoice.current.value,
-								ThirdChoice.current.value,
-								FourthChoice.current.value,
-							]);
-						}}>
+						// onChange={() => {
+						// 	setChoices([
+						// 		FirstChoice.current.value,
+						// 		SecondChoice.current.value,
+						// 		ThirdChoice.current.value,
+						// 		FourthChoice.current.value,
+						// 	]);
+						// }}
+					>
 						<InputGroup.Text>Choices</InputGroup.Text>
-						<Form.Control placeholder="First Answer" aria-label="First Answer" ref={FirstChoice} />
+						<Form.Control
+							placeholder="First Answer"
+							aria-label="First Answer"
+							value={FirstChoice}
+							onChange={(e) => setFirstChoice(e.target.value)}
+						/>
 						<Form.Control
 							placeholder="Second Answer"
 							aria-label="Second Answer"
-							ref={SecondChoice}
+							value={SecondChoice}
+							onChange={(e) => setSecondChoice(e.target.value)}
 						/>
-						<Form.Control placeholder="Third Answer" aria-label="Third Answer" ref={ThirdChoice} />
+						<Form.Control
+							placeholder="Third Answer"
+							aria-label="Third Answer"
+							value={ThirdChoice}
+							onChange={(e) => setThirdChoice(e.target.value)}
+						/>
 						<Form.Control
 							placeholder="Fourth Answer"
 							aria-label="Fourth Answer"
-							ref={FourthChoice}
+							value={FourthChoice}
+							onChange={(e) => setFourthChoice(e.target.value)}
 						/>
 					</InputGroup>
 					<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
@@ -144,7 +181,7 @@ export default function AddQuestion(props) {
 						show={MissingCorrectAnswer}
 						overlay={MissingCorrectAnswer ? popover : <></>}>
 						<Button id="addSubject" onClick={handleAddQuestion}>
-							Add Question
+							{props.case} Question
 						</Button>
 					</OverlayTrigger>
 				</Modal.Footer>

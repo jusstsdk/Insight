@@ -4,7 +4,7 @@ import { Accordion, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import { editExamQuestion } from "../../../redux/createCourseSlice";
-import EditQuestion from "./EditQuestion";
+import AddQuestion from "./AddQuestion";
 export default function ViewExercise(props) {
 	const dispatch = useDispatch();
 	const [EditQuestionKey, setEditQuestionKey] = useState(-1);
@@ -72,8 +72,9 @@ export default function ViewExercise(props) {
 				);
 			})}
 			{ShowEditModal && (
-				<EditQuestion
-					handleEditQuestion={handleEditQuestion}
+				<AddQuestion
+					case="Edit"
+					handleAddQuestion={handleEditQuestion}
 					show={ShowEditModal}
 					handleClose={handleEditModalClose}
 					question_key={EditQuestionKey}
