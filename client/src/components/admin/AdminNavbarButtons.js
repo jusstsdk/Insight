@@ -37,6 +37,13 @@ export default function AdminNavbarButtons() {
 			>
 				Course Requests
 			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("requestsHistory");
+				}}
+			>
+				Requests history
+			</Nav.Link>
 			<Nav.Link href="#link">Refunds</Nav.Link>
 			<Nav.Link
 				onClick={() => {

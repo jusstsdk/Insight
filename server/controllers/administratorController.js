@@ -55,7 +55,7 @@ const handleCourseRequest = async (req, res) => {
 						exam: course.exam,
 					},
 				},
-				$pull: { requests: { _id: req.body.requestId } },
+				// $pull: { requests: { _id: req.body.requestId } },
 
 			},
 			{ new: true }
