@@ -31,12 +31,11 @@ export const createCourseSlice = createSlice({
 			state.examQuestions = state.examQuestions.filter((question, i) => i !== action.payload);
 		},
 
-		// Subtitle
+		// SubtitleInfo
 		addSubtitle: (state, action) => {
 			state.subtitles = [...state.subtitles, action.payload];
 		},
 		editSubtitleInfo: (state, action) => {
-			console.log(action.payload);
 			state.subtitles[action.payload.key].title = action.payload.subtitle.title;
 			state.subtitles[action.payload.key].hours = action.payload.subtitle.hours;
 		},
@@ -44,6 +43,7 @@ export const createCourseSlice = createSlice({
 			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
 		},
 
+		// Videos
 		addVideoToSubtitle: (state, action) => {
 			state.subtitles[action.payload.subtitleKey].videos = [
 				...state.subtitles[action.payload.subtitleKey].videos,
@@ -56,6 +56,21 @@ export const createCourseSlice = createSlice({
 		},
 		removeVideoFromSubtitle: (state, action) => {
 			state.subtitles[action.payload.subtitleKey].videos = action.payload.newVideos;
+		},
+
+		// ExerciseInfo
+		addExerciseToSubtitle: (state, action) => {
+			state.subtitles[action.payload.subtitleKey].exercises = [
+				...state.subtitles[action.payload.subtitleKey].exercises,
+				action.payload.exercise,
+			];
+		},
+		editExerciseOfSubtitle: (state, action) => {
+			state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
+				action.payload.title;
+		},
+		removeExerciseFromSubtitle: (state, action) => {
+			state.subtitles[action.payload.subtitleKey].exercises = action.payload.newExercises;
 		},
 		// Not sure
 		// addSubtitle: (state, action) => {
@@ -133,6 +148,9 @@ export const {
 	addVideoToSubtitle,
 	editVideoOfSubtitle,
 	removeVideoFromSubtitle,
+	addExerciseToSubtitle,
+	editExerciseOfSubtitle,
+	removeExerciseFromSubtitle,
 	removeSubtitleVideos,
 	setExerciseTitle,
 	addToExerciseQuestions,

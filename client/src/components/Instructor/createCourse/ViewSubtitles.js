@@ -8,7 +8,8 @@ import AddSubtitleInfo from "./AddSubtitleInfo";
 import AddVideo from "./AddVideo";
 
 import ViewVideos from "./ViewVideos";
-// import ViewExercises from "./ViewExercises";
+import AddExercise from "./AddExercise";
+import ViewExercises from "./ViewExercises";
 
 export default function ViewSubtitles() {
 	const dispatch = useDispatch();
@@ -32,6 +33,14 @@ export default function ViewSubtitles() {
 		setSubtitle(subtitle);
 		setSubtitlekey(subtitle_key);
 		setShowAddVideoModal(true);
+	};
+
+	const [ShowAddExerciseModal, setShowAddExerciseModal] = useState(false);
+	const handleAddExerciseModalClose = () => setShowAddExerciseModal(false);
+	const handleAddExerciseModalShow = (subtitle, subtitle_key) => {
+		setSubtitle(subtitle);
+		setSubtitlekey(subtitle_key);
+		setShowAddExerciseModal(true);
 	};
 
 	return (
@@ -65,12 +74,20 @@ export default function ViewSubtitles() {
 								<Accordion>
 									<Form.Group as={Row}>
 										<Col className="nextButton">
-											<Button className="me-3">Add Exercise</Button>
+											<Button
+												onClick={() => handleAddExerciseModalShow(subtitle, subtitle_key)}
+												className="me-3">
+												Add Exercise
+											</Button>
 											<Button onClick={() => handleAddVideoModalShow(subtitle, subtitle_key)}>
 												Add Video
 											</Button>
 										</Col>
-										{/* <ViewExercises SubtitleExercises={subtitle.exercises} delete={false} /> */}
+										<ViewExercises
+											subtitleKey={subtitle_key}
+											SubtitleExercises={subtitle.exercises}
+											delete={false}
+										/>
 										<ViewVideos subtitleKey={subtitle_key} SubtitleVideos={subtitle.videos} />
 									</Form.Group>
 								</Accordion>
@@ -96,6 +113,16 @@ export default function ViewSubtitles() {
 					subtitleKey={Subtitlekey}
 					show={ShowAddVideoModal}
 					handleClose={handleAddVideoModalClose}
+				/>
+			)}
+
+			{ShowAddExerciseModal && (
+				<AddExercise
+					case="Add"
+					subtitle={Subtitle}
+					subtitleKey={Subtitlekey}
+					show={ShowAddExerciseModal}
+					handleClose={handleAddExerciseModalClose}
 				/>
 			)}
 		</>
