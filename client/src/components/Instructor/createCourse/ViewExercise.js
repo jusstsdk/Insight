@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Accordion, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
-import { editExamQuestion } from "../../../redux/createCourseSlice";
 import AddQuestion from "./AddQuestion";
 export default function ViewExercise(props) {
 	const dispatch = useDispatch();
@@ -17,7 +16,7 @@ export default function ViewExercise(props) {
 		setShowEditModal(true);
 	};
 	const handleEditQuestion = (key, newQuestion) => {
-		dispatch(editExamQuestion({ key: key, question: newQuestion }));
+		props.handleAddQuestion(key, newQuestion);
 		handleEditModalClose();
 	};
 	return (
@@ -29,24 +28,20 @@ export default function ViewExercise(props) {
 							<Accordion.Header className="accordionHeaderWidth">
 								<h6>{question.question}</h6>
 							</Accordion.Header>
-							{props.delete && (
-								<>
-									<Button
-										className="accordionTrash"
-										key={"exercise_trash_button_" + question_key}
-										onClick={() => props.handleDeleteQuestion(question_key)}>
-										<BsTrash key={"exercise_trash_" + question_key} className="trashIcon" />
-									</Button>
-									<Button
-										className="accordionTrash"
-										key={"exercise_edit_button_" + question_key}
-										onClick={() => {
-											handleEditModalShow(question, question_key);
-										}}>
-										<AiOutlineEdit key={"exercise_edit_" + question_key} className="trashIcon" />
-									</Button>
-								</>
-							)}
+							<Button
+								className="accordionTrash"
+								key={"exercise_trash_button_" + question_key}
+								onClick={() => props.handleDeleteQuestion(question_key)}>
+								<BsTrash key={"exercise_trash_" + question_key} className="trashIcon" />
+							</Button>
+							<Button
+								className="accordionTrash"
+								key={"exercise_edit_button_" + question_key}
+								onClick={() => {
+									handleEditModalShow(question, question_key);
+								}}>
+								<AiOutlineEdit key={"exercise_edit_" + question_key} className="trashIcon" />
+							</Button>
 						</div>
 						<Accordion.Body>
 							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">

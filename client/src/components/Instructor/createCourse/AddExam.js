@@ -5,6 +5,7 @@ import { Form, Row, Col, Button, Accordion } from "react-bootstrap";
 import {
 	setExamTitle,
 	addToExamQuestions,
+	editExamQuestion,
 	removeExamQuestions,
 } from "../../../redux/createCourseSlice";
 
@@ -46,7 +47,9 @@ export default function AddExam(props) {
 				<ViewExercise
 					key="view_exam_questions"
 					Questions={ExamQuestions}
-					delete={true}
+					handleAddQuestion={(key, newQuestion) =>
+						dispatch(editExamQuestion({ key: key, question: newQuestion }))
+					}
 					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
 				/>
 			</Accordion>
