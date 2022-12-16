@@ -6,7 +6,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import AddQuestion from "./AddQuestion";
 export default function ViewExercise(props) {
 	const dispatch = useDispatch();
-	const [EditQuestionKey, setEditQuestionKey] = useState(-1);
+	const [EditQuestionKey, setEditQuestionKey] = useState();
 	const [Question, setQuestion] = useState({});
 	const [ShowEditModal, setShowEditModal] = useState(false);
 	const handleEditModalClose = () => setShowEditModal(false);
@@ -15,8 +15,9 @@ export default function ViewExercise(props) {
 		setEditQuestionKey(question_key);
 		setShowEditModal(true);
 	};
-	const handleEditQuestion = (key, newQuestion) => {
-		props.handleAddQuestion(key, newQuestion);
+	const handleEditQuestion = (question_key, newQuestion) => {
+		if (props.case === "Exam") props.handleAddQuestion(question_key, newQuestion);
+		else props.handleAddQuestion(props.exerciseKey, question_key, newQuestion);
 		handleEditModalClose();
 	};
 	return (

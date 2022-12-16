@@ -45,6 +45,7 @@ export default function AddExam(props) {
 
 			<Accordion>
 				<ViewExercise
+					case="Exam"
 					key="view_exam_questions"
 					Questions={ExamQuestions}
 					handleAddQuestion={(key, newQuestion) =>

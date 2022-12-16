@@ -3,11 +3,17 @@ import { Button, Accordion } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
-import { removeExerciseFromSubtitle } from "../../../redux/createCourseSlice";
+import {
+	addQuestionToExercise,
+	editQuestionOfExercise,
+	removeQuestionFromExercise,
+	removeExerciseFromSubtitle,
+} from "../../../redux/createCourseSlice";
 
 import ViewExercise from "./ViewExercise";
 import AddExercise from "./AddExercise";
 import { useState } from "react";
+import AddQuestion from "./AddQuestion";
 
 export default function ViewExercises(props) {
 	const dispatch = useDispatch();
@@ -15,7 +21,7 @@ export default function ViewExercises(props) {
 	const SubtitleKey = props.subtitleKey;
 
 	const [Exercise, setExercise] = useState({});
-	const [ExerciseKey, setExerciseKey] = useState(-1);
+	const [ExerciseKey, setExerciseKey] = useState();
 	const [ShowEditExerciseModal, setShowEditExerciseModal] = useState(false);
 	const handleEditExerciseModalClose = () => setShowEditExerciseModal(false);
 	const handleEditExerciseModalShow = (exercise, exercise_key) => {
@@ -24,12 +30,53 @@ export default function ViewExercises(props) {
 		setShowEditExerciseModal(true);
 	};
 
+	const [ShowAddQuestionModal, setShowAddQuestionModal] = useState(false);
+	const handleAddQuestionModalClose = () => setShowAddQuestionModal(false);
+	const handleAddQuestionModalShow = (exercise, exercise_key) => {
+		setExercise(exercise);
+		setExerciseKey(exercise_key);
+		setShowAddQuestionModal(true);
+	};
+
 	const handleDeleteExercise = (exercise_key) => {
 		let newExercises = props.SubtitleExercises.filter((_, i) => i !== exercise_key);
 		dispatch(
 			removeExerciseFromSubtitle({
 				subtitleKey: props.subtitleKey,
 				newExercises: newExercises,
+			})
+		);
+	};
+
+	const handleAddQuestion = (newQuestion) => {
+		dispatch(
+			addQuestionToExercise({
+				subtitleKey: props.subtitleKey,
+				exerciseKey: ExerciseKey,
+				question: newQuestion,
+			})
+		);
+	};
+	const handleEditQuestion = (exercise_key, question_key, newQuestion) => {
+		dispatch(
+			editQuestionOfExercise({
+				subtitleKey: props.subtitleKey,
+				exerciseKey: exercise_key,
+				questionKey: question_key,
+				question: newQuestion,
+			})
+		);
+	};
+
+	const handleDeleteQuestion = (question_key) => {
+		let newQuestions = props.SubtitleExercises[ExerciseKey].questions.filter(
+			(question, i) => i !== question_key
+		);
+		dispatch(
+			removeQuestionFromExercise({
+				subtitleKey: props.subtitleKey,
+				exerciseKey: ExerciseKey,
+				newQuestions: newQuestions,
 			})
 		);
 	};
@@ -45,24 +92,34 @@ export default function ViewExercises(props) {
 								</Accordion.Header>
 								<Button
 									className="accordionTrash"
-									key={`exercise_trashButton_${exercise_key}`}
+									key={`exercise_trash_button_${exercise_key}`}
 									onClick={() => handleDeleteExercise(exercise_key)}>
 									<BsTrash key={"exercise_trash_" + exercise_key} className="trashIcon" />
 								</Button>
 								<Button
 									className="accordionTrash"
-									key={`exercise_trash_button_${exercise_key}`}
+									key={`exercise_edit_button_${exercise_key}`}
 									onClick={() => handleEditExerciseModalShow(exercise, exercise_key)}>
 									<AiOutlineEdit key={"exercise_edit_" + exercise_key} className="trashIcon" />
 								</Button>
 							</div>
 							<Accordion.Body>
 								<Accordion>
+									<Button
+										onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
+										className="me-3">
+										Add Question
+									</Button>
 									<ViewExercise
+										case="Exercise"
 										key={`view_exercise_questions_${exercise_key}`}
 										Questions={exercise.questions}
-										delete={false}
-										handleDeleteQuestion={() => console.log("hi")}
+										handleAddQuestion={handleEditQuestion}
+										exerciseKey={exercise_key}
+										// handleAddQuestion={(key, newQuestion) =>
+										// 	dispatch(editExamQuestion({ key: key, question: newQuestion }))
+										// }
+										handleDeleteQuestion={handleDeleteQuestion}
 									/>
 								</Accordion>
 							</Accordion.Body>
@@ -78,6 +135,17 @@ export default function ViewExercises(props) {
 					subtitleKey={SubtitleKey}
 					show={ShowEditExerciseModal}
 					handleClose={handleEditExerciseModalClose}
+				/>
+			)}
+			{ShowAddQuestionModal && (
+				<AddQuestion
+					case="Add"
+					exercise={Exercise}
+					exerciseKey={ExerciseKey}
+					subtitleKey={SubtitleKey}
+					show={ShowAddQuestionModal}
+					handleClose={handleAddQuestionModalClose}
+					handleAddQuestion={handleAddQuestion}
 				/>
 			)}
 		</>
