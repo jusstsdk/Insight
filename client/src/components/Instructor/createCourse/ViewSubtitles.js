@@ -73,22 +73,30 @@ export default function ViewSubtitles() {
 							<Accordion.Body>
 								<Accordion>
 									<Form.Group as={Row}>
-										<Col className="nextButton">
-											<Button
-												onClick={() => handleAddExerciseModalShow(subtitle, subtitle_key)}
-												className="me-3">
-												Add Exercise
-											</Button>
-											<Button onClick={() => handleAddVideoModalShow(subtitle, subtitle_key)}>
-												Add Video
-											</Button>
-										</Col>
-										<ViewExercises
-											subtitleKey={subtitle_key}
-											SubtitleExercises={subtitle.exercises}
-											delete={false}
-										/>
-										<ViewVideos subtitleKey={subtitle_key} SubtitleVideos={subtitle.videos} />
+										<Form.Group className="mb-3">
+											<h5>Exercises</h5>
+											<ViewExercises
+												subtitleKey={subtitle_key}
+												SubtitleExercises={subtitle.exercises}
+												delete={false}
+											/>
+											<Col className="mt-2">
+												<Button
+													onClick={() => handleAddExerciseModalShow(subtitle, subtitle_key)}
+													className="me-3">
+													Add Exercise
+												</Button>
+											</Col>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<h5>Videos</h5>
+											<ViewVideos subtitleKey={subtitle_key} SubtitleVideos={subtitle.videos} />
+											<Col className="mt-2">
+												<Button onClick={() => handleAddVideoModalShow(subtitle, subtitle_key)}>
+													Add Video
+												</Button>
+											</Col>
+										</Form.Group>
 									</Form.Group>
 								</Accordion>
 							</Accordion.Body>

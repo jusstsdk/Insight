@@ -46,11 +46,8 @@ export default function ViewExercise(props) {
 						</div>
 						<Accordion.Body>
 							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">
-								<Form.Label column sm={2}>
-									Choices
-								</Form.Label>
 								<Col>
-									<ListGroup horizontal>
+									<ListGroup>
 										{question.choices.map((choice, choice_key) => {
 											return (
 												<ListGroup.Item

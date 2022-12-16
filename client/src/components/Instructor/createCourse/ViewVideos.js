@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Accordion } from "react-bootstrap";
+import { Button, Accordion, Card, Col } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -31,7 +31,7 @@ export default function ViewVideos(props) {
 
 	return (
 		<>
-			<Accordion className="w-50">
+			<Accordion>
 				{props.SubtitleVideos.map((video, video_key) => {
 					return (
 						<Accordion.Item eventKey={`video_${video_key}`} key={`video_${video_key}`}>
@@ -57,6 +57,35 @@ export default function ViewVideos(props) {
 					);
 				})}
 			</Accordion>
+			{props.SubtitleVideos.map((video, video_key) => {
+				return (
+					<Card key={`video_${video_key}`}>
+						<div className="d-flex">
+							<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
+								<Col sm={9} className="me-auto">
+									<h6 className="videoUrl">{video.url}</h6>
+								</Col>
+								<Col sm={1} className="d-flex">
+									<Button
+										className="accordionTrash"
+										key={`video_trash_button_${video_key}`}
+										onClick={() => handleDeleteVideo(video_key)}>
+										<BsTrash key={"video_trash_" + video_key} className="trashIcon" />
+									</Button>
+
+									<Button
+										className="accordionTrash"
+										key={`video_edit_button_${video_key}`}
+										onClick={() => handleEditVideoModalShow(video, video_key)}>
+										<AiOutlineEdit key={"video_edit_" + video_key} className="trashIcon" />
+									</Button>
+								</Col>
+							</Card.Header>
+						</div>
+						<Card.Body>{video.description}</Card.Body>
+					</Card>
+				);
+			})}
 			{ShowEditVideoModal && (
 				<AddVideo
 					case="Edit"

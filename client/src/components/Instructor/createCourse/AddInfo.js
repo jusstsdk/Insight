@@ -13,6 +13,7 @@ import {
 
 import AddSubject from "./AddSubject";
 import DropDownMenu from "../../DropDownMenu";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
@@ -51,7 +52,7 @@ export default function AddInfo(props) {
 
 	return (
 		<>
-			<h1>Adding Course Info</h1>
+			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
 			<Form.Group
 				as={Row}
 				className="mb-3 d-flex align-items-center justify-content-start"
@@ -137,7 +138,9 @@ export default function AddInfo(props) {
 				</Col>
 			</Form.Group>
 			<Col className="nextButton">
-				<Button onClick={() => props.setCurrentTab("addExam")}>Next</Button>
+				<Button onClick={() => props.setCurrentTab("addExam")}>
+					<AiOutlineArrowRight />
+				</Button>
 			</Col>
 		</>
 	);

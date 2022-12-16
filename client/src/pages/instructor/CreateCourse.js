@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Col } from "react-bootstrap";
+import { Form, Col, Breadcrumb } from "react-bootstrap";
 
 import "../../css/createCourse.css";
 
@@ -11,8 +11,6 @@ import { clearCreateCourse } from "../../redux/createCourseSlice";
 
 import AddInfo from "../../components/instructor/createCourse/AddInfo";
 import AddExam from "../../components/instructor/createCourse/AddExam";
-import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
-
 import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
 
 export default function CreateCourse() {
@@ -78,8 +76,37 @@ export default function CreateCourse() {
 	return (
 		<Form className="d-flex flex-column" id="createCourseForm">
 			<Col className="d-flex justify-content-center">
-				<h1>Instructor Create Course</h1>
+				<h1 className="fw-bold fs-2">Instructor Create Course</h1>
 			</Col>
+			<Breadcrumb>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addInfo" ? true : false}
+					onClick={() => {
+						console.log("addInfo");
+						setCurrentTab("addInfo");
+					}}>
+					Info
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addExam" ? true : false}
+					onClick={() => {
+						console.log("addExam");
+						setCurrentTab("addExam");
+					}}>
+					Exam
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addSubtitle" ? true : false}
+					onClick={() => {
+						console.log("addSubtitle");
+						setCurrentTab("addSubtitle");
+					}}>
+					Subtitles
+				</Breadcrumb.Item>
+			</Breadcrumb>
 			{displayView()}
 		</Form>
 	);

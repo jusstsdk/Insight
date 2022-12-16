@@ -39,3 +39,10 @@
 #hours {
 	margin-left: 1rem;
 }
+
+.accordionLikeHeader {
+	background-color: #e7f1ff !important;
+}
+.videoUrl {
+	margin-bottom: 0;
+}

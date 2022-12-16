@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Accordion } from "react-bootstrap";
+import { Button, Accordion, Row, Col } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -82,7 +82,7 @@ export default function ViewExercises(props) {
 	};
 	return (
 		<>
-			<Accordion className="w-50">
+			<Accordion>
 				{props.SubtitleExercises.map((exercise, exercise_key) => {
 					return (
 						<Accordion.Item eventKey={`exercise_${exercise_key}`} key={`exercise_${exercise_key}`}>
@@ -105,22 +105,23 @@ export default function ViewExercises(props) {
 							</div>
 							<Accordion.Body>
 								<Accordion>
-									<Button
-										onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
-										className="me-3">
-										Add Question
-									</Button>
-									<ViewExercise
-										case="Exercise"
-										key={`view_exercise_questions_${exercise_key}`}
-										Questions={exercise.questions}
-										handleAddQuestion={handleEditQuestion}
-										exerciseKey={exercise_key}
-										// handleAddQuestion={(key, newQuestion) =>
-										// 	dispatch(editExamQuestion({ key: key, question: newQuestion }))
-										// }
-										handleDeleteQuestion={handleDeleteQuestion}
-									/>
+									<Col className="mb-3">
+										<Button
+											onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
+											className="me-3">
+											Add Question
+										</Button>
+									</Col>
+									<Col>
+										<ViewExercise
+											case="Exercise"
+											key={`view_exercise_questions_${exercise_key}`}
+											Questions={exercise.questions}
+											handleAddQuestion={handleEditQuestion}
+											exerciseKey={exercise_key}
+											handleDeleteQuestion={handleDeleteQuestion}
+										/>
+									</Col>
 								</Accordion>
 							</Accordion.Body>
 						</Accordion.Item>

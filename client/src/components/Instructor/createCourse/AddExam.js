@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Row, Col, Button, Accordion } from "react-bootstrap";
-
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import {
 	setExamTitle,
 	addToExamQuestions,
@@ -26,7 +26,7 @@ export default function AddExam(props) {
 
 	return (
 		<>
-			<h1>Adding Course Exam</h1>
+			<h1 className="fs-3 fw-semibold text-muted">Adding Course Exam</h1>
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={2}>
 					Exam title
@@ -54,13 +54,13 @@ export default function AddExam(props) {
 					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
 				/>
 			</Accordion>
-			<Col className="nextButton">
+			<Col className="nextButton mt-auto">
 				<Button
 					className="me-3"
 					onClick={() => {
 						props.setCurrentTab("addInfo");
 					}}>
-					Go Back
+					<AiOutlineArrowLeft />
 				</Button>
 				<Button className="me-3" onClick={handleAddModalShow}>
 					Add a Question
@@ -70,7 +70,7 @@ export default function AddExam(props) {
 					onClick={() => {
 						props.setCurrentTab("addSubtitle");
 					}}>
-					Done and go to Next
+					<AiOutlineArrowRight />
 				</Button>
 			</Col>
 			<AddQuestion
