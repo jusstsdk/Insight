@@ -27,14 +27,6 @@ export default function ViewSubtitles() {
 		setShowEditSubtitleModal(true);
 	};
 
-	const [ShowAddVideoModal, setShowAddVideoModal] = useState(false);
-	const handleAddVideoModalClose = () => setShowAddVideoModal(false);
-	const handleAddVideoModalShow = (subtitle, subtitle_key) => {
-		setSubtitle(subtitle);
-		setSubtitlekey(subtitle_key);
-		setShowAddVideoModal(true);
-	};
-
 	const [ShowAddExerciseModal, setShowAddExerciseModal] = useState(false);
 	const handleAddExerciseModalClose = () => setShowAddExerciseModal(false);
 	const handleAddExerciseModalShow = (subtitle, subtitle_key) => {
@@ -89,13 +81,13 @@ export default function ViewSubtitles() {
 											</Col>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<h5>Videos</h5>
-											<ViewVideos subtitleKey={subtitle_key} SubtitleVideos={subtitle.videos} />
-											<Col className="mt-2">
-												<Button onClick={() => handleAddVideoModalShow(subtitle, subtitle_key)}>
-													Add Video
-												</Button>
-											</Col>
+											<ViewVideos
+												subtitle={subtitle}
+												subtitleKey={subtitle_key}
+												setSubtitle={setSubtitle}
+												setSubtitlekey={setSubtitlekey}
+												SubtitleVideos={subtitle.videos}
+											/>
 										</Form.Group>
 									</Form.Group>
 								</Accordion>
@@ -111,16 +103,6 @@ export default function ViewSubtitles() {
 					subtitleKey={Subtitlekey}
 					show={ShowEditSubtitleModal}
 					handleClose={handleEditSubtitleModalClose}
-				/>
-			)}
-
-			{ShowAddVideoModal && (
-				<AddVideo
-					case="Add"
-					subtitle={Subtitle}
-					subtitleKey={Subtitlekey}
-					show={ShowAddVideoModal}
-					handleClose={handleAddVideoModalClose}
 				/>
 			)}
 

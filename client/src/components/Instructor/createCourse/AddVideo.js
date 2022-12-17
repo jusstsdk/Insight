@@ -39,14 +39,16 @@ export default function AddVideo(props) {
 			aria-labelledby="example-custom-modal-styling-title"
 			centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="example-custom-modal-styling-title">Adding a Subtitle</Modal.Title>
+				<Modal.Title id="example-custom-modal-styling-title">
+					{props.case === "Add" ? "Adding" : "Editting"} a Subtitle
+				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 					<Form.Label column sm={1}>
 						Videos
 					</Form.Label>
-					<Col sm={2}>
+					<Col sm={4}>
 						<Form.Control
 							type="text"
 							placeholder="Video Url"
@@ -57,6 +59,8 @@ export default function AddVideo(props) {
 					<Col sm={6}>
 						<Form.Control
 							type="text"
+							as="textarea"
+							rows={1}
 							placeholder="Video Description"
 							value={Description}
 							onChange={(e) => setDescription(e.target.value)}

@@ -12,6 +12,15 @@ export default function ViewVideos(props) {
 	const dispatch = useDispatch();
 	const [Video, setVideo] = useState(props.video);
 	const [VideoKey, setVideoKey] = useState(props.video);
+
+	const [ShowAddVideoModal, setShowAddVideoModal] = useState(false);
+	const handleAddVideoModalClose = () => setShowAddVideoModal(false);
+	const handleAddVideoModalShow = (subtitle, subtitle_key) => {
+		props.setSubtitle(subtitle);
+		props.setSubtitlekey(subtitle_key);
+		setShowAddVideoModal(true);
+	};
+
 	const [ShowEditVideoModal, setShowEditVideoModal] = useState(false);
 	const handleEditVideoModalClose = () => setShowEditVideoModal(false);
 	const handleEditVideoModalShow = (video, video_key) => {
@@ -32,60 +41,60 @@ export default function ViewVideos(props) {
 	return (
 		<>
 			<Accordion>
-				{props.SubtitleVideos.map((video, video_key) => {
-					return (
-						<Accordion.Item eventKey={`video_${video_key}`} key={`video_${video_key}`}>
-							<div className="d-flex">
-								<Accordion.Header className="accordionHeaderWidth">
-									<h6>{video.url}</h6>
-								</Accordion.Header>
-								<Button
-									className="accordionTrash"
-									key={`video_trash_button_${video_key}`}
-									onClick={() => handleDeleteVideo(video_key)}>
-									<BsTrash key={"video_trash_" + video_key} className="trashIcon" />
-								</Button>
-								<Button
-									className="accordionTrash"
-									key={`video_edit_button_${video_key}`}
-									onClick={() => handleEditVideoModalShow(video, video_key)}>
-									<AiOutlineEdit key={"video_edit_" + video_key} className="trashIcon" />
-								</Button>
-							</div>
-							<Accordion.Body>{video.description}</Accordion.Body>
-						</Accordion.Item>
-					);
-				})}
+				<Accordion.Item
+					eventKey={`subtitle_${props.subtitleKey}_videos`}
+					key={`subtitle_${props.subtitleKey}_videos`}>
+					<Accordion.Header className="accordionHeaderWidth">
+						<h6>Videos</h6>
+					</Accordion.Header>
+					<Accordion.Body>
+						{props.SubtitleVideos.map((video, video_key) => {
+							return (
+								<Card key={`video_${video_key}`} className="mb-2">
+									<div className="d-flex">
+										<Col sm={11} className="me-auto">
+											<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
+												<h6 className="videoUrl">{video.url}</h6>
+											</Card.Header>
+										</Col>
+										<Col sm={1} className="d-flex justify-content-end">
+											<Button
+												variant="success"
+												className="accordionTrash accordionLikeEditButton"
+												key={`video_edit_button_${video_key}`}
+												onClick={() => handleEditVideoModalShow(video, video_key)}>
+												<AiOutlineEdit key={"video_edit_" + video_key} />
+											</Button>
+											<Button
+												className="accordionTrash accordionLikeDeleteButton"
+												variant="danger"
+												key={`video_trash_button_${video_key}`}
+												onClick={() => handleDeleteVideo(video_key)}>
+												<BsTrash key={"video_trash_" + video_key} />
+											</Button>
+										</Col>
+									</div>
+									<Card.Body>{video.description}</Card.Body>
+								</Card>
+							);
+						})}
+						<Col className="mt-2">
+							<Button onClick={() => handleAddVideoModalShow(props.subtitle, props.subtitleKey)}>
+								Add Video
+							</Button>
+						</Col>
+					</Accordion.Body>
+				</Accordion.Item>
 			</Accordion>
-			{props.SubtitleVideos.map((video, video_key) => {
-				return (
-					<Card key={`video_${video_key}`}>
-						<div className="d-flex">
-							<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
-								<Col sm={9} className="me-auto">
-									<h6 className="videoUrl">{video.url}</h6>
-								</Col>
-								<Col sm={1} className="d-flex">
-									<Button
-										className="accordionTrash"
-										key={`video_trash_button_${video_key}`}
-										onClick={() => handleDeleteVideo(video_key)}>
-										<BsTrash key={"video_trash_" + video_key} className="trashIcon" />
-									</Button>
-
-									<Button
-										className="accordionTrash"
-										key={`video_edit_button_${video_key}`}
-										onClick={() => handleEditVideoModalShow(video, video_key)}>
-										<AiOutlineEdit key={"video_edit_" + video_key} className="trashIcon" />
-									</Button>
-								</Col>
-							</Card.Header>
-						</div>
-						<Card.Body>{video.description}</Card.Body>
-					</Card>
-				);
-			})}
+			{ShowAddVideoModal && (
+				<AddVideo
+					case="Add"
+					subtitle={props.subtitle}
+					subtitleKey={props.subtitleKey}
+					show={ShowAddVideoModal}
+					handleClose={handleAddVideoModalClose}
+				/>
+			)}
 			{ShowEditVideoModal && (
 				<AddVideo
 					case="Edit"
