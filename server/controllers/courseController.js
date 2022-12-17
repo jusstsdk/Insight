@@ -263,12 +263,13 @@ async function promotionCourses(req, res) {
 			startDate: req.body.startDate,
 			endDate: req.body.endDate,
 			discount: req.body.discount,
+			offeredBy: req.body.offeredBy,
 		};
 		course.save();
 	});
 
 	res.sendStatus(200);
-};
+}
 
 module.exports = {
 	getCourse,

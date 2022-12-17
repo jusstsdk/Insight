@@ -3,9 +3,7 @@ import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
 import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
 import CourseDetails from "../pages/sharedTrainee/CoursePage";
-import CourseList from "../pages/sharedTrainee/CourseList";
-
-import Payment from "../pages/trainee/stripe/Payment";
+import Courses from "../pages/sharedTrainee/Courses";
 
 export function CorporateTraineeRoutes() {
 	return (
@@ -14,7 +12,7 @@ export function CorporateTraineeRoutes() {
 				<Routes>
 					<Route path="" element={<Layout />}>
 						<Route path="" element={<CorporateTraineeView />} />
-						<Route path="courses" element={<CourseList />} />
+						<Route path="courses" element={<Courses />} />
 						<Route path="courses/:id" element={<CourseDetails />} />
 					</Route>
 				</Routes>

@@ -1,18 +1,21 @@
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/userSlice";
 import axios from "axios";
-import { useRef } from "react";
-import { Form, Button } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { addNotification} from "../../redux/notificationsSlice"
 
 export default function Login() {
 	const username = useRef();
 	const password = useRef();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const [isLoggingIn, setIsLoggingIn] = useState(false);
 
 	async function loginFunction(e) {
 		e.preventDefault();
+		setIsLoggingIn(true);
 
 		const config = {
 			method: "POST",
@@ -23,63 +26,73 @@ export default function Login() {
 				password: password.current.value,
 			},
 		};
+		try {
+			const response = await axios(config);
+			const responseToken = response.data["x-auth-token"];
+			const responseUserType = response.data["userType"];
+			let responseUser = response.data["user"];
 
-		const response = await axios(config);
-		const responseToken = response.data["x-auth-token"];
-		const responseUserType = response.data["userType"];
-		let responseUser = response.data["user"];
+			const responseCountryApi = await axios.get(
+				`https://restcountries.com/v3.1/name/${responseUser.country}`
+			);
+			const localCurrency = Object.keys(
+				responseCountryApi.data[0].currencies
+			)[0];
 
-		const responseCountryApi = await axios.get(
-			`https://restcountries.com/v3.1/name/${responseUser.country}`
-		);
-		const localCurrency = Object.keys(
-			responseCountryApi.data[0].currencies
-		)[0];
+			responseUser.currency = localCurrency;
 
-		responseUser.currency = localCurrency;
+			const responseExchangeRate = await axios.get(
+				"https://api.apilayer.com/exchangerates_data/latest",
+				{
+					headers: {
+						apikey: "lHqFYUXBW95ZPHBiNTL8hj7sUS0vBO7r",
+					},
+					params: {
+						base: "USD",
+					},
+				}
+			);
+			const exchangeRate = responseExchangeRate.data.rates[localCurrency];
 
-		const responseExchangeRate = await axios.get(
-			"https://api.apilayer.com/exchangerates_data/latest",
-			{
-				headers: {
-					apikey: "lHqFYUXBW95ZPHBiNTL8hj7sUS0vBO7r",
-				},
-				params: {
-					base: "USD",
-				},
+			responseUser.exchangeRate = exchangeRate;
+
+			dispatch(
+				login({
+					type: responseUserType,
+					token: responseToken,
+					user: responseUser,
+				})
+			);
+
+			switch (responseUserType) {
+				case "Administrator":
+					navigate("/admin");
+					break;
+				case "Instructor":
+					navigate("/instructor");
+					break;
+				case "Trainee":
+					navigate("/trainee");
+					break;
+				case "CorporateTrainee":
+					navigate("/corporateTrainee");
+					break;
 			}
-		);
-		const exchangeRate = responseExchangeRate.data.rates[localCurrency];
-
-		responseUser.exchangeRate = exchangeRate;
-
-		dispatch(
-			login({
-				type: responseUserType,
-				token: responseToken,
-				user: responseUser,
-			})
-		);
-
-		switch (responseUserType) {
-			case "Administrator":
-				navigate("/admin");
-				break;
-			case "Instructor":
-				navigate("/instructor");
-				break;
-			case "Trainee":
-				navigate("/trainee");
-				break;
-			case "CorporateTrainee":
-				navigate("/corporateTrainee");
-				break;
+		} catch (error) {
+			dispatch(
+				addNotification({
+					title: "Wrong Credentials",
+					info: "Your password or username is wrong try again please",
+					color: "error",
+				})
+			);
+			setIsLoggingIn(false);
 		}
 	}
 
 	return (
 		<>
-			<Form onSubmit={loginFunction}>
+			<Form onSubmit={!isLoggingIn ? loginFunction : null}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label>Username</Form.Label>
 					<Form.Control
@@ -101,9 +114,26 @@ export default function Login() {
 					/>
 				</Form.Group>
 
-				<Button variant="primary" type="submit">
-					Login
-				</Button>
+				{isLoggingIn ? (
+					<Button variant="primary" disabled>
+						<Spinner
+							as="span"
+							animation="border"
+							size="sm"
+							role="status"
+							aria-hidden="true"
+						/>{" "}
+						Logging in...
+					</Button>
+				) : (
+					<Button
+						variant="primary"
+						type="submit"
+						disabled={isLoggingIn}
+					>
+						Login
+					</Button>
+				)}
 			</Form>
 		</>
 	);
