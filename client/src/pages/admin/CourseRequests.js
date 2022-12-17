@@ -3,21 +3,26 @@ import { useState, useEffect } from "react";
 import api from "../../functions/api";
 import { Container } from "react-bootstrap";
 const CourseRequests = () => {
-	const [requests, setRequests] = useState([]);
-	async function getRequests() {
+	const [traineeRequests, setTraineeRequests] = useState([]);
+	function filterPendingRequests(requests) {
+		return requests.filter((request) => request.status === "pending").length>0;
+	}
+	
+	async function getPendingTrainees() {
 		const response = await api.get("/administrators/requests");
-		setRequests(response.data);
+		const pending = response.data.filter((trainee) => filterPendingRequests(trainee.requests));
+		setTraineeRequests(pending);
 	}
 	useEffect(() => {
-		getRequests();
+		getPendingTrainees();
 	}, []);
 	return (
 		<>
 			<h1>Course Requests</h1>
-			{requests.map((traineeRequests) => (
-				<Container key={traineeRequests._id}>
-					<h1>{traineeRequests.username}</h1>
-					<h2>{traineeRequests.corporate}</h2>
+			{traineeRequests.map((traineeRequests) => (
+				<Container  key={traineeRequests._id}>
+					<h4>{traineeRequests.username}</h4>
+					<h6 className="text-muted">{traineeRequests.corporate}</h6>
 					{traineeRequests.requests.map((request) => (
 						
 						<RequestCard key={request._id} request={request} course={request.courseId} />
