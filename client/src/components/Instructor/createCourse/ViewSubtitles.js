@@ -1,14 +1,13 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Row, Button, Accordion, ButtonGroup, Col } from "react-bootstrap";
+import { Form, Col, Row, Button, Accordion } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
-import { removeSubtitle } from "../../../redux/createCourseSlice";
-import { useState } from "react";
-import AddSubtitleInfo from "./AddSubtitleInfo";
-import AddVideo from "./AddVideo";
 
+import { removeSubtitle } from "../../../redux/createCourseSlice";
+
+import AddSubtitleInfo from "./AddSubtitleInfo";
 import ViewVideos from "./ViewVideos";
-import AddExercise from "./AddExercise";
 import ViewExercises from "./ViewExercises";
 
 export default function ViewSubtitles() {
@@ -27,58 +26,49 @@ export default function ViewSubtitles() {
 		setShowEditSubtitleModal(true);
 	};
 
-	const [ShowAddExerciseModal, setShowAddExerciseModal] = useState(false);
-	const handleAddExerciseModalClose = () => setShowAddExerciseModal(false);
-	const handleAddExerciseModalShow = (subtitle, subtitle_key) => {
-		setSubtitle(subtitle);
-		setSubtitlekey(subtitle_key);
-		setShowAddExerciseModal(true);
-	};
-
 	return (
 		<>
-			<Accordion>
+			<Accordion className="mt-2">
 				{Subtitles.map((subtitle, subtitle_key) => {
 					return (
 						<Accordion.Item eventKey={`subtitle_${subtitle_key}`} key={`subtitle_${subtitle_key}`}>
 							<div className="d-flex">
-								<Accordion.Header className="accordionHeaderWidth">
-									<h6 className="me-3">Title: {subtitle.title}</h6>
-									<h6>Hours: {subtitle.hours}</h6>
-								</Accordion.Header>
-
-								<ButtonGroup>
+								<Col sm={11} className="me-auto">
+									<Accordion.Header className="accordionHeaderWidth">
+										<h6 className="me-3">Title: {subtitle.title}</h6>
+										<h6>Hours: {subtitle.hours}</h6>
+									</Accordion.Header>
+								</Col>
+								<Col sm={1} className="d-flex justify-content-end">
 									<Button
-										className="accordionTrash"
-										key={`subtitle_trash_button_${subtitle_key}`}
-										onClick={() => dispatch(removeSubtitle(subtitle_key))}>
-										<BsTrash key={"subtitle_trash_" + subtitle_key} className="trashIcon" />
-									</Button>
-									<Button
-										className="accordionTrash"
+										variant="success"
+										style={{ zIndex: 1000 }}
+										className="accordionTrash accordionLikeEditButton"
 										key={`subtitle_edit_button_${subtitle_key}`}
 										onClick={() => handleEditSubtitleModalShow(subtitle, subtitle_key)}>
-										<AiOutlineEdit key={"subtitle_edit_" + subtitle_key} className="trashIcon" />
+										<AiOutlineEdit key={"subtitle_edit_" + subtitle_key} />
 									</Button>
-								</ButtonGroup>
+									<Button
+										className="accordionTrash accordionLikeDeleteButton"
+										variant="danger"
+										key={`subtitle_trash_button_${subtitle_key}`}
+										onClick={() => dispatch(removeSubtitle(subtitle_key))}>
+										<BsTrash key={"subtitle_trash_" + subtitle_key} />
+									</Button>
+								</Col>
 							</div>
 							<Accordion.Body>
 								<Accordion>
 									<Form.Group as={Row}>
 										<Form.Group className="mb-3">
-											<h5>Exercises</h5>
 											<ViewExercises
+												subtitle={subtitle}
 												subtitleKey={subtitle_key}
+												setSubtitle={setSubtitle}
+												setSubtitlekey={setSubtitlekey}
 												SubtitleExercises={subtitle.exercises}
 												delete={false}
 											/>
-											<Col className="mt-2">
-												<Button
-													onClick={() => handleAddExerciseModalShow(subtitle, subtitle_key)}
-													className="me-3">
-													Add Exercise
-												</Button>
-											</Col>
 										</Form.Group>
 										<Form.Group className="mb-3">
 											<ViewVideos
@@ -103,16 +93,6 @@ export default function ViewSubtitles() {
 					subtitleKey={Subtitlekey}
 					show={ShowEditSubtitleModal}
 					handleClose={handleEditSubtitleModalClose}
-				/>
-			)}
-
-			{ShowAddExerciseModal && (
-				<AddExercise
-					case="Add"
-					subtitle={Subtitle}
-					subtitleKey={Subtitlekey}
-					show={ShowAddExerciseModal}
-					handleClose={handleAddExerciseModalClose}
 				/>
 			)}
 		</>

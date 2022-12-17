@@ -44,19 +44,20 @@
 .accordionLikeCard {
 	background-color: #e7f1ff !important;
 }
+
+.questionTitle,
 .videoUrl {
 	margin-bottom: 0;
-}
-
-.videoUrl {
 	padding: 0.5rem 0;
 }
 .accordionLikeDeleteButton {
 	border-bottom-left-radius: 0 !important;
 	border-bottom-right-radius: 0 !important;
 	border-top-left-radius: 0 !important;
+	width: 100%;
 }
 
 .accordionLikeEditButton {
 	border-radius: 0 !important;
+	width: 100%;
 }

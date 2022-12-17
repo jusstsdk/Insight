@@ -1,25 +1,12 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Form, Row, Col, Button, Accordion, Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
-import {
-	setExerciseTitle,
-	addToExerciseQuestions,
-	removeExerciseQuestions,
-	addExerciseToSubtitle,
-	editExerciseOfSubtitle,
-} from "../../../redux/createCourseSlice";
-
-import ViewExercise from "../updatedCreateCourse/ViewExercise";
-import AddQuestion from "../updatedCreateCourse/AddQuestion";
+import { addExerciseToSubtitle, editExerciseOfSubtitle } from "../../../redux/createCourseSlice";
 
 export default function AddExercise(props) {
 	const dispatch = useDispatch();
 
-	// const handleAddQuestion = (question) => {
-	// 	dispatch(addToExerciseQuestions(question));
-	// 	setCurrentComponent("viewExercise");
-	// };
 	const [Title, setTitle] = useState(props.case === "Add" ? "" : props.exercise.title);
 
 	const SubtitleKey = props.subtitleKey;
@@ -41,14 +28,6 @@ export default function AddExercise(props) {
 		props.handleClose();
 	};
 
-	// const displayComponent = () => {
-	// 	switch (CurrentComponent) {
-	// 		case "addQuestion":
-	// 			return <AddQuestion handleAddQuestion={handleAddQuestion} />;
-	// 		default:
-	// 	}
-	// };
-
 	return (
 		<Modal
 			show={props.show}
@@ -60,7 +39,9 @@ export default function AddExercise(props) {
 			aria-labelledby="example-custom-modal-styling-title"
 			centered>
 			<Modal.Header closeButton>
-				<Modal.Title id="example-custom-modal-styling-title">Adding a Subtitle</Modal.Title>
+				<Modal.Title id="example-custom-modal-styling-title">
+					{props.case === "Add" ? "Adding" : "Editting"} an Exercise
+				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">

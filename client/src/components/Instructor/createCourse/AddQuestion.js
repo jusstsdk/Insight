@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
 	Form,
 	Row,
@@ -8,6 +8,7 @@ import {
 	Popover,
 	OverlayTrigger,
 	Modal,
+	FormLabel,
 } from "react-bootstrap";
 
 export default function AddQuestion(props) {
@@ -91,15 +92,18 @@ export default function AddQuestion(props) {
 				aria-labelledby="example-custom-modal-styling-title"
 				centered>
 				<Modal.Header closeButton>
-					<Modal.Title id="example-custom-modal-styling-title">Adding a Question</Modal.Title>
+					<Modal.Title id="example-custom-modal-styling-title">
+						{props.case === "Add" ? "Adding" : "Editting"} a Question
+					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form.Group as={Row} className="my-3 d-flex align-items-center justify-content-start">
+					<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 						<Form.Label column sm={2}>
 							Question
 						</Form.Label>
 						<Col sm={7}>
 							<Form.Control
+								as="textarea"
 								type="text"
 								placeholder="Question"
 								value={Question}
@@ -107,48 +111,69 @@ export default function AddQuestion(props) {
 							/>
 						</Col>
 					</Form.Group>
-					<InputGroup
-						className="mb-3"
-						// onChange={() => {
-						// 	setChoices([
-						// 		FirstChoice.current.value,
-						// 		SecondChoice.current.value,
-						// 		ThirdChoice.current.value,
-						// 		FourthChoice.current.value,
-						// 	]);
-						// }}
-					>
-						<InputGroup.Text>Choices</InputGroup.Text>
-						<Form.Control
-							placeholder="First Answer"
-							aria-label="First Answer"
-							value={FirstChoice}
-							onChange={(e) => setFirstChoice(e.target.value)}
-						/>
-						<Form.Control
-							placeholder="Second Answer"
-							aria-label="Second Answer"
-							value={SecondChoice}
-							onChange={(e) => setSecondChoice(e.target.value)}
-						/>
-						<Form.Control
-							placeholder="Third Answer"
-							aria-label="Third Answer"
-							value={ThirdChoice}
-							onChange={(e) => setThirdChoice(e.target.value)}
-						/>
-						<Form.Control
-							placeholder="Fourth Answer"
-							aria-label="Fourth Answer"
-							value={FourthChoice}
-							onChange={(e) => setFourthChoice(e.target.value)}
-						/>
-					</InputGroup>
+					<Col className="mb-3">
+						<Row className="mb-2 d-flex align-items-center">
+							<Col sm={2}>
+								<FormLabel>Choice 1</FormLabel>
+							</Col>
+							<Col sm={9}>
+								<Form.Control
+									as="textarea"
+									placeholder="First Answer"
+									aria-label="First Answer"
+									value={FirstChoice}
+									onChange={(e) => setFirstChoice(e.target.value)}
+								/>
+							</Col>
+						</Row>
+						<Row className="mb-2 d-flex align-items-center">
+							<Col sm={2}>
+								<FormLabel>Choice 2</FormLabel>
+							</Col>
+							<Col sm={9}>
+								<Form.Control
+									as="textarea"
+									placeholder="Second Answer"
+									aria-label="Second Answer"
+									value={SecondChoice}
+									onChange={(e) => setSecondChoice(e.target.value)}
+								/>
+							</Col>
+						</Row>
+						<Row className="mb-2 d-flex align-items-center">
+							<Col sm={2}>
+								<FormLabel>Choice 3</FormLabel>
+							</Col>
+							<Col sm={9}>
+								<Form.Control
+									as="textarea"
+									placeholder="Third Answer"
+									aria-label="Third Answer"
+									value={ThirdChoice}
+									onChange={(e) => setThirdChoice(e.target.value)}
+								/>
+							</Col>
+						</Row>
+						<Row className="mb-2 d-flex align-items-center">
+							<Col sm={2}>
+								<FormLabel>Choice 4</FormLabel>
+							</Col>
+							<Col sm={9}>
+								<Form.Control
+									as="textarea"
+									placeholder="Fourth Answer"
+									aria-label="Fourth Answer"
+									value={FourthChoice}
+									onChange={(e) => setFourthChoice(e.target.value)}
+								/>
+							</Col>
+						</Row>
+					</Col>
 					<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 						<Form.Label column sm={2}>
 							Correct Answer
 						</Form.Label>
-						<Col sm={7}>
+						<Col sm={3}>
 							<Form.Select
 								value={CorrectAnswer}
 								aria-label="Default select example"
@@ -157,10 +182,10 @@ export default function AddQuestion(props) {
 									setMissingCorrectAnswer(false);
 								}}>
 								<option value="default">Choose the correct answer</option>
-								<option value={Choices[0]}>{Choices[0]}</option>
-								<option value={Choices[1]}>{Choices[1]}</option>
-								<option value={Choices[2]}>{Choices[2]}</option>
-								<option value={Choices[3]}>{Choices[3]}</option>
+								<option value={Choices[0]}>Choice 1</option>
+								<option value={Choices[1]}>Choice 2</option>
+								<option value={Choices[2]}>Choice 3</option>
+								<option value={Choices[3]}>Choice 4</option>
 							</Form.Select>
 						</Col>
 					</Form.Group>

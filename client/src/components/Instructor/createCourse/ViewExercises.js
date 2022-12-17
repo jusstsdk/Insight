@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Row, Col } from "react-bootstrap";
+import { Button, Accordion, Col } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -22,6 +22,15 @@ export default function ViewExercises(props) {
 
 	const [Exercise, setExercise] = useState({});
 	const [ExerciseKey, setExerciseKey] = useState();
+
+	const [ShowAddExerciseModal, setShowAddExerciseModal] = useState(false);
+	const handleAddExerciseModalClose = () => setShowAddExerciseModal(false);
+	const handleAddExerciseModalShow = () => {
+		props.setSubtitle(props.subtitle);
+		props.setSubtitlekey(props.subtitle_key);
+		setShowAddExerciseModal(true);
+	};
+
 	const [ShowEditExerciseModal, setShowEditExerciseModal] = useState(false);
 	const handleEditExerciseModalClose = () => setShowEditExerciseModal(false);
 	const handleEditExerciseModalShow = (exercise, exercise_key) => {
@@ -83,51 +92,88 @@ export default function ViewExercises(props) {
 	return (
 		<>
 			<Accordion>
-				{props.SubtitleExercises.map((exercise, exercise_key) => {
-					return (
-						<Accordion.Item eventKey={`exercise_${exercise_key}`} key={`exercise_${exercise_key}`}>
-							<div className="d-flex">
-								<Accordion.Header className="accordionHeaderWidth">
-									<h6>{exercise.title}</h6>
-								</Accordion.Header>
-								<Button
-									className="accordionTrash"
-									key={`exercise_trash_button_${exercise_key}`}
-									onClick={() => handleDeleteExercise(exercise_key)}>
-									<BsTrash key={"exercise_trash_" + exercise_key} className="trashIcon" />
-								</Button>
-								<Button
-									className="accordionTrash"
-									key={`exercise_edit_button_${exercise_key}`}
-									onClick={() => handleEditExerciseModalShow(exercise, exercise_key)}>
-									<AiOutlineEdit key={"exercise_edit_" + exercise_key} className="trashIcon" />
-								</Button>
-							</div>
-							<Accordion.Body>
-								<Accordion>
-									<Col className="mb-3">
-										<Button
-											onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
-											className="me-3">
-											Add Question
-										</Button>
-									</Col>
-									<Col>
-										<ViewExercise
-											case="Exercise"
-											key={`view_exercise_questions_${exercise_key}`}
-											Questions={exercise.questions}
-											handleAddQuestion={handleEditQuestion}
-											exerciseKey={exercise_key}
-											handleDeleteQuestion={handleDeleteQuestion}
-										/>
-									</Col>
-								</Accordion>
-							</Accordion.Body>
-						</Accordion.Item>
-					);
-				})}
+				<Accordion.Item
+					eventKey={`subtitle_${props.subtitleKey}_exercises`}
+					key={`subtitle_${props.subtitleKey}_exercises`}>
+					<Accordion.Header className="accordionHeaderWidth">
+						<h6>Exercises</h6>
+					</Accordion.Header>
+					<Accordion.Body>
+						<Accordion>
+							{props.SubtitleExercises.map((exercise, exercise_key) => {
+								return (
+									<Accordion.Item
+										eventKey={`exercise_${exercise_key}`}
+										key={`exercise_${exercise_key}`}>
+										<div className="d-flex">
+											<Col sm={11} className="me-auto">
+												<Accordion.Header className="accordionHeaderWidth">
+													<h6>{exercise.title}</h6>
+												</Accordion.Header>
+											</Col>
+											<Col sm={1} className="d-flex justify-content-end">
+												<Button
+													variant="success"
+													style={{ zIndex: 1000 }}
+													className="accordionTrash accordionLikeEditButton"
+													key={`exercise_edit_button_${exercise_key}`}
+													onClick={() => handleEditExerciseModalShow(exercise, exercise_key)}>
+													<AiOutlineEdit key={"exercise_edit_" + exercise_key} />
+												</Button>
+												<Button
+													className="accordionTrash accordionLikeDeleteButton"
+													variant="danger"
+													key={`exercise_trash_button_${exercise_key}`}
+													onClick={() => handleDeleteExercise(exercise_key)}>
+													<BsTrash key={"exercise_trash_" + exercise_key} />
+												</Button>
+											</Col>
+										</div>
+										<Accordion.Body>
+											<Accordion>
+												<Col>
+													<ViewExercise
+														case="Exercise"
+														key={`view_exercise_questions_${exercise_key}`}
+														Questions={exercise.questions}
+														handleAddQuestion={handleEditQuestion}
+														exerciseKey={exercise_key}
+														handleDeleteQuestion={handleDeleteQuestion}
+													/>
+												</Col>
+												<Col className=" d-flex">
+													<Button
+														onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
+														className="me-1 m-auto">
+														Add Question
+													</Button>
+												</Col>
+											</Accordion>
+										</Accordion.Body>
+									</Accordion.Item>
+								);
+							})}
+						</Accordion>
+						<Col className="mt-2">
+							<Button
+								onClick={() => handleAddExerciseModalShow(props.subtitle, props.subtitle_key)}
+								className="me-3">
+								Add Exercise
+							</Button>
+						</Col>
+					</Accordion.Body>
+				</Accordion.Item>
 			</Accordion>
+
+			{ShowAddExerciseModal && (
+				<AddExercise
+					case="Add"
+					subtitle={props.subtitle}
+					subtitleKey={props.subtitleKey}
+					show={ShowAddExerciseModal}
+					handleClose={handleAddExerciseModalClose}
+				/>
+			)}
 			{ShowEditExerciseModal && (
 				<AddExercise
 					case="Edit"

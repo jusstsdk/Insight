@@ -68,7 +68,7 @@ export default function AddSubtitleInfo(props) {
 					<Form.Label column sm={2}>
 						Subtitle Title
 					</Form.Label>
-					<Col sm={3}>
+					<Col sm={6}>
 						<Form.Control
 							type="text"
 							placeholder="Title"

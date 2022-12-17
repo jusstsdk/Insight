@@ -54,7 +54,7 @@ export default function AddExam(props) {
 					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
 				/>
 			</Accordion>
-			<Col className="nextButton mt-auto">
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-end">
 				<Button
 					className="me-3"
 					onClick={() => {

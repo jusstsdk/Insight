@@ -12,7 +12,7 @@ export default function AddSubtitle(props) {
 		<>
 			<h1 className="fs-3 fw-semibold text-muted">Adding Course Subtitles</h1>
 			<ViewSubtitles />
-			<Col className="nextButton">
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-end">
 				<Button
 					className="me-3"
 					onClick={() => {

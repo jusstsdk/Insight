@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Accordion, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
+import { Card, ListGroup, Form, Row, Col, Button } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
+
 import AddQuestion from "./AddQuestion";
+
 export default function ViewExercise(props) {
-	const dispatch = useDispatch();
 	const [EditQuestionKey, setEditQuestionKey] = useState();
 	const [Question, setQuestion] = useState({});
 	const [ShowEditModal, setShowEditModal] = useState(false);
@@ -24,27 +24,31 @@ export default function ViewExercise(props) {
 		<>
 			{props.Questions.map((question, question_key) => {
 				return (
-					<Accordion.Item eventKey={`question_${question_key}`} key={`question_${question_key}`}>
+					<Card key={`question_${question_key}`} className="mb-2">
 						<div className="d-flex">
-							<Accordion.Header className="accordionHeaderWidth">
-								<h6>{question.question}</h6>
-							</Accordion.Header>
-							<Button
-								className="accordionTrash"
-								key={"exercise_trash_button_" + question_key}
-								onClick={() => props.handleDeleteQuestion(question_key)}>
-								<BsTrash key={"exercise_trash_" + question_key} className="trashIcon" />
-							</Button>
-							<Button
-								className="accordionTrash"
-								key={"exercise_edit_button_" + question_key}
-								onClick={() => {
-									handleEditModalShow(question, question_key);
-								}}>
-								<AiOutlineEdit key={"exercise_edit_" + question_key} className="trashIcon" />
-							</Button>
+							<Col sm={11} className="me-auto">
+								<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
+									<h6 className="questionTitle">{question.question}</h6>
+								</Card.Header>
+							</Col>
+							<Col sm={1} className="d-flex justify-content-end">
+								<Button
+									variant="success"
+									className="accordionTrash accordionLikeEditButton"
+									key={`exercise_edit_button_${question_key}`}
+									onClick={() => handleEditModalShow(question, question_key)}>
+									<AiOutlineEdit key={"exercise_edit_" + question_key} />
+								</Button>
+								<Button
+									className="accordionTrash accordionLikeDeleteButton"
+									variant="danger"
+									key={`exercise_trash_button_${question_key}`}
+									onClick={() => props.handleDeleteQuestion(question_key)}>
+									<BsTrash key={"exercise_trash_" + question_key} />
+								</Button>
+							</Col>
 						</div>
-						<Accordion.Body>
+						<Card.Body>
 							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">
 								<Col>
 									<ListGroup>
@@ -60,8 +64,8 @@ export default function ViewExercise(props) {
 									</ListGroup>
 								</Col>
 							</Form.Group>
-						</Accordion.Body>
-					</Accordion.Item>
+						</Card.Body>
+					</Card>
 				);
 			})}
 			{ShowEditModal && (

@@ -137,7 +137,7 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 			</Form.Group>
-			<Col className="nextButton">
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-end">
 				<Button onClick={() => props.setCurrentTab("addExam")}>
 					<AiOutlineArrowRight />
 				</Button>
