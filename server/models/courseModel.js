@@ -12,8 +12,14 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Technical", "Financial", "Other"],
 	},
-	isResolved: Boolean,
-	isSeen: Boolean,
+	isResolved: {
+		type: Boolean,
+		default: false,
+	},
+	isSeen: {
+		type: Boolean,
+		default: false,
+	},
 	description: String,
 	author: {
 		type: Schema.Types.ObjectId,
@@ -58,8 +64,7 @@ const courseSchema = new Schema(
 );
 
 courseSchema.pre("save", function (next) {
-	this.price =
-		this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;

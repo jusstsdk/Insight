@@ -39,3 +39,6 @@ priceLabel {
 .error {
 	color: #dc3545;
 }
+.reportTabs{
+	margin-left: 5rem !important;
+}

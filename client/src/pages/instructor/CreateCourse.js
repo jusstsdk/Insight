@@ -9,9 +9,9 @@ import "../../css/createCourse.css";
 import { clearInfo } from "../../redux/infoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 
-import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
-import AddExam from "../../components/instructor/updatedCreateCourse/AddExam";
-import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
+import AddInfo from "../../components/Instructor/updatedCreateCourse/AddInfo";
+import AddExam from "../../components/Instructor/updatedCreateCourse/AddExam";
+import AddSubtitle from "../../components/Instructor/updatedCreateCourse/AddSubtitle";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
@@ -20,13 +20,19 @@ export default function CreateCourse() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
 	const InfoTitle = useSelector((state) => state.infoReducer.title);
 	const InfoSummary = useSelector((state) => state.infoReducer.summary);
-	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
+	const InfoOriginalPrice = useSelector(
+		(state) => state.infoReducer.originalPrice
+	);
+	const InfoPreviewVideo = useSelector(
+		(state) => state.infoReducer.previewVideo
+	);
 	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
 	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
 
@@ -68,7 +74,10 @@ export default function CreateCourse() {
 				return <AddExam setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
 				return (
-					<AddSubtitle setCurrentTab={setCurrentTab} handleCreateCourse={handleCreateCourse} />
+					<AddSubtitle
+						setCurrentTab={setCurrentTab}
+						handleCreateCourse={handleCreateCourse}
+					/>
 				);
 			default:
 		}

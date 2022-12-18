@@ -20,7 +20,7 @@ export default function SelectCountryPopover() {
 			"https://api.apilayer.com/exchangerates_data/latest",
 			{
 				headers: {
-					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff",
+					apikey: "SE7K7OsXv8dt6U9bbzlHjwCTCNR1karJ",
 				},
 				params: {
 					base: "USD",
