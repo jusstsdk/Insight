@@ -122,7 +122,7 @@ export default function AddQuestion(props) {
 						<Form.Label column sm={2}>
 							Question
 						</Form.Label>
-						<Col sm={7}>
+						<Col sm={9}>
 							<Form.Control
 								as="textarea"
 								ref={QuestionRef}

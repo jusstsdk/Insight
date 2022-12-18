@@ -13,7 +13,7 @@ export default function InstructorNavbarButtons() {
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
-					navigate("createCourse");
+					navigate("createCourse", { state: { status: "New" } });
 				}}>
 				Create Course
 			</Nav.Link>

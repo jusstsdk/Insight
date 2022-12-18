@@ -17,6 +17,12 @@ export const createCourseSlice = createSlice({
 		exerciseQuestions: [],
 	},
 	reducers: {
+		setExamsAndSubtitles: (state, action) => {
+			console.log(action.payload);
+			state.examTitle = action.payload.exam.title;
+			state.examQuestions = action.payload.exam.questions;
+			state.subtitles = action.payload.subtitles;
+		},
 		// Exam
 		setExamTitle: (state, action) => {
 			state.examTitle = action.payload;
@@ -154,6 +160,7 @@ export const createCourseSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+	setExamsAndSubtitles,
 	setInfo,
 	setExamTitle,
 	addToExamQuestions,

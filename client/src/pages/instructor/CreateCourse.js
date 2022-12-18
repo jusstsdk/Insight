@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Col, Breadcrumb } from "react-bootstrap";
 
 import "../../css/createCourse.css";
@@ -14,10 +14,12 @@ import { addNotification } from "../../redux/notificationsSlice";
 import AddInfo from "../../components/instructor/createCourse/AddInfo";
 import AddExam from "../../components/instructor/createCourse/AddExam";
 import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
+import API from "../../functions/api";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -77,6 +79,41 @@ export default function CreateCourse() {
 		}
 	};
 
+	const handleEditCourse = async (status) => {
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		try {
+			API.put(`/courses/${location.state._id}`, {
+				title: InfoTitle,
+				summary: InfoSummary,
+				originalPrice: InfoOriginalPrice,
+				previewVideo: InfoPreviewVideo,
+				subjects: InfoSubjects,
+				instructors: instructorsIds,
+				exam: { title: ExamTitle, questions: ExamQuestions },
+				subtitles: Subtitles,
+				status: status,
+			});
+			dispatch(clearInfo());
+			dispatch(clearCreateCourse());
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					color: "success",
+				})
+			);
+			navigate("/instructor/viewInstructorCourses");
+		} catch (err) {
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					color: "error",
+				})
+			);
+		}
+	};
+
 	const displayView = () => {
 		switch (CurrentTab) {
 			case "addInfo":
@@ -85,7 +122,11 @@ export default function CreateCourse() {
 				return <AddExam setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
 				return (
-					<AddSubtitles setCurrentTab={setCurrentTab} handleCreateCourse={handleCreateCourse} />
+					<AddSubtitles
+						setCurrentTab={setCurrentTab}
+						handleCreateCourse={handleCreateCourse}
+						handleEditCourse={handleEditCourse}
+					/>
 				);
 			default:
 		}

@@ -2,13 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, Toast } from "react-bootstrap";
 
 import { removeNotification } from "../redux/notificationsSlice";
-export default function Toaster(props) {
+export default function Toaster() {
 	const dispatch = useDispatch();
 	const Notfications = useSelector((state) => state.notificationsReducer.notifications);
 	return (
-		<ToastContainer className="w-50 d-flex flex-column align-items-end my-3" position="bottom-end">
+		<ToastContainer
+			className="w-50 d-flex flex-column align-items-end my-3 position-fixed"
+			position="bottom-end">
 			{Notfications.map((notification, i) => (
 				<Toast
+					delay={5000}
+					autohide={true}
 					className="d-inline-block my-1 me-3 l"
 					key={i}
 					onClose={() => {

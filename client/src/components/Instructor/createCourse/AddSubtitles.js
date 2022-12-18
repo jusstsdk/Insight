@@ -4,10 +4,12 @@ import { Col, Button, Row } from "react-bootstrap";
 import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useLocation } from "react-router-dom";
 
 export default function AddSubtitle(props) {
+	const location = useLocation();
 	const [AddSubtitleModalShow, setAddSubtitleModalShow] = useState(false);
-
+	const status = location.state.status;
 	return (
 		<>
 			<Row>
@@ -28,10 +30,21 @@ export default function AddSubtitle(props) {
 					<AiOutlineArrowLeft />
 				</Button>
 
-				<Button className="me-3" onClick={() => props.handleCreateCourse("Draft")}>
+				<Button
+					className="me-3"
+					onClick={() => {
+						if (status === "New") props.handleCreateCourse("Draft");
+						else props.handleEditCourse("Draft");
+					}}>
 					Save Course
 				</Button>
-				<Button onClick={() => props.handleCreateCourse("Published")}>Publish Course</Button>
+				<Button
+					onClick={() => {
+						if (status === "New") props.handleCreateCourse("Published");
+						else props.handleEditCourse("Published");
+					}}>
+					Publish Course
+				</Button>
 			</Col>
 			{AddSubtitleModalShow && (
 				<AddSubtitleInfo
