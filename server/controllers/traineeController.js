@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Trainee = require("../models/traineeModel");
+const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcrypt");
 
@@ -49,9 +50,13 @@ const updateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such trainee" });
 	}
 
-	const trainee = await Trainee.findOneAndUpdate({ _id: traineeId }, req.body, {
-		new: true,
-	});
+	const trainee = await Trainee.findOneAndUpdate(
+		{ _id: traineeId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!trainee) {
 		return res.status(400).json({ error: "No such trainee" });
@@ -82,7 +87,7 @@ const payCourse = async (req, res) => {
 	// input: id of course and id of trainee and card info
 	const traineeId = req.params.tId;
 	const courseId = req.params.cId;
-	
+
 	//
 	// the function should find course by id and get price, discount and exercises.
 	if (!mongoose.Types.ObjectId.isValid(courseId)) {
@@ -102,8 +107,6 @@ const payCourse = async (req, res) => {
 	if (amountPaidByCard > 0) {
 		trainee.wallet = 0; //wallet has less so it goes to zero
 		//stripe payment using the amountPaidByCard and card that comes from req.body
-
-
 	} else {
 		trainee.wallet -= course.price;
 		amountPaidByCard = 0; //wallet has either enough or more than needed
@@ -115,6 +118,20 @@ const payCourse = async (req, res) => {
 		exam: course.exam,
 		paidPrice: course.price,
 	};
+	const instructorShare = course.price / course.instructors.length;
+	course.instructors.forEach(async (instructorId) => {
+		const instructor = await Instructor.findById(instructorId);
+		if (!instructor) {
+			return res.status(400).json({ error: "No such Instructor" });
+		}
+		if (instructor.monthlyPay.updatedAt.getMonth() === new Date().getMonth()) {
+			instructor.monthlyPay.amount += instructorShare;
+		} else {
+			instructor.monthlyPay.amount = instructorShare;
+		}
+		
+		instructor.save();
+	});
 
 	// add to the database
 	trainee.courses.push(newCourse);
@@ -146,7 +163,9 @@ const deletePaymentMethod = async (req, res) => {
 
 	const trainee = await Trainee.findById(traineeId);
 
-	trainee.paymentMethods = trainee.paymentMethods.filter((card) => card._id != paymentId);
+	trainee.paymentMethods = trainee.paymentMethods.filter(
+		(card) => card._id != paymentId
+	);
 
 	await trainee.save();
 	res.status(200).json(trainee);

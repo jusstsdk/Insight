@@ -41,6 +41,9 @@ export const userSlice = createSlice({
 		payFromWallet: (state, action) => {
 			state.user.wallet -= action.payload;
 		},
+		resetMonthlyPay: (state) => {
+			state.user.monthlyPay.amount = 0;
+		},
 		login: (state, action) => {
 			localStorage.setItem("token", action.payload.token);
 			localStorage.setItem("userType", action.payload.type);
@@ -63,7 +66,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setUser, logout, login, setCountry, setCourses, setRequests, payFromWallet } =
+export const { setToken, setType, setUser, logout, login, setCountry, setCourses, setRequests, payFromWallet,resetMonthlyPay } =
 	userSlice.actions;
 
 export default userSlice.reducer;

@@ -32,7 +32,7 @@ function RequestCard({ request, course }) {
 		setVariant("danger");
     }
 	useEffect(() => {
-		if(request.status === "denied"){
+		if(request.status !== "pending"){
 			setShow(false);
 		}
 	}, []);
