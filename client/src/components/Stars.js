@@ -11,7 +11,7 @@ function Stars(props) {
 		for (let i = 0; i < fullStars; i++) {
 			stars.push(<BsStarFill key={"fullStar_" + i} color={"#FFD700"} />);
 		}
-		if (halfStars) stars.push(<BsStarHalf ey={"halfStar"} color={"#FFD700"} />);
+		if (halfStars) stars.push(<BsStarHalf key={"halfStar"} color={"#FFD700"} />);
 		for (let i = 0; i < emptyStars; i++) {
 			stars.push(<BsStar key={"emptyStar_" + i} color={"#FFD700"} />);
 		}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button } from "react-bootstrap";
 
@@ -13,6 +13,7 @@ import {
 
 import AddSubject from "./AddSubject";
 import DropDownMenu from "../../DropDownMenu";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function AddInfo(props) {
 	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
 	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
 	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
-
+	const SummaryRef = useRef();
 	const getData = async () => {
 		const config = {
 			method: "GET",
@@ -43,6 +44,11 @@ export default function AddInfo(props) {
 			console.log(err);
 		}
 	};
+	const resizeTextArea = () => {
+		SummaryRef.current.style.height = "auto";
+		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
+	};
+	useEffect(resizeTextArea, [InfoSummary]);
 
 	useEffect(() => {
 		getData();
@@ -51,6 +57,7 @@ export default function AddInfo(props) {
 
 	return (
 		<>
+			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
 			<Form.Group
 				as={Row}
 				className="mb-3 d-flex align-items-center justify-content-start"
@@ -91,6 +98,7 @@ export default function AddInfo(props) {
 				</Form.Label>
 				<Col sm={10}>
 					<Form.Control
+						ref={SummaryRef}
 						as="textarea"
 						type="text"
 						placeholder="Summary"
@@ -135,8 +143,10 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 			</Form.Group>
-			<Col className="nextButton">
-				<Button onClick={() => props.setCurrentTab("addExam")}>Next</Button>
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
+				<Button onClick={() => props.setCurrentTab("addExam")}>
+					<AiOutlineArrowRight />
+				</Button>
 			</Col>
 		</>
 	);

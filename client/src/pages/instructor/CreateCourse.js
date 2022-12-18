@@ -2,19 +2,24 @@ import axios from "axios";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Col } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Form, Col, Breadcrumb } from "react-bootstrap";
 
 import "../../css/createCourse.css";
 
 import { clearInfo } from "../../redux/infoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
-import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
-import AddExam from "../../components/instructor/updatedCreateCourse/AddExam";
-import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
+import AddInfo from "../../components/instructor/createCourse/AddInfo";
+import AddExam from "../../components/instructor/createCourse/AddExam";
+import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
+import API from "../../functions/api";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -30,8 +35,7 @@ export default function CreateCourse() {
 	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
 	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
 
-	const handleCreateCourse = async (e) => {
-		e.preventDefault();
+	const handleCreateCourse = async (status) => {
 		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		const config = {
 			method: "POST",
@@ -46,6 +50,7 @@ export default function CreateCourse() {
 				instructors: instructorsIds,
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
+				status: status,
 			},
 		};
 		try {
@@ -55,8 +60,57 @@ export default function CreateCourse() {
 			localStorage.setItem("user", JSON.stringify(localUser));
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					color: "success",
+				})
+			);
+			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			console.log(err);
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					color: "error",
+				})
+			);
+		}
+	};
+
+	const handleEditCourse = async (status) => {
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		try {
+			API.put(`/courses/${location.state._id}`, {
+				title: InfoTitle,
+				summary: InfoSummary,
+				originalPrice: InfoOriginalPrice,
+				previewVideo: InfoPreviewVideo,
+				subjects: InfoSubjects,
+				instructors: instructorsIds,
+				exam: { title: ExamTitle, questions: ExamQuestions },
+				subtitles: Subtitles,
+				status: status,
+			});
+			dispatch(clearInfo());
+			dispatch(clearCreateCourse());
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					color: "success",
+				})
+			);
+			navigate("/instructor/viewInstructorCourses");
+		} catch (err) {
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					color: "error",
+				})
+			);
 		}
 	};
 
@@ -68,7 +122,11 @@ export default function CreateCourse() {
 				return <AddExam setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
 				return (
-					<AddSubtitle setCurrentTab={setCurrentTab} handleCreateCourse={handleCreateCourse} />
+					<AddSubtitles
+						setCurrentTab={setCurrentTab}
+						handleCreateCourse={handleCreateCourse}
+						handleEditCourse={handleEditCourse}
+					/>
 				);
 			default:
 		}
@@ -76,8 +134,37 @@ export default function CreateCourse() {
 	return (
 		<Form className="d-flex flex-column" id="createCourseForm">
 			<Col className="d-flex justify-content-center">
-				<h1>Instructor Create Course</h1>
+				<h1 className="fw-bold fs-2">Instructor Create Course</h1>
 			</Col>
+			<Breadcrumb>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addInfo" ? true : false}
+					onClick={() => {
+						console.log("addInfo");
+						setCurrentTab("addInfo");
+					}}>
+					Info
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addExam" ? true : false}
+					onClick={() => {
+						console.log("addExam");
+						setCurrentTab("addExam");
+					}}>
+					Exam
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addSubtitle" ? true : false}
+					onClick={() => {
+						console.log("addSubtitle");
+						setCurrentTab("addSubtitle");
+					}}>
+					Subtitles
+				</Breadcrumb.Item>
+			</Breadcrumb>
 			{displayView()}
 		</Form>
 	);

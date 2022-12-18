@@ -11,6 +11,14 @@ export const infoSlice = createSlice({
 		instructors: [],
 	},
 	reducers: {
+		setInfo: (state, action) => {
+			state.title = action.payload.title;
+			state.summary = action.payload.summary;
+			state.originalPrice = action.payload.originalPrice;
+			state.previewVideo = action.payload.previewVideo;
+			state.subjects = action.payload.subjects;
+			state.instructors = action.payload.instructors;
+		},
 		setTitle: (state, action) => {
 			state.title = action.payload;
 		},
@@ -47,6 +55,7 @@ export const infoSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+	setInfo,
 	setTitle,
 	setSummary,
 	setOriginalPrice,
