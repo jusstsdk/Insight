@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
@@ -7,12 +7,18 @@ import { addVideoToSubtitle, editVideoOfSubtitle } from "../../../redux/createCo
 export default function AddVideo(props) {
 	const dispatch = useDispatch();
 
+	const DescriptionRef = useRef(null);
 	const [Url, setUrl] = useState(props.case === "Add" ? "" : props.video.url);
 	const [Description, setDescription] = useState(
 		props.case === "Add" ? "" : props.video.description
 	);
 	const SubtitleKey = props.subtitleKey;
 	const VideoKey = props.videoKey;
+	const resizeTextArea = (textAreaRef) => {
+		textAreaRef.current.style.height = "auto";
+		textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+	};
+	useEffect(() => resizeTextArea(DescriptionRef), [Description]);
 
 	const handleAddVideo = () => {
 		let newVideo = { url: Url, description: Description };
@@ -58,9 +64,10 @@ export default function AddVideo(props) {
 					</Col>
 					<Col sm={6}>
 						<Form.Control
+							ref={DescriptionRef}
 							type="text"
 							as="textarea"
-							rows={1}
+							rows={2}
 							placeholder="Video Description"
 							value={Description}
 							onChange={(e) => setDescription(e.target.value)}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
 	Form,
 	Row,
@@ -74,6 +74,27 @@ export default function AddQuestion(props) {
 			<Popover.Body className="error">Please choose a correct answer</Popover.Body>
 		</Popover>
 	);
+	const QuestionRef = useRef();
+	const FirstChoiceRef = useRef();
+	const SecondChoiceRef = useRef();
+	const ThirdChoiceRef = useRef();
+	const FourthChoiceRef = useRef();
+
+	const resizeTextArea = (textAreaRef) => {
+		try {
+			textAreaRef.current.style.height = "auto";
+			textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+		} catch (err) {
+			// console.log(err);
+		}
+	};
+	useEffect(() => {
+		resizeTextArea(QuestionRef);
+		resizeTextArea(FirstChoiceRef);
+		resizeTextArea(SecondChoiceRef);
+		resizeTextArea(ThirdChoiceRef);
+		resizeTextArea(FourthChoiceRef);
+	}, [Question, FirstChoice, SecondChoice, ThirdChoice, FourthChoice]);
 	useEffect(() => {
 		setChoices([FirstChoice, SecondChoice, ThirdChoice, FourthChoice]);
 	}, [FirstChoice, SecondChoice, ThirdChoice, FourthChoice]);
@@ -104,6 +125,7 @@ export default function AddQuestion(props) {
 						<Col sm={7}>
 							<Form.Control
 								as="textarea"
+								ref={QuestionRef}
 								type="text"
 								placeholder="Question"
 								value={Question}
@@ -119,6 +141,7 @@ export default function AddQuestion(props) {
 							<Col sm={9}>
 								<Form.Control
 									as="textarea"
+									ref={FirstChoiceRef}
 									placeholder="First Answer"
 									aria-label="First Answer"
 									value={FirstChoice}
@@ -132,6 +155,7 @@ export default function AddQuestion(props) {
 							</Col>
 							<Col sm={9}>
 								<Form.Control
+									ref={SecondChoiceRef}
 									as="textarea"
 									placeholder="Second Answer"
 									aria-label="Second Answer"
@@ -146,6 +170,7 @@ export default function AddQuestion(props) {
 							</Col>
 							<Col sm={9}>
 								<Form.Control
+									ref={ThirdChoiceRef}
 									as="textarea"
 									placeholder="Third Answer"
 									aria-label="Third Answer"
@@ -160,6 +185,7 @@ export default function AddQuestion(props) {
 							</Col>
 							<Col sm={9}>
 								<Form.Control
+									ref={FourthChoiceRef}
 									as="textarea"
 									placeholder="Fourth Answer"
 									aria-label="Fourth Answer"

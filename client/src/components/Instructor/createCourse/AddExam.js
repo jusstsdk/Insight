@@ -26,7 +26,14 @@ export default function AddExam(props) {
 
 	return (
 		<>
-			<h1 className="fs-3 fw-semibold text-muted">Adding Course Exam</h1>
+			<Row>
+				<Col>
+					<h1 className="fs-3 fw-semibold text-muted">Adding Course Exam</h1>
+				</Col>
+				<Col className="d-flex justify-content-end">
+					<Button onClick={handleAddModalShow}>Add a Question</Button>
+				</Col>
+			</Row>
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={2}>
 					Exam title
@@ -54,16 +61,13 @@ export default function AddExam(props) {
 					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
 				/>
 			</Accordion>
-			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-end">
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
 				<Button
 					className="me-3"
 					onClick={() => {
 						props.setCurrentTab("addInfo");
 					}}>
 					<AiOutlineArrowLeft />
-				</Button>
-				<Button className="me-3" onClick={handleAddModalShow}>
-					Add a Question
 				</Button>
 
 				<Button

@@ -53,13 +53,17 @@ const courseSchema = new Schema(
 			},
 		],
 		popularity: Number,
+		status: {
+			type: String,
+			required: true,
+			enum: ["Draft", "Published", "Closed"],
+		},
 	},
 	{ timestamps: true }
 );
 
 courseSchema.pre("save", function (next) {
-	this.price =
-		this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
 	this.popularity = this.reviews.length;
 	this.totalHours = 0;
 	let totalRatingsValue = 0;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Button } from "react-bootstrap";
+import { Col, Button, Row } from "react-bootstrap";
 
 import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
@@ -10,9 +10,16 @@ export default function AddSubtitle(props) {
 
 	return (
 		<>
-			<h1 className="fs-3 fw-semibold text-muted">Adding Course Subtitles</h1>
+			<Row>
+				<Col>
+					<h1 className="fs-3 fw-semibold text-muted">Adding Course Subtitles</h1>
+				</Col>
+				<Col className="d-flex justify-content-end">
+					<Button onClick={() => setAddSubtitleModalShow(true)}>Add a Subtitle</Button>
+				</Col>
+			</Row>
 			<ViewSubtitles />
-			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-end">
+			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
 				<Button
 					className="me-3"
 					onClick={() => {
@@ -20,10 +27,11 @@ export default function AddSubtitle(props) {
 					}}>
 					<AiOutlineArrowLeft />
 				</Button>
-				<Button className="me-3" onClick={() => setAddSubtitleModalShow(true)}>
-					Add a Subtitle
+
+				<Button className="me-3" onClick={() => props.handleCreateCourse("Draft")}>
+					Save Course
 				</Button>
-				<Button onClick={props.handleCreateCourse}>Save Course</Button>
+				<Button onClick={() => props.handleCreateCourse("Published")}>Publish Course</Button>
 			</Col>
 			{AddSubtitleModalShow && (
 				<AddSubtitleInfo
