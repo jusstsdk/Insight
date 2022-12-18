@@ -67,7 +67,6 @@ export default function ViewSubtitles() {
 												setSubtitle={setSubtitle}
 												setSubtitlekey={setSubtitlekey}
 												SubtitleExercises={subtitle.exercises}
-												delete={false}
 											/>
 										</Form.Group>
 										<Form.Group className="mb-3">

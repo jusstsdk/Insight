@@ -9,7 +9,7 @@ import {
 	setOriginalPrice,
 	setPreviewVideo,
 	setInstructors,
-} from "../../../redux/infoSlice";
+} from "../../../redux/courseInfoSlice";
 
 import AddSubject from "./AddSubject";
 import DropDownMenu from "../../DropDownMenu";
@@ -21,11 +21,11 @@ export default function AddInfo(props) {
 	const [AllInstructors, setAllInstructors] = useState([]);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
-	const InfoTitle = useSelector((state) => state.infoReducer.title);
-	const InfoSummary = useSelector((state) => state.infoReducer.summary);
-	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
-	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
+	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
+	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
+	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
 	const SummaryRef = useRef();
 	const getData = async () => {
 		const config = {

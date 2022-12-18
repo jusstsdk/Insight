@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, ListGroup } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 
-import { addSubject, removeSubject } from "../../../redux/infoSlice";
+import { addSubject, removeSubject } from "../../../redux/courseInfoSlice";
 
 export default function AddSubject() {
 	const dispatch = useDispatch();
 
 	const Subject = useRef();
-	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 
 	const handleAddSubject = () => {
 		let newSubject = Subject.current.value;

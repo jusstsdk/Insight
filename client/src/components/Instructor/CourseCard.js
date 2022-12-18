@@ -2,16 +2,9 @@ import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-boots
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import API from "../../functions/api";
-import {
-	setInfo,
-	setTitle,
-	setSummary,
-	setOriginalPrice,
-	setPreviewVideo,
-	setInstructors,
-} from "../../redux/infoSlice";
+import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 
-import { setExamsAndSubtitles } from "../../redux/createCourseSlice";
+import { setExamsAndSubtitles, clearCreateCourse } from "../../redux/createCourseSlice";
 
 import { addNotification } from "../../redux/notificationsSlice";
 
@@ -31,6 +24,8 @@ function CourseCard(props) {
 
 	const handlePublishCourse = async () => {
 		await API.put(`/courses/${props.course._id}`, { status: "Published" });
+		dispatch(clearInfo());
+		dispatch(clearCreateCourse());
 		dispatch(
 			addNotification({
 				title: "Create Course",
@@ -43,6 +38,8 @@ function CourseCard(props) {
 
 	const handleCloseCourse = async () => {
 		await API.put(`/courses/${props.course._id}`, { status: "Closed" });
+		dispatch(clearInfo());
+		dispatch(clearCreateCourse());
 		dispatch(
 			addNotification({
 				title: "Create Course",
@@ -122,7 +119,7 @@ function CourseCard(props) {
 							))}
 						</ListGroup>
 					</Col>
-					<Col className="viewCourseButton d-flex  justify-content-end align-items-center" sm={5}>
+					<Col className="viewCourseButton d-flex  justify-content-end align-items-center" sm={6}>
 						{props.allCourses && <h6 className="text-muted me-3">{props.course.status}</h6>}
 						{displayButtons()}
 						<Button>View Course</Button>

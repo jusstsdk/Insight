@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const infoSlice = createSlice({
+export const courseInfoSlice = createSlice({
 	name: "addInfo",
 	initialState: {
 		title: "",
@@ -48,8 +48,6 @@ export const infoSlice = createSlice({
 			state.subjects = [];
 			state.instructors = [];
 		},
-
-		// // logout: (state) => {},
 	},
 });
 
@@ -64,6 +62,6 @@ export const {
 	removeSubject,
 	setInstructors,
 	clearInfo,
-} = infoSlice.actions;
+} = courseInfoSlice.actions;
 
-export default infoSlice.reducer;
+export default courseInfoSlice.reducer;

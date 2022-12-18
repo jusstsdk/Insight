@@ -7,7 +7,7 @@ import { Form, Col, Breadcrumb } from "react-bootstrap";
 
 import "../../css/createCourse.css";
 
-import { clearInfo } from "../../redux/infoSlice";
+import { clearInfo } from "../../redux/courseInfoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 
@@ -28,12 +28,12 @@ export default function CreateCourse() {
 	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
-	const InfoTitle = useSelector((state) => state.infoReducer.title);
-	const InfoSummary = useSelector((state) => state.infoReducer.summary);
-	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
-	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
-	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
+	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
+	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
+	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
 
 	const handleCreateCourse = async (status) => {
 		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);

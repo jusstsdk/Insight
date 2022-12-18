@@ -7,14 +7,6 @@ export const createCourseSlice = createSlice({
 		examQuestions: [],
 
 		subtitles: [],
-		subtitleTitle: "",
-		subtitleHours: 0,
-
-		subtitleVideos: [],
-		subtitleExercises: [],
-
-		exerciseTitle: "",
-		exerciseQuestions: [],
 	},
 	reducers: {
 		setExamsAndSubtitles: (state, action) => {
@@ -79,6 +71,7 @@ export const createCourseSlice = createSlice({
 			state.subtitles[action.payload.subtitleKey].exercises = action.payload.newExercises;
 		},
 
+		// Questions
 		addQuestionToExercise: (state, action) => {
 			state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].questions =
 				[
@@ -96,6 +89,8 @@ export const createCourseSlice = createSlice({
 			state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].questions =
 				action.payload.newQuestions;
 		},
+
+		// Clear
 		clearCreateCourse: (state, action) => {
 			state.examTitle = "";
 			state.examQuestions = [];
