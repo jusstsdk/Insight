@@ -9,7 +9,7 @@ export default function Toaster() {
 		<ToastContainer
 			className="w-50 d-flex flex-column align-items-end my-3 position-fixed"
 			position="bottom-end">
-			{Notfications.map((notification, i) => (
+			{Notifications.map((notification, i) => (
 				<Toast
 					delay={5000}
 					autohide={true}

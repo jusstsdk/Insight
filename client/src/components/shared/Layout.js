@@ -9,11 +9,7 @@ export default function Layout() {
 		<>
 			<CustomNavbar />
 			<Container>
-				<Row className="justify-content-md-center">
-					<Col xs={10}>
-						<Outlet />
-					</Col>
-				</Row>
+				<Outlet />
 			</Container>
 			<Toaster />
 		</>

@@ -132,7 +132,7 @@ export default function CreateCourse() {
 		}
 	};
 	return (
-		<Form className="d-flex flex-column" id="createCourseForm">
+		<Form className="d-flex flex-column">
 			<Col className="d-flex justify-content-center">
 				<h1 className="fw-bold fs-2">Instructor Create Course</h1>
 			</Col>
