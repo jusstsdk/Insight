@@ -113,7 +113,14 @@ function CourseCard(props) {
 					<Col sm={2}>
 						<ListGroup horizontal>
 							{props.course.instructors.map((instructor, i) => (
-								<a href="#" key={"instructor_" + i} className="mx-1">
+								<a
+									onClick={() =>
+										navigate("/instructor/viewInstructor", {
+											state: { instructorId: instructor._id },
+										})
+									}
+									key={"instructor_" + i}
+									className="mx-1">
 									{instructor.username}
 								</a>
 							))}
