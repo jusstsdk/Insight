@@ -4,7 +4,7 @@ import { ToastContainer, Toast } from "react-bootstrap";
 import { removeNotification } from "../redux/notificationsSlice";
 export default function Toaster() {
 	const dispatch = useDispatch();
-	const Notfications = useSelector((state) => state.notificationsReducer.notifications);
+	const Notifications = useSelector((state) => state.notificationsReducer.notifications);
 	return (
 		<ToastContainer
 			className="w-50 d-flex flex-column align-items-end my-3 position-fixed"

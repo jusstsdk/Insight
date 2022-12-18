@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import API from "../../functions/api";
+import API from "../../../functions/api";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);

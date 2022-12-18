@@ -11,15 +11,13 @@ const getAdministrators = async (req, res) => {
 	res.status(200).json(administrators);
 };
 
-//GET all access requests of a all courses
+//GET all access requests of a all courses returning trainee id and for each request the course id
 const getAllCoursesRequests = async (req, res) => {
 	try {
-		const corporateTrainee = await CorporateTrainee.find({
+		const corporateTraineeRequests = await CorporateTrainee.find({
 			requests: { $exists: true, $ne: [] },
-		}).populate({
-			path: "requests",
-		});
-		res.status(200).json({ CorporateTrainee: corporateTrainee });
+		},"_id username corporate requests").populate("requests.courseId","_id price summary subjects rating instructors title");
+		res.status(200).json( corporateTraineeRequests );
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -31,18 +29,22 @@ const handleCourseRequest = async (req, res) => {
 		{ "requests._id": req.body.requestId },
 		{ "requests.$.status": req.body.status }
 	);
-	//Body --> course Id, status, corp Trainee Id
-	corporateTrainee.requests = corporateTrainee.requests.filter(
-		(request) => request._id == req.body.requestId
-	);
-	let courseId = corporateTrainee.requests[0].courseId;
-	let traineeId = corporateTrainee._id;
+	
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate Trainee" });
 	}
+	//Body --> course Id, status, corp Trainee Id
+	request = corporateTrainee.requests.filter(
+		(request) => request._id == req.body.requestId
+	);
+	
+	let courseId = request[0].courseId;
+	let traineeId = corporateTrainee._id;
+	
 	let corporateTraineeUpdated = {};
 	if (req.body.status == "accepted") {
 		const course = await Course.findById(courseId);
+		
 		corporateTraineeUpdated = await CorporateTrainee.findByIdAndUpdate(
 			traineeId,
 			{
@@ -53,9 +55,12 @@ const handleCourseRequest = async (req, res) => {
 						exam: course.exam,
 					},
 				},
+				// $pull: { requests: { _id: req.body.requestId } },
+
 			},
 			{ new: true }
 		);
+		
 	}
 
 	res.status(200).json(corporateTraineeUpdated);

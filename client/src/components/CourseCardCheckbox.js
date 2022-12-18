@@ -7,17 +7,20 @@ import {
 	Row,
 	ListGroup,
 	Modal,
+    Form
 } from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Stars from "../Stars";
-function CourseCard({ course }) {
+import Stars from "./Stars";
+import { useSelector } from "react-redux";
+
+export default function CourseCardCheckbox({ course, handleCheck }) {
 	const [show, setShow] = useState(false);
+	const userType = useSelector((state) => state.userReducer.type);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
 	const handleOpen = () => {
-		navigate(course._id);
+		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
 	return (
 		<>
@@ -39,13 +42,7 @@ function CourseCard({ course }) {
 							))}
 						</Col>
 						<Col className="starsContainer" sm={4} md={4} lg={2}>
-							<Stars
-								stars={
-									course.rating
-										? course.rating
-										: 0
-								}
-							/>
+							<Stars stars={course.rating ? course.rating : 0} />
 						</Col>
 					</CardGroup>
 
@@ -72,18 +69,15 @@ function CourseCard({ course }) {
 						</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
-								
-								{course.instructors.map(
-									(instructor, i) => (
-										<a
-											href="#"
-											key={"instructor_" + i}
-											className="mx-1"
-										>
-											{instructor.username}
-										</a>
-									)
-								)}
+								{course.instructors.map((instructor, i) => (
+									<a
+										href="#"
+										key={"instructor_" + i}
+										className="mx-1"
+									>
+										{instructor.username}
+									</a>
+								))}
 							</ListGroup>
 						</Col>
 						<Col
@@ -92,7 +86,14 @@ function CourseCard({ course }) {
 							md={2}
 							lg={2}
 						>
-							<Button onClick={handleShow}>View Course</Button>
+							<Form.Check
+								value={course._id}
+								type="checkbox"
+								label="Select For Promotion"
+								onChange={(e) => {
+									handleCheck(e);
+								}}
+							/>
 						</Col>
 					</CardGroup>
 				</Card.Body>
@@ -118,4 +119,3 @@ function CourseCard({ course }) {
 		</>
 	);
 }
-export default CourseCard;

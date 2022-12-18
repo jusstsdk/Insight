@@ -35,6 +35,13 @@ export default function InstructorNavbarButtons() {
 				}}>
 				My Courses
 			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("promotion");
+				}}
+			>
+				Discounts
+			</Nav.Link>
 		</>
 	);
 }

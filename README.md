@@ -13,7 +13,7 @@
    - [x] refresh user in local storage
 
 1. Email
-   - [ ] receive an email to change a forgotten password
+   - [x] receive an email to change a forgotten password
    - [ ] receive a certificate as a PDF after completing the course via email
 
 1. login
@@ -21,7 +21,6 @@
    - [x] session
    - [x] sign up etc
    - [ ] add authentication to all routes
-   - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
    - [x] refreshing should keep me in the same page
 
 1. country
@@ -56,8 +55,8 @@
    - [x] add a video per subtitle
    - [ ] change video format to embedded format
    - [x] add description of the video
-   - [ ] ~~edit details~~
-   - [ ] ~~handle adding / removing other instructors~~
+   - ~~[ ] edit details~~
+   - ~~[ ] handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
@@ -89,6 +88,7 @@
    - [ ] generate personalized certificate
 
 - [ ] standard pool of subjects
+- [ ] start and end of promotion 
 
 # Questions
    - money owed per month instructor?
@@ -107,6 +107,7 @@
    - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
    - sending emails to reset passwords and other emails not needed? // Needed
    - What is "follow up on an unresolved problem"?
+   - username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
 
 # Bugs
 
