@@ -141,7 +141,6 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addInfo" ? true : false}
 					onClick={() => {
-						console.log("addInfo");
 						setCurrentTab("addInfo");
 					}}>
 					Info
