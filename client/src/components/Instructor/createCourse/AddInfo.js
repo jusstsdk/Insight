@@ -9,9 +9,9 @@ import {
 	setOriginalPrice,
 	setPreviewVideo,
 	setInstructors,
+	setSubjects,
 } from "../../../redux/courseInfoSlice";
-
-import AddSubject from "./AddSubject";
+import { SUBJECTS } from "../../../functions/subjects";
 import DropDownMenu from "../../DropDownMenu";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
@@ -19,13 +19,13 @@ export default function AddInfo(props) {
 	const dispatch = useDispatch();
 
 	const [AllInstructors, setAllInstructors] = useState([]);
-
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
 	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
 	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
 	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const getData = async () => {
 		const config = {
@@ -58,6 +58,7 @@ export default function AddInfo(props) {
 	return (
 		<>
 			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+			{/* Title and Price */}
 			<Form.Group
 				as={Row}
 				className="mb-3 d-flex align-items-center justify-content-start"
@@ -91,6 +92,26 @@ export default function AddInfo(props) {
 				</Col>
 			</Form.Group>
 
+			{/* Subjects */}
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+				<Form.Label column sm={1}>
+					Subjects
+				</Form.Label>
+				<Col sm={8}>
+					<DropDownMenu
+						id="multiselectSubjects"
+						state={SUBJECTS}
+						selectedState={InfoSubjects}
+						onChange={(selectedList, selectedItem) => {
+							dispatch(setSubjects(selectedList));
+						}}
+						isObject={false}
+						placeholder="Select Course Subjects"
+						emptyRecordMsg="You can't add more Subjects."
+					/>
+				</Col>
+			</Form.Group>
+
 			{/* Summary */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
@@ -110,6 +131,29 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 			</Form.Group>
+
+			{/* Instructors */}
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+				<Form.Label column sm={1}>
+					Instructors
+				</Form.Label>
+				<Col sm={8}>
+					<DropDownMenu
+						id="multiselectInstructors"
+						state={AllInstructors}
+						selectedState={InfoInstructors}
+						onChange={(selectedList, selectedItem) => {
+							dispatch(setInstructors(selectedList));
+						}}
+						isObject={true}
+						displayValue="email"
+						placeholder="Select Course Instructors"
+						emptyRecordMsg="You can't add more Instructors."
+					/>
+				</Col>
+			</Form.Group>
+
+			{/* Preview Video */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
 					Preview Video
@@ -125,24 +169,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 			</Form.Group>
-			<AddSubject />
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-				<Form.Label column sm={1}>
-					Instructors
-				</Form.Label>
-				<Col sm={8}>
-					<DropDownMenu
-						state={AllInstructors}
-						selectedState={InfoInstructors}
-						onChange={(selectedList, selectedItem) => {
-							dispatch(setInstructors(selectedList));
-						}}
-						displayValue="email"
-						placeholder="Select Course Instructors"
-						emptyRecordMsg="You can't add more Instructors."
-					/>
-				</Col>
-			</Form.Group>
+
+			{/* Navigate Buttons */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
 				<Button onClick={() => props.setCurrentTab("addExam")}>
 					<AiOutlineArrowRight />

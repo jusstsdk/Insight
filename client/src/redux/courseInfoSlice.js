@@ -31,6 +31,9 @@ export const courseInfoSlice = createSlice({
 		setPreviewVideo: (state, action) => {
 			state.previewVideo = action.payload;
 		},
+		setSubjects: (state, action) => {
+			state.subjects = [...action.payload];
+		},
 		addSubject: (state, action) => {
 			state.subjects = [...state.subjects, action.payload];
 		},
@@ -58,6 +61,7 @@ export const {
 	setSummary,
 	setOriginalPrice,
 	setPreviewVideo,
+	setSubjects,
 	addSubject,
 	removeSubject,
 	setInstructors,

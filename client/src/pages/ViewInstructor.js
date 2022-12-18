@@ -33,6 +33,7 @@ export default function ViewInstructor() {
 	useEffect(() => {
 		getInstructorCourses();
 		getInstructorReviews();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [instructorId]);
 
 	return (

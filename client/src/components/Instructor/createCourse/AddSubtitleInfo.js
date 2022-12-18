@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Row, Col, Button, OverlayTrigger, Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import { addSubtitle, editSubtitleInfo } from "../../../redux/createCourseSlice";
 
@@ -39,6 +39,7 @@ export default function AddSubtitleInfo(props) {
 				dispatch(editSubtitleInfo({ key: SubtitleKey, subtitle: newSubtitle }));
 				break;
 			}
+			default:
 		}
 		setTitle("");
 		setHours("");

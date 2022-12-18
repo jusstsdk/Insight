@@ -82,7 +82,7 @@ function CourseCard(props) {
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
 					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
-					<Col sm={6}>
+					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
 							<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
 								{subject}
@@ -110,19 +110,20 @@ function CourseCard(props) {
 				{/* Instructors and View Course*/}
 				<CardGroup as={Row} className="align-items-center">
 					<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
-					<Col sm={2}>
+					<Col sm={4}>
 						<ListGroup horizontal>
 							{props.course.instructors.map((instructor, i) => (
-								<a
+								<Button
+									className="p-0 me-2"
+									variant="link"
 									onClick={() =>
 										navigate("/instructor/viewInstructor", {
 											state: { instructorId: instructor._id },
 										})
 									}
-									key={"instructor_" + i}
-									className="mx-1">
+									key={"instructor_" + i}>
 									{instructor.username}
-								</a>
+								</Button>
 							))}
 						</ListGroup>
 					</Col>
