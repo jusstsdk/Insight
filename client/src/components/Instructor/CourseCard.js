@@ -17,7 +17,7 @@ function CourseCard(props) {
 	const handleEditCourse = () => {
 		dispatch(setInfo(props.course));
 		dispatch(setExamsAndSubtitles(props.course));
-		navigate("/instructor/createCourse", {
+		navigate("../createCourse", {
 			state: { status: props.course.status, _id: props.course._id },
 		});
 	};
