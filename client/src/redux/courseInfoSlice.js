@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const infoSlice = createSlice({
+export const courseInfoSlice = createSlice({
 	name: "addInfo",
 	initialState: {
 		title: "",
@@ -31,6 +31,9 @@ export const infoSlice = createSlice({
 		setPreviewVideo: (state, action) => {
 			state.previewVideo = action.payload;
 		},
+		setSubjects: (state, action) => {
+			state.subjects = [...action.payload];
+		},
 		addSubject: (state, action) => {
 			state.subjects = [...state.subjects, action.payload];
 		},
@@ -48,8 +51,6 @@ export const infoSlice = createSlice({
 			state.subjects = [];
 			state.instructors = [];
 		},
-
-		// // logout: (state) => {},
 	},
 });
 
@@ -60,10 +61,11 @@ export const {
 	setSummary,
 	setOriginalPrice,
 	setPreviewVideo,
+	setSubjects,
 	addSubject,
 	removeSubject,
 	setInstructors,
 	clearInfo,
-} = infoSlice.actions;
+} = courseInfoSlice.actions;
 
-export default infoSlice.reducer;
+export default courseInfoSlice.reducer;

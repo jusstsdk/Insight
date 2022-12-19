@@ -46,6 +46,11 @@ export default function ViewVideos(props) {
 					key={`subtitle_${props.subtitleKey}_videos`}>
 					<Accordion.Header className="accordionHeaderWidth">
 						<h6>Videos</h6>
+						<Col className="d-flex justify-content-end me-3">
+							<h6 className="my-auto d-flex align-self-center">
+								Count: {props.SubtitleVideos.length}
+							</h6>
+						</Col>
 					</Accordion.Header>
 					<Accordion.Body>
 						{props.SubtitleVideos.map((video, video_key) => {

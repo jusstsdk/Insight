@@ -1,15 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-	Form,
-	Row,
-	Col,
-	Button,
-	InputGroup,
-	Popover,
-	OverlayTrigger,
-	Modal,
-	FormLabel,
-} from "react-bootstrap";
+import { Form, Row, Col, Button, Popover, OverlayTrigger, Modal, FormLabel } from "react-bootstrap";
 
 export default function AddQuestion(props) {
 	const [Question, setQuestion] = useState(props.case === "Add" ? "" : props.question.question);

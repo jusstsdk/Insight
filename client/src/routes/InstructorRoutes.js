@@ -7,28 +7,19 @@ import Protected from "../components/shared/Protected";
 import Layout from "../components/shared/Layout";
 import Courses from "../pages/sharedTrainee/Courses";
 import Promotion from "../pages/admin/Promotion";
+import ViewInstructor from "../pages/ViewInstructor";
 export function InstructorRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"Instructor"}>
 				<Routes>
 					<Route path="" element={<Layout />}>
-						<Route
-							path="courses"
-							element={
-								<Courses searchInInstructorCourses={false} />
-							}
-						/>
+						<Route path="courses" element={<Courses searchInInstructorCourses={false} />} />
 						<Route path="createCourse" element={<CreateCourse />} />
 						<Route path="editProfile" element={<EditProfile />} />
-						<Route
-							path="viewInstructorReviews"
-							element={<ViewInstructorReviews />}
-						/>
-						<Route
-							path="viewInstructorCourses"
-							element={<ViewInstructorCourses />}
-						/>
+						<Route path="viewInstructorReviews" element={<ViewInstructorReviews />} />
+						<Route path="viewInstructorCourses" element={<ViewInstructorCourses />} />
+						<Route path="viewInstructor" element={<ViewInstructor />} />
 						<Route path="promotion" element={<Promotion />} />
 					</Route>
 				</Routes>

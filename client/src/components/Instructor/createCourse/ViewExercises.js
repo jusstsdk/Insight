@@ -97,6 +97,11 @@ export default function ViewExercises(props) {
 					key={`subtitle_${props.subtitleKey}_exercises`}>
 					<Accordion.Header className="accordionHeaderWidth">
 						<h6>Exercises</h6>
+						<Col className="d-flex justify-content-end me-3">
+							<h6 className="my-auto d-flex align-self-center">
+								Count: {props.SubtitleExercises.length}
+							</h6>
+						</Col>
 					</Accordion.Header>
 					<Accordion.Body>
 						<Accordion>
