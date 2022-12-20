@@ -39,3 +39,7 @@ priceLabel {
 .error {
 	color: #dc3545;
 }
+
+.textFit {
+	width: fit-content !important;
+}

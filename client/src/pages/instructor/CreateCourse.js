@@ -47,7 +47,7 @@ export default function CreateCourse() {
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: instructorsIds,
+				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,
@@ -81,6 +81,9 @@ export default function CreateCourse() {
 
 	const handleEditCourse = async (status) => {
 		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		instructorsIds = instructorsIds.filter((instructor) => {
+			return instructor !== instructorId;
+		});
 		try {
 			API.put(`/courses/${location.state._id}`, {
 				title: InfoTitle,
@@ -88,7 +91,7 @@ export default function CreateCourse() {
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: instructorsIds,
+				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,
@@ -149,7 +152,6 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addExam" ? true : false}
 					onClick={() => {
-						console.log("addExam");
 						setCurrentTab("addExam");
 					}}>
 					Exam
@@ -158,7 +160,6 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addSubtitle" ? true : false}
 					onClick={() => {
-						console.log("addSubtitle");
 						setCurrentTab("addSubtitle");
 					}}>
 					Subtitles

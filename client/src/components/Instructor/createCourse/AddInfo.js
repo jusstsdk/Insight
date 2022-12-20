@@ -24,7 +24,11 @@ export default function AddInfo(props) {
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
 	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
 	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
-	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors).filter(
+		(instructor) => {
+			return instructor._id !== instructorId;
+		}
+	);
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const getData = async () => {
@@ -57,6 +61,7 @@ export default function AddInfo(props) {
 
 	return (
 		<>
+			{console.log(InfoInstructors)}
 			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
 			{/* Title and Price */}
 			<Form.Group
@@ -143,6 +148,7 @@ export default function AddInfo(props) {
 						state={AllInstructors}
 						selectedState={InfoInstructors}
 						onChange={(selectedList, selectedItem) => {
+							console.log(selectedList);
 							dispatch(setInstructors(selectedList));
 						}}
 						isObject={true}

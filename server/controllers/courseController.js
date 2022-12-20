@@ -21,7 +21,7 @@ const getCourse = async (req, res) => {
 const createCourseInstructor = async (req, res) => {
 	const instructorId = req.params.id;
 	let instructors = req.body.instructors;
-	instructors.push(instructorId);
+	// instructors.push(instructorId);
 	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
@@ -30,10 +30,7 @@ const createCourseInstructor = async (req, res) => {
 		const course = await Course.create(req.body);
 
 		// update instructors in db
-		await Instructor.updateMany(
-			{ _id: instructors },
-			{ $push: { courses: course._id } }
-		);
+		await Instructor.updateMany({ _id: instructors }, { $push: { courses: course._id } });
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -206,9 +203,7 @@ const reportCourse = async (req, res) => {
 const populateReports = async (req, res) => {
 	// find results
 	try {
-		const course = await Course.findById(req.params.id).populate(
-			"reports.author"
-		);
+		const course = await Course.findById(req.params.id).populate("reports.author");
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

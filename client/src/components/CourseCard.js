@@ -16,9 +16,13 @@ function CourseCard({ course }) {
 		<>
 			<Card className="my-3">
 				<Card.Body>
+					{console.log(course)}
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
 						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
+
+						<p className="textFit my-auto text-muted">{course.totalHours} Hours</p>
+
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
 								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
