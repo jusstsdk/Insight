@@ -1,11 +1,8 @@
-import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Row, Col, Button, OverlayTrigger, Modal } from "react-bootstrap";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import { addSubtitle, editSubtitleInfo } from "../../../redux/createCourseSlice";
-
-// import ViewVideos from "./ViewVideos";
-// import ViewExercises from "./ViewExercises";
 
 export default function AddSubtitleInfo(props) {
 	const dispatch = useDispatch();
@@ -42,6 +39,7 @@ export default function AddSubtitleInfo(props) {
 				dispatch(editSubtitleInfo({ key: SubtitleKey, subtitle: newSubtitle }));
 				break;
 			}
+			default:
 		}
 		setTitle("");
 		setHours("");

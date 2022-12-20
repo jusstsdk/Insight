@@ -1,32 +1,28 @@
-import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Button } from "react-bootstrap";
+
+import API from "../../functions/api";
+
 import { setUser } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
+import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const User = useSelector((state) => state.userReducer.user);
 	const [Email, setEmail] = useState(useSelector((state) => state.userReducer.user.email));
 	const [Biography, setBiography] = useState(
 		useSelector((state) => state.userReducer.user.biography)
 	);
 
-	const handleEditProfile = async (e) => {
-		e.preventDefault();
-
-		const config = {
-			method: "PUT",
-			url: `http://localhost:4000/api/instructors/${User._id}`,
-			headers: {},
-			data: {
+	const handleEditProfile = async () => {
+		try {
+			await API.put(`/instructors/${User._id}`, {
 				email: Email,
 				biography: Biography,
-			},
-		};
-		try {
-			await axios(config);
+			});
 			let updatedUser = { ...User };
 			updatedUser.email = Email;
 			updatedUser.biography = Biography;
@@ -39,9 +35,28 @@ function EditProfile() {
 				})
 			);
 		} catch (err) {
-			console.log(err);
+			dispatch(
+				addNotification({
+					title: "Edit Profile",
+					info: "Updating Profile Failed!",
+					color: "error",
+				})
+			);
+		}
+		navigate("/instructor");
+	};
+	const BiographyRef = useRef();
+	const resizeTextArea = () => {
+		try {
+			BiographyRef.current.style.height = "auto";
+			BiographyRef.current.style.height = BiographyRef.current.scrollHeight + "px";
+		} catch (err) {
+			// console.log(err);
 		}
 	};
+	useEffect(() => {
+		resizeTextArea();
+	}, [Biography]);
 
 	return (
 		<Form className="d-flex flex-row justify-content-center mt-3">
@@ -68,6 +83,7 @@ function EditProfile() {
 					<Form.Label>Biography</Form.Label>
 					<Form.Control
 						as="textarea"
+						ref={BiographyRef}
 						placeholder="Biography"
 						rows={4}
 						value={Biography}
@@ -76,7 +92,7 @@ function EditProfile() {
 						}}
 					/>
 				</Form.Group>
-				<Button variant="success" type="submit" onClick={handleEditProfile}>
+				<Button variant="success" onClick={handleEditProfile}>
 					Submit
 				</Button>
 			</Col>

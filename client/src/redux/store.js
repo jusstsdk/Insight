@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
 import createCourseSlice from "./createCourseSlice";
-import infoSlice from "./infoSlice";
+import courseInfoSlice from "./courseInfoSlice";
 import notificationsSlice from "./notificationsSlice";
 const combinedReducer = combineReducers({
 	userReducer: userSlice,
 	createCourseReducer: createCourseSlice,
-	infoReducer: infoSlice,
+	courseInfoReducer: courseInfoSlice,
 	notificationsReducer: notificationsSlice,
 	// ... more reducers
 });
