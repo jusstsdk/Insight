@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Card, Col } from "react-bootstrap";
+import { Button, Accordion, Card, Col, Badge } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -47,9 +47,9 @@ export default function ViewVideos(props) {
 					<Accordion.Header className="accordionHeaderWidth">
 						<h6>Videos</h6>
 						<Col className="d-flex justify-content-end me-3">
-							<h6 className="my-auto d-flex align-self-center">
-								Count: {props.SubtitleVideos.length}
-							</h6>
+							<Badge bg="primary" pill>
+								{props.SubtitleVideos.length}
+							</Badge>
 						</Col>
 					</Accordion.Header>
 					<Accordion.Body>

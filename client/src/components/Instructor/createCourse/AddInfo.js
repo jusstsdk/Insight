@@ -61,7 +61,6 @@ export default function AddInfo(props) {
 
 	return (
 		<>
-			{console.log(InfoInstructors)}
 			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
 			{/* Title and Price */}
 			<Form.Group
@@ -148,7 +147,6 @@ export default function AddInfo(props) {
 						state={AllInstructors}
 						selectedState={InfoInstructors}
 						onChange={(selectedList, selectedItem) => {
-							console.log(selectedList);
 							dispatch(setInstructors(selectedList));
 						}}
 						isObject={true}

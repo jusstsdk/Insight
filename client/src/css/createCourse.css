@@ -65,3 +65,9 @@
 textarea {
 	overflow: hidden;
 }
+
+.questionTitleContainer {
+	background-color: rgb(41, 192, 192) !important;
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
