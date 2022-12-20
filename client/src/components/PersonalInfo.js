@@ -15,8 +15,10 @@ function PersonalInfo() {
 						Hello, {firstName} {lastName}
 					</Card.Title>
 					Your Courses:
-					{courses.map((course) => (
-						<Card.Text>course.Title</Card.Text>
+					{courses.map((course, i) => (
+						<Card.Text key={"PersonalInfo_Card" + i + course.title}>
+							{course.Title}
+						</Card.Text>
 					))}
 				</Card.Body>
 			</Card>

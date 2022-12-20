@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { Form, Row, Col, Button, Tab, Tabs, Accordion } from "react-bootstrap";
 import "../../css/createCourse.css";
-import AddExercise from "../../components/instructor/createCourseComponents/AddExercise";
-import AddSubtitle from "../../components/instructor/createCourseComponents/AddSubtitle";
-import AddInfo from "../../components/instructor/createCourseComponents/AddInfo";
-import ViewSubtitle from "../../components/instructor/createCourseComponents/ViewSubtitle";
+import AddExercise from "../../components/Instructor/createCourseComponents/AddExercise";
+import AddSubtitle from "../../components/Instructor/createCourseComponents/AddSubtitle";
+import AddInfo from "../../components/Instructor/createCourseComponents/AddInfo";
+import ViewSubtitle from "../../components/Instructor/createCourseComponents/ViewSubtitle";
 import TrashIcon from "../../components/TrashIcon";
-import ViewExercise from "../../components/instructor/createCourseComponents/ViewExercise";
-import ViewCurrentSubtitle from "../../components/instructor/createCourseComponents/ViewCurrentSubtitle";
+import ViewExercise from "../../components/Instructor/createCourseComponents/ViewExercise";
+import ViewCurrentSubtitle from "../../components/Instructor/createCourseComponents/ViewCurrentSubtitle";
 
 function CreateCourse() {
 	const Title = useRef();
@@ -53,7 +53,12 @@ function CreateCourse() {
 			<Col className="d-flex justify-content-center">
 				<h1>Instructor Create Course</h1>
 			</Col>
-			<Tabs defaultActiveKey="addSubtitle" id="uncontrolled-tab-example" className="mb-3" justify>
+			<Tabs
+				defaultActiveKey="addSubtitle"
+				id="uncontrolled-tab-example"
+				className="mb-3"
+				justify
+			>
 				<Tab eventKey="addInfo" title="Add Info">
 					<AddInfo
 						Title={Title}
@@ -92,7 +97,10 @@ function CreateCourse() {
 							<Accordion.Body>
 								<Accordion>
 									<Form.Group as={Row}>
-										<ViewSubtitle Exercises={subtitle.exercises} Videos={subtitle.videos} />
+										<ViewSubtitle
+											Exercises={subtitle.exercises}
+											Videos={subtitle.videos}
+										/>
 									</Form.Group>
 								</Accordion>
 							</Accordion.Body>

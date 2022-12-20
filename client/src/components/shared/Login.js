@@ -32,9 +32,7 @@ export default function Login() {
 		const responseCountryApi = await axios.get(
 			`https://restcountries.com/v3.1/name/${responseUser.country}`
 		);
-		const localCurrency = Object.keys(
-			responseCountryApi.data[0].currencies
-		)[0];
+		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
 
 		responseUser.currency = localCurrency;
 
@@ -42,7 +40,7 @@ export default function Login() {
 			"https://api.apilayer.com/exchangerates_data/latest",
 			{
 				headers: {
-					apikey: "R4m9vuzgmlrfLV99CNbJFSHqvJRgWDff",
+					apikey: "lHqFYUXBW95ZPHBiNTL8hj7sUS0vBO7r",
 				},
 				params: {
 					base: "USD",
@@ -94,11 +92,7 @@ export default function Login() {
 
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Password"
-						ref={password}
-					/>
+					<Form.Control type="password" placeholder="Password" ref={password} />
 				</Form.Group>
 
 				<Button variant="primary" type="submit">

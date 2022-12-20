@@ -23,7 +23,7 @@ const reportSchema = new Schema({
 	authorType: {
 		type: String,
 		required: true,
-		enum: ["trainee", "corporateTrainee", "instructor"],
+		enum: ["Trainee", "CorporateTrainee", "Instructor"],
 	},
 });
 
