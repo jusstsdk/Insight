@@ -23,7 +23,7 @@ function ViewInstructorReviews() {
 
 	useEffect(() => {
 		getInstructorReviews();
-	}, []);
+	}, [instructorId]);
 
 	return (
 		<Container className="my-3">

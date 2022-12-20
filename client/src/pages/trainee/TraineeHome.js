@@ -1,12 +1,10 @@
 import PersonalInfo from "../../components/PersonalInfo";
 import MyCourses from "../../components/MyCourses";
 
-
 function TraineeView() {
-
 	return (
 		<>
-			<PersonalInfo></PersonalInfo>
+			<PersonalInfo />
 			<MyCourses />
 		</>
 	);

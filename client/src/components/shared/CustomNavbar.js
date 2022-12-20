@@ -8,7 +8,6 @@ import TraineeNavbarButtons from "../trainee/TraineeNavbarButtons";
 import CorporateTraineeNavbarButtons from "../corporateTrainee/CorporateTraineeNavbarButtons";
 import { useNavigate } from "react-router-dom";
 
-
 export default function CustomNavbar() {
 	const userType = useSelector((state) => state.userReducer.type);
 	const navigate = useNavigate();

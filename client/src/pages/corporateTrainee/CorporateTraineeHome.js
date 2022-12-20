@@ -1,5 +1,5 @@
 import MyCourses from "../../components/MyCourses";
-function CorporateTraineeView() {
+export default function CorporateTraineeHome() {
 	return (
 		<>
 			<h1>corporateTrainee</h1>
@@ -8,5 +8,3 @@ function CorporateTraineeView() {
 		</>
 	);
 }
-
-export default CorporateTraineeView;

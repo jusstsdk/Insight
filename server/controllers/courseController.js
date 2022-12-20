@@ -253,6 +253,18 @@ const reviewCourse = async (req, res) => {
 	res.status(200).json(course);
 };
 
+// Get all courses and populate review author
+const getCourseWithReviews = async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId).populate({
+			path: "reviews.trainee",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
 // set promotion for all provided course ids
 async function promotionCourses(req, res) {
 	const courses = req.body.courses;

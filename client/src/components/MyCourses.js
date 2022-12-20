@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import CourseCard from "./CourseCard";
 
 const MyCourses = () => {
+	const [courses, setCourses] = useState([]);
+
 	const coursesWithId = useSelector(
 		(state) => state.userReducer.user.courses
 	);
 
-	let newCourses = [];
-	const [courses, setCourses] = useState([]);
 	async function getCourses() {
+		let newCourses = [];
 		await Promise.all(
 			coursesWithId.map(async (course) => {
 				const courseFromDb = await API.get("courses/" + course.course);
@@ -29,9 +30,11 @@ const MyCourses = () => {
 		);
 		setCourses(newCourses);
 	}
+
 	useEffect(() => {
 		getCourses();
 	}, []);
+
 	return (
 		courses && (
 			<div className="course-list">
