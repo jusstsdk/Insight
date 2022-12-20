@@ -9,11 +9,11 @@
    - [ ] remove discount after a while as instructor
    - [ ] add discount as admin
    - [ ] add notes to videos
-   - [ ] add currency to my courses (maybe update trainee model)
-   - [ ] refresh user in local storage
+   - [x] add currency to my courses (maybe update trainee model)
+   - [x] refresh user in local storage
 
 1. Email
-   - [ ] receive an email to change a forgotten password
+   - [x] receive an email to change a forgotten password
    - [ ] receive a certificate as a PDF after completing the course via email
 
 1. login
@@ -21,13 +21,12 @@
    - [x] session
    - [x] sign up etc
    - [ ] add authentication to all routes
-   - [ ] username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
-   - [ ] refreshing should keep me in the same page
+   - [x] refreshing should keep me in the same page
 
 1. country
-   - [ ] select country
-   - [ ] get country from JWT then use post find hook to display local prices
-   - [ ] update user country
+   - [x] select country
+   - ~~[x] get country from JWT then use post find hook to display local prices~~
+   - [x] update user country
 
 1. validations
    - [ ] provided information is correct
@@ -56,8 +55,8 @@
    - [x] add a video per subtitle
    - [ ] change video format to embedded format
    - [x] add description of the video
-   - [ ] ~~edit details~~
-   - [ ] ~~handle adding / removing other instructors~~
+   - ~~[ ] edit details~~
+   - ~~[ ] handle adding / removing other instructors~~
    - [ ] add discount (insturctor or admin)
   
 1. exams & exercises & course model - Wael
@@ -88,6 +87,9 @@
    - [ ] "post save" hook to check if 100% progress send email with certificate
    - [ ] generate personalized certificate
 
+- [ ] standard pool of subjects
+- [ ] start and end of promotion 
+
 # Questions
    - money owed per month instructor?
    - accept conditions when? // First Login
@@ -105,6 +107,7 @@
    - 1 exam for all course or 1 per subtitle (if later, then what difference is it from an exercise?)
    - sending emails to reset passwords and other emails not needed? // Needed
    - What is "follow up on an unresolved problem"?
+   - username is unique across all documents? right now, if 2 users share same username one of them will always get a wrong password response because you check in all three tables in order
 
 # Bugs
 

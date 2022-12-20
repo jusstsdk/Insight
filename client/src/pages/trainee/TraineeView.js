@@ -1,7 +1,5 @@
-import { useSelector } from "react-redux";
 import PersonalInfo from "../../components/PersonalInfo";
-
-import MyCourses from "../../components/trainee/MyCourses";
+import MyCourses from "../../components/MyCourses";
 
 
 function TraineeView() {

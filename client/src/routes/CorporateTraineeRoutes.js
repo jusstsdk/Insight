@@ -2,20 +2,19 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
 import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
-import CourseDetails from "../pages/corporateTrainee/CourseTraineePOV";
-import CourseList from "../pages/corporateTrainee/CourseList";
-
-import Payment from "../pages/corporateTrainee/Payment";
+import CourseDetails from "../pages/sharedTrainee/CoursePage";
+import Courses from "../pages/sharedTrainee/Courses";
 
 export function CorporateTraineeRoutes() {
 	return (
 		<>
-			<Protected authorizedUserType={"corporateTrainee"}>
-				<Layout />
+			<Protected authorizedUserType={"CorporateTrainee"}>
 				<Routes>
-					<Route path="" element={<CorporateTraineeView />} />
-					<Route path="courses" element={<CourseList />} />
-					<Route path="courses/:id" element={<CourseDetails />} />
+					<Route path="" element={<Layout />}>
+						<Route path="" element={<CorporateTraineeView />} />
+						<Route path="courses" element={<Courses />} />
+						<Route path="courses/:id" element={<CourseDetails />} />
+					</Route>
 				</Routes>
 			</Protected>
 		</>

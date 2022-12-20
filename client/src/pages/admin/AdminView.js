@@ -1,14 +1,13 @@
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import AdminNavbar from "../../components/admin/AdminNavbar";
-
+// import { useNavigate } from "react-router-dom";
+import AdminNavbar from "../../components/admin/AdminNavbarButtons";
+import  {useSelector} from "react-redux";
 function AdminView() {
-	const navigate = useNavigate();
-
+	
+	const user = useSelector((state) => state.userReducer.user);
 	return (
 		<>
-			<AdminNavbar />
-			<h1>Admin</h1>
+			
+			<h1>{user.username}</h1>
 		</>
 	);
 }

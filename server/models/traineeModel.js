@@ -76,7 +76,7 @@ const traineeSchema = new Schema(
 
 traineeSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign(
-		{ _id: this._id, userType: "trainee" },
+		{ _id: this._id, userType: "Trainee" },
 		process.env.SECRET
 	);
 	return token;

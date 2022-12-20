@@ -22,11 +22,20 @@ code {
 
 .viewCourseButton,
 .starsContainer,
-.priceContainer {
+.priceContainer,
+.nextButton {
 	margin-left: auto;
 }
 
 .courseCardTitle,
 priceLabel {
 	width: fit-content !important;
+}
+
+.success {
+	color: #4bb543;
+}
+
+.error {
+	color: #dc3545;
 }

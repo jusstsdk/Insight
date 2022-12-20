@@ -33,7 +33,22 @@ const courseSchema = new Schema(
 		subjects: [String],
 		summary: String,
 		originalPrice: Number,
-		discount: Number,
+		discount: {
+			type: Number,
+			default: 0,
+		},
+		promotion: {
+			startDate: Date,
+			endDate: Date,
+			discount: {
+				type: Number,
+				default: 0,
+			},
+			offeredBy: {
+				type: String,
+				enum: ["Administrator", "Instructor"],
+			},
+		},
 		price: Number,
 		totalHours: Number,
 		previewVideo: String,
@@ -50,6 +65,11 @@ const courseSchema = new Schema(
 			},
 		],
 		popularity: Number,
+		status: {
+			type: String,
+			required: true,
+			enum: ["Draft", "Published", "Closed"],
+		},
 	},
 	{ timestamps: true }
 );

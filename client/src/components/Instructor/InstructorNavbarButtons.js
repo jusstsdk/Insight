@@ -7,7 +7,13 @@ export default function InstructorNavbarButtons() {
 		<>
 			<Nav.Link
 				onClick={() => {
-					navigate("createCourse");
+					navigate("courses");
+				}}>
+				Search
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("createCourse", { state: { status: "New" } });
 				}}>
 				Create Course
 			</Nav.Link>
@@ -21,13 +27,20 @@ export default function InstructorNavbarButtons() {
 				onClick={() => {
 					navigate("viewInstructorReviews");
 				}}>
-				View Reviews
+				My Reviews
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
 					navigate("viewInstructorCourses");
 				}}>
-				View Courses
+				My Courses
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("promotion");
+				}}
+			>
+				Discounts
 			</Nav.Link>
 		</>
 	);

@@ -1,120 +1,171 @@
-import { useRef, useState } from "react";
-import { Form, Row, Col, Button, Tab, Tabs, Accordion } from "react-bootstrap";
+import axios from "axios";
+
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Form, Col, Breadcrumb } from "react-bootstrap";
+
 import "../../css/createCourse.css";
-import AddExercise from "../../components/Instructor/createCourseComponents/AddExercise";
-import AddSubtitle from "../../components/Instructor/createCourseComponents/AddSubtitle";
-import AddInfo from "../../components/Instructor/createCourseComponents/AddInfo";
-import ViewSubtitle from "../../components/Instructor/createCourseComponents/ViewSubtitle";
-import TrashIcon from "../../components/TrashIcon";
-import ViewExercise from "../../components/Instructor/createCourseComponents/ViewExercise";
-import ViewCurrentSubtitle from "../../components/Instructor/createCourseComponents/ViewCurrentSubtitle";
 
-function CreateCourse() {
-	const Title = useRef();
-	const Price = useRef();
-	const Summary = useRef();
-	const PreviewVideo = useRef();
-	const [Subjects, setSubjects] = useState([]);
-	const [Instructors, setInstructors] = useState([]);
+import { clearInfo } from "../../redux/infoSlice";
+import { clearCreateCourse } from "../../redux/createCourseSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
-	const [Subtitles, setSubtitles] = useState([]);
-	const [Exam, setExam] = useState({});
-	const instructorId = localStorage.getItem("id");
+import AddInfo from "../../components/instructor/createCourse/AddInfo";
+import AddExam from "../../components/instructor/createCourse/AddExam";
+import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
+import API from "../../functions/api";
 
-	const handleCreateCourse = async (e) => {
-		e.preventDefault();
-		let instructorsIds = Instructors.map((instructor) => instructor._id);
+export default function CreateCourse() {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const [CurrentTab, setCurrentTab] = useState("addInfo");
+
+	const instructorId = useSelector((state) => state.userReducer.user._id);
+
+	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
+	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
+
+	const InfoTitle = useSelector((state) => state.infoReducer.title);
+	const InfoSummary = useSelector((state) => state.infoReducer.summary);
+	const InfoOriginalPrice = useSelector((state) => state.infoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.infoReducer.previewVideo);
+	const InfoSubjects = useSelector((state) => state.infoReducer.subjects);
+	const InfoInstructors = useSelector((state) => state.infoReducer.instructors);
+
+	const handleCreateCourse = async (status) => {
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
 			headers: {},
 			data: {
-				title: Title.current.value,
-				subjects: Subjects,
-				summary: Summary.current.value,
-				originalPrice: parseFloat(Price.current.value),
+				title: InfoTitle,
+				summary: InfoSummary,
+				originalPrice: InfoOriginalPrice,
+				previewVideo: InfoPreviewVideo,
+				subjects: InfoSubjects,
 				instructors: instructorsIds,
-				previewVideo: PreviewVideo.current.value,
+				exam: { title: ExamTitle, questions: ExamQuestions },
+				subtitles: Subtitles,
+				status: status,
 			},
 		};
 		try {
-			// await axios(config);
+			const response = await axios(config);
+			const localUser = JSON.parse(localStorage.getItem("user"));
+			localUser.courses = [...localUser.courses, response.data._id];
+			localStorage.setItem("user", JSON.stringify(localUser));
+			dispatch(clearInfo());
+			dispatch(clearCreateCourse());
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					color: "success",
+				})
+			);
+			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			console.log(err);
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					color: "error",
+				})
+			);
 		}
 	};
 
-	const handleDeleteSubtitle = (key) => {
-		let newSubtitle = Subtitles.filter((subtitle, i) => i !== key);
-		setSubtitles(newSubtitle);
+	const handleEditCourse = async (status) => {
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		try {
+			API.put(`/courses/${location.state._id}`, {
+				title: InfoTitle,
+				summary: InfoSummary,
+				originalPrice: InfoOriginalPrice,
+				previewVideo: InfoPreviewVideo,
+				subjects: InfoSubjects,
+				instructors: instructorsIds,
+				exam: { title: ExamTitle, questions: ExamQuestions },
+				subtitles: Subtitles,
+				status: status,
+			});
+			dispatch(clearInfo());
+			dispatch(clearCreateCourse());
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					color: "success",
+				})
+			);
+			navigate("/instructor/viewInstructorCourses");
+		} catch (err) {
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					color: "error",
+				})
+			);
+		}
+	};
+
+	const displayView = () => {
+		switch (CurrentTab) {
+			case "addInfo":
+				return <AddInfo setCurrentTab={setCurrentTab} />;
+			case "addExam":
+				return <AddExam setCurrentTab={setCurrentTab} />;
+			case "addSubtitle":
+				return (
+					<AddSubtitles
+						setCurrentTab={setCurrentTab}
+						handleCreateCourse={handleCreateCourse}
+						handleEditCourse={handleEditCourse}
+					/>
+				);
+			default:
+		}
 	};
 	return (
-		<Form className="d-flex flex-column" id="createCourseForm">
+		<Form className="d-flex flex-column">
 			<Col className="d-flex justify-content-center">
-				<h1>Instructor Create Course</h1>
+				<h1 className="fw-bold fs-2">Instructor Create Course</h1>
 			</Col>
-			<Tabs
-				defaultActiveKey="addSubtitle"
-				id="uncontrolled-tab-example"
-				className="mb-3"
-				justify
-			>
-				<Tab eventKey="addInfo" title="Add Info">
-					<AddInfo
-						Title={Title}
-						Price={Price}
-						Summary={Summary}
-						PreviewVideo={PreviewVideo}
-						Subjects={Subjects}
-						setSubjects={setSubjects}
-						Instructors={Instructors}
-						setInstructors={setInstructors}
-					/>
-				</Tab>
-				<Tab eventKey="addExam" title="Add Exam">
-					<AddExercise type="Exam" state={Exam} setState={setExam} />
-				</Tab>
-				<Tab eventKey="addSubtitle" title="Add Subtitle">
-					<AddSubtitle Subtitles={Subtitles} setSubtitles={setSubtitles} />
-				</Tab>
-			</Tabs>
-			<Accordion>
-				{Subtitles.map((subtitle, subtitle_key) => {
-					return (
-						<Accordion.Item eventKey={`subtitle_${subtitle_key}`}>
-							<div className="d-flex">
-								<Accordion.Header className="accordionHeaderWidth">
-									{subtitle.title}
-								</Accordion.Header>
-								<Button
-									className="accordionTrash"
-									key={subtitle_key}
-									/*onClick={() => props.handleDeleteExercise(subtitle_key)}*/
-								>
-									<TrashIcon />
-								</Button>
-							</div>
-							<Accordion.Body>
-								<Accordion>
-									<Form.Group as={Row}>
-										<ViewSubtitle
-											Exercises={subtitle.exercises}
-											Videos={subtitle.videos}
-										/>
-									</Form.Group>
-								</Accordion>
-							</Accordion.Body>
-						</Accordion.Item>
-					);
-				})}
-				{/* <ViewCurrentSubtitle /> */}
-			</Accordion>
-
-			<Col className="d-flex justify-content-center">
-				<Button onClick={(e) => handleCreateCourse(e)}>Create Course</Button>
-			</Col>
+			<Breadcrumb>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addInfo" ? true : false}
+					onClick={() => {
+						console.log("addInfo");
+						setCurrentTab("addInfo");
+					}}>
+					Info
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addExam" ? true : false}
+					onClick={() => {
+						console.log("addExam");
+						setCurrentTab("addExam");
+					}}>
+					Exam
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addSubtitle" ? true : false}
+					onClick={() => {
+						console.log("addSubtitle");
+						setCurrentTab("addSubtitle");
+					}}>
+					Subtitles
+				</Breadcrumb.Item>
+			</Breadcrumb>
+			{displayView()}
 		</Form>
 	);
 }
-
-export default CreateCourse;

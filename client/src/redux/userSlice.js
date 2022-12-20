@@ -6,7 +6,7 @@ export const userSlice = createSlice({
 	name: "user",
 	initialState: {
 		token: "",
-		type: "guest",
+		type: "Guest",
 		user: {
 			country: "USA",
 			currency: "USD",
@@ -25,10 +25,21 @@ export const userSlice = createSlice({
 		},
 		setCountry: (state, action) => {
 			state.user.country = action.payload;
-			if (state.type !== "guest")
+			if (state.type !== "Guest")
 				api.put(`/${state.type}s/${state.user._id}`, {
 					country: action.payload,
 				});
+		},
+		setCourses: (state, action) => {
+			state.user.courses = action.payload;
+			localStorage.setItem("user", JSON.stringify(state.user));
+		},
+		setRequests: (state, action) => {
+			state.user.requests = action.payload;
+			localStorage.setItem("user", JSON.stringify(state.user));
+		},
+		payFromWallet: (state, action) => {
+			state.user.wallet -= action.payload;
 		},
 		login: (state, action) => {
 			localStorage.setItem("token", action.payload.token);
@@ -41,7 +52,7 @@ export const userSlice = createSlice({
 		},
 		logout: (state) => {
 			localStorage.clear();
-			state.type = "guest";
+			state.type = "Guest";
 			state.token = "";
 			state.user = {
 				country: "USA",
@@ -52,7 +63,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setUser, logout, login, setCountry } =
+export const { setToken, setType, setUser, logout, login, setCountry, setCourses, setRequests, payFromWallet } =
 	userSlice.actions;
 
 export default userSlice.reducer;
