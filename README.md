@@ -1,5 +1,6 @@
 # Critical Tasks
 - show correct currency in all searches and discount
+- discount should take date into consideration in backend
 - use more notifications
 - add confirmation to critical actions
 - create course input currency to USD
