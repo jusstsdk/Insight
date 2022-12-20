@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
-import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
+import CorporateTraineeHome from "../pages/corporateTrainee/CorporateTraineeHome";
 import CourseDetails from "../pages/sharedTrainee/CoursePage";
 import Courses from "../pages/sharedTrainee/Courses";
 
@@ -11,7 +11,7 @@ export function CorporateTraineeRoutes() {
 			<Protected authorizedUserType={"CorporateTrainee"}>
 				<Routes>
 					<Route path="" element={<Layout />}>
-						<Route path="" element={<CorporateTraineeView />} />
+						<Route path="" element={<CorporateTraineeHome />} />
 						<Route path="courses" element={<Courses />} />
 						<Route path="courses/:id" element={<CourseDetails />} />
 					</Route>

@@ -12,46 +12,86 @@ import {
 	Col,
 	Table,
 	Modal,
+	Overlay,
+	OverlayTrigger,
+	Tooltip,
 } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
-import { useDispatch,useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { setRequests } from "../../redux/userSlice";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import CourseTitle from "../../components/course/CourseTitle";
+import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
+import CourseReviews from "../../components/course/CourseReviews";
 
-function CourseTraineePOV() {
-	//current course ID (STATIC FOR NOW)
+export default function CoursePage() {
 	const navigate = useNavigate();
 	const params = useParams();
-	let id = params.id;
-	const [loaded, setLoaded] = useState(false);
 
-	//PREVIEW VIDEO URL, HERE BECAUSE IM IDIOT SHOULD BE MOVED DOWN
-	let url;
+	let courseID = params.id;
+
+	//function to give each component a unique id. could be removed i guess.
+	let uniqueId = 1;
+	function newId() {
+		uniqueId++;
+		return uniqueId;
+	}
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
+	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
-	const trainee = useSelector((state) => state.userReducer.user);
-	const dispatch = useDispatch();
+	const currency = useSelector((state) => state.userReducer.user.currency);
+
+	//REQUEST REFUND DATA
+	const [corpTraineeOwnCourse, setCorpTraineeOwnCourse] = useState(false);
+	const [corpTraineeRequestStatus, setCorpTraineeRequestStatus] = useState();
+
+	const [traineeOwnCourse, setTraineeOwnCourse] = useState(false);
+	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
+	const [alreadyRefunded, setAlreadyRefunded] = useState(false);
+
+	const [refundRejectedMessage, setRefundRejectedMessage] = useState("");
+	const [showRefundRejectedTip, setShowRefundRejectedTip] = useState(false);
+	const refundRejectedTip = useRef(null);
+
+	const [showRefundRequest, setShowRefundRequest] = useState(false);
+
+	const handleCloseRefundCourse = () => setShowRefundRequest(false);
+	const handleShowRefundCourse = () => setShowRefundRequest(true);
+
+	async function refundCourse() {
+		let config = {
+			method: "POST",
+			url: `http://localhost:4000/api/trainees/${userID}/requestRefund/courses/${courseID}`,
+		};
+		setShowRefundRequest(false);
+		try {
+			await axios(config);
+			setTraineeCanRefund(false);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	const renderTooltip = () => (
+		<Tooltip id="rejectED">{refundRejectedMessage}</Tooltip>
+	);
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
 	const [instructors, setInstructors] = useState();
+	const [traineeCourse, setTraineeCourse] = useState();
 
 	async function getCourseFromDB() {
-		const response = await API.get(`courses/${id}`);
-
-		url = response.data.previewVideo;
+		const response = await API.get(`courses/${courseID}`);
 
 		let tempInstructors = [];
 		response.data.instructors.map(async (instructor) => {
 			try {
-				const response = await API(`instructors/${instructor}`);
+				let response = await API(`instructors/${instructor}`);
 
 				tempInstructors = [...tempInstructors, response.data];
 
@@ -60,59 +100,60 @@ function CourseTraineePOV() {
 				console.log(err);
 			}
 		});
+
+		//FIX PRICE TO
+		if (response.data.price) {
+			response.data.price *= user.exchangeRate;
+			response.data.price = Math.trunc(response.data.price * 100) / 100;
+		}
+		response.data.originalPrice *= user.exchangeRate;
+		response.data.originalPrice =
+			Math.trunc(response.data.originalPrice * 100) / 100;
+		user.courses &&
+			user.courses.map((course) => {
+				if (course.course === courseID) {
+					setTraineeCourse(course);
+					if (course.progress > 0.5) {
+						setTraineeCanRefund(false);
+						setRefundRejectedMessage(
+							"You Can't Refund a course after getting past 50% of it!!!"
+						);
+					}
+					if (course.requestedRefund) {
+						setTraineeCanRefund(false);
+						setRefundRejectedMessage("You already requested a refund!");
+					}
+
+					if (course.progress < 0.5 && !course.requestedRefund) {
+						setRefundRejectedMessage("");
+						setTraineeCanRefund(true);
+					}
+				}
+			});
+
 		setCourse(response.data);
 	}
 
 	//to handle button of request course
 	const [clickable, setClickable] = useState(true);
 	const [buttonText, setButtonText] = useState("");
-	const [buttonVariant, setButtonVariant] = useState("success");
 	const [showRequestAccess, setShowRequestAccess] = useState(false);
 	const [showBuyCourse, setShowBuyCourse] = useState(false);
 
-	//TO SHOW OR HIDE MODAL OF REPORT COURSE
-	const [showReportBox, setShow] = useState(false);
+	/////////////
 
-	const [reportType, setReportType] = useState("Technical");
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
-
-	//REPORT DATA
-	const reportTitle = useRef();
-	const reportDescription = useRef();
-
-	async function submitReport() {
-		let config = {
-			method: "POST",
-			url: `http://localhost:4000/api/reports/courses/${id}`,
-			data: {
-				title: reportTitle.current.value,
-				type: reportType,
-				description: reportDescription.current.value,
-				author: userID,
-				authorType: userType,
-			},
-		};
-		setShow(false);
-		try {
-			let response = await axios(config);
-		} catch (err) {
-			console.log(err);
-		}
-	}
 	async function handleRequestAccess() {
 		let config = {
 			method: "POST",
 			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
 			data: {
-				courseId: id,
+				courseId: courseID,
 			},
 		};
 		setClickable(false);
 		setButtonText("Request pending");
 		try {
 			let response = await axios(config);
-			dispatch(setRequests(response.data.requests))
 		} catch (err) {
 			console.log(err);
 		}
@@ -120,6 +161,7 @@ function CourseTraineePOV() {
 	async function handleBuyCourse() {
 		navigate("payment");
 	}
+
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
 		await getCourseFromDB();
@@ -128,9 +170,8 @@ function CourseTraineePOV() {
 			let ShowRequestAccessTemp = true;
 			setShowRequestAccess(true);
 			setButtonText("Request Access");
-			trainee.courses.some((course) => {
-				if (course.course === id) {
-					ShowRequestAccessTemp = false;
+			user.courses.some((course) => {
+				if (course.course === courseID) {
 					setShowRequestAccess(false);
 					return true;
 				}
@@ -138,35 +179,24 @@ function CourseTraineePOV() {
 			});
 
 			if (ShowRequestAccessTemp) {
-				trainee.requests.forEach((request) => {
-					if (request.courseId === id) {
+				user.requests.forEach((request) => {
+					if (request.courseId === courseID) {
 						setClickable(false);
-						if (request.status == "pending")
-						{
-							setButtonText("Request pending");
-							
-						}else if (request.status == "denied")
-						{
-							setButtonText("Request denied");
-							setButtonVariant("danger");
-						}
-
-						
+						setButtonText("Request pending");
 					}
 				});
 			}
 		} else {
 			setShowBuyCourse(true);
 			setButtonText("Buy Course");
-			trainee.courses.some((course) => {
-				if (course.course === id) {
+			user.courses.some((course) => {
+				if (course.course === courseID) {
 					setShowBuyCourse(false);
 					return true;
 				}
 				return false;
 			});
 		}
-		setLoaded(true);
 	}
 
 	useEffect(() => {
@@ -174,38 +204,35 @@ function CourseTraineePOV() {
 	}, []);
 
 	return (
-		loaded &&
 		course && (
 			<>
-				<Container>
-					<Row>
-						<Col>
-							<h1 className="lead">{course.title}</h1>
-						</Col>
-						<Col>
-							{course.subjects.map((s) => {
-								return (
-									<Badge key={s} bg="primary" className="lead">
-										{s}
-									</Badge>
-								);
-							})}
-						</Col>
+				<Container key={newId()}>
+					<Row key={newId()}>
+						<CourseTitle course={course}></CourseTitle>
 					</Row>
-					<Tabs defaultActiveKey="basicInfo" id="uncontrolled-tab-example" className="mb-3">
+					<Tabs
+						key={newId()}
+						defaultActiveKey="basicInfo"
+						id="uncontrolled-tab-example"
+						className="mb-3"
+					>
 						<Tab key="basicInfo" eventKey="basicInfo" title="Basic Info">
-							<Row>
-								{showBuyCourse && (
-									<Col>
-										<Alert
-											variant="primary"
-											className="lead"
-										>
-											Price: {course.price} instead of{" "}
-											<del>{course.originalPrice}</del>
-											!!! {course.discount}% Discount! For
-											limited time only
+							<Row key={newId()}>
+								<Col key={newId()}>
+									{showBuyCourse && (
+										<Alert variant="primary" className="lead" key={newId()}>
+											Price:
+											{course.discount && course.discount !== 0 ? (
+												<>
+													<h1>{"" + course.price + " " + currency}</h1>
+													<del>{course.originalPrice}</del>{" "}
+													<span>{"" + course.discount + "% OFF"}</span>
+												</>
+											) : (
+												<h1>{course.originalPrice + " " + currency}</h1>
+											)}{" "}
 											<Button
+												key={newId()}
 												disabled={!clickable}
 												variant="success"
 												onClick={handleBuyCourse}
@@ -213,21 +240,76 @@ function CourseTraineePOV() {
 												{buttonText}
 											</Button>
 										</Alert>
-									</Col>
-								)}
+									)}
+									{!showBuyCourse && (
+										<Alert variant="primary" className="lead" key={newId()}>
+											Cost{" "}
+											{
+												/* {trainee.courses.map((course) => {
+														if (course.course === id) {
+															return course.paidPrice
+																? course.paidPrice
+																: "MISSING DATA";
+														}
+													})} */
+												<h1>
+													{" "}
+													{traineeCourse &&
+														Math.trunc(
+															traineeCourse.paidPrice * user.exchangeRate * 100
+														) /
+															100 +
+															" " +
+															currency}
+												</h1>
+											}
+											<OverlayTrigger
+												placement="right"
+												delay={{ show: 250, hide: 400 }}
+												overlay={traineeCanRefund ? renderTooltip : ""}
+											>
+												<Button
+													ref={refundRejectedTip}
+													key={newId()}
+													variant={traineeCanRefund ? "danger" : "secondary"}
+													onClick={
+														traineeCanRefund
+															? handleShowRefundCourse
+															: undefined
+													}
+													active={!traineeCanRefund}
+												>
+													{console.log(traineeCanRefund)}
+													Request Refund
+												</Button>
+											</OverlayTrigger>
+										</Alert>
+									)}
+								</Col>
 
 								<Col>
-									<Alert variant="dark" className="lead">
-										Hours: {course.hours ? course.hours : 50}
+									<Alert key={newId()} variant="dark" className="lead">
+										Hours
+										<h1>{course.totalHours}</h1>
+										Progress
+										<ProgressBar key={newId()}>
+											<ProgressBar
+												striped
+												variant="success"
+												now={traineeCourse && traineeCourse.progress}
+												key={newId()}
+												label={`${traineeCourse.progress * 100}%`}
+											/>
+										</ProgressBar>
 									</Alert>
 								</Col>
 								{showRequestAccess && (
-									<Col>
-										<Alert variant="light" className="lead">
-
+									<Col key={newId()}>
+										<Alert key={newId()} variant="light" className="lead">
 											<Button
+												key={newId()}
 												disabled={!clickable}
-												variant={buttonVariant}
+												variant="success"
 												onClick={handleRequestAccess}
 											>
 												{buttonText}
@@ -237,121 +319,83 @@ function CourseTraineePOV() {
 								)}
 							</Row>
 							<Row>
-								<Col>
+								<Col key={newId()}>
+									Summary
 									<h3 className="lead">{course.summary}</h3>
 								</Col>
-								<Col>
-									<h3 className="lead">Preview Video</h3>
+								<Col key={newId()}>
+									Preview Video
 									<iframe
 										width="560"
 										height="315"
-										src={url}
+										src={"https://www.youtube.com/embed/Nv5pIhub9wY"} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
 										title="Preview Video"
 										allowFullScreen
 									/>
 								</Col>
 							</Row>
 
-							<h4 className="lead">Instructors:</h4>
+							<h4 className="lead">Instructors</h4>
 							<ListGroup key="Group " variant="flush">
 								{instructors &&
 									instructors.map((instructor) => {
 										return (
-											<ListGroup.Item key={instructor._id + ""} bg="primary">
-												{instructor.username}
-											</ListGroup.Item>
+											<ListGroup.Item key={newId()} bg="primary">
+												<Row>
+													<Col>{instructor.username}</Col>
+													<Col>
+														<Button>View</Button>
+													</Col>
+												</Row>
+											</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS
 										);
 									})}
 							</ListGroup>
-							<Button onClick={handleShow}>Report Course</Button>
 						</Tab>
 						<Tab key="subtititles" eventKey="subtitles" title="Subtitles">
-							<Table striped>
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Title</th>
-										<th>Hours</th>
-									</tr>
-								</thead>
-								<tbody>
-									{course.subtitles.map((s, index) => {
-										return (
-											<tr>
-												<td>{index + 1}</td>
-												<td>{s.title ? s.title : "No Title."}</td>
-												<td>{s.hours}</td>
-												<td>
-													<Button>View</Button>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</Table>
-							<Button>Start Exam</Button>
+							<CourseSubtitlesList
+								course={course}
+								newId={newId}
+							></CourseSubtitlesList>
 						</Tab>
 						<Tab key="reviews" eventKey="reviews" title="Reviews">
-							<Button>Add a review</Button>
-							{course.reviews.map((s, index) => {
-								return (
-									<Card key={s.trainee}>
-										<Card.Img />
-										<Card.Body>
-											<Card.Title>
-												<Row>
-													<Col> {s.trainee}</Col>
-													<Col>{s.rating}</Col>
-												</Row>
-											</Card.Title>
-											<Card.Text>{s.review}</Card.Text>
-										</Card.Body>
-									</Card>
-								);
-							})}
+							<CourseReviews
+								course={course}
+								newId={newId}
+								getCourseFromDB={getCourseFromDB}
+							></CourseReviews>
+						</Tab>
+						<Tab key="exam" eventKey="exam" title="Exam">
+							<Button key={newId()}>Start Exam</Button>
 						</Tab>
 					</Tabs>
 				</Container>
 
-				<Modal show={showReportBox} onHide={handleClose}>
-					<Modal.Header closeButton>
-						<Modal.Title>Report a Course</Modal.Title>
+				<Modal
+					key={newId()}
+					show={showRefundRequest}
+					onHide={handleCloseRefundCourse}
+				>
+					<Modal.Header key={newId()} closeButton>
+						<Modal.Title key={newId()}>Refund Request</Modal.Title>
 					</Modal.Header>
-					<Modal.Body>
-						<Form>
-							<Form.Group className="mb-3" controlId="reportTitle">
-								<Form.Label>Title</Form.Label>
-								<Form.Control ref={reportTitle} type="text" placeholder="Title of report." />
-							</Form.Group>
-							<Form.Group>
-								<select value={reportType} onChange={(e) => setReportType(e.target.value)}>
-									<option>Technical</option>
-									<option>Financial</option>
-									<option>Other</option>
-								</select>
-							</Form.Group>
-							<Form.Group className="mb-3" controlId="reportDescription">
-								<Form.Label>Description</Form.Label>
-								<Form.Control
-									ref={reportDescription}
-									placeholder="Description"
-									rows={3}
-									style={{ height: "100px" }}
-								/>
-							</Form.Group>
-						</Form>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={handleClose}>
+					<Modal.Body key={newId()}>{":("}</Modal.Body>
+					<Modal.Footer key={newId()}>
+						<Button
+							key={newId()}
+							variant="secondary"
+							onClick={handleCloseRefundCourse}
+						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={submitReport}>
-							Submit
+						<Button key={newId()} variant="primary" onClick={refundCourse}>
+							Confirm
 						</Button>
 					</Modal.Footer>
 				</Modal>
+
+				{}
 			</>
 		)
 	);
 }
-export default CourseTraineePOV;

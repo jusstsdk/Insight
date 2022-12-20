@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import CoursePage from "../pages/sharedTrainee/CoursePage";
-import TraineeView from "../pages/trainee/TraineeView";
+import TraineeView from "../pages/trainee/TraineeHome";
 import Layout from "../components/shared/Layout";
 import Payment from "../pages/trainee/stripe/Payment";
 import Protected from "../components/shared/Protected";

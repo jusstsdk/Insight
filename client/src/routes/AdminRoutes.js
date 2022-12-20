@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import AdminView from "../pages/admin/AdminView";
+import AdminView from "../pages/admin/AdminHome";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateCorporateTrainee from "../pages/admin/CreateCorporateTrainee";
 import CreateInstructor from "../pages/admin/CreateInstructor";

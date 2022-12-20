@@ -8,7 +8,7 @@ export default function Layout() {
 	return (
 		<>
 			<CustomNavbar />
-			<Container>
+			<Container className="my-3">
 				<Outlet />
 			</Container>
 			<Toaster />
