@@ -1,3 +1,11 @@
+# Critical Tasks
+- show correct currency in all searches
+- create course input currency to USD
+- 
+
+# Optional Tasks
+- google analytics
+
 # To-Do
 
 1. Edit Model
