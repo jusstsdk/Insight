@@ -98,7 +98,7 @@ export default function SignUp() {
 					variant="primary"
 					type="submit"
 				>
-					Create a Trainee
+					Sign Up
 				</Button>
 			</Form>
 		</div>
