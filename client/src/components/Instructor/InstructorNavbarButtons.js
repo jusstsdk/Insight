@@ -19,12 +19,6 @@ export default function InstructorNavbarButtons() {
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
-					navigate("editProfile");
-				}}>
-				Edit Profile
-			</Nav.Link>
-			<Nav.Link
-				onClick={() => {
 					navigate("viewInstructorReviews");
 				}}>
 				My Reviews
@@ -38,8 +32,7 @@ export default function InstructorNavbarButtons() {
 			<Nav.Link
 				onClick={() => {
 					navigate("promotion");
-				}}
-			>
+				}}>
 				Discounts
 			</Nav.Link>
 		</>

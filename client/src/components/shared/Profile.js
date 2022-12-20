@@ -1,6 +1,7 @@
-import { Button, OverlayTrigger, Popover } from "react-bootstrap";
+import { Button, Col, OverlayTrigger, Popover } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import EditProfilePopover from "./EditProfilePopover";
 import Login from "./Login";
 import ProfilePopover from "./ProfilePopover";
 import SelectCountryPopover from "./SelectCountryPopover";
@@ -26,23 +27,20 @@ export default function Profile() {
 									variant="Link"
 									onClick={() => {
 										navigate("/guest/signUp");
-									}}
-								>
+									}}>
 									Sign Up
 								</Button>
 								<Button
 									variant="Link"
 									onClick={() => {
 										navigate("/guest/forgotPassword");
-									}}
-								>
+									}}>
 									Forgot password?
 								</Button>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose
-				>
+					rootClose>
 					<Button>Profile</Button>
 				</OverlayTrigger>
 			</>
@@ -59,12 +57,14 @@ export default function Profile() {
 							<Popover.Header as="h3">{`Profile`}</Popover.Header>
 							<Popover.Body>
 								<SelectCountryPopover />
-								<ProfilePopover />
+								<div className="d-flex mt-2">
+									{userType === "Instructor" && <EditProfilePopover />}
+									<ProfilePopover />
+								</div>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose
-				>
+					rootClose>
 					<Button>Profile</Button>
 				</OverlayTrigger>
 			</>
