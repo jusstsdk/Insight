@@ -16,7 +16,6 @@ function CourseCard({ course }) {
 		<>
 			<Card className="my-3">
 				<Card.Body>
-					{console.log(course)}
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
 						<Card.Title className="courseCardTitle">{course.title}</Card.Title>

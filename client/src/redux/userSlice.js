@@ -43,6 +43,9 @@ export const userSlice = createSlice({
 				action.payload.videoIndex
 			].isWatched = true;
 		},
+		updateInstructorCourses: (state, action) => {
+			state.user.courses = [...state.user.courses, action.payload];
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -72,6 +75,7 @@ export const {
 	setRequests,
 	payFromWallet,
 	watchVideo,
+	updateInstructorCourses,
 } = userSlice.actions;
 
 export default userSlice.reducer;
