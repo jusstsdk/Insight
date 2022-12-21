@@ -1,5 +1,6 @@
 # Critical Tasks
 - show correct currency in all searches and discount
+- pagination
 - discount should take date into consideration in backend
 - use more notifications
 - add confirmation to critical actions
