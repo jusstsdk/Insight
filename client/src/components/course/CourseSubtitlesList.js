@@ -21,18 +21,22 @@ function CourseSubtitlesList({ course }) {
 				</tr>
 			</thead>
 			<tbody>
-				{userCourse.subtitles.map((subtitle, index) => {
+				{userCourse.subtitles.map((subtitle, subtitle_index) => {
 					return (
-						<tr key={`Subtitles_tr_${course._id}_${index}`}>
-							<td>{index + 1}</td>
+						<tr key={`Subtitles_tr_${course._id}_${subtitle_index}`}>
+							<td>{subtitle_index + 1}</td>
 							<td>{subtitle.title ? subtitle.title : "No Title."}</td>
 							<td>{subtitle.hours}</td>
 							<td>
 								<Button
-									key={"Button Subtitle" + index}
+									key={"Button Subtitle" + subtitle_index}
 									onClick={() =>
 										navigate("viewSubtitle", {
-											state: { courseId: userCourse._id, subtitle: subtitle },
+											state: {
+												courseId: userCourse.course,
+												subtitleIndex: subtitle_index,
+												subtitle: subtitle,
+											},
 										})
 									}>
 									View
