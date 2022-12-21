@@ -2,8 +2,9 @@ import { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { useSelector } from "react-redux";
 function CreateAdmin() {
-	const token = localStorage.getItem("token");
+	const token = useSelector((state) => state.userReducer.token);
 	const Username = useRef();
 	const Password = useRef();
 

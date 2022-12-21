@@ -3,9 +3,10 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../../components/shared/CountryDropdown";
+import { useSelector } from "react-redux";
 
 function CreateInstructor() {
-	const token = localStorage.getItem("token");
+	const token = useSelector((state) => state.userReducer.token);
 	const Username = useRef();
 	const Password = useRef();
 	const Email = useRef();
