@@ -2,6 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import API from "../../functions/api";
+import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 
 function ReportCard(props) {
 	const [show, setShow] = useState(false);
@@ -14,6 +15,8 @@ function ReportCard(props) {
 		<>
 			<Card>
 				<Card.Body>
+					{!props.report.isSeen && <BsFillEyeSlashFill />}
+					{props.report.isSeen && <BsFillEyeFill />}
 					<Card.Title>{props.report.title}</Card.Title>
 					<Card.Text className="mb-1">
 						{props.report.isResolved ? "Resolved" : "Pending"}
@@ -23,7 +26,7 @@ function ReportCard(props) {
 						variant="primary"
 						onClick={() => {
 							handleReport({ seen: true });
-							props.SeenReport();
+							props.seenReport(props.report);
 							handleShow();
 						}}
 					>
