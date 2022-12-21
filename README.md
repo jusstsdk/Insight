@@ -1,10 +1,38 @@
 # Critical Tasks
-- show correct currency in all searches
+- show correct currency in all searches and discount
+- pagination
+- discount should take date into consideration in backend
+- use more notifications
+- add confirmation to critical actions
 - create course input currency to USD
-- 
+- show total hours of course in search
+- request access should have corporate name
+- fix subject filter to use existing subjects
+- comment on unresolved problems (1 array and save who (username to avoid populate maybe) said what for order's sake)
+- add free price
+- view course but not open
+- first login after sign up (agree to terms & fill your other details & change password only first time)
+- change password without forgetting
+- view course details (everything including popularity i.e. number of students)
+- view subtitles (including vids, exercises and exam)
+- solve exercise / exam & view grade (correct & chosen answer)
+- watch vid
+- discount date
+- rate course
+- rate instructor
+- accept terms as anyone (including normal trainee at sign up)
+- most popular course (number of enrolled students, handled at pay, request access and refund)
+- preview vid
+- feedback that discount already exists
+-  Q. What does "follow up" mean? 
+   A. It means an instructor or trainee that previously reported an issue can view this issue and write a comment if the admin had never responded to it.
+-  Q. What should the certificate look like?
+   A. You can have 1 PDF that is sent to all trainees regardless of the course. You do not need to add their names nor the course name to the certificates. The course name only needs to be in the subject of the email.
 
 # Optional Tasks
 - google analytics
+- add subtitle description
+- remove hours input create course
 
 # To-Do
 
