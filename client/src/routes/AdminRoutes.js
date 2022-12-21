@@ -7,6 +7,8 @@ import CourseRequests from "../pages/admin/CourseRequests";
 import RequestsHistory from "../pages/admin/RequestsHistory";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
+import ViewReports from "../pages/admin/ViewReports";
+import ViewCourseReports from "../pages/admin/ViewCourseReports";
 import Promotion from "../pages/admin/Promotion";
 import ChangePassword from "../components/shared/ChangePassword";
 
@@ -27,6 +29,8 @@ export function AdminRoutes() {
 						<Route path="createInstructor" element={<CreateInstructor />} />
 						<Route path="courseRequests" element={<CourseRequests />} />
 						<Route path="requestsHistory" element={<RequestsHistory />} />
+            <Route path="viewReports" element={<ViewReports />} />
+					  <Route path="viewCourseReports" element={<ViewCourseReports />} />
 						<Route path="promotion" element={<Promotion />} />
 					</Route>
 				</Routes>

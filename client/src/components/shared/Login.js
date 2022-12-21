@@ -110,11 +110,7 @@ export default function Login() {
 
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Password"
-						ref={password}
-					/>
+					<Form.Control type="password" placeholder="Password" ref={password} />
 				</Form.Group>
 
 				{isLoggingIn ? (

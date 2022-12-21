@@ -40,6 +40,9 @@ priceLabel {
 	color: #dc3545;
 }
 
+.reportTabs{
+	margin-left: 5rem !important;
+
 .textFit {
 	width: fit-content !important;
 }

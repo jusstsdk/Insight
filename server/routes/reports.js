@@ -6,6 +6,7 @@ const {
 	getAllCoursesWithReports,
 	updateReportStatus,
 	getUserReports,
+	updateComments,
 } = require("../controllers/reportsController");
 
 const router = express.Router();
@@ -21,6 +22,9 @@ router.get("/courses/:courseId", getCourseWithReports);
 
 // Mark a Report
 router.put("/:reportId", updateReportStatus);
+
+//Update comments
+router.put("/:reportId/comments", updateComments);
 
 // Get all courses with reports
 router.get("/", getAllCoursesWithReports);

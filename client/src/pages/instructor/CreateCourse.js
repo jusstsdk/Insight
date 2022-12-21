@@ -26,7 +26,9 @@ export default function CreateCourse() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
