@@ -13,15 +13,9 @@ export default function InstructorNavbarButtons() {
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
-					navigate("createCourse");
+					navigate("createCourse", { state: { status: "New" } });
 				}}>
 				Create Course
-			</Nav.Link>
-			<Nav.Link
-				onClick={() => {
-					navigate("editProfile");
-				}}>
-				Edit Profile
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
@@ -34,6 +28,12 @@ export default function InstructorNavbarButtons() {
 					navigate("viewInstructorCourses");
 				}}>
 				My Courses
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("promotion");
+				}}>
+				Discounts
 			</Nav.Link>
 		</>
 	);

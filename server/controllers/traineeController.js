@@ -82,7 +82,7 @@ const payCourse = async (req, res) => {
 	// input: id of course and id of trainee and card info
 	const traineeId = req.params.tId;
 	const courseId = req.params.cId;
-	
+
 	//
 	// the function should find course by id and get price, discount and exercises.
 	if (!mongoose.Types.ObjectId.isValid(courseId)) {
@@ -102,8 +102,6 @@ const payCourse = async (req, res) => {
 	if (amountPaidByCard > 0) {
 		trainee.wallet = 0; //wallet has less so it goes to zero
 		//stripe payment using the amountPaidByCard and card that comes from req.body
-
-
 	} else {
 		trainee.wallet -= course.price;
 		amountPaidByCard = 0; //wallet has either enough or more than needed
@@ -182,10 +180,21 @@ const requestRefund = async (req, res) => {
 		});
 		res.status(200).json("Requested refund successfully.");
 	} else {
-		res.status(400).json(
-			"Error: Requested refund Failed! Couldn't find Course."
-		);
+		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
 	}
+};
+
+// update isWatched to true in trainee.courses.subtitles.videos
+const watchVideo = async (req, res) => {
+	// add to the database
+	const traineeId = req.params.id;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const videoIndex = req.body.videoIndex;
+	let trainee = await Trainee.findById(traineeId);
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
+	trainee.save();
+	res.status(200).json(trainee);
 };
 module.exports = {
 	createTrainee,
@@ -197,4 +206,5 @@ module.exports = {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
+	watchVideo,
 };

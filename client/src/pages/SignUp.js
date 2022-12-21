@@ -5,7 +5,6 @@ import axios from "axios";
 import CountryDropdown from "../components/shared/CountryDropdown";
 
 export default function SignUp() {
-	const token = localStorage.getItem("token");
 	const Username = useRef();
 	const Password = useRef();
 	const Email = useRef();
@@ -17,7 +16,6 @@ export default function SignUp() {
 		const config = {
 			method: "POST",
 			url: "http://localhost:4000/api/trainees/",
-			headers: { authorization: "Bearer " + token },
 			data: {
 				username: Username.current.value,
 				password: Password.current.value,
@@ -98,7 +96,7 @@ export default function SignUp() {
 					variant="primary"
 					type="submit"
 				>
-					Create a Trainee
+					Sign Up
 				</Button>
 			</Form>
 		</div>

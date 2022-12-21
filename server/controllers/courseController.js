@@ -21,7 +21,7 @@ const getCourse = async (req, res) => {
 const createCourseInstructor = async (req, res) => {
 	const instructorId = req.params.id;
 	let instructors = req.body.instructors;
-	instructors.push(instructorId);
+	// instructors.push(instructorId);
 	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
@@ -106,19 +106,27 @@ const getCourses = async (req, res) => {
 	// create filter query from querystring
 	let query = {};
 	if (Object.keys(req.query).length > 0) query = { $and: [] };
-	if (req.query.price != null) {
+	if (req.query.maxPrice != null) {
 		query["$and"].push({
 			price: {
-				$lte: req.query.price,
+				$lte: req.query.maxPrice,
+			},
+		});
+	}
+	if (req.query.minPrice != null) {
+		query["$and"].push({
+			price: {
+				$gte: req.query.minPrice,
 			},
 		});
 	}
 	if (req.query.subject != null) {
 		query["$and"].push({
 			subjects: {
-				$elemMatch: { 
+				$elemMatch: {
 					$regex: req.query.subject,
-					$options: "i", },
+					$options: "i",
+				},
 			},
 		});
 	}
@@ -205,7 +213,9 @@ const populateReports = async (req, res) => {
 const getReports = async (req, res) => {
 	// find results
 	try {
-		const course = await Course.find({ reports: { $exists: true, $ne: [] } }).populate({
+		const course = await Course.find({
+			reports: { $exists: true, $ne: [] },
+		}).populate({
 			path: "reports.author",
 		});
 		res.status(200).json(course);
@@ -238,6 +248,36 @@ const reviewCourse = async (req, res) => {
 	res.status(200).json(course);
 };
 
+// Get all courses and populate review author
+const getCourseWithReviews = async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId).populate({
+			path: "reviews.trainee",
+		});
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+// set promotion for all provided course ids
+async function promotionCourses(req, res) {
+	const courses = req.body.courses;
+
+	courses.forEach(async (courseId) => {
+		const course = await Course.findById(courseId);
+		course.promotion = {
+			startDate: req.body.startDate,
+			endDate: req.body.endDate,
+			discount: req.body.discount,
+			offeredBy: req.body.offeredBy,
+		};
+		course.save();
+	});
+
+	res.sendStatus(200);
+}
+
 module.exports = {
 	getCourse,
 	getCourses,
@@ -248,4 +288,5 @@ module.exports = {
 	populateReports,
 	getReports,
 	reviewCourse,
+	promotionCourses,
 };

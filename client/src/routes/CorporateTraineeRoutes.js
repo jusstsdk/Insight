@@ -1,21 +1,22 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
-import CorporateTraineeView from "../pages/corporateTrainee/CorporateTraineeView";
-import CourseDetails from "../pages/corporateTrainee/CourseTraineePOV";
-import CourseList from "../pages/corporateTrainee/CourseList";
-
-import Payment from "../pages/corporateTrainee/Payment";
+import CorporateTraineeHome from "../pages/corporateTrainee/CorporateTraineeHome";
+import CourseDetails from "../pages/sharedTrainee/CoursePage";
+import Courses from "../pages/sharedTrainee/Courses";
+import ChangePassword from "../components/shared/ChangePassword";
 
 export function CorporateTraineeRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"CorporateTrainee"}>
-				<Layout />
 				<Routes>
-					<Route path="" element={<CorporateTraineeView />} />
-					<Route path="courses" element={<CourseList />} />
-					<Route path="courses/:id" element={<CourseDetails />} />
+					<Route path="" element={<Layout />}>
+						<Route path="" element={<CorporateTraineeHome />} />
+						<Route path="courses" element={<Courses />} />
+						<Route path="changePassword" element={<ChangePassword />} />
+						<Route path="courses/:id" element={<CourseDetails />} />
+					</Route>
 				</Routes>
 			</Protected>
 		</>

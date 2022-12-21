@@ -37,8 +37,30 @@ export default function AdminNavbarButtons() {
 				Reports
 			</Nav.Link>
 			<Nav.Link href="#link">Course Requests</Nav.Link>
+
+			<Nav.Link href="#link">Reports</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("courseRequests");
+				}}
+			>
+				Course Requests
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("requestsHistory");
+				}}
+			>
+				Requests history
+			</Nav.Link>
 			<Nav.Link href="#link">Refunds</Nav.Link>
-			<Nav.Link href="#link">Discounts</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("promotion");
+				}}
+			>
+				Discounts
+			</Nav.Link>
 		</>
 	);
 }

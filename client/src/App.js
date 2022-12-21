@@ -10,25 +10,6 @@ import { GuestRoutes } from "./routes/GuestRoutes";
 import { RedirectToHome } from "./components/shared/RedirectToHome";
 
 function App() {
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		// check if user local storage contains credentials
-		const storedToken = localStorage.getItem("token");
-		const storedUserType = localStorage.getItem("userType");
-		const storedUser = localStorage.getItem("user");
-
-		if (storedToken) {
-			dispatch(
-				login({
-					type: storedUserType,
-					token: storedToken,
-					user: JSON.parse(storedUser),
-				})
-			);
-		}
-	}, []);
-
 	return (
 		<>
 			<Routes>

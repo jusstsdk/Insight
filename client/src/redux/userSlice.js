@@ -20,7 +20,6 @@ export const userSlice = createSlice({
 			state.type = action.payload;
 		},
 		setUser: (state, action) => {
-			localStorage.setItem("user", JSON.stringify(action.payload));
 			state.user = action.payload;
 		},
 		setCountry: (state, action) => {
@@ -30,11 +29,24 @@ export const userSlice = createSlice({
 					country: action.payload,
 				});
 		},
+		setCourses: (state, action) => {
+			state.user.courses = action.payload;
+		},
+		setRequests: (state, action) => {
+			state.user.requests = action.payload;
+		},
+		payFromWallet: (state, action) => {
+			state.user.wallet -= action.payload;
+		},
+		watchVideo: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].isWatched = true;
+		},
+		updateInstructorCourses: (state, action) => {
+			state.user.courses = [...state.user.courses, action.payload];
+		},
 		login: (state, action) => {
-			localStorage.setItem("token", action.payload.token);
-			localStorage.setItem("userType", action.payload.type);
-			localStorage.setItem("user", JSON.stringify(action.payload.user));
-
 			state.type = action.payload.type;
 			state.token = action.payload.token;
 			state.user = action.payload.user;
@@ -52,7 +64,18 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setUser, logout, login, setCountry } =
-	userSlice.actions;
+export const {
+	setToken,
+	setType,
+	setUser,
+	logout,
+	login,
+	setCountry,
+	setCourses,
+	setRequests,
+	payFromWallet,
+	watchVideo,
+	updateInstructorCourses,
+} = userSlice.actions;
 
 export default userSlice.reducer;

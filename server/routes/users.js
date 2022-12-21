@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
 				user: user._doc,
 			});
 		} else {
-			res.status(403).json("wrong password");
+			res.status(401).json("wrong password");
 		}
 		return;
 	}
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
 				user: user._doc,
 			});
 		} else {
-			res.status(403).json("wrong password");
+			res.status(401).json("wrong password");
 		}
 		return;
 	}
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
 				user: user._doc,
 			});
 		} else {
-			res.status(403).json("wrong password");
+			res.status(401).json("wrong password");
 		}
 		return;
 	}
@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
 				user: user._doc,
 			});
 		} else {
-			res.status(403).json("wrong password");
+			res.status(401).json("wrong password");
 		}
 		return;
 	}
