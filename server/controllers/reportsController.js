@@ -63,6 +63,19 @@ const updateReportStatus = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+const updateComments = async (req, res) => {
+	try {
+		const course = await Course.updateOne(
+			{ "reports._id": req.params.reportId },
+			{ $push: { "reports.$.comments": req.body } },
+			{ new: true }
+		);
+
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
 
 // Get all User Reports
 const getUserReports = async (req, res) => {
@@ -90,4 +103,5 @@ module.exports = {
 	getAllCoursesWithReports,
 	updateReportStatus,
 	getUserReports,
+	updateComments,
 };

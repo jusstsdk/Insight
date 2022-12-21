@@ -31,6 +31,12 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Trainee", "CorporateTrainee", "Instructor"],
 	},
+	comments: [
+		{
+			username: String,
+			comment: String,
+		},
+	],
 });
 
 const courseSchema = new Schema(

@@ -40,6 +40,26 @@ function ViewCourseReports() {
 		);
 		setResolved(newResolvedReports);
 	};
+	const AddComment = (comment, report) => {
+		let newReports = Reports.map((oldReport) =>
+			oldReport._id === report._id
+				? { ...oldReport, comments: [...report.comments, comment] }
+				: oldReport
+		);
+		setReports(newReports);
+		let newPendingReports = Pending.map((oldReport) =>
+			oldReport._id === report._id
+				? { ...oldReport, comments: [...report.comments, comment] }
+				: oldReport
+		);
+		setPending(newPendingReports);
+		let newResolvedReports = Resolved.map((oldReport) =>
+			oldReport._id === report._id
+				? { ...oldReport, comments: [...report.comments, comment] }
+				: oldReport
+		);
+		setResolved(newResolvedReports);
+	};
 	useEffect(() => {
 		setReports(location.state.reports);
 		let resolved = location.state.reports.filter(
@@ -119,6 +139,7 @@ function ViewCourseReports() {
 									report={report}
 									resolvingReport={ResolvingReport}
 									seenReport={SeenReport}
+									AddComment={AddComment}
 								/>
 							</Col>
 						))}
@@ -128,7 +149,11 @@ function ViewCourseReports() {
 					<Container className="my-2 d-flex flex-wrap">
 						{Resolved.map((report, i) => (
 							<Col sm={3} className="mb-2 me-2">
-								<ReportCard report={report} seenReport={SeenReport} />
+								<ReportCard
+									report={report}
+									seenReport={SeenReport}
+									AddComment={AddComment}
+								/>
 							</Col>
 						))}
 					</Container>
@@ -162,6 +187,7 @@ function ViewCourseReports() {
 									report={report}
 									resolvingReport={ResolvingReport}
 									seenReport={SeenReport}
+									AddComment={AddComment}
 								/>
 							</Col>
 						))}
