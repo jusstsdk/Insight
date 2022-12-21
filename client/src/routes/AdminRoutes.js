@@ -24,13 +24,28 @@ export function AdminRoutes() {
 							path="createCorporateTrainee"
 							element={<CreateCorporateTrainee />}
 						/>
-						<Route path="changePassword" element={<ChangePassword />} />
+						<Route
+							path="changePassword"
+							element={<ChangePassword />}
+						/>
 
-						<Route path="createInstructor" element={<CreateInstructor />} />
-						<Route path="courseRequests" element={<CourseRequests />} />
-						<Route path="requestsHistory" element={<RequestsHistory />} />
-            <Route path="viewReports" element={<ViewReports />} />
-					  <Route path="viewCourseReports" element={<ViewCourseReports />} />
+						<Route
+							path="createInstructor"
+							element={<CreateInstructor />}
+						/>
+						<Route
+							path="courseRequests"
+							element={<CourseRequests />}
+						/>
+						<Route
+							path="requestsHistory"
+							element={<RequestsHistory />}
+						/>
+						<Route path="viewReports" element={<ViewReports />} />
+						<Route
+							path="viewCourseReports"
+							element={<ViewCourseReports />}
+						/>
 						<Route path="promotion" element={<Promotion />} />
 					</Route>
 				</Routes>
