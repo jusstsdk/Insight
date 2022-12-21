@@ -9,7 +9,8 @@ const {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
-  requestRefund,
+	requestRefund,
+	watchVideo,
 } = require("../controllers/traineeController");
 
 const router = express.Router();
@@ -31,5 +32,7 @@ router.post("/:id/payment", addPaymentMethod);
 router.delete("/:tid/payment/:pid", deletePaymentMethod);
 
 router.post("/:traineeId/requestRefund/courses/:courseId", requestRefund);
+
+router.put("/:id/watchVideo", watchVideo);
 
 module.exports = router;

@@ -38,6 +38,11 @@ export const userSlice = createSlice({
 		payFromWallet: (state, action) => {
 			state.user.wallet -= action.payload;
 		},
+		watchVideo: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].isWatched = true;
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -56,7 +61,17 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setType, setUser, logout, login, setCountry, setCourses, setRequests, payFromWallet } =
-	userSlice.actions;
+export const {
+	setToken,
+	setType,
+	setUser,
+	logout,
+	login,
+	setCountry,
+	setCourses,
+	setRequests,
+	payFromWallet,
+	watchVideo,
+} = userSlice.actions;
 
 export default userSlice.reducer;

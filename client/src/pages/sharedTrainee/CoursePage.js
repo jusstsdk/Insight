@@ -76,9 +76,7 @@ export default function CoursePage() {
 			console.log(err);
 		}
 	}
-	const renderTooltip = () => (
-		<Tooltip id="rejectED">{refundRejectedMessage}</Tooltip>
-	);
+	const renderTooltip = () => <Tooltip id="rejectED">{refundRejectedMessage}</Tooltip>;
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
@@ -107,17 +105,14 @@ export default function CoursePage() {
 			response.data.price = Math.trunc(response.data.price * 100) / 100;
 		}
 		response.data.originalPrice *= user.exchangeRate;
-		response.data.originalPrice =
-			Math.trunc(response.data.originalPrice * 100) / 100;
+		response.data.originalPrice = Math.trunc(response.data.originalPrice * 100) / 100;
 		user.courses &&
 			user.courses.map((course) => {
 				if (course.course === courseID) {
 					setTraineeCourse(course);
 					if (course.progress > 0.5) {
 						setTraineeCanRefund(false);
-						setRefundRejectedMessage(
-							"You Can't Refund a course after getting past 50% of it!!!"
-						);
+						setRefundRejectedMessage("You Can't Refund a course after getting past 50% of it!!!");
 					}
 					if (course.requestedRefund) {
 						setTraineeCanRefund(false);
@@ -214,8 +209,7 @@ export default function CoursePage() {
 						key={newId()}
 						defaultActiveKey="basicInfo"
 						id="uncontrolled-tab-example"
-						className="mb-3"
-					>
+						className="mb-3">
 						<Tab key="basicInfo" eventKey="basicInfo" title="Basic Info">
 							<Row key={newId()}>
 								<Col key={newId()}>
@@ -235,8 +229,7 @@ export default function CoursePage() {
 												key={newId()}
 												disabled={!clickable}
 												variant="success"
-												onClick={handleBuyCourse}
-											>
+												onClick={handleBuyCourse}>
 												{buttonText}
 											</Button>
 										</Alert>
@@ -255,10 +248,7 @@ export default function CoursePage() {
 												<h1>
 													{" "}
 													{traineeCourse &&
-														Math.trunc(
-															traineeCourse.paidPrice * user.exchangeRate * 100
-														) /
-															100 +
+														Math.trunc(traineeCourse.paidPrice * user.exchangeRate * 100) / 100 +
 															" " +
 															currency}
 												</h1>
@@ -266,20 +256,13 @@ export default function CoursePage() {
 											<OverlayTrigger
 												placement="right"
 												delay={{ show: 250, hide: 400 }}
-												overlay={traineeCanRefund ? renderTooltip : ""}
-											>
+												overlay={traineeCanRefund ? renderTooltip : ""}>
 												<Button
 													ref={refundRejectedTip}
 													key={newId()}
 													variant={traineeCanRefund ? "danger" : "secondary"}
-													onClick={
-														traineeCanRefund
-															? handleShowRefundCourse
-															: undefined
-													}
-													active={!traineeCanRefund}
-												>
-													{console.log(traineeCanRefund)}
+													onClick={traineeCanRefund ? handleShowRefundCourse : undefined}
+													active={!traineeCanRefund}>
 													Request Refund
 												</Button>
 											</OverlayTrigger>
@@ -310,8 +293,7 @@ export default function CoursePage() {
 												key={newId()}
 												disabled={!clickable}
 												variant="success"
-												onClick={handleRequestAccess}
-											>
+												onClick={handleRequestAccess}>
 												{buttonText}
 											</Button>
 										</Alert>
@@ -328,7 +310,7 @@ export default function CoursePage() {
 									<iframe
 										width="560"
 										height="315"
-										src={"https://www.youtube.com/embed/Nv5pIhub9wY"} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
+										src={course.previewVideo} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
 										title="Preview Video"
 										allowFullScreen
 									/>
@@ -353,17 +335,13 @@ export default function CoursePage() {
 							</ListGroup>
 						</Tab>
 						<Tab key="subtititles" eventKey="subtitles" title="Subtitles">
-							<CourseSubtitlesList
-								course={course}
-								newId={newId}
-							></CourseSubtitlesList>
+							<CourseSubtitlesList course={course} newId={newId}></CourseSubtitlesList>
 						</Tab>
 						<Tab key="reviews" eventKey="reviews" title="Reviews">
 							<CourseReviews
 								course={course}
 								newId={newId}
-								getCourseFromDB={getCourseFromDB}
-							></CourseReviews>
+								getCourseFromDB={getCourseFromDB}></CourseReviews>
 						</Tab>
 						<Tab key="exam" eventKey="exam" title="Exam">
 							<Button key={newId()}>Start Exam</Button>
@@ -371,21 +349,13 @@ export default function CoursePage() {
 					</Tabs>
 				</Container>
 
-				<Modal
-					key={newId()}
-					show={showRefundRequest}
-					onHide={handleCloseRefundCourse}
-				>
+				<Modal key={newId()} show={showRefundRequest} onHide={handleCloseRefundCourse}>
 					<Modal.Header key={newId()} closeButton>
 						<Modal.Title key={newId()}>Refund Request</Modal.Title>
 					</Modal.Header>
 					<Modal.Body key={newId()}>{":("}</Modal.Body>
 					<Modal.Footer key={newId()}>
-						<Button
-							key={newId()}
-							variant="secondary"
-							onClick={handleCloseRefundCourse}
-						>
+						<Button key={newId()} variant="secondary" onClick={handleCloseRefundCourse}>
 							Cancel
 						</Button>
 						<Button key={newId()} variant="primary" onClick={refundCourse}>
