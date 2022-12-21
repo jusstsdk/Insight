@@ -9,7 +9,6 @@ function CourseReportsCard(props) {
 	return (
 		<Card>
 			<Card.Body>
-				{console.log(props.course)}
 				<Card.Title>{props.course.title}</Card.Title>
 				<Card.Text>Number of reports: {props.course.reports.length}</Card.Text>
 				<Button onClick={() => ViewCourseReports()} variant="primary">
