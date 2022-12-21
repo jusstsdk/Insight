@@ -9,9 +9,9 @@ import "../../css/createCourse.css";
 import { clearInfo } from "../../redux/infoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 
-import AddInfo from "../../components/Instructor/updatedCreateCourse/AddInfo";
-import AddExam from "../../components/Instructor/updatedCreateCourse/AddExam";
-import AddSubtitle from "../../components/Instructor/updatedCreateCourse/AddSubtitle";
+import AddInfo from "../../components/instructor/updatedCreateCourse/AddInfo";
+import AddExam from "../../components/instructor/updatedCreateCourse/AddExam";
+import AddSubtitle from "../../components/instructor/updatedCreateCourse/AddSubtitle";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();

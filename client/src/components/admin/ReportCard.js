@@ -93,7 +93,7 @@ function ReportCard(props) {
 								handleClose();
 							}}
 						>
-							Resolved
+							Resolve
 						</Button>
 					)}
 				</Modal.Footer>

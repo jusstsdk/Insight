@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import CreateCourse from "../pages/instructor/CreateCourse";
-import EditProfile from "../components/Instructor/EditProfile";
-import ViewInstructorReviews from "../components/Instructor/ViewInstructorReviews";
-import ViewInstructorCourses from "../components/Instructor/ViewInstructorCourses";
+import EditProfile from "../components/instructor/EditProfile";
+import ViewInstructorReviews from "../components/instructor/ViewInstructorReviews";
+import ViewInstructorCourses from "../components/instructor/ViewInstructorCourses";
 import Protected from "../components/shared/Protected";
 import Layout from "../components/shared/Layout";
 import CourseList from "../pages/corporateTrainee/CourseList";
