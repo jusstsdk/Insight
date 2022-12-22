@@ -57,7 +57,7 @@ export const userSlice = createSlice({
 		deleteNoteFromVideoNotes: (state, action) => {
 			let newNotes = state.user.courses[action.payload.courseIndex].subtitles[
 				action.payload.subtitleIndex
-			].videos[action.payload.videoIndex].notes.filter((_, i) => i !== action.payload.note_index);
+			].videos[action.payload.videoIndex].notes.filter((_, i) => i !== action.payload.noteIndex);
 
 			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
 				action.payload.videoIndex

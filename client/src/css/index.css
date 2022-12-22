@@ -54,9 +54,12 @@ priceLabel {
 	position: absolute;
 }
 .navbarZ-index {
-	z-index: 100000 !important;
+	z-index: 2 !important;
 	position: sticky !important;
 	top: 0;
+}
+.drawerZ-index > div > div {
+	z-index: 1;
 }
 
 /* Scrollbar*/

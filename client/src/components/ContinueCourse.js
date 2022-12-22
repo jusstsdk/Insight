@@ -44,7 +44,7 @@ export default function ContinueCourse(props) {
 	const [SubtitleIndex, setSubtitleIndex] = useState(-1);
 	const [Content, setContent] = useState({});
 	const [ContentType, setContentType] = useState("_");
-
+	const [SelectedContentIndex, setSelectedContentIndex] = useState(-1);
 	//
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -58,9 +58,12 @@ export default function ContinueCourse(props) {
 	};
 
 	// Handles click on any Exercise Video and Shows the Content.
-	const handlePressOnContent = (content, subtitle_index) => {
+	const handlePressOnContent = (content, content_index, subtitle_index) => {
 		setContent(content);
 		setSubtitleIndex(subtitle_index);
+		setSelectedContentIndex(content_index);
+		let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitle_index);
+		setOpenCollapses(openCollapsesArray);
 		if (content.type === "Video") {
 			setContentType("Video");
 		} else {
@@ -116,7 +119,22 @@ export default function ContinueCourse(props) {
 									<ListItem
 										key={`subtitle_${subtitle._id}_content_${singleContent._id}`}
 										button
-										onClick={() => handlePressOnContent(singleContent, subtitle_index)}>
+										style={{
+											backgroundColor:
+												singleContent_index === SelectedContentIndex &&
+												subtitle_index === SubtitleIndex
+													? "#939d9e"
+													: "",
+										}}
+										variant={
+											singleContent_index === SelectedContentIndex &&
+											subtitle_index === SubtitleIndex
+												? "success"
+												: "danger"
+										}
+										onClick={() =>
+											handlePressOnContent(singleContent, singleContent_index, subtitle_index)
+										}>
 										{/* Content Icon */}
 										<ListItemIcon
 											className="ms-4 "
@@ -159,6 +177,7 @@ export default function ContinueCourse(props) {
 
 			{/* Drawer */}
 			<Box
+				className="drawerZ-index"
 				component="nav"
 				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
 				aria-label="mailbox folders">
