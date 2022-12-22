@@ -36,6 +36,7 @@ function CourseSubtitlesList({ course }) {
 												courseId: userCourse.course,
 												subtitleIndex: subtitle_index,
 												subtitle: subtitle,
+												subtitles: userCourse.subtitles,
 											},
 										})
 									}>

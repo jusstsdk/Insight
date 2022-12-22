@@ -30,21 +30,20 @@ export default function CustomNavbar() {
 
 	return (
 		<>
-			<Navbar bg="dark" variant="dark" expand="lg">
+			<Navbar fixed="top" bg="dark" variant="dark" expand="lg" className="navbarZ-index">
 				<Container>
 					<Navbar.Brand
 						href="#"
 						onClick={() => {
 							navigate("/");
-						}}
-					>
+						}}>
 						Home
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="me-auto">{displayView()}</Nav>
+						<Profile />
 					</Navbar.Collapse>
-					<Profile />
 				</Container>
 			</Navbar>
 		</>

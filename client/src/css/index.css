@@ -53,3 +53,8 @@ priceLabel {
 	width: 100%;
 	position: absolute;
 }
+.navbarZ-index {
+	z-index: 100000 !important;
+	position: sticky !important;
+	top: 0;
+}
