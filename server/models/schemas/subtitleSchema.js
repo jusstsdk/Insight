@@ -32,6 +32,7 @@ const videoSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	notes: [String],
 });
 
 const subtitleSchema = new Schema({

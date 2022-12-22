@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../functions/api";
-import axios from "axios";
 
 export const userSlice = createSlice({
 	name: "user",
@@ -46,6 +45,25 @@ export const userSlice = createSlice({
 				action.payload.videoIndex
 			].isWatched = true;
 		},
+		addNoteToVideoNotes: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = [
+				...state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex]
+					.videos[action.payload.videoIndex].notes,
+				action.payload.note,
+			];
+		},
+		deleteNoteFromVideoNotes: (state, action) => {
+			let newNotes = state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].videos[action.payload.videoIndex].notes.filter((_, i) => i !== action.payload.note_index);
+
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = newNotes;
+			// state.notifications = state.notifications.filter((notification, i) => i !== action.payload);
+		},
 		login: (state, action) => {
 			localStorage.setItem("token", action.payload.token);
 			localStorage.setItem("userType", action.payload.type);
@@ -79,6 +97,8 @@ export const {
 	setRequests,
 	payFromWallet,
 	watchVideo,
+	addNoteToVideoNotes,
+	deleteNoteFromVideoNotes,
 } = userSlice.actions;
 
 export default userSlice.reducer;
