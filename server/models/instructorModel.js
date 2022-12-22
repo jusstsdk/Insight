@@ -5,6 +5,7 @@ const reviewSchema = require("./schemas/reviewSchema");
 const monthlyPaySchema = new Schema({
 	amount: {
 		type: Number,
+		default: 0,
 		required: true
 	},}, { _id: false ,timestamps: true });
 

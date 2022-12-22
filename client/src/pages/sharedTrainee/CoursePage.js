@@ -21,13 +21,13 @@ import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { setRequests } from "../../redux/userSlice";
+import { setRequests,setCourses } from "../../redux/userSlice";
 
 function CourseTraineePOV() {
 	//current course ID (STATIC FOR NOW)
 	const navigate = useNavigate();
 	const params = useParams();
-	let id = params.id;
+	let courseId = params.id;
 	const [loaded, setLoaded] = useState(false);
 
 	//PREVIEW VIDEO URL, HERE BECAUSE IM IDIOT SHOULD BE MOVED DOWN
@@ -44,7 +44,7 @@ function CourseTraineePOV() {
 	const [instructors, setInstructors] = useState();
 
 	async function getCourseFromDB() {
-		const response = await API.get(`courses/${id}`);
+		const response = await API.get(`courses/${courseId}`);
 
 		url = response.data.previewVideo;
 
@@ -84,7 +84,7 @@ function CourseTraineePOV() {
 	async function submitReport() {
 		let config = {
 			method: "POST",
-			url: `http://localhost:4000/api/reports/courses/${id}`,
+			url: `http://localhost:4000/api/reports/courses/${courseId}`,
 			data: {
 				title: reportTitle.current.value,
 				type: reportType,
@@ -105,7 +105,7 @@ function CourseTraineePOV() {
 			method: "POST",
 			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
 			data: {
-				courseId: id,
+				courseId: courseId,
 			},
 		};
 		setClickable(false);
@@ -118,7 +118,19 @@ function CourseTraineePOV() {
 		}
 	}
 	async function handleBuyCourse() {
-		navigate("payment");
+		if(course.price === 0){
+			const response = await API.post(
+				`/trainees/${userID}/courses/${courseId}/payment`
+			);
+	
+			dispatch(setCourses(response.data.courses));
+			setClickable(false);
+			setButtonText("Course Purchased");
+			navigate("/");
+		}else{
+			navigate("payment");
+		}
+		
 	}
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
@@ -129,7 +141,7 @@ function CourseTraineePOV() {
 			setShowRequestAccess(true);
 			setButtonText("Request Access");
 			trainee.courses.some((course) => {
-				if (course.course === id) {
+				if (course.course === courseId) {
 					ShowRequestAccessTemp = false;
 					setShowRequestAccess(false);
 					return true;
@@ -139,7 +151,7 @@ function CourseTraineePOV() {
 
 			if (ShowRequestAccessTemp) {
 				trainee.requests.forEach((request) => {
-					if (request.courseId === id) {
+					if (request.courseId === courseId) {
 						setClickable(false);
 						if (request.status == "pending")
 						{
@@ -159,7 +171,7 @@ function CourseTraineePOV() {
 			setShowBuyCourse(true);
 			setButtonText("Buy Course");
 			trainee.courses.some((course) => {
-				if (course.course === id) {
+				if (course.course === courseId) {
 					setShowBuyCourse(false);
 					return true;
 				}
