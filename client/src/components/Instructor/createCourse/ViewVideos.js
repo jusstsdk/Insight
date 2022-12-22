@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Card, Col } from "react-bootstrap";
+import { Button, Accordion, Card, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -59,7 +59,7 @@ export default function ViewVideos(props) {
 									<div className="d-flex">
 										<Col sm={11} className="me-auto">
 											<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
-												<h6 className="videoUrl">{video.url}</h6>
+												<h6 className="videoUrl">{video.title}</h6>
 											</Card.Header>
 										</Col>
 										<Col sm={1} className="d-flex justify-content-end">
@@ -79,7 +79,11 @@ export default function ViewVideos(props) {
 											</Button>
 										</Col>
 									</div>
-									<Card.Body>{video.description}</Card.Body>
+									<Card.Body>
+										<h6 className="videoUrl mb-2">{video.url}</h6>
+
+										<p>{video.description}</p>
+									</Card.Body>
 								</Card>
 							);
 						})}

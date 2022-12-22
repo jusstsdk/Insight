@@ -9,6 +9,8 @@ export default function AddVideo(props) {
 
 	const DescriptionRef = useRef(null);
 	const [Url, setUrl] = useState(props.case === "Add" ? "" : props.video.url);
+	const [Title, setTitle] = useState(props.case === "Add" ? "" : props.video.title);
+
 	const [Description, setDescription] = useState(
 		props.case === "Add" ? "" : props.video.description
 	);
@@ -21,7 +23,7 @@ export default function AddVideo(props) {
 	useEffect(() => resizeTextArea(DescriptionRef), [Description]);
 
 	const handleAddVideo = () => {
-		let newVideo = { url: Url, description: Description };
+		let newVideo = { title: Title, url: Url, description: Description };
 		if (props.case === "Add") {
 			dispatch(addVideoToSubtitle({ subtitleKey: SubtitleKey, video: newVideo }));
 		} else {
@@ -31,6 +33,7 @@ export default function AddVideo(props) {
 		}
 		setUrl("");
 		setDescription("");
+		setTitle("");
 		props.handleClose();
 	};
 
@@ -50,28 +53,48 @@ export default function AddVideo(props) {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-					<Form.Label column sm={1}>
-						Videos
-					</Form.Label>
-					<Col sm={4}>
-						<Form.Control
-							type="text"
-							placeholder="Video Url"
-							value={Url}
-							onChange={(e) => setUrl(e.target.value)}
-						/>
-					</Col>
-					<Col sm={6}>
-						<Form.Control
-							ref={DescriptionRef}
-							type="text"
-							as="textarea"
-							rows={2}
-							placeholder="Video Description"
-							value={Description}
-							onChange={(e) => setDescription(e.target.value)}
-						/>
+				<Form.Group className="mb-3 d-flex align-items-center justify-content-start">
+					<Col>
+						<Row className="justify-content-center">
+							<Form.Label column sm={1}>
+								Title
+							</Form.Label>
+							<Col sm={5}>
+								<Form.Control
+									type="text"
+									placeholder="Video Title"
+									value={Title}
+									onChange={(e) => setTitle(e.target.value)}
+								/>
+							</Col>
+							<Form.Label column sm={1}>
+								Url
+							</Form.Label>
+							<Col sm={4}>
+								<Form.Control
+									type="text"
+									placeholder="Video Url"
+									value={Url}
+									onChange={(e) => setUrl(e.target.value)}
+								/>
+							</Col>
+						</Row>
+						<Row className="mt-3 justify-content-center">
+							<Form.Label column sm={1}>
+								Description
+							</Form.Label>
+							<Col sm={10}>
+								<Form.Control
+									ref={DescriptionRef}
+									type="text"
+									as="textarea"
+									rows={2}
+									placeholder="Video Description"
+									value={Description}
+									onChange={(e) => setDescription(e.target.value)}
+								/>
+							</Col>
+						</Row>
 					</Col>
 				</Form.Group>
 			</Modal.Body>
