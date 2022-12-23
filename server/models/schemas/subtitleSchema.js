@@ -22,6 +22,7 @@ const exerciseSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	index: Number,
 });
 
 const videoSchema = new Schema({
@@ -32,6 +33,7 @@ const videoSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	index: Number,
 	notes: [String],
 });
 

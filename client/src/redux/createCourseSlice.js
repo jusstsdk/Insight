@@ -7,6 +7,7 @@ export const createCourseSlice = createSlice({
 		examQuestions: [],
 
 		subtitles: [],
+		subtitlesIndices: [],
 	},
 	reducers: {
 		setExamsAndSubtitles: (state, action) => {
@@ -32,13 +33,15 @@ export const createCourseSlice = createSlice({
 		// SubtitleInfo
 		addSubtitle: (state, action) => {
 			state.subtitles = [...state.subtitles, action.payload];
+			state.subtitlesIndices = [...state.subtitlesIndices, 0];
 		},
 		editSubtitleInfo: (state, action) => {
 			state.subtitles[action.payload.key].title = action.payload.subtitle.title;
 			state.subtitles[action.payload.key].hours = action.payload.subtitle.hours;
 		},
 		removeSubtitle: (state, action) => {
-			state.subtitles = state.subtitles.filter((subtitle, i) => i !== action.payload);
+			state.subtitles = state.subtitles.filter((_, i) => i !== action.payload);
+			state.subtitlesIndices = state.subtitlesIndices.filter((_, i) => i !== action.payload);
 		},
 
 		// Videos
@@ -47,13 +50,30 @@ export const createCourseSlice = createSlice({
 				...state.subtitles[action.payload.subtitleKey].videos,
 				action.payload.video,
 			];
+			state.subtitlesIndices[action.payload.subtitleKey] += 1;
 		},
 		editVideoOfSubtitle: (state, action) => {
-			state.subtitles[action.payload.subtitleKey].videos[action.payload.videoKey] =
-				action.payload.video;
+			let oldIndex =
+				state.subtitles[action.payload.subtitleKey].videos[action.payload.videoKey].index;
+			state.subtitles[action.payload.subtitleKey].videos[action.payload.videoKey] = {
+				...action.payload.video,
+				index: oldIndex,
+			};
 		},
 		removeVideoFromSubtitle: (state, action) => {
-			state.subtitles[action.payload.subtitleKey].videos = action.payload.newVideos;
+			let updatedExercises = state.subtitles[action.payload.subtitleKey].exercises.map((exercise) =>
+				exercise.index > action.payload.videoIndex
+					? { ...exercise, index: exercise.index - 1 }
+					: exercise
+			);
+			let updatedVideos = action.payload.newVideos.map((video) =>
+				video.index > action.payload.videoIndex ? { ...video, index: video.index - 1 } : video
+			);
+			state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
+			state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
+			state.subtitlesIndices[action.payload.subtitleKey] -= 1;
+
+			state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
 		},
 
 		// ExerciseInfo
@@ -62,13 +82,24 @@ export const createCourseSlice = createSlice({
 				...state.subtitles[action.payload.subtitleKey].exercises,
 				action.payload.exercise,
 			];
+			state.subtitlesIndices[action.payload.subtitleKey] += 1;
 		},
 		editExerciseOfSubtitle: (state, action) => {
 			state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
 				action.payload.title;
 		},
 		removeExerciseFromSubtitle: (state, action) => {
-			state.subtitles[action.payload.subtitleKey].exercises = action.payload.newExercises;
+			let updatedExercises = action.payload.newExercises.map((exercise) =>
+				exercise.index > action.payload.exerciseIndex
+					? { ...exercise, index: exercise.index - 1 }
+					: exercise
+			);
+			let updatedVideos = state.subtitles[action.payload.subtitleKey].videos.map((video) =>
+				video.index > action.payload.exerciseIndex ? { ...video, index: video.index - 1 } : video
+			);
+			state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
+			state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
+			state.subtitlesIndices[action.payload.subtitleKey] -= 1;
 		},
 
 		// Questions
@@ -95,6 +126,7 @@ export const createCourseSlice = createSlice({
 			state.examTitle = "";
 			state.examQuestions = [];
 			state.subtitles = [];
+			state.subtitlesIndices = [];
 		},
 	},
 });

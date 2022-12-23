@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Card, Col, Row } from "react-bootstrap";
+import { Button, Accordion, Card, Col } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 

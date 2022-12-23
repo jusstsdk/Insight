@@ -9,7 +9,7 @@ import { removeSubtitle } from "../../../redux/createCourseSlice";
 import AddSubtitleInfo from "./AddSubtitleInfo";
 import ViewVideos from "./ViewVideos";
 import ViewExercises from "./ViewExercises";
-
+import ViewBoth from "./ViewBoth";
 export default function ViewSubtitles() {
 	const dispatch = useDispatch();
 
@@ -42,7 +42,6 @@ export default function ViewSubtitles() {
 								<Col sm={1} className="d-flex justify-content-end">
 									<Button
 										variant="success"
-										style={{ zIndex: 1000 }}
 										className="accordionTrash accordionLikeEditButton"
 										key={`subtitle_edit_button_${subtitle_key}`}
 										onClick={() => handleEditSubtitleModalShow(subtitle, subtitle_key)}>
@@ -59,7 +58,7 @@ export default function ViewSubtitles() {
 							</div>
 							<Accordion.Body>
 								<Accordion>
-									<Form.Group as={Row}>
+									{/* <Form.Group as={Row}>
 										<Form.Group className="mb-3">
 											<ViewExercises
 												subtitle={subtitle}
@@ -78,7 +77,15 @@ export default function ViewSubtitles() {
 												SubtitleVideos={subtitle.videos}
 											/>
 										</Form.Group>
-									</Form.Group>
+									</Form.Group> */}
+									<ViewBoth
+										subtitle={subtitle}
+										subtitleKey={subtitle_key}
+										setSubtitle={setSubtitle}
+										setSubtitlekey={setSubtitlekey}
+										SubtitleExercises={subtitle.exercises}
+										SubtitleVideos={subtitle.videos}
+									/>
 								</Accordion>
 							</Accordion.Body>
 						</Accordion.Item>

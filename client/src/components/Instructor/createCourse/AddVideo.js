@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import { addVideoToSubtitle, editVideoOfSubtitle } from "../../../redux/createCourseSlice";
@@ -16,6 +16,10 @@ export default function AddVideo(props) {
 	);
 	const SubtitleKey = props.subtitleKey;
 	const VideoKey = props.videoKey;
+	const videoIndex = useSelector(
+		(state) => state.createCourseReducer.subtitlesIndices[SubtitleKey]
+	);
+
 	const resizeTextArea = (textAreaRef) => {
 		textAreaRef.current.style.height = "auto";
 		textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
@@ -23,10 +27,17 @@ export default function AddVideo(props) {
 	useEffect(() => resizeTextArea(DescriptionRef), [Description]);
 
 	const handleAddVideo = () => {
-		let newVideo = { title: Title, url: Url, description: Description };
 		if (props.case === "Add") {
+			let newVideo = { title: Title, url: Url, description: Description, index: videoIndex };
 			dispatch(addVideoToSubtitle({ subtitleKey: SubtitleKey, video: newVideo }));
 		} else {
+			let newVideo = {
+				title: Title,
+				url: Url,
+				description: Description,
+				index: videoIndex - 1,
+			};
+
 			dispatch(
 				editVideoOfSubtitle({ subtitleKey: props.subtitleKey, videoKey: VideoKey, video: newVideo })
 			);
