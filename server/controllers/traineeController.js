@@ -124,6 +124,9 @@ const payCourse = async (req, res) => {
 		if (!instructor) {
 			return res.status(400).json({ error: "No such Instructor" });
 		}
+		if(!instructor.monthlyPay.updatedAt) {
+			instructor.monthlyPay.updatedAt = new Date();
+		}	 
 		if (instructor.monthlyPay.updatedAt.getMonth() === new Date().getMonth()) {
 			instructor.monthlyPay.amount += instructorShare;
 		} else {

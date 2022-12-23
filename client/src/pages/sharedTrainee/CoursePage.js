@@ -154,9 +154,20 @@ export default function CoursePage() {
 		}
 	}
 	async function handleBuyCourse() {
-		navigate("payment");
+		if(course.price === 0){
+			const response = await API.post(
+				`/trainees/${userID}/courses/${courseId}/payment`
+			);
+	
+			dispatch(setCourses(response.data.courses));
+			setClickable(false);
+			setButtonText("Course Purchased");
+			navigate("/");
+		}else{
+			navigate("payment");
+		}
+		
 	}
-
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
 		await getCourseFromDB();
