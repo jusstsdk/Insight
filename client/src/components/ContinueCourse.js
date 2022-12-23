@@ -81,7 +81,7 @@ export default function ContinueCourse(props) {
 	const drawer = (
 		<div className="mt-3 mb-5">
 			<Toolbar />
-			<List>
+			<List id="drawerList">
 				{Subtitles.map((subtitle, subtitle_index) => (
 					<>
 						{/* Subtitle Icon and Title */}
@@ -132,11 +132,11 @@ export default function ContinueCourse(props) {
 										}>
 										{/* Content Icon */}
 										<ListItemIcon
-											className="ms-4 "
+											className="ms-4"
 											key={`subtitle_${subtitle._id}_content_${singleContent._id}_icon_${singleContent_index}`}>
 											{singleContent.type === "Video" ? (
 												<OndemandVideoIcon
-													className={singleContent.isWatched ? "success" : ""}
+													className={singleContent.isWatched ? "success ms-0 me-3" : "me-3"}
 													key={`subtitle_${subtitle._id}_content_${singleContent._id}_OndemandVideoIcon_${singleContent_index}`}
 												/>
 											) : (
@@ -145,12 +145,12 @@ export default function ContinueCourse(props) {
 														singleContent.isSolved &&
 														singleContent.receivedGrade / singleContent.receivedGrade.maxGrade >=
 															0.5
-															? "success"
+															? "success me-3"
 															: singleContent.isSolved &&
 															  singleContent.receivedGrade / singleContent.receivedGrade.maxGrade <
 																	0.5
-															? "danger"
-															: ""
+															? "danger me-3"
+															: "me-3"
 													}
 													key={`subtitle_${subtitle._id}_content_${singleContent._id}_QuizIcon_${singleContent_index}`}
 												/>

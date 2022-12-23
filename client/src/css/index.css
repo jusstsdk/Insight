@@ -87,4 +87,8 @@ priceLabel {
 ::-webkit-scrollbar-thumb:hover {
 	background-color: rgb(121, 119, 119);
 }
+
+.css-cveggr-MuiListItemIcon-root {
+	min-width: auto !important;
+}
 /* Scrollbar End */
