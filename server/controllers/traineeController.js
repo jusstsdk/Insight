@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Trainee = require("../models/traineeModel");
+const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcrypt");
 
@@ -49,9 +50,13 @@ const updateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such trainee" });
 	}
 
-	const trainee = await Trainee.findOneAndUpdate({ _id: traineeId }, req.body, {
-		new: true,
-	});
+	const trainee = await Trainee.findOneAndUpdate(
+		{ _id: traineeId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!trainee) {
 		return res.status(400).json({ error: "No such trainee" });
@@ -113,6 +118,20 @@ const payCourse = async (req, res) => {
 		exam: course.exam,
 		paidPrice: course.price,
 	};
+	const instructorShare = course.price / course.instructors.length;
+	course.instructors.forEach(async (instructorId) => {
+		const instructor = await Instructor.findById(instructorId);
+		if (!instructor) {
+			return res.status(400).json({ error: "No such Instructor" });
+		}
+		if (instructor.monthlyPay.updatedAt.getMonth() === new Date().getMonth()) {
+			instructor.monthlyPay.amount += instructorShare;
+		} else {
+			instructor.monthlyPay.amount = instructorShare;
+		}
+		
+		instructor.save();
+	});
 
 	// add to the database
 	trainee.courses.push(newCourse);
@@ -144,7 +163,9 @@ const deletePaymentMethod = async (req, res) => {
 
 	const trainee = await Trainee.findById(traineeId);
 
-	trainee.paymentMethods = trainee.paymentMethods.filter((card) => card._id != paymentId);
+	trainee.paymentMethods = trainee.paymentMethods.filter(
+		(card) => card._id != paymentId
+	);
 
 	await trainee.save();
 	res.status(200).json(trainee);

@@ -46,6 +46,9 @@ export const userSlice = createSlice({
 		updateInstructorCourses: (state, action) => {
 			state.user.courses = [...state.user.courses, action.payload];
 		},
+		resetMonthlyPay: (state) => {
+			state.user.monthlyPay.amount = 0;
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -73,7 +76,7 @@ export const {
 	setCountry,
 	setCourses,
 	setRequests,
-	payFromWallet,
+	payFromWallet,resetMonthlyPay,
 	watchVideo,
 	updateInstructorCourses,
 } = userSlice.actions;

@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import InstructorHome from "../pages/instructor/InstructorHome";
 import CreateCourse from "../pages/instructor/CreateCourse";
 import EditProfile from "../pages/instructor/EditProfile";
 import ViewInstructorReviews from "../pages/instructor/ViewInstructorReviews";
@@ -15,6 +16,7 @@ export function InstructorRoutes() {
 			<Protected authorizedUserType={"Instructor"}>
 				<Routes>
 					<Route path="" element={<Layout />}>
+						<Route path="" element={<InstructorHome />} />
 						<Route
 							path="courses"
 							element={<Courses searchInInstructorCourses={false} />}
