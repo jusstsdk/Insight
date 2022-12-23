@@ -126,6 +126,9 @@
 - [ ] standard pool of subjects
 - [ ] start and end of promotion 
 
+# New questions
+   - subtitle times and progress, can it just be entered by the instructor because he can judge how much time exercises take.
+
 # Questions
    - money owed per month instructor?
    - accept conditions when? // First Login
