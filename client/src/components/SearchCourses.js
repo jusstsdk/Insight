@@ -53,6 +53,8 @@ export default function SearchCourses({
 		}
 
 		courses.forEach((course) => {
+			course.originalPrice =
+				Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price =
 				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});

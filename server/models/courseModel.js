@@ -65,6 +65,12 @@ const courseSchema = new Schema(
 		totalHours: Number,
 		previewVideo: String,
 		instructors: [{ type: Schema.ObjectId, ref: "Instructor" }],
+		enrolledTrainees: [
+			{ 
+				type: Schema.ObjectId, ref: "Trainee", 
+				default: []
+			}
+		],
 		subtitles: [subtitleSchema],
 		exam: exerciseSchema,
 		rating: Number,

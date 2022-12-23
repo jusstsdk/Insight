@@ -135,7 +135,7 @@ const payCourse = async (req, res) => {
 		
 		instructor.save();
 	});
-
+	course.enrolledTrainees.push(traineeId);
 	// add to the database
 	trainee.courses.push(newCourse);
 	await trainee.save();

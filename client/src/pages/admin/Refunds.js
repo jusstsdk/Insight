@@ -36,7 +36,8 @@ const Refunds = () => {
 					{course.refundRequests.map((request) => (
 						<RefundCard
 							key={request._id}
-							request={request}   
+							request={request}  
+                            course = {course}         
 						/>
 					))}
                     </Row>

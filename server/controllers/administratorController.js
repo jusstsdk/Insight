@@ -60,6 +60,8 @@ const handleCourseRequest = async (req, res) => {
 			},
 			{ new: true }
 		);
+		course.enrolledTrainees.push(traineeId);
+		await course.save();
 		
 	}
 
@@ -179,6 +181,10 @@ const refundToWallet = async (req, res) => {
 			},
 			{ new: true }
 		);
+		course.enrolledTrainees = course.enrolledTrainees.filter(
+			(trainee) => trainee != traineeId
+		);
+		await course.save();
 		res.status(200).json(trainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

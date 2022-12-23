@@ -10,14 +10,15 @@ import {
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
-import { useSelector } from "react-redux";
-
-function RequestCard({ request, course }) {
+import { useSelector,useDispatch } from "react-redux";
+import { addNotification } from "../../redux/notificationsSlice";
+function RequestCard({ request, course, username }) {
 	const [handled, setHandled] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState("");
 	const [show, setShow] = useState(true);
 	const token = useSelector((state) => state.userReducer.token);
+	const dispatch = useDispatch();
 	async function grantAccess() {
 		await api.put(
 			"/administrators/requests",
@@ -32,6 +33,13 @@ function RequestCard({ request, course }) {
 		setHandled(true);
 		setMessage("Access Granted");
 		setVariant("success");
+		dispatch(
+			addNotification({
+			  title: "access granted",
+			  info: "access to course '" + course.title + "' granted to " + username,
+			  color: "success",
+			})
+		);
 	}
 	async function denyAccess() {
 		await api.put(
@@ -47,6 +55,13 @@ function RequestCard({ request, course }) {
 		setHandled(true);
 		setMessage("Access Denied");
 		setVariant("danger");
+		dispatch(
+			addNotification({
+			  title: "access granted",
+			  info: "access to course '" + course.title + "' denied to " + username,
+			  color: "danger",
+			})
+		);
 	}
 	useEffect(() => {
 		if (request.status !== "pending") {

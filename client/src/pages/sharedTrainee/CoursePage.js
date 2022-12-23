@@ -27,6 +27,7 @@ import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
 import { setCourses,payFromWallet } from "../../redux/userSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
 export default function CoursePage() {
 	const navigate = useNavigate();
@@ -147,13 +148,21 @@ export default function CoursePage() {
 				courseId: courseID,
 			},
 		};
-		setClickable(false);
-		setButtonText("Request pending");
+		
 		try {
 			let response = await axios(config);
 		} catch (err) {
 			console.log(err);
 		}
+		setClickable(false);
+		setButtonText("Request pending");
+		dispatch(
+			addNotification({
+			  title: "request sent",
+			  info: "Access request to" + course.title + " sent successfully,waiting for admin approval",
+			  color: "success",
+			})
+		);
 	}
 	async function handleBuyCourse() {
 		if(course.price === 0 || course.price<=user.wallet){
@@ -165,7 +174,13 @@ export default function CoursePage() {
 			}
 			dispatch(setCourses(response.data.courses));
 			setClickable(false);
-			setButtonText("Course Purchased");
+			dispatch(
+				addNotification({
+				  title: "purchase successful",
+				  info: "course successfully purchased,you can now access all the content!",
+				  color: "success",
+				})
+			);
 			navigate("/");
 		}else{
 			navigate("payment");
@@ -231,14 +246,16 @@ export default function CoursePage() {
 									{showBuyCourse && (
 										<Alert variant="primary" className="lead" key={newId()}>
 											Price:
-											{course.discount && course.discount !== 0 ? (
+											{course.originalPrice !==0 && course.discount && course.discount !== 0 ? (
 												<>
 													<h1>{"" + course.price + " " + currency}</h1>
 													<del>{course.originalPrice}</del>{" "}
 													<span>{"" + course.discount + "% OFF"}</span>
 												</>
-											) : (
+											) : course.originalPrice !== 0  ? (
 												<h1>{course.originalPrice + " " + currency}</h1>
+											) : (
+												<h1> FREE</h1>
 											)}{" "}
 											<Button
 												key={newId()}

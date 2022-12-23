@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 function CourseCard({ course }) {
 	const [show, setShow] = useState(false);
 	const userType = useSelector((state) => state.userReducer.type);
+	const currency = useSelector((state) => state.userReducer.user.currency);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -40,18 +41,19 @@ function CourseCard({ course }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted courseCardLabel">Summary</h6>
+						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						<Col sm={1} className="priceContainer d-flex justify-content-end">
-							<Card.Text className="priceLabel">{course.originalPrice}$</Card.Text>
+						<Col sm={1} className="priceContainer textFit d-flex justify-content-end">
+							<Card.Text className="priceLabel">{course.originalPrice} {currency}</Card.Text>
+							
 						</Col>
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
@@ -61,6 +63,10 @@ function CourseCard({ course }) {
 								))}
 							</ListGroup>
 						</Col>
+						<Col sm={1} className="priceContainer textFit  d-flex justify-content-end">
+							
+							<strong>{course.discount>0 && (<Card.Text  className="priceLabel  discountLabel">{course.discount}% off</Card.Text>)}</strong>
+						</Col>	
 						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							<Button onClick={handleShow}>View Course</Button>
 						</Col>
@@ -73,7 +79,7 @@ function CourseCard({ course }) {
 				</Modal.Header>
 				<Modal.Body>
 					<p>total hours : {course.totalHours}</p>
-					<p>price : {course.price}</p>
+					<p>price : {course.price} {currency} <strong>{course.discount>0 && (<span>{course.discount} off, was {course.originalPrice} {currency}</span>)}</strong></p>
 					<p>rating : {course.rating}</p>
 				</Modal.Body>
 				<Modal.Footer>

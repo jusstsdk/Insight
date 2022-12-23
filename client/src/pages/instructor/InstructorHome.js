@@ -21,7 +21,7 @@ function InstructorHome() {
 	return (
 		<>
 			<h1>Instructor Home</h1>
-			<h2>Monthly Pay: {instructor.monthlyPay.amount}</h2>
+			
 		</>
 	);
 }
