@@ -2,14 +2,16 @@ import YoutubeEmbed from "../YoutubeEmbed";
 import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
-import { addNoteToVideoNotes, deleteNoteFromVideoNotes, watchVideo } from "../../redux/userSlice";
+import { addNoteToVideoNotes, deleteNoteFromVideoNotes, setUser } from "../../redux/userSlice";
 import { BsTrash } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
+import { setContent } from "../../redux/continueCourseSlice";
 export default function WatchVideo(props) {
 	// Data Setup
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userReducer.user);
-
+	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
+	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const NoteRef = useRef();
 	const [Note, setNote] = useState("");
 
@@ -18,65 +20,60 @@ export default function WatchVideo(props) {
 		(course) => course.course === props.CourseId
 	);
 
-	const videoIndex = user.courses[courseIndex].subtitles[props.subtitleIndex].videos.findIndex(
-		(video) => video._id === props.Content._id
+	const videoIndex = user.courses[courseIndex].subtitles[SubtitleIndex].videos.findIndex(
+		(video) => video._id === Content._id
 	);
 
 	const handleMarkAsWatched = async () => {
-		await API.put(`/trainees/${user._id}/watchVideo`, {
+		let response = await API.put(`/trainees/${user._id}/watchVideo`, {
 			courseIndex: courseIndex,
-			subtitleIndex: props.subtitleIndex,
+			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 		});
-		dispatch(
-			watchVideo({
-				courseIndex: courseIndex,
-				subtitleIndex: props.subtitleIndex,
-				videoIndex: videoIndex,
-			})
-		);
-		props.setContent({ ...props.Content, isWatched: true });
+		dispatch(setUser(response.data));
+		dispatch(setContent({ ...Content, isWatched: true }));
 	};
 
 	const handleAddNote = async () => {
 		let note = NoteRef.current.value;
-		await API.put(`/trainees/${user._id}/addNoteToVideoNotes`, {
+		let response = await API.put(`/trainees/${user._id}/addNoteToVideoNotes`, {
 			courseIndex: courseIndex,
-			subtitleIndex: props.subtitleIndex,
+			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 			note: note,
 		});
+		dispatch(setUser(response.data));
 		dispatch(
 			addNoteToVideoNotes({
 				courseIndex: courseIndex,
-				subtitleIndex: props.subtitleIndex,
+				subtitleIndex: SubtitleIndex,
 				videoIndex: videoIndex,
 				note: note,
 			})
 		);
-		props.setContent({ ...props.Content, notes: [...props.Content.notes, note] });
+		dispatch(setContent({ ...Content, notes: [...Content.notes, note] }));
 
 		setNote("");
 	};
 
 	const handleDeleteNote = async (note_index) => {
-		await API.put(`/trainees/${user._id}/deleteNoteFromVideoNotes`, {
+		let response = await API.put(`/trainees/${user._id}/deleteNoteFromVideoNotes`, {
 			courseIndex: courseIndex,
-			subtitleIndex: props.subtitleIndex,
+			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 			noteIndex: note_index,
 		});
-
+		dispatch(setUser(response.data));
 		dispatch(
 			deleteNoteFromVideoNotes({
 				courseIndex: courseIndex,
-				subtitleIndex: props.subtitleIndex,
+				subtitleIndex: SubtitleIndex,
 				videoIndex: videoIndex,
 				noteIndex: note_index,
 			})
 		);
-		let newNotes = props.Content.notes.filter((_, i) => i !== note_index);
-		props.setContent({ ...props.Content, notes: newNotes });
+		let newNotes = Content.notes.filter((_, i) => i !== note_index);
+		dispatch(setContent({ ...Content, notes: newNotes }));
 	};
 	const resizeTextArea = () => {
 		try {
@@ -92,9 +89,11 @@ export default function WatchVideo(props) {
 	return (
 		<>
 			<Col>
-				<YoutubeEmbed src={props.Content.url} />
+				<h5>{Content.title}</h5>
+				<h6>{Content.description}</h6>
+				<YoutubeEmbed src={Content.url} />
 				<Row className="me-auto mt-2 justify-content-end">
-					{!props.Content.isWatched && (
+					{!Content.isWatched && (
 						<Button className="ms-3 w-auto" onClick={handleMarkAsWatched}>
 							Mark as Watched
 						</Button>
@@ -103,10 +102,10 @@ export default function WatchVideo(props) {
 			</Col>
 			<Col>
 				<ListGroup className="px-3">
-					{props.Content.notes.map((note, note_index) => (
+					{Content.notes.map((note, note_index) => (
 						<>
 							<ListGroup.Item
-								key={`subtitle_${props.Content._id}_note_${note_index}_container`}
+								key={`subtitle_${Content._id}_note_${note_index}_container`}
 								variant="dark">
 								<Row className="justify-content-between">
 									<Col sm={11}>
@@ -116,9 +115,9 @@ export default function WatchVideo(props) {
 										<Button
 											className=" w-auto"
 											variant="danger"
-											key={`video_${props.Content._id}_notes_trash_button_${note_index}`}
+											key={`video_${Content._id}_notes_trash_button_${note_index}`}
 											onClick={() => handleDeleteNote(note_index)}>
-											<BsTrash key={`video_${props.Content._id}_notes_trash_${note_index}`} />
+											<BsTrash key={`video_${Content._id}_notes_trash_${note_index}`} />
 										</Button>
 									</Col>
 								</Row>
