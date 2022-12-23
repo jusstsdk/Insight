@@ -7,7 +7,7 @@ import CourseCard from "./CourseCard";
 
 const MyCourses = () => {
 	const [courses, setCourses] = useState([]);
-
+	const user = useSelector((state) => state.userReducer.user);
 	const coursesWithId = useSelector(
 		(state) => state.userReducer.user.courses
 	);
@@ -24,6 +24,8 @@ const MyCourses = () => {
 					subtitles: course.subtitles,
 					exam: course.exam,
 				};
+				fullCourse.originalPrice = (fullCourse.originalPrice * user.exchangeRate).toFixed(2);
+				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
 
 				newCourses.push(fullCourse);
 			})

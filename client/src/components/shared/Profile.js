@@ -61,8 +61,8 @@ export default function Profile() {
 						<Popover id={`popover-positioned-bottom`}>
 							<Popover.Header as="h3">{`Profile`}</Popover.Header>
 							<Popover.Body>
-								{userType === "Trainee" && (<h6>balance : {user.wallet} {user.currency}</h6>) }
-								{userType === "Instructor" && (<h6>month's pay : {user.monthlyPay.amount} {user.currency}</h6>) }
+								{userType === "Trainee" && (<h6>balance : {Math.trunc(user.wallet * user.exchangeRate *100)/100} {user.currency}</h6>) }
+								{userType === "Instructor" && (<h6>month's pay : {Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100)/100} {user.currency}</h6>) }
 
 								<SelectCountryPopover />
 								<div className="d-flex mt-2">

@@ -165,12 +165,12 @@ export default function CoursePage() {
 		);
 	}
 	async function handleBuyCourse() {
-		if(course.price === 0 || course.price<=user.wallet){
+		if(course.price === 0 || course.price<=user.wallet * user.exchangeRate){
 			const response = await API.post(
 				`/trainees/${userID}/courses/${courseID}/payment`
 			);
-			if(response.data.price<=user.wallet){
-				dispatch(payFromWallet(response.data.price));
+			if(response.data.price<=user.wallet * user.exchangeRate){
+				dispatch(payFromWallet(response.data.price / user.exchangeRate));
 			}
 			dispatch(setCourses(response.data.courses));
 			setClickable(false);
