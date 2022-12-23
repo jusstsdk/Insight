@@ -146,7 +146,7 @@ const getRefundRequests = async (req, res) => {
 		const course = await Course.find({
 			refundRequests: { $exists: true, $ne: [] },
 		}).populate({
-			path: "refundRequests.traineeId",
+			path: "refundRequests.trainee",
 		});
 		res.status(200).json(course);
 	} catch (error) {

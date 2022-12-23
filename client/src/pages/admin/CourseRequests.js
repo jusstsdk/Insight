@@ -24,6 +24,7 @@ const CourseRequests = () => {
 	return (
 		<>
 			<h1>Course Requests</h1>
+			{console.log(token)}
 			{traineeRequests.map((traineeRequests) => (
 				<Container  key={traineeRequests._id}>
 					<h4>{traineeRequests.username}</h4>
