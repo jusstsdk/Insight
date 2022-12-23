@@ -60,7 +60,7 @@ export default function AddVideo(props) {
 			centered>
 			<Modal.Header closeButton>
 				<Modal.Title id="example-custom-modal-styling-title">
-					{props.case === "Add" ? "Adding" : "Editting"} a Subtitle
+					{props.case === "Add" ? "Adding" : "Editting"} a Video
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>

@@ -2,7 +2,8 @@ import { useDispatch } from "react-redux";
 import { Button, Accordion, Col, Card, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
-
+import QuizIcon from "@mui/icons-material/Quiz";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import {
 	addQuestionToExercise,
 	editQuestionOfExercise,
@@ -154,7 +155,8 @@ export default function ViewBoth(props) {
 								<div className="d-flex">
 									<Col sm={11} className="me-auto">
 										<Accordion.Header className="accordionHeaderWidth">
-											<h6>{content.title}</h6>
+											<QuizIcon />
+											<h6 className="mb-0 ms-2">{content.title}</h6>
 										</Accordion.Header>
 									</Col>
 									<Col sm={1} className="d-flex justify-content-end">
@@ -208,13 +210,9 @@ export default function ViewBoth(props) {
 								<div className="d-flex">
 									<Col sm={11} className="me-auto">
 										<Accordion.Header className="accordionHeaderWidth">
-											<h6>{content.title}</h6>
+											<OndemandVideoIcon />
+											<h6 className="mb-0 ms-2">{content.title}</h6>
 										</Accordion.Header>
-										{/* <Card.Header
-											key={`video_${getContentIndex(content)}_cardHeader`}
-											className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
-											<h6 className="videoUrl">{content.title}</h6>
-										</Card.Header> */}
 									</Col>
 									<Col sm={1} className="d-flex justify-content-end">
 										<Button
@@ -244,7 +242,7 @@ export default function ViewBoth(props) {
 				))}
 			</Accordion>
 
-			<Row>
+			<Row className="mt-3 me-auto justify-content-end">
 				<Button
 					onClick={() => handleAddExerciseModalShow(props.subtitle, props.subtitle_key)}
 					className="me-3 w-auto">

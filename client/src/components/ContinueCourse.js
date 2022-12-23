@@ -1,10 +1,5 @@
 import { useState } from "react";
 
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -14,12 +9,12 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import BookIcon from "@mui/icons-material/Book";
 import Toolbar from "@mui/material/Toolbar";
 
-import { Collapse } from "@mui/material";
+import { Box, Collapse, List, IconButton, Drawer, Divider } from "@mui/material";
 import QuizIcon from "@mui/icons-material/Quiz";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { useSelector } from "react-redux";
 import WatchVideo from "./course/WatchVideo";
-const drawerWidth = 240;
+const drawerWidth = "20%";
 
 export default function ContinueCourse(props) {
 	// MUI Setup
@@ -139,18 +134,34 @@ export default function ContinueCourse(props) {
 										<ListItemIcon
 											className="ms-4 "
 											key={`subtitle_${subtitle._id}_content_${singleContent._id}_icon_${singleContent_index}`}>
-											{singleContent.type === "Video" ? <OndemandVideoIcon /> : <QuizIcon />}
+											{singleContent.type === "Video" ? (
+												<OndemandVideoIcon
+													className={singleContent.isWatched ? "success" : ""}
+													key={`subtitle_${subtitle._id}_content_${singleContent._id}_OndemandVideoIcon_${singleContent_index}`}
+												/>
+											) : (
+												<QuizIcon
+													className={
+														singleContent.isSolved &&
+														singleContent.receivedGrade / singleContent.receivedGrade.maxGrade >=
+															0.5
+															? "success"
+															: singleContent.isSolved &&
+															  singleContent.receivedGrade / singleContent.receivedGrade.maxGrade <
+																	0.5
+															? "danger"
+															: ""
+													}
+													key={`subtitle_${subtitle._id}_content_${singleContent._id}_QuizIcon_${singleContent_index}`}
+												/>
+											)}
 										</ListItemIcon>
 										{/* Content Text */}
 										<ListItemText
 											key={`subtitle_${subtitle._id}_content_${singleContent._id}_text_${singleContent_index}`}
 											inset
 											className="ps-0 text-wrap"
-											primary={
-												singleContent.type === "Video"
-													? `Video ${singleContent.index}`
-													: singleContent.title
-											}
+											primary={singleContent.title}
 										/>
 									</ListItem>
 								))}

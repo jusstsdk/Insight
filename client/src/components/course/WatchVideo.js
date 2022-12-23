@@ -93,8 +93,15 @@ export default function WatchVideo(props) {
 		<>
 			<Col>
 				<YoutubeEmbed src={props.Content.url} />
+				<Row className="me-auto mt-2 justify-content-end">
+					{!props.Content.isWatched && (
+						<Button className="ms-3 w-auto" onClick={handleMarkAsWatched}>
+							Mark as Watched
+						</Button>
+					)}
+				</Row>
 			</Col>
-			<Row className="justify-content-end">
+			<Col>
 				<ListGroup className="px-3">
 					{props.Content.notes.map((note, note_index) => (
 						<>
@@ -120,6 +127,7 @@ export default function WatchVideo(props) {
 					))}
 				</ListGroup>
 				<Form.Control
+					className="my-2"
 					as="textarea"
 					value={Note}
 					onChange={(e) => {
@@ -129,15 +137,12 @@ export default function WatchVideo(props) {
 					placeholder="Write a note"
 					rows={4}
 				/>
-				<Button className=" me-3 w-auto" onClick={handleAddNote}>
-					Add Note
-				</Button>
-				{!props.Content.isWatched && (
-					<Button className="ms-auto me-3 w-auto" onClick={handleMarkAsWatched}>
-						Mark as Watched
+				<Row className="me-auto  justify-content-end">
+					<Button className="w-auto" onClick={handleAddNote}>
+						Add Note
 					</Button>
-				)}
-			</Row>
+				</Row>
+			</Col>
 		</>
 	);
 }

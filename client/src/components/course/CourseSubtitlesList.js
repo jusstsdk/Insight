@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 function CourseSubtitlesList({ course }) {
 	const navigate = useNavigate();
-	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((course) => {
-		return course._id == course._id;
+	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((aCourse) => {
+		return aCourse.course === course._id;
 	})[0];
 
 	return (
