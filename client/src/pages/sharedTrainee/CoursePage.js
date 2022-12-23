@@ -19,16 +19,18 @@ import {
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
+import { setCourses,payFromWallet } from "../../redux/userSlice";
 
 export default function CoursePage() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const params = useParams();
 
 	let courseID = params.id;
@@ -154,11 +156,13 @@ export default function CoursePage() {
 		}
 	}
 	async function handleBuyCourse() {
-		if(course.price === 0){
+		if(course.price === 0 || course.price<=user.wallet){
 			const response = await API.post(
-				`/trainees/${userID}/courses/${courseId}/payment`
+				`/trainees/${userID}/courses/${courseID}/payment`
 			);
-	
+			if(response.data.price<=user.wallet){
+				dispatch(payFromWallet(response.data.price));
+			}
 			dispatch(setCourses(response.data.courses));
 			setClickable(false);
 			setButtonText("Course Purchased");
@@ -286,7 +290,7 @@ export default function CoursePage() {
 										Hours
 										<h1>{course.totalHours}</h1>
 										Progress
-										<ProgressBar key={newId()}>
+										{/* <ProgressBar key={newId()}>
 											<ProgressBar
 												striped
 												variant="success"
@@ -294,7 +298,7 @@ export default function CoursePage() {
 												key={newId()}
 												label={`${traineeCourse.progress * 100}%`}
 											/>
-										</ProgressBar>
+										</ProgressBar> */}
 									</Alert>
 								</Col>
 								{showRequestAccess && (
