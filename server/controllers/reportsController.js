@@ -49,13 +49,28 @@ const updateReportStatus = async (req, res) => {
 	try {
 		let updateQuery = {};
 		if (req.body.resolved != null)
-			updateQuery["reports.$.resolved"] = req.body.resolved;
-		if (req.body.seen != null) updateQuery["reports.$.seen"] = req.body.seen;
+			updateQuery["reports.$.isResolved"] = req.body.resolved;
+		if (req.body.seen != null) updateQuery["reports.$.isSeen"] = req.body.seen;
 
 		const course = await Course.updateOne(
 			{ "reports._id": req.params.reportId },
-			{ $set: updateQuery }
+			{ $set: updateQuery },
+			{ new: true }
 		);
+
+		res.status(200).json(course);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+const updateComments = async (req, res) => {
+	try {
+		const course = await Course.updateOne(
+			{ "reports._id": req.params.reportId },
+			{ $push: { "reports.$.comments": req.body } },
+			{ new: true }
+		);
+
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -90,4 +105,5 @@ module.exports = {
 	getAllCoursesWithReports,
 	updateReportStatus,
 	getUserReports,
+	updateComments,
 };

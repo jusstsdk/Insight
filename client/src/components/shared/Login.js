@@ -32,10 +32,15 @@ export default function Login() {
 			const responseUserType = response.data["userType"];
 			let responseUser = response.data["user"];
 
+			if (!responseUser.country) responseUser.country = "USA";
+			
 			const responseCountryApi = await axios.get(
 				`https://restcountries.com/v3.1/name/${responseUser.country}`
 			);
-			const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
+
+			const localCurrency = Object.keys(
+				responseCountryApi.data[0].currencies
+			)[0];
 
 			responseUser.currency = localCurrency;
 
@@ -93,7 +98,11 @@ export default function Login() {
 			<Form onSubmit={!isLoggingIn ? loginFunction : null}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label>Username</Form.Label>
-					<Form.Control type="text" placeholder="Enter username" ref={username} />
+					<Form.Control
+						type="text"
+						placeholder="Enter username"
+						ref={username}
+					/>
 					<Form.Text className="text-muted">
 						We'll never share your email with anyone else.
 					</Form.Text>

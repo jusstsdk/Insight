@@ -10,6 +10,7 @@ import "../../css/createCourse.css";
 import { clearInfo } from "../../redux/courseInfoSlice";
 import { clearCreateCourse } from "../../redux/createCourseSlice";
 import { addNotification } from "../../redux/notificationsSlice";
+import { updateInstructorCourses } from "../../redux/userSlice";
 
 import AddInfo from "../../components/instructor/createCourse/AddInfo";
 import AddExam from "../../components/instructor/createCourse/AddExam";
@@ -25,7 +26,9 @@ export default function CreateCourse() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
@@ -47,17 +50,17 @@ export default function CreateCourse() {
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: instructorsIds,
+				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,
 			},
 		};
+
 		try {
 			const response = await axios(config);
-			const localUser = JSON.parse(localStorage.getItem("user"));
-			localUser.courses = [...localUser.courses, response.data._id];
-			localStorage.setItem("user", JSON.stringify(localUser));
+			dispatch(updateInstructorCourses(response.data._id));
+
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
 			dispatch(
@@ -81,6 +84,10 @@ export default function CreateCourse() {
 
 	const handleEditCourse = async (status) => {
 		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		instructorsIds = instructorsIds.filter((instructor) => {
+			return instructor !== instructorId;
+		});
+
 		try {
 			API.put(`/courses/${location.state._id}`, {
 				title: InfoTitle,
@@ -88,7 +95,7 @@ export default function CreateCourse() {
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: instructorsIds,
+				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,
@@ -149,7 +156,6 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addExam" ? true : false}
 					onClick={() => {
-						console.log("addExam");
 						setCurrentTab("addExam");
 					}}>
 					Exam
@@ -158,7 +164,6 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addSubtitle" ? true : false}
 					onClick={() => {
-						console.log("addSubtitle");
 						setCurrentTab("addSubtitle");
 					}}>
 					Subtitles

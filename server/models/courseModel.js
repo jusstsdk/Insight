@@ -12,8 +12,14 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Technical", "Financial", "Other"],
 	},
-	isResolved: Boolean,
-	isSeen: Boolean,
+	isResolved: {
+		type: Boolean,
+		default: false,
+	},
+	isSeen: {
+		type: Boolean,
+		default: false,
+	},
 	description: String,
 	author: {
 		type: Schema.Types.ObjectId,
@@ -25,6 +31,12 @@ const reportSchema = new Schema({
 		required: true,
 		enum: ["Trainee", "CorporateTrainee", "Instructor"],
 	},
+	comments: [
+		{
+			username: String,
+			comment: String,
+		},
+	],
 });
 
 const courseSchema = new Schema(

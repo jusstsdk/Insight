@@ -11,7 +11,6 @@ export const createCourseSlice = createSlice({
 	},
 	reducers: {
 		setExamsAndSubtitles: (state, action) => {
-			console.log(action.payload);
 			state.examTitle = action.payload.exam.title;
 			state.examQuestions = action.payload.exam.questions;
 			state.subtitles = action.payload.subtitles;

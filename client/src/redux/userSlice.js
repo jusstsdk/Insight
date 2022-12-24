@@ -19,7 +19,6 @@ export const userSlice = createSlice({
 			state.type = action.payload;
 		},
 		setUser: (state, action) => {
-			localStorage.setItem("user", JSON.stringify(action.payload));
 			state.user = action.payload;
 		},
 		setCountry: (state, action) => {
@@ -31,11 +30,9 @@ export const userSlice = createSlice({
 		},
 		setCourses: (state, action) => {
 			state.user.courses = action.payload;
-			localStorage.setItem("user", JSON.stringify(state.user));
 		},
 		setRequests: (state, action) => {
 			state.user.requests = action.payload;
-			localStorage.setItem("user", JSON.stringify(state.user));
 		},
 		payFromWallet: (state, action) => {
 			state.user.wallet -= action.payload;
@@ -44,6 +41,9 @@ export const userSlice = createSlice({
 			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
 				action.payload.videoIndex
 			].isWatched = true;
+		},
+		updateInstructorCourses: (state, action) => {
+			state.user.courses = [...state.user.courses, action.payload];
 		},
 		addNoteToVideoNotes: (state, action) => {
 			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
@@ -74,10 +74,6 @@ export const userSlice = createSlice({
 			};
 		},
 		login: (state, action) => {
-			localStorage.setItem("token", action.payload.token);
-			localStorage.setItem("userType", action.payload.type);
-			localStorage.setItem("user", JSON.stringify(action.payload.user));
-
 			state.type = action.payload.type;
 			state.token = action.payload.token;
 			state.user = action.payload.user;
@@ -109,6 +105,7 @@ export const {
 	addNoteToVideoNotes,
 	deleteNoteFromVideoNotes,
 	solveExercise,
+	updateInstructorCourses,
 } = userSlice.actions;
 
 export default userSlice.reducer;

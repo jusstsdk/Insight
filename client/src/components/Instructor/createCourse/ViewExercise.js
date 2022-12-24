@@ -24,12 +24,14 @@ export default function ViewExercise(props) {
 		<>
 			{props.Questions.map((question, question_key) => {
 				return (
-					<Card key={`question_${question_key}`} className="mb-2">
+					<div key={`question_${question_key}`} className="mb-4">
 						<div className="d-flex">
 							<Col sm={11} className="me-auto">
-								<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center">
-									<h6 className="questionTitle">{question.question}</h6>
-								</Card.Header>
+								<Card className="border-0 questionTitleContainer">
+									<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center border-bottom-0">
+										<h6 className="questionTitle">{question.question}</h6>
+									</Card.Header>
+								</Card>
 							</Col>
 							<Col sm={1} className="d-flex justify-content-end">
 								<Button
@@ -48,10 +50,10 @@ export default function ViewExercise(props) {
 								</Button>
 							</Col>
 						</div>
-						<Card.Body>
+						<div>
 							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">
 								<Col>
-									<ListGroup>
+									<ListGroup variant="flush">
 										{question.choices.map((choice, choice_key) => {
 											return (
 												<ListGroup.Item
@@ -64,8 +66,8 @@ export default function ViewExercise(props) {
 									</ListGroup>
 								</Col>
 							</Form.Group>
-						</Card.Body>
-					</Card>
+						</div>
+					</div>
 				);
 			})}
 			{ShowEditModal && (

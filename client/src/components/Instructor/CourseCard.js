@@ -82,6 +82,7 @@ function CourseCard(props) {
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
 					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
+					<p className="textFit my-auto text-muted">{props.course.totalHours} Hours</p>
 					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
 							<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">

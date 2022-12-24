@@ -11,7 +11,7 @@ export default function Toaster() {
 			position="bottom-end">
 			{Notifications.map((notification, i) => (
 				<Toast
-					delay={5000}
+					delay={3000}
 					autohide={true}
 					className="d-inline-block my-1 me-3 l"
 					key={i}

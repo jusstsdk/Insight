@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Col } from "react-bootstrap";
+import { Button, Accordion, Col, Badge } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -99,7 +99,9 @@ export default function ViewExercises(props) {
 						<h6>Exercises</h6>
 						<Col className="d-flex justify-content-end me-3">
 							<h6 className="my-auto d-flex align-self-center">
-								Count: {props.SubtitleExercises.length}
+								<Badge bg="primary" pill>
+									{props.SubtitleExercises.length}
+								</Badge>
 							</h6>
 						</Col>
 					</Accordion.Header>
@@ -114,6 +116,11 @@ export default function ViewExercises(props) {
 											<Col sm={11} className="me-auto">
 												<Accordion.Header className="accordionHeaderWidth">
 													<h6>{exercise.title}</h6>
+													<Col className="d-flex justify-content-end me-3">
+														<Badge bg="primary" pill>
+															{exercise.questions.length}
+														</Badge>
+													</Col>
 												</Accordion.Header>
 											</Col>
 											<Col sm={1} className="d-flex justify-content-end">

@@ -24,7 +24,11 @@ export default function AddInfo(props) {
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
 	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
 	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
-	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors).filter(
+		(instructor) => {
+			return instructor._id !== instructorId;
+		}
+	);
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const getData = async () => {

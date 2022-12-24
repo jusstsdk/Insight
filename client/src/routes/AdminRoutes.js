@@ -7,33 +7,49 @@ import CourseRequests from "../pages/admin/CourseRequests";
 import RequestsHistory from "../pages/admin/RequestsHistory";
 import Layout from "../components/shared/Layout";
 import Protected from "../components/shared/Protected";
+import ViewReports from "../pages/admin/ViewReports";
+import ViewCourseReports from "../pages/admin/ViewCourseReports";
 import Promotion from "../pages/admin/Promotion";
+import ChangePassword from "../components/shared/ChangePassword";
 
 export function AdminRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"Administrator"}>
 				<Routes>
-				<Route path="" element={<Layout />}>
-					<Route 
-						path="" 
-						element={<AdminView />} 
-					/>
-					<Route path="createAdmin" element={<CreateAdmin />} />
-					<Route
-						path="createCorporateTrainee"
-						element={<CreateCorporateTrainee />}
-					/>
-					<Route
-						path="createInstructor"
-						element={<CreateInstructor />}
-					/>
-					<Route path="courseRequests" element={<CourseRequests />} />
-					<Route path="requestsHistory" element={<RequestsHistory />} />
-					<Route path="promotion" element={<Promotion />} />
-				</Route>
-			</Routes>
-      </Protected>
+					<Route path="" element={<Layout />}>
+						<Route path="" element={<AdminView />} />
+						<Route path="createAdmin" element={<CreateAdmin />} />
+						<Route
+							path="createCorporateTrainee"
+							element={<CreateCorporateTrainee />}
+						/>
+						<Route
+							path="changePassword"
+							element={<ChangePassword />}
+						/>
+
+						<Route
+							path="createInstructor"
+							element={<CreateInstructor />}
+						/>
+						<Route
+							path="courseRequests"
+							element={<CourseRequests />}
+						/>
+						<Route
+							path="requestsHistory"
+							element={<RequestsHistory />}
+						/>
+						<Route path="viewReports" element={<ViewReports />} />
+						<Route
+							path="viewCourseReports"
+							element={<ViewCourseReports />}
+						/>
+						<Route path="promotion" element={<Promotion />} />
+					</Route>
+				</Routes>
+			</Protected>
 		</>
 	);
 }
