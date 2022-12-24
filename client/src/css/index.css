@@ -102,3 +102,10 @@ priceLabel,
 .solved {
 	opacity: 1 !important;
 }
+#continueCourseBreadcrumbs {
+	height: auto;
+	min-height: 2.5rem !important;
+}
+#continueCourseBreadcrumbs > nav > ol {
+	margin-bottom: 0 !important;
+}

@@ -30,7 +30,13 @@ export default function CustomNavbar() {
 
 	return (
 		<>
-			<Navbar fixed="top" bg="dark" variant="dark" expand="lg" className="navbarZ-index">
+			<Navbar
+				id="main-navbar"
+				fixed="top"
+				bg="dark"
+				variant="dark"
+				expand="lg"
+				className="navbarZ-index">
 				<Container>
 					<Navbar.Brand
 						href="#"

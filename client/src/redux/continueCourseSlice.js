@@ -7,6 +7,7 @@ export const continueCourseSlice = createSlice({
 		selectedContentIndex: -1,
 		content: {},
 		contentType: "",
+		isSolved: false,
 		answers: [],
 	},
 	reducers: {
@@ -28,6 +29,9 @@ export const continueCourseSlice = createSlice({
 		updateAnswer: (state, action) => {
 			state.answers[action.payload.answerIndex] = action.payload.answer;
 		},
+		setIsSolved: (state, action) => {
+			state.isSolved = action.payload;
+		},
 	},
 });
 
@@ -39,6 +43,7 @@ export const {
 	setSelectedContentIndex,
 	initializeAnswers,
 	updateAnswer,
+	setIsSolved,
 } = continueCourseSlice.actions;
 
 export default continueCourseSlice.reducer;

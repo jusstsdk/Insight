@@ -9,32 +9,48 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import BookIcon from "@mui/icons-material/Book";
 import Toolbar from "@mui/material/Toolbar";
 
-import { Box, Collapse, List, IconButton, Drawer, Divider } from "@mui/material";
+import {
+	Box,
+	Collapse,
+	List,
+	IconButton,
+	Drawer,
+	Divider,
+	Typography,
+	AppBar,
+} from "@mui/material";
 import QuizIcon from "@mui/icons-material/Quiz";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { useDispatch, useSelector } from "react-redux";
-import WatchVideo from "./course/WatchVideo";
-import { Button } from "react-bootstrap";
+import WatchVideo from "../components/course/WatchVideo";
+import { Breadcrumb, Button } from "react-bootstrap";
 
 import {
 	setSubtitleIndex,
 	setSelectedContentIndex,
 	setContent,
 	setContentType,
+	initializeAnswers,
+	setIsSolved,
 } from "../redux/continueCourseSlice";
-import SolveExercise from "./course/SolveExercise";
+import SolveExercise from "../components/course/SolveExercise";
+import { useLocation } from "react-router-dom";
 const drawerWidth = "20%";
 
 export default function ContinueCourse(props) {
+	const location = useLocation();
 	const dispatch = useDispatch();
 	// MUI Setup
 	const { window } = props;
 	const container = window !== undefined ? () => window().document.body : undefined;
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const CourseId = location.state.courseId;
+	const Course = location.state.course;
+	const user = useSelector((state) => state.userReducer.user);
 
 	// Gets Course Index in the User's Courses.
 	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === props.CourseId
+		(course) => course.course === CourseId
 	);
 
 	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
@@ -71,8 +87,15 @@ export default function ContinueCourse(props) {
 		setOpenCollapses(openCollapsesArray);
 		if (content.type === "Video") {
 			dispatch(setContentType("Video"));
+			dispatch(initializeAnswers([]));
 		} else {
 			dispatch(setContentType("Exercise"));
+			let newAnswers = new Array(content.questions.length);
+			content.questions.map((question, questionIndex) => {
+				newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+			});
+			dispatch(initializeAnswers(newAnswers));
+			dispatch(setIsSolved(false));
 		}
 	};
 
@@ -106,6 +129,16 @@ export default function ContinueCourse(props) {
 			dispatch(setSelectedContentIndex(SelectedContentIndex + 1));
 			dispatch(setContent(nextContent[0]));
 			dispatch(setContentType(nextContent[0].type));
+			if (nextContent[0].type === "Exercise") {
+				let newAnswers = new Array(nextContent[0].questions.length);
+				nextContent[0].questions.map((question, questionIndex) => {
+					newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+				});
+				dispatch(initializeAnswers(newAnswers));
+				dispatch(setIsSolved(false));
+			} else {
+				dispatch(initializeAnswers([]));
+			}
 		} else {
 			// If there is no more Content, Check if there is more Subtitles
 			// Two Cases: No more Subtitles or There are More Subtitles
@@ -119,45 +152,80 @@ export default function ContinueCourse(props) {
 				dispatch(setContent(nextSubtitleContent[0]));
 				dispatch(setContentType(nextSubtitleContent[0].type));
 				dispatch(setSubtitleIndex(SubtitleIndex + 1));
+				if (nextSubtitleContent[0].type === "Exercise") {
+					let newAnswers = new Array(nextSubtitleContent[0].questions.length);
+					nextSubtitleContent[0].questions.map((question, questionIndex) => {
+						newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+					});
+					dispatch(initializeAnswers(newAnswers));
+					dispatch(setIsSolved(false));
+				} else {
+					dispatch(initializeAnswers([]));
+				}
+				let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex + 1);
+				setOpenCollapses(openCollapsesArray);
 			}
 		}
 	};
 
 	useEffect(() => {
-		let content;
-		let contentIndex;
-		let IsThereContent = Subtitles.find((subtitle, subtitleIndex) => {
-			let sortedSubtitle = combineContent(subtitle);
-			content = sortedSubtitle.find((content, content_Index) => {
-				if (content.type === "Video") {
-					if (!content.isWatched) {
-						contentIndex = content_Index;
-						return content;
+		if (SubtitleIndex === -1 && SelectedContentIndex === -1) {
+			let content;
+			let contentIndex;
+			let IsThereContent = Subtitles.find((subtitle, subtitleIndex) => {
+				let sortedSubtitle = combineContent(subtitle);
+				content = sortedSubtitle.find((content, content_Index) => {
+					if (content.type === "Video") {
+						if (!content.isWatched) {
+							contentIndex = content_Index;
+							return content;
+						}
+					} else if (content.type === "Exercise") {
+						if (!content.isSolved) {
+							contentIndex = content_Index;
+							return content;
+						}
 					}
-				} else if (content.type === "Exercise") {
-					if (!content.isSolved) {
-						contentIndex = content_Index;
-						return content;
+				});
+				if (content) {
+					dispatch(setContent(content));
+					dispatch(setContentType(content.type));
+					dispatch(setSubtitleIndex(subtitleIndex));
+					dispatch(setSelectedContentIndex(contentIndex));
+					if (content.type === "Exam") {
+						let newAnswers = new Array(content.questions.length);
+						content.questions.map((question, questionIndex) => {
+							newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+						});
+						dispatch(initializeAnswers(newAnswers));
+						dispatch(setIsSolved(false));
+					} else {
+						dispatch(initializeAnswers([]));
 					}
+					let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitleIndex);
+					setOpenCollapses(openCollapsesArray);
 				}
+				return content;
 			});
-			if (content) {
-				dispatch(setContent(content));
-				dispatch(setContentType(content.type));
-				dispatch(setSubtitleIndex(subtitleIndex));
-				dispatch(setSelectedContentIndex(contentIndex));
-				let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitleIndex);
-				setOpenCollapses(openCollapsesArray);
-			}
-			return content;
-		});
-		if (!IsThereContent) console.log("Go to Exam");
+			if (!IsThereContent) console.log("Go to Exam");
+		} else {
+			let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex);
+			setOpenCollapses(openCollapsesArray);
+		}
 	}, []);
+	const mainNavbar = document.getElementById("main-navbar");
+	const continueCourseBreadcrumbs = document.getElementById("continueCourseBreadcrumbs");
 
 	// Displays the Drawer Content based on props.subtitles
 	const drawer = (
-		<div className="mt-3 mb-5">
-			<Toolbar />
+		<div className="mb-5">
+			<Toolbar
+				sx={{
+					marginTop: {
+						sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px`,
+					},
+				}}
+			/>
 			<List id="drawerList">
 				{Subtitles.map((subtitle, subtitle_index) => (
 					<>
@@ -251,9 +319,25 @@ export default function ContinueCourse(props) {
 			</List>
 		</div>
 	);
-
 	return (
 		<Box sx={{ display: "flex" }}>
+			<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
+				<Toolbar
+					id="continueCourseBreadcrumbs"
+					className="continueCourseBreadcrumbs"
+					sx={{ marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` } }}>
+					{Subtitles[SubtitleIndex] && (
+						<Breadcrumb>
+							<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
+							<Breadcrumb.Item>{Subtitles[SubtitleIndex].title}</Breadcrumb.Item>
+							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
+						</Breadcrumb>
+					)}
+					<Button variant="link" className="ms-auto" onClick={handleNext}>
+						Next
+					</Button>
+				</Toolbar>
+			</AppBar>
 			{/* Menu Button */}
 			<IconButton
 				color="inherit"
@@ -266,14 +350,14 @@ export default function ContinueCourse(props) {
 
 			{/* Drawer */}
 			<Box
-				key={`course_${props.CourseId}_drawer_box`}
+				key={`course_${CourseId}_drawer_box`}
 				className="drawerZ-index"
 				component="nav"
 				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
 				aria-label="mailbox folders">
 				{/* Small Screen Drawer */}
 				<Drawer
-					key={`course_${props.CourseId}_small_screen_drawer`}
+					key={`course_${CourseId}_small_screen_drawer`}
 					container={container}
 					variant="temporary"
 					open={mobileOpen}
@@ -290,7 +374,7 @@ export default function ContinueCourse(props) {
 
 				{/* Normal Screen Drawer */}
 				<Drawer
-					key={`course_${props.CourseId}_normal_screen_drawer`}
+					key={`course_${CourseId}_normal_screen_drawer`}
 					variant="permanent"
 					sx={{
 						display: { xs: "none", sm: "block" },
@@ -303,17 +387,26 @@ export default function ContinueCourse(props) {
 
 			{/* Content */}
 			<Box
-				key={`course_${props.CourseId}_content_box`}
+				id="asd"
+				key={`course_${CourseId}_content_box`}
 				component="main"
-				sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+				sx={{
+					flexGrow: 1,
+					p: 3,
+					width: {
+						sm: `calc(100% - ${drawerWidth}px)`,
+					},
+					marginTop: {
+						sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px`,
+					},
+				}}>
 				{ContentType === "Video" ? (
-					<WatchVideo key={`course_${props.CourseId}_WatchVideo`} CourseId={props.CourseId} />
+					<WatchVideo key={`course_${CourseId}_WatchVideo`} CourseId={CourseId} />
 				) : ContentType === "Exercise" ? (
-					<SolveExercise key={`course_${props.CourseId}_SolveExercise`} CourseId={props.CourseId} />
+					<SolveExercise key={`course_${CourseId}_SolveExercise`} CourseId={CourseId} />
 				) : (
 					""
 				)}
-				<Button onClick={handleNext}>Next</Button>
 			</Box>
 		</Box>
 	);

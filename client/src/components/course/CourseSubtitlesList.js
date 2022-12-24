@@ -29,14 +29,12 @@ function CourseSubtitlesList({ course }) {
 							<td>{subtitle.hours}</td>
 							<td>
 								<Button
-									key={"Button Subtitle" + subtitle_index}
+									key={"Continue Course" + subtitle_index}
 									onClick={() =>
-										navigate("viewSubtitle", {
+										navigate("continueCourse", {
 											state: {
 												courseId: userCourse.course,
-												subtitleIndex: subtitle_index,
-												subtitle: subtitle,
-												subtitles: userCourse.subtitles,
+												course: course,
 											},
 										})
 									}>

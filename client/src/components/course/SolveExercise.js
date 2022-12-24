@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
 import { setUser, solveExercise } from "../../redux/userSlice";
 import { useState } from "react";
-import { setContent, updateAnswer } from "../../redux/continueCourseSlice";
+import { setContent, setIsSolved, updateAnswer } from "../../redux/continueCourseSlice";
 export default function SolveExercise(props) {
 	// Data Setup
 	const dispatch = useDispatch();
@@ -18,23 +18,11 @@ export default function SolveExercise(props) {
 	const exerciseIndex = user.courses[courseIndex].subtitles[SubtitleIndex].exercises.findIndex(
 		(video) => video._id === Content._id
 	);
-	const [Answers, setAnswers] = useState(
-		new Array(Content.questions.length).fill({ questionIndex: -1, choice: "" })
-	);
+	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
+	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 
-	const [IsSolved, setIsSolved] = useState(false);
 	const [Grade, setGrade] = useState(-1);
 	const [MissingAnswer, setMissingAnswer] = useState(false);
-
-	const handleMarkAsWatched = async () => {
-		let response = await API.put(`/trainees/${user._id}/watchVideo`, {
-			courseIndex: courseIndex,
-			subtitleIndex: SubtitleIndex,
-			videoIndex: exerciseIndex,
-		});
-		dispatch(setUser(response.data));
-		dispatch(setContent({ ...Content, isWatched: true }));
-	};
 
 	const handleSubmitAnswers = async () => {
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
@@ -44,7 +32,7 @@ export default function SolveExercise(props) {
 			setMissingAnswer(true);
 		} else {
 			setMissingAnswer(false);
-			setIsSolved(true);
+			dispatch(setIsSolved(true));
 			let grade = Answers.map((answer) => {
 				let correctAnswer = Content.questions.find(
 					(question) => question._id === answer.questionId
@@ -78,13 +66,6 @@ export default function SolveExercise(props) {
 		}
 	};
 	const handleChoiceClick = (questionIndex, questionId, choice) => {
-		// let newAnswers = [...Answers];
-		// newAnswers[question_index] = {
-		// 	questionIndex: questionIndex,
-		// 	questionId: questionId,
-		// 	choice: choice,
-		// };
-		// setAnswers(newAnswers);
 		dispatch(
 			updateAnswer({
 				answerIndex: questionIndex,
@@ -99,6 +80,7 @@ export default function SolveExercise(props) {
 
 	return (
 		<Col>
+			{console.log(IsSolved)}
 			<h3>{Content.title}</h3>
 			<Form>
 				{Content.questions.map((question, question_index) => (
