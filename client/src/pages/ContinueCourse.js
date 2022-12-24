@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
 
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import BookIcon from "@mui/icons-material/Book";
-import Toolbar from "@mui/material/Toolbar";
 
-import { Box, Collapse, List, IconButton, Drawer, Divider, AppBar } from "@mui/material";
-import QuizIcon from "@mui/icons-material/Quiz";
-import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import { Box, List, IconButton, Drawer, Toolbar, Divider, AppBar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import WatchVideo from "../components/course/WatchVideo";
 import { Breadcrumb, Button } from "react-bootstrap";
@@ -27,6 +18,7 @@ import {
 } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
 import { useLocation } from "react-router-dom";
+import DrawerListItems from "../components/course/DrawerListItems";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {
@@ -42,10 +34,11 @@ export default function ContinueCourse() {
 		(course) => course.course === CourseId
 	);
 
+	const Exam = useSelector((state) => state.userReducer.user.courses[courseIndex].exam);
 	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
 
 	// Subtitle Collapses State
-	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length).fill(false));
+	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
 
 	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
@@ -64,28 +57,6 @@ export default function ContinueCourse() {
 		let openCollapsesArray = [...openCollapses];
 		openCollapsesArray[index] = !openCollapsesArray[index];
 		setOpenCollapses(openCollapsesArray);
-	};
-
-	// Handles click on any Exercise Video and Shows the Content.
-	const handlePressOnContent = (content, content_index, subtitle_index) => {
-		dispatch(setContent(content));
-		dispatch(setSubtitleIndex(subtitle_index));
-		dispatch(setSelectedContentIndex(content_index));
-		let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitle_index);
-		setOpenCollapses(openCollapsesArray);
-		if (content.type === "Video") {
-			dispatch(setContentType("Video"));
-			dispatch(initializeAnswers([]));
-		} else {
-			dispatch(setContentType("Exercise"));
-			let newAnswers = new Array(content.questions.length);
-			content.questions.map((question, questionIndex) => {
-				newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-			});
-			dispatch(initializeAnswers(newAnswers));
-			dispatch(setIsSolved(false));
-			dispatch(setSolve(false));
-		}
 	};
 
 	// Combines Videos and Exercises and sort them by the attribute index. It also adds type attribute either "Video" or "Exercise".
@@ -224,90 +195,15 @@ export default function ContinueCourse() {
 			<List id="drawerList">
 				{Subtitles.map((subtitle, subtitle_index) => (
 					<>
-						{/* Subtitle Icon and Title */}
-						<ListItem
-							key={`subtitle_${subtitle._id}_title_and_icon_${subtitle_index}`}
-							button
-							onClick={() => handleOpenCollapse(subtitle_index)}>
-							<ListItemIcon key={`subtitle_${subtitle._id}_listItemIcon_${subtitle_index}`}>
-								<BookIcon key={`subtitle_${subtitle._id}_bookIcon_${subtitle_index}`} />
-							</ListItemIcon>
-							<ListItemText
-								primary={subtitle.title}
-								key={`subtitle_${subtitle._id}_listItemText_${subtitle_index}`}
-							/>
-							{openCollapses[subtitle_index] ? (
-								<ExpandLess key={`subtitle_${subtitle._id}_ExpandLess_${subtitle_index}`} />
-							) : (
-								<ExpandMore key={`subtitle_${subtitle._id}_ExpandMore_${subtitle_index}`} />
-							)}
-						</ListItem>
-
-						{/* Subtitle Exercises and Videos Collapse */}
-						<Collapse
-							key={`subtitle_${subtitle._id}_collapse_${subtitle_index}`}
-							in={openCollapses[subtitle_index]}
-							timeout="auto"
-							unmountOnExit>
-							<List
-								key={`subtitle_${subtitle._id}_collapse_list_${subtitle_index}`}
-								component="div"
-								disablePadding>
-								{combineContent(subtitle).map((singleContent, singleContent_index) => (
-									<ListItem
-										key={`subtitle_${subtitle._id}_content_${singleContent._id}`}
-										button
-										style={{
-											backgroundColor:
-												singleContent_index === SelectedContentIndex &&
-												subtitle_index === SubtitleIndex
-													? "#939d9e"
-													: "",
-										}}
-										variant={
-											singleContent_index === SelectedContentIndex &&
-											subtitle_index === SubtitleIndex
-												? "success"
-												: "danger"
-										}
-										onClick={() =>
-											handlePressOnContent(singleContent, singleContent_index, subtitle_index)
-										}>
-										{/* Content Icon */}
-										<ListItemIcon
-											className="ms-4"
-											key={`subtitle_${subtitle._id}_content_${singleContent._id}_icon_${singleContent_index}`}>
-											{singleContent.type === "Video" ? (
-												<OndemandVideoIcon
-													className={singleContent.isWatched ? "success ms-0 me-3" : "me-3"}
-													key={`subtitle_${subtitle._id}_content_${singleContent._id}_OndemandVideoIcon_${singleContent_index}`}
-												/>
-											) : (
-												<QuizIcon
-													className={
-														singleContent.isSolved &&
-														singleContent.receivedGrade / singleContent.maxGrade >= 0.5
-															? "success me-3"
-															: singleContent.isSolved &&
-															  singleContent.receivedGrade / singleContent.maxGrade < 0.5
-															? "error me-3"
-															: "me-3"
-													}
-													key={`subtitle_${subtitle._id}_content_${singleContent._id}_QuizIcon_${singleContent_index}`}
-												/>
-											)}
-										</ListItemIcon>
-										{/* Content Text */}
-										<ListItemText
-											key={`subtitle_${subtitle._id}_content_${singleContent._id}_text_${singleContent_index}`}
-											inset
-											className="ps-0 text-wrap"
-											primary={singleContent.title}
-										/>
-									</ListItem>
-								))}
-							</List>
-						</Collapse>
+						<DrawerListItems
+							subtitle={subtitle}
+							subtitle_index={subtitle_index}
+							openCollapses={openCollapses}
+							setOpenCollapses={setOpenCollapses}
+							handleOpenCollapse={handleOpenCollapse}
+							combineContent={combineContent}
+							exam={false}
+						/>
 						<Divider key={`subtitle_${subtitle._id}_divider_${subtitle_index}`} />
 					</>
 				))}

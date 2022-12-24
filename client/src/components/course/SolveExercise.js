@@ -26,7 +26,6 @@ export default function SolveExercise(props) {
 	);
 
 	//  Page Control
-	// const [Solve, setSolve] = useState(false);
 	const Solve = useSelector((state) => state.continueCourseReducer.solve);
 	const [MissingAnswer, setMissingAnswer] = useState(false);
 	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
@@ -37,10 +36,8 @@ export default function SolveExercise(props) {
 	const handleSubmitAnswers = async () => {
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
 
-		if (emptyAnswers.length !== 0) {
-			console.log("Select All Answers");
-			setMissingAnswer(true);
-		} else {
+		if (emptyAnswers.length !== 0) setMissingAnswer(true);
+		else {
 			setMissingAnswer(false);
 
 			let userQuestions =

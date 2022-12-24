@@ -75,6 +75,12 @@ export const userSlice = createSlice({
 				action.payload.subtitleIndex
 			].exercises[action.payload.exerciseIndex].receivedGrade = action.payload.receivedGrade;
 		},
+		solveExam: (state, action) => {
+			state.user.courses[action.payload.courseIndex].exam.isSolved = true;
+			state.user.courses[action.payload.courseIndex].exam.questions = action.payload.questions;
+			state.user.courses[action.payload.courseIndex].exam.receivedGrade =
+				action.payload.receivedGrade;
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -108,6 +114,7 @@ export const {
 	deleteNoteFromVideoNotes,
 	solveExercise,
 	updateInstructorCourses,
+	solveExam,
 } = userSlice.actions;
 
 export default userSlice.reducer;
