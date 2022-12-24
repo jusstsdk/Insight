@@ -9,6 +9,7 @@ export const continueCourseSlice = createSlice({
 		contentType: "",
 		isSolved: false,
 		answers: [],
+		solve: false,
 	},
 	reducers: {
 		setSubtitleIndex: (state, action) => {
@@ -32,6 +33,9 @@ export const continueCourseSlice = createSlice({
 		setIsSolved: (state, action) => {
 			state.isSolved = action.payload;
 		},
+		setSolve: (state, action) => {
+			state.solve = action.payload;
+		},
 	},
 });
 
@@ -44,6 +48,7 @@ export const {
 	initializeAnswers,
 	updateAnswer,
 	setIsSolved,
+	setSolve,
 } = continueCourseSlice.actions;
 
 export default continueCourseSlice.reducer;

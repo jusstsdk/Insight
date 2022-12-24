@@ -7,29 +7,33 @@ import {
 	initializeAnswers,
 	setContent,
 	setIsSolved,
+	setSolve,
 	updateAnswer,
 } from "../../redux/continueCourseSlice";
 export default function SolveExercise(props) {
 	// Data Setup
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userReducer.user);
-	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
-	const Content = useSelector((state) => state.continueCourseReducer.content);
 
-	// Gets Course Index in the User's Courses.
+	//  Incoming Info
+	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === props.CourseId
 	);
+	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const exerciseIndex = user.courses[courseIndex].subtitles[SubtitleIndex].exercises.findIndex(
 		(video) => video._id === Content._id
 	);
+
+	//  Page Control
+	// const [Solve, setSolve] = useState(false);
+	const Solve = useSelector((state) => state.continueCourseReducer.solve);
+	const [MissingAnswer, setMissingAnswer] = useState(false);
 	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
-
 	const [Grade, setGrade] = useState(0);
 	const [OldGrade, setOldGrade] = useState(Content.receivedGrade);
-	const [MissingAnswer, setMissingAnswer] = useState(false);
-	const [Solve, setSolve] = useState(false);
+
 	const handleSubmitAnswers = async () => {
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
 
@@ -182,7 +186,7 @@ export default function SolveExercise(props) {
 								)}
 							</Row>
 							<Col className="ms-auto gradeRecieved">
-								<Button onClick={() => setSolve(false)}>Try again</Button>
+								<Button onClick={() => dispatch(setSolve(false))}>Try again</Button>
 							</Col>
 						</>
 					)}
@@ -196,9 +200,9 @@ export default function SolveExercise(props) {
 				<Row className="align-items-center">
 					<h6 className="gradeRecieved mb-0">
 						Best Received: {"   "}
-						<span className={OldGrade / Content.maxGrade >= 0.5 ? "success" : "error"}>
+						<span>
 							{Content.isSolved && ((OldGrade / Content.maxGrade) * 100).toFixed(2)}
-							{!Content.isSolved && "_"}
+							{!Content.isSolved && "-"}
 						</span>
 					</h6>
 					<Col>
@@ -210,7 +214,7 @@ export default function SolveExercise(props) {
 								});
 								dispatch(initializeAnswers(newAnswers));
 								dispatch(setIsSolved(false));
-								setSolve(true);
+								dispatch(setSolve(true));
 							}}>
 							Start Exercise
 						</Button>

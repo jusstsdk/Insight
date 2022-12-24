@@ -9,16 +9,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import BookIcon from "@mui/icons-material/Book";
 import Toolbar from "@mui/material/Toolbar";
 
-import {
-	Box,
-	Collapse,
-	List,
-	IconButton,
-	Drawer,
-	Divider,
-	Typography,
-	AppBar,
-} from "@mui/material";
+import { Box, Collapse, List, IconButton, Drawer, Divider, AppBar } from "@mui/material";
 import QuizIcon from "@mui/icons-material/Quiz";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,21 +23,19 @@ import {
 	setContentType,
 	initializeAnswers,
 	setIsSolved,
+	setSolve,
 } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
 import { useLocation } from "react-router-dom";
 const drawerWidth = "20%";
 
-export default function ContinueCourse(props) {
+export default function ContinueCourse() {
 	const location = useLocation();
 	const dispatch = useDispatch();
 	// MUI Setup
-	const { window } = props;
-	const container = window !== undefined ? () => window().document.body : undefined;
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const CourseId = location.state.courseId;
 	const Course = location.state.course;
-	const user = useSelector((state) => state.userReducer.user);
 
 	// Gets Course Index in the User's Courses.
 	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
@@ -58,8 +47,7 @@ export default function ContinueCourse(props) {
 	// Subtitle Collapses State
 	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length).fill(false));
 
-	// Current Content
-	// Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
+	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
@@ -96,6 +84,7 @@ export default function ContinueCourse(props) {
 			});
 			dispatch(initializeAnswers(newAnswers));
 			dispatch(setIsSolved(false));
+			dispatch(setSolve(false));
 		}
 	};
 
@@ -109,6 +98,7 @@ export default function ContinueCourse(props) {
 		return content;
 	};
 
+	// Gets a Content given the Content Index and Subtitle Index and assigns a type to the Content.
 	const contentGetter = (subtitleIndex, contentIndex) => {
 		let videos = Subtitles[subtitleIndex].videos.map((video) => ({ ...video, type: "Video" }));
 		let exercises = Subtitles[subtitleIndex].exercises.map((exercise) => ({
@@ -119,6 +109,7 @@ export default function ContinueCourse(props) {
 		return nextContent;
 	};
 
+	// Handles Press on Next Button
 	const handleNext = () => {
 		// Tries to get the next content in the same subtitle
 		let nextContent = contentGetter(SubtitleIndex, SelectedContentIndex + 1);
@@ -136,6 +127,7 @@ export default function ContinueCourse(props) {
 				});
 				dispatch(initializeAnswers(newAnswers));
 				dispatch(setIsSolved(false));
+				dispatch(setSolve(false));
 			} else {
 				dispatch(initializeAnswers([]));
 			}
@@ -159,6 +151,7 @@ export default function ContinueCourse(props) {
 					});
 					dispatch(initializeAnswers(newAnswers));
 					dispatch(setIsSolved(false));
+					dispatch(setSolve(false));
 				} else {
 					dispatch(initializeAnswers([]));
 				}
@@ -168,6 +161,7 @@ export default function ContinueCourse(props) {
 		}
 	};
 
+	// Sets intital View by getting the Content that should be displayed first.
 	useEffect(() => {
 		if (SubtitleIndex === -1 && SelectedContentIndex === -1) {
 			let content;
@@ -199,6 +193,7 @@ export default function ContinueCourse(props) {
 						});
 						dispatch(initializeAnswers(newAnswers));
 						dispatch(setIsSolved(false));
+						dispatch(setSolve(false));
 					} else {
 						dispatch(initializeAnswers([]));
 					}
@@ -214,7 +209,7 @@ export default function ContinueCourse(props) {
 		}
 	}, []);
 	const mainNavbar = document.getElementById("main-navbar");
-	const continueCourseBreadcrumbs = document.getElementById("continueCourseBreadcrumbs");
+	// const continueCourseBreadcrumbs = document.getElementById("continueCourseBreadcrumbs");
 
 	// Displays the Drawer Content based on props.subtitles
 	const drawer = (
@@ -319,6 +314,7 @@ export default function ContinueCourse(props) {
 			</List>
 		</div>
 	);
+
 	return (
 		<Box sx={{ display: "flex" }}>
 			<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
@@ -358,7 +354,6 @@ export default function ContinueCourse(props) {
 				{/* Small Screen Drawer */}
 				<Drawer
 					key={`course_${CourseId}_small_screen_drawer`}
-					container={container}
 					variant="temporary"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
