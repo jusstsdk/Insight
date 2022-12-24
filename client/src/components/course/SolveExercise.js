@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
 import { setUser, solveExercise } from "../../redux/userSlice";
 import { useState } from "react";
-import { setContent } from "../../redux/continueCourseSlice";
+import { setContent, updateAnswer } from "../../redux/continueCourseSlice";
 export default function SolveExercise(props) {
 	// Data Setup
 	const dispatch = useDispatch();
@@ -37,14 +37,8 @@ export default function SolveExercise(props) {
 	};
 
 	const handleSubmitAnswers = async () => {
-		dispatch(
-			solveExercise({
-				courseIndex: courseIndex,
-				subtitleIndex: SubtitleIndex,
-				exerciseIndex: exerciseIndex,
-			})
-		);
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
+
 		if (emptyAnswers.length !== 0) {
 			console.log("Select All Answers");
 			setMissingAnswer(true);
@@ -60,29 +54,47 @@ export default function SolveExercise(props) {
 			});
 			grade = grade.reduce((partialSum, a) => partialSum + a, 0);
 			setGrade(grade);
-			console.log(Answers);
 			let userQuestions =
 				user.courses[courseIndex].subtitles[SubtitleIndex].exercises[exerciseIndex].questions;
 			userQuestions = userQuestions.map((question, questionIndex) => {
 				return { ...question, studentAnswer: Answers[questionIndex].choice };
 			});
-			// let response = await API.put(`/trainees/${user._id}/solveExercise`, {
-			// 	courseIndex: courseIndex,
-			// 	subtitleIndex: SubtitleIndex,
-			// 	exerciseIndex: exerciseIndex,
-			// 	questions: userQuestions,
-			// });
-			// console.log(response);
+			await API.put(`/trainees/${user._id}/solveExercise`, {
+				courseIndex: courseIndex,
+				subtitleIndex: SubtitleIndex,
+				exerciseIndex: exerciseIndex,
+				questions: userQuestions,
+			});
+			dispatch(
+				solveExercise({
+					courseIndex: courseIndex,
+					subtitleIndex: SubtitleIndex,
+					exerciseIndex: exerciseIndex,
+					questions: userQuestions,
+					receivedGrade: grade,
+				})
+			);
+			dispatch(setContent({ ...Content, isSolved: true, questions: userQuestions }));
 		}
 	};
-	const handleChoiceClick = (question_index, questionId, choice) => {
-		let newAnswers = [...Answers];
-		newAnswers[question_index] = {
-			questionIndex: question_index,
-			questionId: questionId,
-			choice: choice,
-		};
-		setAnswers(newAnswers);
+	const handleChoiceClick = (questionIndex, questionId, choice) => {
+		// let newAnswers = [...Answers];
+		// newAnswers[question_index] = {
+		// 	questionIndex: questionIndex,
+		// 	questionId: questionId,
+		// 	choice: choice,
+		// };
+		// setAnswers(newAnswers);
+		dispatch(
+			updateAnswer({
+				answerIndex: questionIndex,
+				answer: {
+					questionIndex: questionIndex,
+					questionId: questionId,
+					choice: choice,
+				},
+			})
+		);
 	};
 
 	return (
@@ -156,7 +168,6 @@ export default function SolveExercise(props) {
 				)}
 				{MissingAnswer && <h6 className="error">You have to choose an answer to each question!</h6>}
 				{!IsSolved && <Button onClick={handleSubmitAnswers}>Submit Answers</Button>}
-				<Button onClick={handleSubmitAnswers}>Submit Answers</Button>
 			</Form>
 		</Col>
 	);

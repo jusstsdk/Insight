@@ -2,7 +2,12 @@ import YoutubeEmbed from "../YoutubeEmbed";
 import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
-import { addNoteToVideoNotes, deleteNoteFromVideoNotes, setUser } from "../../redux/userSlice";
+import {
+	addNoteToVideoNotes,
+	deleteNoteFromVideoNotes,
+	setUser,
+	watchVideo,
+} from "../../redux/userSlice";
 import { BsTrash } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { setContent } from "../../redux/continueCourseSlice";
@@ -25,24 +30,29 @@ export default function WatchVideo(props) {
 	);
 
 	const handleMarkAsWatched = async () => {
-		let response = await API.put(`/trainees/${user._id}/watchVideo`, {
+		await API.put(`/trainees/${user._id}/watchVideo`, {
 			courseIndex: courseIndex,
 			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 		});
-		dispatch(setUser(response.data));
+		dispatch(
+			watchVideo({
+				courseIndex: courseIndex,
+				subtitleIndex: SubtitleIndex,
+				videoIndex: videoIndex,
+			})
+		);
 		dispatch(setContent({ ...Content, isWatched: true }));
 	};
 
 	const handleAddNote = async () => {
 		let note = NoteRef.current.value;
-		let response = await API.put(`/trainees/${user._id}/addNoteToVideoNotes`, {
+		await API.put(`/trainees/${user._id}/addNoteToVideoNotes`, {
 			courseIndex: courseIndex,
 			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 			note: note,
 		});
-		dispatch(setUser(response.data));
 		dispatch(
 			addNoteToVideoNotes({
 				courseIndex: courseIndex,
@@ -57,13 +67,12 @@ export default function WatchVideo(props) {
 	};
 
 	const handleDeleteNote = async (note_index) => {
-		let response = await API.put(`/trainees/${user._id}/deleteNoteFromVideoNotes`, {
+		await API.put(`/trainees/${user._id}/deleteNoteFromVideoNotes`, {
 			courseIndex: courseIndex,
 			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 			noteIndex: note_index,
 		});
-		dispatch(setUser(response.data));
 		dispatch(
 			deleteNoteFromVideoNotes({
 				courseIndex: courseIndex,

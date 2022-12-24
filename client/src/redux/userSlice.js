@@ -67,11 +67,13 @@ export const userSlice = createSlice({
 		solveExercise: (state, action) => {
 			state.user.courses[action.payload.courseIndex].subtitles[
 				action.payload.subtitleIndex
-			].exercises[action.payload.exerciseIndex] = {
-				...state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex]
-					.exercises[action.payload.exerciseIndex],
-				isSolved: true,
-			};
+			].exercises[action.payload.exerciseIndex].isSolved = true;
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex].questions = action.payload.questions;
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex].receivedGrade = action.payload.receivedGrade;
 		},
 		login: (state, action) => {
 			state.type = action.payload.type;

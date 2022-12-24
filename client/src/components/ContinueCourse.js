@@ -124,38 +124,34 @@ export default function ContinueCourse(props) {
 	};
 
 	useEffect(() => {
-		if (SubtitleIndex === -1 && SelectedContentIndex === -1) {
-			let content;
-			let contentIndex;
-			Subtitles.find((subtitle, subtitleIndex) => {
-				let sortedSubtitle = combineContent(subtitle);
-				content = sortedSubtitle.find((content, content_Index) => {
-					if (content.type === "Video") {
-						if (!content.isWatched) {
-							contentIndex = content_Index;
-							return content;
-						}
-					} else if (content.type === "Exercise") {
-						if (!content.isSolved) {
-							contentIndex = content_Index;
-							return content;
-						}
+		let content;
+		let contentIndex;
+		let IsThereContent = Subtitles.find((subtitle, subtitleIndex) => {
+			let sortedSubtitle = combineContent(subtitle);
+			content = sortedSubtitle.find((content, content_Index) => {
+				if (content.type === "Video") {
+					if (!content.isWatched) {
+						contentIndex = content_Index;
+						return content;
 					}
-				});
-				if (content) {
-					dispatch(setContent(content));
-					dispatch(setContentType(content.type));
-					dispatch(setSubtitleIndex(subtitleIndex));
-					dispatch(setSelectedContentIndex(contentIndex));
-					let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitleIndex);
-					setOpenCollapses(openCollapsesArray);
+				} else if (content.type === "Exercise") {
+					if (!content.isSolved) {
+						contentIndex = content_Index;
+						return content;
+					}
 				}
-				return content;
 			});
-		} else {
-			let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex);
-			setOpenCollapses(openCollapsesArray);
-		}
+			if (content) {
+				dispatch(setContent(content));
+				dispatch(setContentType(content.type));
+				dispatch(setSubtitleIndex(subtitleIndex));
+				dispatch(setSelectedContentIndex(contentIndex));
+				let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitleIndex);
+				setOpenCollapses(openCollapsesArray);
+			}
+			return content;
+		});
+		if (!IsThereContent) console.log("Go to Exam");
 	}, []);
 
 	// Displays the Drawer Content based on props.subtitles
@@ -215,16 +211,6 @@ export default function ContinueCourse(props) {
 											handlePressOnContent(singleContent, singleContent_index, subtitle_index)
 										}>
 										{/* Content Icon */}
-										{console.log(singleContent.receivedGrade / singleContent.maxGrade)}
-										{console.log(
-											singleContent.isSolved &&
-												singleContent.receivedGrade / singleContent.maxGrade >= 0.5
-												? "success me-3"
-												: singleContent.isSolved &&
-												  singleContent.receivedGrade / singleContent.maxGrade < 0.5
-												? "danger me-3"
-												: "me-3"
-										)}
 										<ListItemIcon
 											className="ms-4"
 											key={`subtitle_${subtitle._id}_content_${singleContent._id}_icon_${singleContent_index}`}>
@@ -241,7 +227,7 @@ export default function ContinueCourse(props) {
 															? "success me-3"
 															: singleContent.isSolved &&
 															  singleContent.receivedGrade / singleContent.maxGrade < 0.5
-															? "danger me-3"
+															? "error me-3"
 															: "me-3"
 													}
 													key={`subtitle_${subtitle._id}_content_${singleContent._id}_QuizIcon_${singleContent_index}`}

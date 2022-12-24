@@ -7,6 +7,7 @@ export const continueCourseSlice = createSlice({
 		selectedContentIndex: -1,
 		content: {},
 		contentType: "",
+		answers: [],
 	},
 	reducers: {
 		setSubtitleIndex: (state, action) => {
@@ -21,11 +22,23 @@ export const continueCourseSlice = createSlice({
 		setSelectedContentIndex: (state, action) => {
 			state.selectedContentIndex = action.payload;
 		},
+		initializeAnswers: (state, action) => {
+			state.answers = action.payload;
+		},
+		updateAnswer: (state, action) => {
+			state.answers[action.payload.answerIndex] = action.payload.answer;
+		},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { setSubtitleIndex, setContent, setContentType, setSelectedContentIndex } =
-	continueCourseSlice.actions;
+export const {
+	setSubtitleIndex,
+	setContent,
+	setContentType,
+	setSelectedContentIndex,
+	initializeAnswers,
+	updateAnswer,
+} = continueCourseSlice.actions;
 
 export default continueCourseSlice.reducer;
