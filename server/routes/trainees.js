@@ -13,6 +13,7 @@ const {
 	watchVideo,
 	addNoteToVideoNotes,
 	deleteNoteFromVideoNotes,
+	solveExercise,
 } = require("../controllers/traineeController");
 
 const router = express.Router();
@@ -43,5 +44,8 @@ router.put("/:id/addNoteToVideoNotes", addNoteToVideoNotes);
 
 // Delete Note while watching Video
 router.put("/:id/deleteNoteFromVideoNotes", deleteNoteFromVideoNotes);
+
+// Solve an Exercise
+router.put("/:id/solveExercise", solveExercise);
 
 module.exports = router;

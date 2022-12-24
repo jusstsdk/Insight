@@ -64,6 +64,15 @@ export const userSlice = createSlice({
 			].notes = newNotes;
 			// state.notifications = state.notifications.filter((notification, i) => i !== action.payload);
 		},
+		solveExercise: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex] = {
+				...state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex]
+					.exercises[action.payload.exerciseIndex],
+				isSolved: true,
+			};
+		},
 		login: (state, action) => {
 			localStorage.setItem("token", action.payload.token);
 			localStorage.setItem("userType", action.payload.type);
@@ -99,6 +108,7 @@ export const {
 	watchVideo,
 	addNoteToVideoNotes,
 	deleteNoteFromVideoNotes,
+	solveExercise,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -215,6 +215,16 @@ export default function ContinueCourse(props) {
 											handlePressOnContent(singleContent, singleContent_index, subtitle_index)
 										}>
 										{/* Content Icon */}
+										{console.log(singleContent.receivedGrade / singleContent.maxGrade)}
+										{console.log(
+											singleContent.isSolved &&
+												singleContent.receivedGrade / singleContent.maxGrade >= 0.5
+												? "success me-3"
+												: singleContent.isSolved &&
+												  singleContent.receivedGrade / singleContent.maxGrade < 0.5
+												? "danger me-3"
+												: "me-3"
+										)}
 										<ListItemIcon
 											className="ms-4"
 											key={`subtitle_${subtitle._id}_content_${singleContent._id}_icon_${singleContent_index}`}>
@@ -227,12 +237,10 @@ export default function ContinueCourse(props) {
 												<QuizIcon
 													className={
 														singleContent.isSolved &&
-														singleContent.receivedGrade / singleContent.receivedGrade.maxGrade >=
-															0.5
+														singleContent.receivedGrade / singleContent.maxGrade >= 0.5
 															? "success me-3"
 															: singleContent.isSolved &&
-															  singleContent.receivedGrade / singleContent.receivedGrade.maxGrade <
-																	0.5
+															  singleContent.receivedGrade / singleContent.maxGrade < 0.5
 															? "danger me-3"
 															: "me-3"
 													}

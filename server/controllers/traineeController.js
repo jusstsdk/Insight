@@ -228,6 +228,21 @@ const deleteNoteFromVideoNotes = async (req, res) => {
 	res.status(200).json(trainee);
 };
 
+// update isWatched to true in trainee.courses.subtitles.videos
+const solveExercise = async (req, res) => {
+	const traineeId = req.params.id;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const exerciseIndex = req.body.exerciseIndex;
+	const questions = req.body.questions;
+	let trainee = await Trainee.findById(traineeId);
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
+		questions;
+	trainee.save();
+	res.status(200).json(trainee);
+};
+
 module.exports = {
 	createTrainee,
 	requestRefund,
@@ -241,4 +256,5 @@ module.exports = {
 	watchVideo,
 	addNoteToVideoNotes,
 	deleteNoteFromVideoNotes,
+	solveExercise,
 };

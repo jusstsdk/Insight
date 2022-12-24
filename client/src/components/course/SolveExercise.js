@@ -1,7 +1,7 @@
 import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
-import { setUser } from "../../redux/userSlice";
+import { setUser, solveExercise } from "../../redux/userSlice";
 import { useState } from "react";
 import { setContent } from "../../redux/continueCourseSlice";
 export default function SolveExercise(props) {
@@ -36,7 +36,14 @@ export default function SolveExercise(props) {
 		dispatch(setContent({ ...Content, isWatched: true }));
 	};
 
-	const handleSubmitAnswers = () => {
+	const handleSubmitAnswers = async () => {
+		dispatch(
+			solveExercise({
+				courseIndex: courseIndex,
+				subtitleIndex: SubtitleIndex,
+				exerciseIndex: exerciseIndex,
+			})
+		);
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
 		if (emptyAnswers.length !== 0) {
 			console.log("Select All Answers");
@@ -53,6 +60,19 @@ export default function SolveExercise(props) {
 			});
 			grade = grade.reduce((partialSum, a) => partialSum + a, 0);
 			setGrade(grade);
+			console.log(Answers);
+			let userQuestions =
+				user.courses[courseIndex].subtitles[SubtitleIndex].exercises[exerciseIndex].questions;
+			userQuestions = userQuestions.map((question, questionIndex) => {
+				return { ...question, studentAnswer: Answers[questionIndex].choice };
+			});
+			// let response = await API.put(`/trainees/${user._id}/solveExercise`, {
+			// 	courseIndex: courseIndex,
+			// 	subtitleIndex: SubtitleIndex,
+			// 	exerciseIndex: exerciseIndex,
+			// 	questions: userQuestions,
+			// });
+			// console.log(response);
 		}
 	};
 	const handleChoiceClick = (question_index, questionId, choice) => {
@@ -112,7 +132,6 @@ export default function SolveExercise(props) {
 									}
 									disabled={IsSolved}
 								/>
-								{console.log(Answers[question_index].choice === choice)}
 								<Form.Check.Label
 									className={
 										IsSolved ? (Answers[question_index].choice === choice ? "solved" : "") : ""
@@ -137,6 +156,7 @@ export default function SolveExercise(props) {
 				)}
 				{MissingAnswer && <h6 className="error">You have to choose an answer to each question!</h6>}
 				{!IsSolved && <Button onClick={handleSubmitAnswers}>Submit Answers</Button>}
+				<Button onClick={handleSubmitAnswers}>Submit Answers</Button>
 			</Form>
 		</Col>
 	);
