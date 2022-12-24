@@ -28,7 +28,8 @@ code {
 }
 
 .courseCardTitle,
-priceLabel {
+priceLabel,
+.gradeRecieved {
 	width: fit-content !important;
 }
 
@@ -92,3 +93,7 @@ priceLabel {
 	min-width: auto !important;
 }
 /* Scrollbar End */
+
+.solved {
+	opacity: 1 !important;
+}
