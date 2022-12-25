@@ -46,6 +46,7 @@ function CourseReviews(props) {
 
 	return (
 		<>
+			Reviews
 			<Button onClick={handleShowReviewCourseModal}>Review</Button>
 			<Button variant="danger" onClick={handleShowReportCourseModal}>
 				Report

@@ -1,4 +1,4 @@
-import { Button, Table } from "react-bootstrap";
+import { Button, ListGroup, Table, Row, Col } from "react-bootstrap";
 
 import React from "react";
 import { useSelector } from "react-redux";
@@ -6,28 +6,25 @@ import { useNavigate } from "react-router-dom";
 
 function CourseSubtitlesList({ course }) {
 	const navigate = useNavigate();
-	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((course) => {
+	const userCourse = useSelector(
+		(state) => state.userReducer.user.courses
+	).filter((course) => {
 		return course._id == course._id;
 	})[0];
 
 	return (
-		<Table striped>
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Title</th>
-					<th>Hours</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
+		<>
+			<ListGroup>
 				{userCourse.subtitles.map((subtitle, subtitle_index) => {
 					return (
-						<tr key={`Subtitles_tr_${course._id}_${subtitle_index}`}>
-							<td>{subtitle_index + 1}</td>
-							<td>{subtitle.title ? subtitle.title : "No Title."}</td>
-							<td>{subtitle.hours}</td>
-							<td>
+						<ListGroup.Item
+							key={`Subtitles_tr_${course._id}_${subtitle_index}`}
+						>
+							<Row>
+								<Col>#{subtitle_index + 1}</Col>
+								<Col>{subtitle.title ? subtitle.title : "No Title."}</Col>
+								<Col>{subtitle.hours} Hours</Col>
+								{/*
 								<Button
 									key={"Button Subtitle" + subtitle_index}
 									onClick={() =>
@@ -41,12 +38,13 @@ function CourseSubtitlesList({ course }) {
 									}>
 									View
 								</Button>
-							</td>
-						</tr>
+							*/}
+							</Row>
+						</ListGroup.Item>
 					);
 				})}
-			</tbody>
-		</Table>
+			</ListGroup>
+		</>
 	);
 }
 

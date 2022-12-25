@@ -128,42 +128,33 @@ export default function CoursePage() {
 		loaded && (
 			<>
 				<Container key={newId()}>
-					<Row key={newId()}>
-						<CourseTitle course={course}></CourseTitle>
-					</Row>
-					<ListGroup
-						key={newId()}
-						defaultActiveKey="basicInfo"
-						id="uncontrolled-tab-example"
-						className="mb-3"
-					>
-						<ListGroup.Item
-							key="basicInfo"
-							eventKey="basicInfo"
-							title="Basic Info"
-						>
-							Basic Info
-							<Row>
-								{userType === "CorporateTrainee" ? (
-									!corpTraineeOwnsCourse && (
-										<Col>
-											<CorpTraineeRequestCourseAlert
-												course={course}
-											></CorpTraineeRequestCourseAlert>
-										</Col>
-									)
-								) : (
-									<Col>
-										<TraineeCoursePriceAlert></TraineeCoursePriceAlert>
-									</Col>
-								)}
-
+					<CourseTitle course={course}></CourseTitle>
+					Basic Info
+					<Row>
+						{userType === "CorporateTrainee" ? (
+							!corpTraineeOwnsCourse && (
 								<Col>
-									<Alert key={newId()} variant="dark" className="lead">
-										Hours
-										<h1>{course.totalHours}</h1>
-										Progress
-										{/* <ProgressBar key={newId()}>
+									<CorpTraineeRequestCourseAlert
+										course={course}
+									></CorpTraineeRequestCourseAlert>
+								</Col>
+							)
+						) : (
+							<Col>
+								<TraineeCoursePriceAlert
+									course={course}
+									traineeOwnsCourse={traineeOwnsCourse}
+									traineeVersionOfCourse={traineeVersionOfCourse}
+								></TraineeCoursePriceAlert>
+							</Col>
+						)}
+
+						<Col>
+							<Alert key={newId()} variant="dark" className="lead">
+								Hours
+								<h1>{course.totalHours}</h1>
+								Progress
+								{/* <ProgressBar key={newId()}>
 											<ProgressBar
 												striped
 												variant="success"
@@ -175,66 +166,52 @@ export default function CoursePage() {
 												label={`${traineeVersionOfCourse.progress * 100}%`}
 											/>
 										</ProgressBar> */}
-									</Alert>
-								</Col>
-							</Row>
-							<Row>
-								<Col key={newId()}>
-									Summary
-									<h3 className="lead">{course.summary}</h3>
-								</Col>
-								<Col key={newId()}>
-									Preview Video
-									<iframe
-										width="560"
-										height="315"
-										src={course.previewVideo} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
-										title="Preview Video"
-										allowFullScreen
-									/>
-								</Col>
-							</Row>
-							<h4 className="lead">Instructors</h4>
-							<ListGroup key="Group " variant="flush">
-								Instructors
-								{instructors &&
-									instructors.map((instructor) => {
-										return (
-											<ListGroup.Item key={newId()} bg="primary">
-												<Row>
-													<Col>{instructor.username}</Col>
-													<Col>
-														<Button>View</Button>
-													</Col>
-												</Row>
-											</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS
-										);
-									})}
-							</ListGroup>
-						</ListGroup.Item>
-						<ListGroup.Item
-							key="subtititles"
-							eventKey="subtitles"
-							title="Subtitles"
-						>
-							Subtitles
-							<CourseSubtitlesList
-								course={course}
-								newId={newId}
-							></CourseSubtitlesList>
-						</ListGroup.Item>
-						<ListGroup.Item key="reviews" eventKey="reviews" title="Reviews">
-							Reviews
-							<CourseReviews
-								course={course}
-								newId={newId}
-								getCourseFromDB={getCourseFromDB}
-							></CourseReviews>
-						</ListGroup.Item>
-						<ListGroup.Item key="exam" eventKey="exam" title="Exam">
-							<Button key={newId()}>Start Exam</Button>
-						</ListGroup.Item>
+							</Alert>
+						</Col>
+					</Row>
+					<Row>
+						<Col key={newId()}>
+							Summary
+							<h3 className="lead">{course.summary}</h3>
+						</Col>
+						<Col key={newId()}>
+							Preview Video
+							<iframe
+								width="560"
+								height="315"
+								src={course.previewVideo} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
+								title="Preview Video"
+								allowFullScreen
+							/>
+						</Col>
+					</Row>
+					<ListGroup key="Group " variant="flush">
+						Instructors
+						{instructors &&
+							instructors.map((instructor) => {
+								return (
+									<ListGroup.Item key={newId()} bg="primary">
+										<Row>
+											<Col>{instructor.username}</Col>
+											<Col>
+												<Button>View</Button>
+											</Col>
+										</Row>
+									</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS
+								);
+							})}
 					</ListGroup>
+					<hr></hr>
+					<CourseSubtitlesList
+						course={course}
+						newId={newId}
+					></CourseSubtitlesList>
+					<hr></hr>
+					<CourseReviews
+						course={course}
+						newId={newId}
+						getCourseFromDB={getCourseFromDB}
+					></CourseReviews>
 				</Container>
 			</>
 		)

@@ -2,6 +2,8 @@ import { Button, Alert, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
 
 function CorpTraineeRequestCourseAlert(props) {
 	const course = props.course;
@@ -9,6 +11,10 @@ function CorpTraineeRequestCourseAlert(props) {
 
 	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
+
+	const dispatch = useDispatch();
+
+	const [loaded, setLoaded] = useState(false);
 
 	//CorpTrainee Data
 	const [
@@ -28,7 +34,7 @@ function CorpTraineeRequestCourseAlert(props) {
 
 		try {
 			let response = await axios(config);
-			console.log(response);
+			dispatch(setUser(response.data));
 			setCorpTraineeAlreadyRequestedAccess(true);
 		} catch (err) {
 			console.log(err);
@@ -42,25 +48,31 @@ function CorpTraineeRequestCourseAlert(props) {
 				setCorpTraineeRequestStatus(request.status);
 			}
 		});
+		setLoaded(true);
 	});
 
 	return (
-		<>
-			<Col>
-				<Alert variant="primary" className="lead">
-					{corpTraineeAlreadyRequestedAccess ? (
-						<h1>Request Status: {corpTraineeRequestStatus}</h1>
-					) : (
-						<Button
-							variant="success"
-							onClick={corpTraineeRequestAccessToCourse}
-						>
-							Request Course
-						</Button>
-					)}
-				</Alert>
-			</Col>
-		</>
+		loaded && (
+			<>
+				<Col>
+					<Alert variant="primary" className="lead">
+						{corpTraineeAlreadyRequestedAccess ? (
+							<>
+								<h3>Request Status:</h3>
+								<h1>{corpTraineeRequestStatus}</h1>
+							</>
+						) : (
+							<Button
+								variant="success"
+								onClick={corpTraineeRequestAccessToCourse}
+							>
+								Request Course
+							</Button>
+						)}
+					</Alert>
+				</Col>
+			</>
+		)
 	);
 }
 

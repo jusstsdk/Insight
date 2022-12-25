@@ -27,15 +27,21 @@ import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
 import CorpTraineeRequestCourseAlert from "./CorpTraineeCourseRequestAlert";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function TraineeCoursePriceAlert(props) {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const course = props.course;
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
 
 	const courseID = course._id;
+
+	const [loaded, setLoaded] = useState(false);
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
 	const user = useSelector((state) => state.userReducer.user);
@@ -49,30 +55,29 @@ function TraineeCoursePriceAlert(props) {
 	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
 		useState(false);
 
-	const [showRefundRejectedTip, setShowRefundRejectedTip] = useState(false);
+	const [showRefundRequestModal, setShowRefundRequestModal] = useState(false);
 
-	const refundRejectedTip = useRef(null);
+	const handleCloseRefundCourseModal = () => setShowRefundRequestModal(false);
+	const handleShowRefundCourseModal = () => setShowRefundRequestModal(true);
 
-	const [showRefundRequest, setShowRefundRequest] = useState(false);
-
-	const handleCloseRefundCourse = () => setShowRefundRequest(false);
-	const handleShowRefundCourse = () => setShowRefundRequest(true);
-
-	user.courses.forEach((course) => {
-		if (course.course === courseID) {
-			if (course.progress > 0.5) {
+	useEffect(() => {
+		if (traineeOwnsCourse) {
+			if (traineeVersionOfCourse.progress > 0.5) {
 				setTraineeCanRefund(false);
 				setTraineePastFiftyPercentOfCourse(true);
 			}
-			if (course.requestedRefund) {
+			if (traineeVersionOfCourse.requestedRefund) {
 				setTraineeCanRefund(false);
 				setTraineeAlreadyRequestedRefund(true);
 			}
 		}
+
+		setLoaded(true);
 	});
 
 	async function handleTraineeBuyCourse() {
 		// navigate("payment");
+		alert("Mad?");
 	}
 
 	async function traineeRefundCourseRequest() {
@@ -80,97 +85,103 @@ function TraineeCoursePriceAlert(props) {
 			method: "POST",
 			url: `http://localhost:4000/api/trainees/${userID}/requestRefund/courses/${courseID}`,
 		};
-		setShowRefundRequest(false);
+		setShowRefundRequestModal(false);
 		try {
 			const response = await axios(config);
-			//should i check on response.status?
-			setTraineeCanRefund(false);
-			setTraineeAlreadyRequestedRefund(true);
+			// setTraineeCanRefund(false);
+			// setTraineeAlreadyRequestedRefund(true);
+
+			console.log(user);
+			console.log(response.data);
+			dispatch(setUser(response.data));
+			dispatch(
+				addNotification({
+					title: "Refund Requested",
+					info: "We've recieved your refund request. You can no longer view the course.",
+					color: "success",
+				})
+			);
 		} catch (err) {
 			console.log(err);
 		}
 	}
-	const renderRefundUnavailableTooltip = () =>
-		!traineeCanRefund && (
-			<Tooltip id="rejectED">
-				{traineeAlreadyRequestedRefund
-					? "You Already Requested a Refund!"
-					: "You Progressed Too Far For a Refund!"}
-			</Tooltip>
-		);
 
 	return (
-		<>
-			{traineeOwnsCourse ? (
-				<Alert variant="primary" className="lead">
-					Cost{" "}
-					{
-						/* {trainee.courses.map((course) => {
+		loaded && (
+			<>
+				{traineeOwnsCourse ? (
+					<Alert variant="primary" className="lead">
+						Cost{" "}
+						{
+							/* {trainee.courses.map((course) => {
 							if (course.course === id) {
 								return course.paidPrice
 									? course.paidPrice
 									: "MISSING DATA";
 							}
 						})} */
-						<h1>
-							{" "}
-							{traineeVersionOfCourse &&
-								Math.trunc(
-									traineeVersionOfCourse.paidPrice * user.exchangeRate * 100
-								) /
-									100 +
-									" " +
-									currency}
-						</h1>
-					}
-					<OverlayTrigger
-						placement="right"
-						delay={{ show: 250, hide: 400 }}
-						overlay={traineeCanRefund ? renderRefundUnavailableTooltip : ""}
-					>
-						<Button
-							ref={refundRejectedTip}
-							variant={traineeCanRefund ? "danger" : "secondary"}
-							onClick={traineeCanRefund ? handleShowRefundCourse : undefined}
-							active={!traineeCanRefund}
-						>
-							Request Refund
+							<h1>
+								{" "}
+								{traineeVersionOfCourse &&
+									Math.trunc(
+										traineeVersionOfCourse.paidPrice *
+											(user.exchangeRate ? user.exchangeRate : 1) *
+											100
+									) /
+										100 +
+										" " +
+										(currency ? currency : "USD")}
+							</h1>
+						}
+						{!traineePastFiftyPercentOfCourse && (
+							<Button
+								variant={traineeCanRefund ? "danger" : "secondary"}
+								onClick={handleShowRefundCourseModal}
+								disabled={!traineeCanRefund}
+							>
+								{traineeCanRefund ? "Request Refund" : "Refund Request Sent"}
+							</Button>
+						)}
+					</Alert>
+				) : (
+					<Alert variant="primary" className="lead">
+						Price:
+						{course.discount && course.discount !== 0 ? (
+							<>
+								<h1>{"" + course.price + " " + currency}</h1>
+								<del>{course.originalPrice}</del>{" "}
+								<span>{"" + course.discount + "% OFF"}</span>
+							</>
+						) : (
+							<h1>{course.originalPrice + " " + currency}</h1>
+						)}{" "}
+						<Button variant="success" onClick={handleTraineeBuyCourse}>
+							Purchase
 						</Button>
-					</OverlayTrigger>
-				</Alert>
-			) : (
-				<Alert variant="primary" className="lead">
-					Price:
-					{course.discount && course.discount !== 0 ? (
-						<>
-							<h1>{"" + course.price + " " + currency}</h1>
-							<del>{course.originalPrice}</del>{" "}
-							<span>{"" + course.discount + "% OFF"}</span>
-						</>
-					) : (
-						<h1>{course.originalPrice + " " + currency}</h1>
-					)}{" "}
-					<Button variant="success" onClick={handleTraineeBuyCourse}>
-						Purchase
-					</Button>
-				</Alert>
-			)}
+					</Alert>
+				)}
 
-			<Modal show={showRefundRequest} onHide={handleCloseRefundCourse}>
-				<Modal.Header closeButton>
-					<Modal.Title>Refund Request</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>{":("}</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleCloseRefundCourse}>
-						Cancel
-					</Button>
-					<Button variant="primary" onClick={traineeRefundCourseRequest}>
-						Confirm
-					</Button>
-				</Modal.Footer>
-			</Modal>
-		</>
+				<Modal
+					show={showRefundRequestModal}
+					onHide={handleCloseRefundCourseModal}
+				>
+					<Modal.Header closeButton>
+						<Modal.Title>Request a Refund?</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						{"You will no longer have access to the course."}
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="secondary" onClick={handleCloseRefundCourseModal}>
+							Cancel
+						</Button>
+						<Button variant="primary" onClick={traineeRefundCourseRequest}>
+							Confirm
+						</Button>
+					</Modal.Footer>
+				</Modal>
+			</>
+		)
 	);
 }
 
