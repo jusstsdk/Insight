@@ -81,6 +81,9 @@ export const userSlice = createSlice({
 			state.user.courses[action.payload.courseIndex].exam.receivedGrade =
 				action.payload.receivedGrade;
 		},
+		resetMonthlyPay: (state) => {
+			state.user.monthlyPay.amount = 0;
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -109,6 +112,7 @@ export const {
 	setCourses,
 	setRequests,
 	payFromWallet,
+	resetMonthlyPay,
 	watchVideo,
 	addNoteToVideoNotes,
 	deleteNoteFromVideoNotes,

@@ -12,6 +12,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 	const minPriceFilter = useRef("");
 	const ratingFilter = useRef("");
 	const [subjectFilter, setSubjectFilter] = useState("");
+	const [sort, setSort] = useState(false);
 	const user = useSelector((state) => state.userReducer.user);
 
 	async function handleSubmit(e) {
@@ -23,6 +24,11 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		getCourses();
 	}, [user.country]);
 
+	function comparePopularity(a, b) {
+		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+		return 0;
+	}
 	async function getCourses() {
 		let searchParams = {};
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
@@ -46,8 +52,16 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		}
 
 		courses.forEach((course) => {
-			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
+			course.originalPrice =
+				Math.trunc(course.originalPrice * user.exchangeRate * 100) /
+				100;
+			course.price =
+				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		if (sort) {
+			courses.sort(comparePopularity);
+		}
+		
 		setCourses(courses);
 	}
 
@@ -111,6 +125,13 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							placeholder="Filter by courses that are rated higher than this"
 						/>
 					</Form.Group>
+
+					<Form.Check
+						type="checkbox"
+						id={"default-checkbox"}
+						label="Sort by popularity"
+						onChange={() => setSort(!sort)}
+					/>
 
 					<Button type="submit">Search</Button>
 				</Form>

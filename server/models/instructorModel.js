@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const reviewSchema = require("./schemas/reviewSchema");
+const monthlyPaySchema = new Schema({
+	amount: {
+		type: Number,
+		default: 0,
+		required: true
+	},}, { _id: false ,timestamps: true });
+
 
 const instructorSchema = new Schema(
 	{
@@ -30,7 +37,10 @@ const instructorSchema = new Schema(
 		reviews: {
 			type: [reviewSchema],
 			required: false
-		}
+		},
+		monthlyPay: monthlyPaySchema,
+		
+		
 	},
 	{ timestamps: false }
 );

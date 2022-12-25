@@ -19,16 +19,19 @@ import {
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
+import { setCourses,payFromWallet } from "../../redux/userSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
 export default function CoursePage() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const params = useParams();
 
 	let courseID = params.id;
@@ -145,18 +148,47 @@ export default function CoursePage() {
 				courseId: courseID,
 			},
 		};
-		setClickable(false);
-		setButtonText("Request pending");
+		
 		try {
 			let response = await axios(config);
 		} catch (err) {
 			console.log(err);
 		}
+		setClickable(false);
+		setButtonText("Request pending");
+		dispatch(
+			addNotification({
+			  title: "request sent",
+			  info: "Access request to" + course.title + " sent successfully,waiting for admin approval",
+			  color: "success",
+			})
+		);
 	}
 	async function handleBuyCourse() {
-		navigate("payment");
+		
+		if(course.price === 0 || course.price<=user.wallet * user.exchangeRate){
+			const response = await API.post(
+				`/trainees/${userID}/courses/${courseID}/payment`
+			);
+			
+			if(course.price<=user.wallet * user.exchangeRate){
+				dispatch(payFromWallet(course.price / user.exchangeRate));
+			}
+			dispatch(setCourses(response.data.courses));
+			setClickable(false);
+			dispatch(
+				addNotification({
+				  title: "purchase successful",
+				  info: "course successfully purchased,you can now access all the content!",
+				  color: "success",
+				})
+			);
+			navigate("/");
+		}else{
+			navigate("payment");
+		}
+		
 	}
-
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadDoc() {
 		await getCourseFromDB();
@@ -216,14 +248,16 @@ export default function CoursePage() {
 									{showBuyCourse && (
 										<Alert variant="primary" className="lead" key={newId()}>
 											Price:
-											{course.discount && course.discount !== 0 ? (
+											{course.originalPrice !==0 && course.discount && course.discount !== 0 ? (
 												<>
 													<h1>{"" + course.price + " " + currency}</h1>
 													<del>{course.originalPrice}</del>{" "}
 													<span>{"" + course.discount + "% OFF"}</span>
 												</>
-											) : (
+											) : course.originalPrice !== 0  ? (
 												<h1>{course.originalPrice + " " + currency}</h1>
+											) : (
+												<h1> FREE</h1>
 											)}{" "}
 											<Button
 												key={newId()}
@@ -275,7 +309,7 @@ export default function CoursePage() {
 										Hours
 										<h1>{course.totalHours}</h1>
 										Progress
-										<ProgressBar key={newId()}>
+										{/* <ProgressBar key={newId()}>
 											<ProgressBar
 												striped
 												variant="success"
@@ -283,7 +317,7 @@ export default function CoursePage() {
 												key={newId()}
 												label={`${traineeCourse.progress * 100}%`}
 											/>
-										</ProgressBar>
+										</ProgressBar> */}
 									</Alert>
 								</Col>
 								{showRequestAccess && (

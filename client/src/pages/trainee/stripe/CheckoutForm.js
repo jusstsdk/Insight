@@ -14,6 +14,7 @@ import {
 	setCourses,
 	setUser,
 } from "../../../redux/userSlice";
+import { addNotification } from "../../../redux/notificationsSlice";
 
 export default function CheckoutForm() {
 	const stripe = useStripe();
@@ -58,7 +59,13 @@ export default function CheckoutForm() {
 			dispatch(payFromWallet(response.data.price));
 		}
 		
-
+		dispatch(
+			addNotification({
+			  title: "purchase successful",
+			  info: "course successfully purchased,you can now access all the content!",
+			  color: "success",
+			})
+		);
 		navigate("/");
 
 		// if (error.type === "card_error" || error.type === "validation_error") {

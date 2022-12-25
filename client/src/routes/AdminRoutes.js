@@ -11,6 +11,7 @@ import ViewReports from "../pages/admin/ViewReports";
 import ViewCourseReports from "../pages/admin/ViewCourseReports";
 import Promotion from "../pages/admin/Promotion";
 import ChangePassword from "../components/shared/ChangePassword";
+import Refunds from "../pages/admin/Refunds";
 
 export function AdminRoutes() {
 	return (
@@ -40,6 +41,10 @@ export function AdminRoutes() {
 						<Route
 							path="requestsHistory"
 							element={<RequestsHistory />}
+						/>
+						<Route
+							path="refunds"
+							element={<Refunds />}
 						/>
 						<Route path="viewReports" element={<ViewReports />} />
 						<Route

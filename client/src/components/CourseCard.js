@@ -1,30 +1,50 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup, Modal } from "react-bootstrap";
-import React, { useState } from "react";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+	Modal,
+} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 function CourseCard({ course }) {
 	const [show, setShow] = useState(false);
 	const userType = useSelector((state) => state.userReducer.type);
+	const user = useSelector((state) => state.userReducer.user);
+	const currency = useSelector((state) => state.userReducer.user.currency);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const handleOpen = () => {
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
+	
 	return (
 		<>
+
 			<Card className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
+						<Card.Title className="courseCardTitle">
+							{course.title}
+						</Card.Title>
 
-						<p className="textFit my-auto text-muted">{course.totalHours} Hours</p>
+						<p className="textFit my-auto text-muted">
+							{course.totalHours} Hours
+						</p>
 
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
+								<Badge
+									key={"subject_badge_" + i}
+									className="p-2 mx-1 "
+								>
 									{subject}
 								</Badge>
 							))}
@@ -40,28 +60,61 @@ function CourseCard({ course }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted courseCardLabel">Summary</h6>
+						<h6 className="textFit courseCardLabel">Number of students : {course.enrolledTrainees.length}</h6>
+					</CardGroup>
+					<CardGroup as={Row} className="my-2">
+						<h6 className="text-muted textFit courseCardLabel">
+							Summary
+						</h6>
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						<Col sm={1} className="priceContainer d-flex justify-content-end">
-							<Card.Text className="priceLabel">{course.originalPrice}$</Card.Text>
+						<Col
+							sm={1}
+							className="priceContainer textFit d-flex justify-content-end"
+						>
+							<Card.Text className="priceLabel">
+								{course.originalPrice} {currency}
+							</Card.Text>
 						</Col>
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">
+							Instructors
+						</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
-									<a href="#" key={"instructor_" + i} className="mx-1">
+									<a
+										href="#"
+										key={"instructor_" + i}
+										className="mx-1"
+									>
 										{instructor.username}
 									</a>
 								))}
 							</ListGroup>
 						</Col>
-						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
+						<Col
+							sm={1}
+							className="priceContainer textFit  d-flex justify-content-end"
+						>
+							<strong>
+								{course.discount > 0 && (
+									<Card.Text className="priceLabel  discountLabel">
+										{course.discount}% off
+									</Card.Text>
+								)}
+							</strong>
+						</Col>
+						<Col
+							className="viewCourseButton d-flex  justify-content-end"
+							sm={2}
+							md={2}
+							lg={2}
+						>
 							<Button onClick={handleShow}>View Course</Button>
 						</Col>
 					</CardGroup>
@@ -73,7 +126,17 @@ function CourseCard({ course }) {
 				</Modal.Header>
 				<Modal.Body>
 					<p>total hours : {course.totalHours}</p>
-					<p>price : {course.price}</p>
+					<p>
+						price : {course.price} {currency}{" "}
+						<strong>
+							{course.discount > 0 && (
+								<span>
+									{course.discount} off, was{" "}
+									{course.originalPrice} {currency}
+								</span>
+							)}
+						</strong>
+					</p>
 					<p>rating : {course.rating}</p>
 				</Modal.Body>
 				<Modal.Footer>

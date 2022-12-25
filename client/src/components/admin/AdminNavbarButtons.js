@@ -51,7 +51,11 @@ export default function AdminNavbarButtons() {
 			>
 				Requests history
 			</Nav.Link>
-			<Nav.Link href="#link">Refunds</Nav.Link>
+			<Nav.Link onClick={()=>{
+				navigate("refunds");
+			}}
+			>
+				Refunds</Nav.Link>
 			<Nav.Link
 				onClick={() => {
 					navigate("promotion");

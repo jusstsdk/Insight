@@ -24,13 +24,14 @@ const CourseRequests = () => {
 	return (
 		<>
 			<h1>Course Requests</h1>
+			
 			{traineeRequests.map((traineeRequests) => (
 				<Container  key={traineeRequests._id}>
 					<h4>{traineeRequests.username}</h4>
 					<h6 className="text-muted">{traineeRequests.corporate}</h6>
 					{traineeRequests.requests.map((request) => (
 						
-						<RequestCard key={request._id} request={request} course={request.courseId} />
+						<RequestCard key={request._id} request={request} course={request.courseId} username={traineeRequests.username} />
 					))}
 				</Container>
 			))}

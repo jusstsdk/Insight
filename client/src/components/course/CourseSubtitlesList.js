@@ -21,7 +21,8 @@ function CourseSubtitlesList({ course }) {
 				</tr>
 			</thead>
 			<tbody>
-				{userCourse.subtitles.map((subtitle, subtitle_index) => {
+				
+				{userCourse && userCourse.subtitles.map((subtitle, subtitle_index) => {
 					return (
 						<tr key={`Subtitles_tr_${course._id}_${subtitle_index}`}>
 							<td>{subtitle_index + 1}</td>
@@ -44,6 +45,7 @@ function CourseSubtitlesList({ course }) {
 						</tr>
 					);
 				})}
+				
 			</tbody>
 		</Table>
 	);
