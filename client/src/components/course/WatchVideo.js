@@ -79,6 +79,23 @@ export default function WatchVideo(props) {
 		let newNotes = Content.notes.filter((_, i) => i !== note_index);
 		dispatch(setContent({ ...Content, notes: newNotes }));
 	};
+
+	const handleDownloadNotes = () => {
+		let notesFileArray = Content.notes.map((note, note_index) => {
+			return `${note_index + 1}. ${note}\n`;
+		});
+		let notesFile = "";
+		notesFileArray.forEach((line) => {
+			notesFile += line;
+		});
+		const blob = new Blob([notesFile], { type: "text/plain" });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.download = `${Content.title}.txt`;
+		link.href = url;
+		link.click();
+	};
+
 	const resizeTextArea = () => {
 		try {
 			NoteRef.current.style.height = "auto";
@@ -143,6 +160,9 @@ export default function WatchVideo(props) {
 				<Row className="me-auto  justify-content-end">
 					<Button className="w-auto" onClick={handleAddNote}>
 						Add Note
+					</Button>
+					<Button className="w-auto" onClick={handleDownloadNotes}>
+						Download Notes
 					</Button>
 				</Row>
 			</Col>
