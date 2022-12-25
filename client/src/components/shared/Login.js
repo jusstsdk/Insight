@@ -48,7 +48,7 @@ export default function Login() {
 				"https://api.apilayer.com/exchangerates_data/latest",
 				{
 					headers: {
-						apikey: "SE7K7OsXv8dt6U9bbzlHjwCTCNR1karJ",
+						apikey: "J1zJcZ2LQUz9pAhV05AnKEl62pd0iBfn",
 					},
 					params: {
 						base: "USD",
