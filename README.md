@@ -129,6 +129,7 @@
 
 # New questions
    - subtitle times and progress, can it just be entered by the instructor because he can judge how much time exercises take.
+   - can we just provide the option to download certificate instead of email? must be pdf?
 
 # Questions
    - money owed per month instructor?
