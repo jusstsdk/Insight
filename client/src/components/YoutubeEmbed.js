@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Card } from "react-bootstrap";
 
 const YoutubeEmbed = ({ src }) => (
-	<div className="video-responsive">
+	<Card className="video-responsive">
 		<iframe
 			width="853"
 			height="480"
@@ -11,7 +12,7 @@ const YoutubeEmbed = ({ src }) => (
 			allowFullScreen
 			title="Embedded youtube"
 		/>
-	</div>
+	</Card>
 );
 
 YoutubeEmbed.propTypes = {

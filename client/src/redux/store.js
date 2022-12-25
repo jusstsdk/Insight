@@ -3,20 +3,23 @@ import userSlice from "./userSlice";
 import createCourseSlice from "./createCourseSlice";
 import courseInfoSlice from "./courseInfoSlice";
 import notificationsSlice from "./notificationsSlice";
-import storage from 'redux-persist/lib/storage'
-import { persistReducer } from 'redux-persist'
-import thunk from 'redux-thunk'
+import continueCourseSlice from "./continueCourseSlice";
+
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
 
 const combinedReducer = combineReducers({
 	userReducer: userSlice,
 	createCourseReducer: createCourseSlice,
 	courseInfoReducer: courseInfoSlice,
-	notificationsReducer: notificationsSlice
+	continueCourseReducer: continueCourseSlice,
+	notificationsReducer: notificationsSlice,
 });
 
 const persistConfig = {
-    key: 'root',
-    storage
+	key: "root",
+	storage,
 };
 
 const rootReducer = (state, action) => {
@@ -30,5 +33,5 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default configureStore({
 	reducer: persistedReducer,
-	middleware: [thunk]
+	middleware: [thunk],
 });

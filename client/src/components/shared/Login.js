@@ -48,7 +48,7 @@ export default function Login() {
 				"https://api.apilayer.com/exchangerates_data/latest",
 				{
 					headers: {
-						apikey: "SE7K7OsXv8dt6U9bbzlHjwCTCNR1karJ",
+						apikey: "J1zJcZ2LQUz9pAhV05AnKEl62pd0iBfn",
 					},
 					params: {
 						base: "USD",
@@ -115,21 +115,11 @@ export default function Login() {
 
 				{isLoggingIn ? (
 					<Button variant="primary" disabled>
-						<Spinner
-							as="span"
-							animation="border"
-							size="sm"
-							role="status"
-							aria-hidden="true"
-						/>{" "}
+						<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
 						Logging in...
 					</Button>
 				) : (
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={isLoggingIn}
-					>
+					<Button variant="primary" type="submit" disabled={isLoggingIn}>
 						Login
 					</Button>
 				)}
