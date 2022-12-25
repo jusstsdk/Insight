@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import { addExerciseToSubtitle, editExerciseOfSubtitle } from "../../../redux/createCourseSlice";
 
 export default function AddExercise(props) {
 	const dispatch = useDispatch();
-
+	const SubtitleKey = props.subtitleKey;
+	const exerciseIndex = useSelector(
+		(state) => state.createCourseReducer.subtitlesIndices[SubtitleKey]
+	);
 	const [Title, setTitle] = useState(props.case === "Add" ? "" : props.exercise.title);
 
-	const SubtitleKey = props.subtitleKey;
-
 	const handleAddExercise = () => {
-		let newExercise = { title: Title, questions: [] };
 		if (props.case === "Add") {
+			let newExercise = { title: Title, questions: [], index: exerciseIndex };
 			dispatch(addExerciseToSubtitle({ subtitleKey: SubtitleKey, exercise: newExercise }));
 		} else {
 			dispatch(

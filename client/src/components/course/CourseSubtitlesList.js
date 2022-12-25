@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 function CourseSubtitlesList({ course }) {
 	const navigate = useNavigate();
-	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((course) => {
-		return course._id == course._id;
+	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((aCourse) => {
+		return aCourse.course === course._id;
 	})[0];
 
 	return (
@@ -21,7 +21,8 @@ function CourseSubtitlesList({ course }) {
 				</tr>
 			</thead>
 			<tbody>
-				{userCourse.subtitles.map((subtitle, subtitle_index) => {
+				
+				{userCourse && userCourse.subtitles.map((subtitle, subtitle_index) => {
 					return (
 						<tr key={`Subtitles_tr_${course._id}_${subtitle_index}`}>
 							<td>{subtitle_index + 1}</td>
@@ -29,13 +30,12 @@ function CourseSubtitlesList({ course }) {
 							<td>{subtitle.hours}</td>
 							<td>
 								<Button
-									key={"Button Subtitle" + subtitle_index}
+									key={"Continue Course" + subtitle_index}
 									onClick={() =>
-										navigate("viewSubtitle", {
+										navigate("continueCourse", {
 											state: {
 												courseId: userCourse.course,
-												subtitleIndex: subtitle_index,
-												subtitle: subtitle,
+												course: course,
 											},
 										})
 									}>
@@ -45,6 +45,7 @@ function CourseSubtitlesList({ course }) {
 						</tr>
 					);
 				})}
+				
 			</tbody>
 		</Table>
 	);

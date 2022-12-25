@@ -9,7 +9,7 @@ import './shared/pagination/style.scss'
 let pageSize =2;
 const MyCourses = () => {
 	const [courses, setCourses] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
+	const user = useSelector((state) => state.userReducer.user);	const [currentPage, setCurrentPage] = useState(1);
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
@@ -30,6 +30,8 @@ const MyCourses = () => {
 					subtitles: course.subtitles,
 					exam: course.exam,
 				};
+				fullCourse.originalPrice = (fullCourse.originalPrice * user.exchangeRate).toFixed(2);
+				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
 
 				newCourses.push(fullCourse);
 			})

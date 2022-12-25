@@ -7,6 +7,7 @@ const {
 	updateInstructor,
 	reviewInstructor,
 	getInstructorReviews,
+	getMonthlyIncome,
 } = require("../controllers/instructorController");
 
 const { createCourseInstructor, getCoursesInstructor } = require("../controllers/courseController");
@@ -39,5 +40,9 @@ router.post("/:id/review", reviewInstructor);
 
 // Review an Instructor
 router.get("/:id/reviews", getInstructorReviews);
+
+// Add to Monthly Income
+router.get("/:id/income", getMonthlyIncome );
+
 
 module.exports = router;

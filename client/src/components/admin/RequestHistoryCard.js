@@ -45,24 +45,13 @@ function RequestHistoryCard({ request, course }) {
 					<Col sm={8}>
 						<Card.Text>{course.summary}</Card.Text>
 					</Col>
-				</CardGroup>
-
-				{/* Instructors and View Course*/}
-				<CardGroup as={Row} className="mt-2 align-items-center">
-					<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
-					<Col sm={2}>
-						<ListGroup horizontal>
-							{course.instructors.map((instructor, i) => (
-								<a href="#" key={"instructor_" + i} className="mx-1">
-									{instructor.username}
-								</a>
-							))}
-						</ListGroup>
-					</Col>
 					<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
                         <h6 className={variant} >{message}</h6>
 					</Col>
 				</CardGroup>
+
+				{/* Instructors and View Course*/}
+				
 			</Card.Body>
 		</Card>
 		)
