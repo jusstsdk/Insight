@@ -18,19 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import WatchVideo from "../components/course/WatchVideo";
 import { Breadcrumb, Button } from "react-bootstrap";
 
-import {
-	setSubtitleIndex,
-	setSelectedContentIndex,
-	setContent,
-	setContentType,
-	initializeAnswers,
-	setIsSolved,
-	setSolve,
-	setGrade,
-	setOldGrade,
-	resetExerciseInfo,
-	setContentInfo,
-} from "../redux/continueCourseSlice";
+import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
 import { useLocation } from "react-router-dom";
 import DrawerListItems from "../components/course/DrawerListItems";
@@ -342,7 +330,7 @@ export default function ContinueCourse() {
 				) : ContentType === "Exercise" ? (
 					<SolveExercise key={`course_${CourseId}_SolveExercise`} CourseId={CourseId} />
 				) : (
-					""
+					<SolveExercise key={`course_${CourseId}_SolveExam`} CourseId={CourseId} />
 				)}
 			</Box>
 		</Box>

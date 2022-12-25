@@ -2,12 +2,7 @@ import YoutubeEmbed from "../YoutubeEmbed";
 import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
-import {
-	addNoteToVideoNotes,
-	deleteNoteFromVideoNotes,
-	setUser,
-	watchVideo,
-} from "../../redux/userSlice";
+import { addNoteToVideoNotes, deleteNoteFromVideoNotes, watchVideo } from "../../redux/userSlice";
 import { BsTrash } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { setContent } from "../../redux/continueCourseSlice";

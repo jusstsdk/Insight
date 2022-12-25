@@ -1,7 +1,7 @@
-import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../../functions/api";
-import { setUser, solveExercise } from "../../redux/userSlice";
+import { solveExam, solveExercise } from "../../redux/userSlice";
 import { useState } from "react";
 import {
 	initializeAnswers,
@@ -10,7 +10,6 @@ import {
 	setIsSolved,
 	setOldGrade,
 	setSolve,
-	updateAnswer,
 } from "../../redux/continueCourseSlice";
 import ExerciseBody from "./ExerciseBody";
 export default function SolveExercise(props) {
@@ -20,60 +19,76 @@ export default function SolveExercise(props) {
 
 	//  Incoming Info
 	const Content = useSelector((state) => state.continueCourseReducer.content);
+	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
+
 	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === props.CourseId
 	);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
-	const exerciseIndex = user.courses[courseIndex].subtitles[SubtitleIndex].exercises.findIndex(
-		(video) => video._id === Content._id
-	);
+	const exerciseIndex =
+		ContentType === "Exercise"
+			? user.courses[courseIndex].subtitles[SubtitleIndex].exercises.findIndex(
+					(video) => video._id === Content._id
+			  )
+			: -1;
 
 	//  Page Control
 	const Solve = useSelector((state) => state.continueCourseReducer.solve);
 	const [MissingAnswer, setMissingAnswer] = useState(false);
-	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 	const Grade = useSelector((state) => state.continueCourseReducer.grade);
 	const OldGrade = useSelector((state) => state.continueCourseReducer.oldGrade);
 
 	const handleSubmitAnswers = async () => {
+		// Checks if there are empty answers.
 		let emptyAnswers = Answers.filter((answer) => answer.choice === "");
+		if (emptyAnswers.length !== 0) {
+			setMissingAnswer(true);
+			return;
+		}
+		setMissingAnswer(false);
 
-		if (emptyAnswers.length !== 0) setMissingAnswer(true);
-		else {
-			setMissingAnswer(false);
+		// Updates a copy of the exercise questions with the answers the user selected.
+		let userQuestions = Content.questions.map((question, questionIndex) => {
+			return { ...question, studentAnswer: Answers[questionIndex].choice };
+		});
 
-			let userQuestions =
-				user.courses[courseIndex].subtitles[SubtitleIndex].exercises[exerciseIndex].questions;
-			userQuestions = userQuestions.map((question, questionIndex) => {
-				return { ...question, studentAnswer: Answers[questionIndex].choice };
-			});
+		// Gets array of 0s and 1s where 0s represent wrong answer and 1s correct wrong answer.
+		let grade = Answers.map((answer) => {
+			let correctAnswer = Content.questions.find(
+				(question) => question._id === answer.questionId
+			).correctAnswer;
+			if (correctAnswer === answer.choice) return 1;
+			else return 0;
+		});
 
-			let maxGrade = Content.maxGrade;
-			let grade = Answers.map((answer) => {
-				let correctAnswer = Content.questions.find(
-					(question) => question._id === answer.questionId
-				).correctAnswer;
-				if (correctAnswer === answer.choice) return 1;
-				else return 0;
-			});
-			grade = grade.reduce((partialSum, a) => partialSum + a, 0);
+		// Sums up the array to get total received grade.
+		grade = grade.reduce((partialSum, a) => partialSum + a, 0);
 
-			dispatch(setGrade(grade));
-			dispatch(setOldGrade(Content.receivedGrade));
-			let bestGrade;
-			if (grade < Content.receivedGrade) {
-				bestGrade = Content.receivedGrade;
-			} else {
+		dispatch(setGrade(grade));
+		dispatch(setOldGrade(Content.receivedGrade));
+
+		// If the oldGrade is better then it doesn't update the DB and keeps the best grade so far.
+		let bestGrade;
+		if (grade < Content.receivedGrade) {
+			bestGrade = Content.receivedGrade;
+		} else {
+			if (ContentType === "Exercise") {
 				await API.put(`/trainees/${user._id}/solveExercise`, {
 					courseIndex: courseIndex,
 					subtitleIndex: SubtitleIndex,
 					exerciseIndex: exerciseIndex,
 					questions: userQuestions,
 				});
-				bestGrade = grade;
+			} else {
+				await API.put(`/trainees/${user._id}/solveExam`, {
+					courseIndex: courseIndex,
+					questions: userQuestions,
+				});
 			}
-
+			bestGrade = grade;
+		}
+		if (ContentType === "Exercise") {
 			dispatch(
 				solveExercise({
 					courseIndex: courseIndex,
@@ -83,16 +98,25 @@ export default function SolveExercise(props) {
 					receivedGrade: bestGrade,
 				})
 			);
-			dispatch(setIsSolved(true));
+		} else {
 			dispatch(
-				setContent({
-					...Content,
-					isSolved: true,
+				solveExam({
+					courseIndex: courseIndex,
 					questions: userQuestions,
 					receivedGrade: bestGrade,
 				})
 			);
 		}
+
+		dispatch(setIsSolved(true));
+		dispatch(
+			setContent({
+				...Content,
+				isSolved: true,
+				questions: userQuestions,
+				receivedGrade: bestGrade,
+			})
+		);
 	};
 
 	return (
@@ -128,6 +152,11 @@ export default function SolveExercise(props) {
 							}}>
 							Start Exercise
 						</Button>
+						{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade >= 0.5 && (
+							<Button className="gradeRecieved" onClick={() => console.log("Get Certificate")}>
+								Get Certificate
+							</Button>
+						)}
 					</Col>
 				</Row>
 			)}

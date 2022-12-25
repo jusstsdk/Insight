@@ -1,15 +1,10 @@
 import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	initializeAnswers,
-	setContent,
-	setIsSolved,
-	setSolve,
-	updateAnswer,
-} from "../../redux/continueCourseSlice";
+import { setOldGrade, setSolve, updateAnswer } from "../../redux/continueCourseSlice";
 export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade, OldGrade }) {
 	const dispatch = useDispatch();
 	const Content = useSelector((state) => state.continueCourseReducer.content);
+	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
 
 	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
@@ -98,8 +93,19 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 						)}
 					</Row>
 					<Col className="ms-auto gradeRecieved">
-						<Button onClick={() => dispatch(setSolve(false))}>Try again</Button>
+						<Button
+							onClick={() => {
+								dispatch(setOldGrade(Content.receivedGrade));
+								dispatch(setSolve(false));
+							}}>
+							Try again
+						</Button>
 					</Col>
+					{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade > 0.5 && (
+						<Col className="ms-auto gradeRecieved">
+							<Button onClick={() => console.log("Get Certificate")}>Get Certificate</Button>
+						</Col>
+					)}
 				</>
 			)}
 			{MissingAnswer && <h6 className="error">You have to choose an answer to each question!</h6>}
