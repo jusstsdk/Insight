@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 function CourseSubtitlesList({ course }) {
 	const navigate = useNavigate();
-	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((Course) => {
-		return course._id == Course._id;
+	const userCourse = useSelector((state) => state.userReducer.user.courses).filter((aCourse) => {
+		return aCourse.course === course._id;
 	})[0];
 
 	return (
@@ -30,13 +30,12 @@ function CourseSubtitlesList({ course }) {
 							<td>{subtitle.hours}</td>
 							<td>
 								<Button
-									key={"Button Subtitle" + subtitle_index}
+									key={"Continue Course" + subtitle_index}
 									onClick={() =>
-										navigate("viewSubtitle", {
+										navigate("continueCourse", {
 											state: {
 												courseId: userCourse.course,
-												subtitleIndex: subtitle_index,
-												subtitle: subtitle,
+												course: course,
 											},
 										})
 									}>
