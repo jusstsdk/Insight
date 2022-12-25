@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 
@@ -13,6 +13,7 @@ export default function SearchCourses({
 	const maxPriceFilter = useRef("");
 	const minPriceFilter = useRef("");
 	const ratingFilter = useRef("");
+	const [sort, setSort] = useState(false);
 	const user = useSelector((state) => state.userReducer.user);
 
 	async function handleSubmit(e) {
@@ -24,6 +25,11 @@ export default function SearchCourses({
 		getCourses();
 	}, [user.country]);
 
+	function comparePopularity(a, b) {
+		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+		return 0;
+	}
 	async function getCourses() {
 		let searchParams = {};
 
@@ -54,10 +60,15 @@ export default function SearchCourses({
 
 		courses.forEach((course) => {
 			course.originalPrice =
-				Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
+				Math.trunc(course.originalPrice * user.exchangeRate * 100) /
+				100;
 			course.price =
 				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		if (sort) {
+			courses.sort(comparePopularity);
+		}
+		
 		setCourses(courses);
 	}
 
@@ -109,6 +120,13 @@ export default function SearchCourses({
 							placeholder="Filter by courses that are rated higher than this"
 						/>
 					</Form.Group>
+
+					<Form.Check
+						type="checkbox"
+						id={"default-checkbox"}
+						label="Sort by popularity"
+						onChange={() => setSort(!sort)}
+					/>
 
 					<Button type="submit">Search</Button>
 				</Form>

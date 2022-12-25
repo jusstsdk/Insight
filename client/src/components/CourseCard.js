@@ -60,6 +60,9 @@ function CourseCard({ course }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
+						<h6 className="textFit courseCardLabel">Number of students : {course.enrolledTrainees.length}</h6>
+					</CardGroup>
+					<CardGroup as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel">
 							Summary
 						</h6>
