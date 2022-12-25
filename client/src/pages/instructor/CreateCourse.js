@@ -12,9 +12,9 @@ import { clearCreateCourse } from "../../redux/createCourseSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 import { updateInstructorCourses } from "../../redux/userSlice";
 
-import AddInfo from "../../components/Instructor/createCourse/AddInfo";
-import AddExam from "../../components/Instructor/createCourse/AddExam";
-import AddSubtitles from "../../components/Instructor/createCourse/AddSubtitles";
+import AddInfo from "../../components/instructor/createCourse/AddInfo";
+import AddExam from "../../components/instructor/createCourse/AddExam";
+import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
 import API from "../../functions/api";
 
 export default function CreateCourse() {

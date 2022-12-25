@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Tab, Tabs } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ListCourses from "../../components/SearchCourses";
-import CourseCard from "../../components/Instructor/CourseCard";
+import CourseCard from "../../components/instructor/CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const [Courses, setCourses] = useState([]);

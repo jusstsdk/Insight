@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Tabs, Tab } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import CourseCard from "../components/CourseCard";
-import InstructorReviewCard from "../components/Instructor/InstructorReviewCard";
+import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
 import API from "../functions/api";
 export default function ViewInstructor() {
 	const location = useLocation();
