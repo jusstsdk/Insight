@@ -26,9 +26,66 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { Rating } from "react-simple-star-rating";
+import CorpTraineeRequestCourseAlert from "../../components/course/CorpTraineeCourseRequestAlert";
+import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceAlert";
+import CourseHours from "../../components/course/CourseHours";
+import CourseSummaryPrevVid from "../../components/course/CourseSummaryPrevVid";
+import CourseInstructorsList from "../../components/course/CourseInstructorsList";
 
 function CourseBasicInfo(props) {
-	return <></>;
+	const course = props.course;
+	const instructors = props.instructors;
+
+	const traineeOwnsCourse = props.traineeOwnsCourse;
+	const traineeVersionOfCourse = props.traineeVersionOfCourse;
+
+	const corpTraineeOwnsCourse = props.corpTraineeOwnsCourse;
+	const corpTraineeVersionOfCourse = props.corpTraineeVersionOfCourse;
+
+	const userType = useSelector((state) => state.userReducer.type);
+
+	return (
+		<>
+			<h3>Basic Info</h3>
+			<Row>
+				{userType === "CorporateTrainee" ? (
+					!corpTraineeOwnsCourse && (
+						<Col>
+							<CorpTraineeRequestCourseAlert
+								course={course}
+							></CorpTraineeRequestCourseAlert>
+						</Col>
+					)
+				) : (
+					<Col>
+						<TraineeCoursePriceAlert
+							course={course}
+							traineeOwnsCourse={traineeOwnsCourse}
+							traineeVersionOfCourse={traineeVersionOfCourse}
+						></TraineeCoursePriceAlert>
+					</Col>
+				)}
+
+				<Col>
+					<CourseHours
+						course={course}
+						ownsCourse={
+							userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
+						}
+						hisVersionOfCourse={
+							userType === "Trainee"
+								? traineeVersionOfCourse
+								: corpTraineeVersionOfCourse
+						}
+					></CourseHours>
+				</Col>
+			</Row>
+			<Row>
+				<CourseSummaryPrevVid course={course}></CourseSummaryPrevVid>
+			</Row>
+			<CourseInstructorsList instructors={instructors}></CourseInstructorsList>
+		</>
+	);
 }
 
 export default CourseBasicInfo;

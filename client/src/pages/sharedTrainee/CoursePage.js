@@ -26,8 +26,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
-import CorpTraineeRequestCourseAlert from "../../components/course/CorpTraineeCourseRequestAlert";
-import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceAlert";
+import CourseBasicInfo from "../../components/course/CourseBasicInfo";
 
 export default function CoursePage() {
 	const navigate = useNavigate();
@@ -127,80 +126,16 @@ export default function CoursePage() {
 		course &&
 		loaded && (
 			<>
-				<Container key={newId()}>
+				<Container>
 					<CourseTitle course={course}></CourseTitle>
-					Basic Info
-					<Row>
-						{userType === "CorporateTrainee" ? (
-							!corpTraineeOwnsCourse && (
-								<Col>
-									<CorpTraineeRequestCourseAlert
-										course={course}
-									></CorpTraineeRequestCourseAlert>
-								</Col>
-							)
-						) : (
-							<Col>
-								<TraineeCoursePriceAlert
-									course={course}
-									traineeOwnsCourse={traineeOwnsCourse}
-									traineeVersionOfCourse={traineeVersionOfCourse}
-								></TraineeCoursePriceAlert>
-							</Col>
-						)}
-
-						<Col>
-							<Alert key={newId()} variant="dark" className="lead">
-								Hours
-								<h1>{course.totalHours}</h1>
-								Progress
-								{/* <ProgressBar key={newId()}>
-											<ProgressBar
-												striped
-												variant="success"
-												now={
-													traineeVersionOfCourse &&
-													traineeVersionOfCourse.progress
-												}
-												key={newId()}
-												label={`${traineeVersionOfCourse.progress * 100}%`}
-											/>
-										</ProgressBar> */}
-							</Alert>
-						</Col>
-					</Row>
-					<Row>
-						<Col key={newId()}>
-							Summary
-							<h3 className="lead">{course.summary}</h3>
-						</Col>
-						<Col key={newId()}>
-							Preview Video
-							<iframe
-								width="560"
-								height="315"
-								src={course.previewVideo} //SHOULD BE {course.previewVideo} ONCE WE FIX DATABASE
-								title="Preview Video"
-								allowFullScreen
-							/>
-						</Col>
-					</Row>
-					<ListGroup key="Group " variant="flush">
-						Instructors
-						{instructors &&
-							instructors.map((instructor) => {
-								return (
-									<ListGroup.Item key={newId()} bg="primary">
-										<Row>
-											<Col>{instructor.username}</Col>
-											<Col>
-												<Button>View</Button>
-											</Col>
-										</Row>
-									</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS
-								);
-							})}
-					</ListGroup>
+					<CourseBasicInfo
+						course={course}
+						instructors={instructors}
+						traineeOwnsCourse={traineeOwnsCourse}
+						traineeVersionOfCourse={traineeVersionOfCourse}
+						corpTraineeOwnsCourse={corpTraineeOwnsCourse}
+						corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
+					></CourseBasicInfo>
 					<hr></hr>
 					<CourseSubtitlesList
 						course={course}

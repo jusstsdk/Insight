@@ -4,10 +4,13 @@ import React from "react";
 function CourseSubtitlesList({ course }) {
 	return (
 		<>
+			<h3>Subtitles</h3>
 			<ListGroup>
 				{course.subtitles.map((subtitle, subtitle_index) => {
 					return (
-						<ListGroup.Item key={`Subtitles_tr_${course._id}_${subtitle_index}`}>
+						<ListGroup.Item
+							key={`Subtitles_tr_${course._id}_${subtitle_index}`}
+						>
 							<Row>
 								<Col>#{subtitle_index + 1}</Col>
 								<Col>{subtitle.title ? subtitle.title : "No Title."}</Col>

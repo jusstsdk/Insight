@@ -28,7 +28,7 @@ import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
 import CorpTraineeRequestCourseAlert from "./CorpTraineeCourseRequestAlert";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice";
+import { setCourses } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 
 function TraineeCoursePriceAlert(props) {
@@ -88,17 +88,16 @@ function TraineeCoursePriceAlert(props) {
 		setShowRefundRequestModal(false);
 		try {
 			const response = await axios(config);
-			// setTraineeCanRefund(false);
-			// setTraineeAlreadyRequestedRefund(true);
+			setTraineeCanRefund(false);
+			setTraineeAlreadyRequestedRefund(true);
 
-			console.log(user);
-			console.log(response.data);
-			dispatch(setUser(response.data));
+			console.log(response.data.courses);
+			dispatch(setCourses(response.data.courses));
 			dispatch(
 				addNotification({
 					title: "Refund Requested",
 					info: "We've recieved your refund request. You can no longer view the course.",
-					color: "success",
+					color: "error",
 				})
 			);
 		} catch (err) {

@@ -55,7 +55,7 @@ function CourseReviews(props) {
 				return (
 					<Card key={review.trainee} className="my-2">
 						<Card.Img />
-						<Card.Body key={newId()}>
+						<Card.Body>
 							<CardGroup
 								as={Row}
 								className="justify-content-between align-items-center"
@@ -85,7 +85,7 @@ function CourseReviews(props) {
 								</Card.Title>
 							</CardGroup>
 							<hr></hr>
-							<Card.Text key={newId()}>{review.review}</Card.Text>
+							<Card.Text>{review.review}</Card.Text>
 						</Card.Body>
 					</Card>
 				);
