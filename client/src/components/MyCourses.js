@@ -4,10 +4,16 @@ import axios from "axios";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 import CourseCard from "./CourseCard";
-
+import Pagination from "./shared/pagination/Pagination";
+import './shared/pagination/style.scss'
+let pageSize =2;
 const MyCourses = () => {
 	const [courses, setCourses] = useState([]);
-	const user = useSelector((state) => state.userReducer.user);
+	const user = useSelector((state) => state.userReducer.user);	const [currentPage, setCurrentPage] = useState(1);
+	let firstPageIndex = (currentPage - 1) * pageSize;
+	let lastPageIndex = firstPageIndex + pageSize;
+	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
+
 	const coursesWithId = useSelector(
 		(state) => state.userReducer.user.courses
 	);
@@ -40,11 +46,18 @@ const MyCourses = () => {
 	return (
 		courses && (
 			<div className="course-list">
-				{courses.map((course) => (
+				{currentCourses.map((course) => (
 					<div className="course-preview" key={course._id}>
 						<CourseCard course={course} />
 					</div>
 				))}
+				<Pagination
+					className="pagination-bar"
+					currentPage={currentPage}
+					totalCount={courses.length}
+					pageSize={pageSize}
+					onPageChange={(page) => setCurrentPage(page)}
+				/>
 			</div>
 		)
 	);
