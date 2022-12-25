@@ -33,7 +33,7 @@ export default function Login() {
 			let responseUser = response.data["user"];
 
 			if (!responseUser.country) responseUser.country = "USA";
-			
+
 			const responseCountryApi = await axios.get(
 				`https://restcountries.com/v3.1/name/${responseUser.country}`
 			);
@@ -48,7 +48,7 @@ export default function Login() {
 				"https://api.apilayer.com/exchangerates_data/latest",
 				{
 					headers: {
-						apikey: "SE7K7OsXv8dt6U9bbzlHjwCTCNR1karJ",
+						apikey: "J1zJcZ2LQUz9pAhV05AnKEl62pd0iBfn",
 					},
 					params: {
 						base: "USD",
@@ -125,11 +125,7 @@ export default function Login() {
 						Logging in...
 					</Button>
 				) : (
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={isLoggingIn}
-					>
+					<Button variant="primary" type="submit" disabled={isLoggingIn}>
 						Login
 					</Button>
 				)}

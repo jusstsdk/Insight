@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Tab, Tabs } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ListCourses from "../../components/SearchCourses";
-import CourseCard from "../../components/instructor/CourseCard";
+import CourseCard from "../../components/Instructor/CourseCard";
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const [Courses, setCourses] = useState([]);
@@ -21,8 +21,12 @@ function ViewInstructorCourses() {
 			const response = await axios(config);
 			let courses = response.data.courses;
 			let drafts = courses.filter((course) => course.status === "Draft");
-			let publishedCourses = courses.filter((course) => course.status === "Published");
-			let closedCourses = courses.filter((course) => course.status === "Closed");
+			let publishedCourses = courses.filter(
+				(course) => course.status === "Published"
+			);
+			let closedCourses = courses.filter(
+				(course) => course.status === "Closed"
+			);
 			setCourses(courses);
 			setDrafts(drafts);
 			setPublished(publishedCourses);
@@ -40,7 +44,11 @@ function ViewInstructorCourses() {
 	return (
 		<Container className="my-2">
 			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
-			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
+			<Tabs
+				id="controlled-tab-example"
+				defaultActiveKey="AllCourses"
+				className="mb-3"
+			>
 				<Tab eventKey="AllCourses" title="All Courses">
 					{Courses.map((course, i) => (
 						<CourseCard

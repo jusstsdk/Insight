@@ -12,9 +12,9 @@ import { clearCreateCourse } from "../../redux/createCourseSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 import { updateInstructorCourses } from "../../redux/userSlice";
 
-import AddInfo from "../../components/instructor/createCourse/AddInfo";
-import AddExam from "../../components/instructor/createCourse/AddExam";
-import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles";
+import AddInfo from "../../components/Instructor/createCourse/AddInfo";
+import AddExam from "../../components/Instructor/createCourse/AddExam";
+import AddSubtitles from "../../components/Instructor/createCourse/AddSubtitles";
 import API from "../../functions/api";
 
 export default function CreateCourse() {
@@ -33,10 +33,16 @@ export default function CreateCourse() {
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
-	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoOriginalPrice = useSelector(
+		(state) => state.courseInfoReducer.originalPrice
+	);
+	const InfoPreviewVideo = useSelector(
+		(state) => state.courseInfoReducer.previewVideo
+	);
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
-	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
+	const InfoInstructors = useSelector(
+		(state) => state.courseInfoReducer.instructors
+	);
 
 	const handleCreateCourse = async (status) => {
 		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
@@ -66,7 +72,9 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					info: `Course ${
+						status === "Draft" ? "saved" : "published"
+					} successfully`,
 					color: "success",
 				})
 			);
@@ -75,7 +83,9 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					info: `Error while ${
+						status === "Draft" ? "saving" : "publishing"
+					} course!`,
 					color: "error",
 				})
 			);
@@ -105,7 +115,9 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
+					info: `Course ${
+						status === "Draft" ? "saved" : "published"
+					} successfully`,
 					color: "success",
 				})
 			);
@@ -114,7 +126,9 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
+					info: `Error while ${
+						status === "Draft" ? "saving" : "publishing"
+					} course!`,
 					color: "error",
 				})
 			);
@@ -149,7 +163,8 @@ export default function CreateCourse() {
 					active={CurrentTab === "addInfo" ? true : false}
 					onClick={() => {
 						setCurrentTab("addInfo");
-					}}>
+					}}
+				>
 					Info
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
@@ -157,7 +172,8 @@ export default function CreateCourse() {
 					active={CurrentTab === "addExam" ? true : false}
 					onClick={() => {
 						setCurrentTab("addExam");
-					}}>
+					}}
+				>
 					Exam
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
@@ -165,7 +181,8 @@ export default function CreateCourse() {
 					active={CurrentTab === "addSubtitle" ? true : false}
 					onClick={() => {
 						setCurrentTab("addSubtitle");
-					}}>
+					}}
+				>
 					Subtitles
 				</Breadcrumb.Item>
 			</Breadcrumb>

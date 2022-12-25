@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Tabs, Tab } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import CourseCard from "../components/CourseCard";
-import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
+import InstructorReviewCard from "../components/Instructor/InstructorReviewCard";
 import API from "../functions/api";
 export default function ViewInstructor() {
 	const location = useLocation();
@@ -41,7 +41,11 @@ export default function ViewInstructor() {
 			<h1 className="fw-bold">{InstrcutorInfo.username}</h1>
 			<h5 className="text-muted">{InstrcutorInfo.email}</h5>
 			<p className="lh-base">{InstrcutorInfo.biography}</p>
-			<Tabs id="controlled-tab-example" defaultActiveKey="Courses" className="mb-3">
+			<Tabs
+				id="controlled-tab-example"
+				defaultActiveKey="Courses"
+				className="mb-3"
+			>
 				<Tab eventKey="Courses" title="Courses">
 					{InstructorCourses.map((course, i) => (
 						<CourseCard key={"course_" + i} course={course} />

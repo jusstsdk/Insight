@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Profile from "./Profile";
 import AdminNavbarButtons from "../admin/AdminNavbarButtons";
 import GuestNavbarButtons from "../guest/GuestNavbarButtons";
-import InstructorNavbarButtons from "../instructor/InstructorNavbarButtons";
+import InstructorNavbarButtons from "../Instructor/InstructorNavbarButtons";
 import TraineeNavbarButtons from "../trainee/TraineeNavbarButtons";
 import CorporateTraineeNavbarButtons from "../corporateTrainee/CorporateTraineeNavbarButtons";
 import { useNavigate } from "react-router-dom";
