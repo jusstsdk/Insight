@@ -10,6 +10,8 @@ export const continueCourseSlice = createSlice({
 		isSolved: false,
 		answers: [],
 		solve: false,
+		grade: -1,
+		oldGrade: -1,
 	},
 	reducers: {
 		setSubtitleIndex: (state, action) => {
@@ -36,6 +38,25 @@ export const continueCourseSlice = createSlice({
 		setSolve: (state, action) => {
 			state.solve = action.payload;
 		},
+		setGrade: (state, action) => {
+			state.grade = action.payload;
+		},
+		setOldGrade: (state, action) => {
+			state.oldGrade = action.payload;
+		},
+		resetExerciseInfo: (state, action) => {
+			state.solve = false;
+			state.isSolved = false;
+			state.grade = -1;
+			state.oldGrade = action.payload.oldGrade;
+			state.answers = action.payload.answers;
+		},
+		setContentInfo: (state, action) => {
+			state.subtitleIndex = action.payload.subtitleIndex;
+			state.selectedContentIndex = action.payload.selectedContentIndex;
+			state.content = action.payload.content;
+			state.contentType = action.payload.contentType;
+		},
 	},
 });
 
@@ -49,6 +70,10 @@ export const {
 	updateAnswer,
 	setIsSolved,
 	setSolve,
+	setGrade,
+	setOldGrade,
+	resetExerciseInfo,
+	setContentInfo,
 } = continueCourseSlice.actions;
 
 export default continueCourseSlice.reducer;

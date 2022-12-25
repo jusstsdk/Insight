@@ -13,6 +13,8 @@ import {
 	initializeAnswers,
 	setIsSolved,
 	setSolve,
+	setGrade,
+	setOldGrade,
 } from "../../redux/continueCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -47,6 +49,8 @@ export default function DrawerListItems({
 			dispatch(initializeAnswers(newAnswers));
 			dispatch(setIsSolved(false));
 			dispatch(setSolve(false));
+			dispatch(setGrade(-1));
+			dispatch(setOldGrade(content.receivedGrade));
 		}
 	};
 	const listItem = (

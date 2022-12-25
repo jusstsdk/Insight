@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
-
-import { Box, List, IconButton, Drawer, Toolbar, Divider, AppBar } from "@mui/material";
+import ArticleIcon from "@mui/icons-material/Article";
+import {
+	Box,
+	List,
+	IconButton,
+	Drawer,
+	Toolbar,
+	Divider,
+	AppBar,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import WatchVideo from "../components/course/WatchVideo";
 import { Breadcrumb, Button } from "react-bootstrap";
@@ -15,6 +26,10 @@ import {
 	initializeAnswers,
 	setIsSolved,
 	setSolve,
+	setGrade,
+	setOldGrade,
+	resetExerciseInfo,
+	setContentInfo,
 } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
 import { useLocation } from "react-router-dom";
@@ -80,6 +95,34 @@ export default function ContinueCourse() {
 		return nextContent;
 	};
 
+	// Create a new Array of {questionId, emptyChoice}
+	const setupExercise = (content) => {
+		let newAnswers = new Array(content.questions.length);
+		content.questions.map((question, questionIndex) => {
+			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+		});
+		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: content.receivedGrade }));
+	};
+
+	// Setup for Exam onClick on Exam ListItem
+	const handlePressOnExam = () => {
+		dispatch(
+			setContentInfo({
+				content: Exam,
+				contentType: "Exam",
+				subtitleIndex: -1,
+				selectedContentIndex: -1,
+			})
+		);
+		let newAnswers = new Array(Exam.questions.length);
+		Exam.questions.map((question, questionIndex) => {
+			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+		});
+		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: Exam.receivedGrade }));
+		let openCollapsesArray = [...openCollapses].map((_, index) => index === -1);
+		setOpenCollapses(openCollapsesArray);
+	};
+
 	// Handles Press on Next Button
 	const handleNext = () => {
 		// Tries to get the next content in the same subtitle
@@ -88,44 +131,36 @@ export default function ContinueCourse() {
 		// Two Cases: There is more Content or No more content in the same Subtitle.
 		if (nextContent.length !== 0) {
 			// If there is more Content, Get the next Content.
-			dispatch(setSelectedContentIndex(SelectedContentIndex + 1));
-			dispatch(setContent(nextContent[0]));
-			dispatch(setContentType(nextContent[0].type));
-			if (nextContent[0].type === "Exercise") {
-				let newAnswers = new Array(nextContent[0].questions.length);
-				nextContent[0].questions.map((question, questionIndex) => {
-					newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-				});
-				dispatch(initializeAnswers(newAnswers));
-				dispatch(setIsSolved(false));
-				dispatch(setSolve(false));
-			} else {
-				dispatch(initializeAnswers([]));
-			}
+			dispatch(
+				setContentInfo({
+					content: nextContent[0],
+					contentType: nextContent[0].type,
+					subtitleIndex: SubtitleIndex,
+					selectedContentIndex: SelectedContentIndex + 1,
+				})
+			);
+			// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+			if (nextContent[0].type === "Exercise") setupExercise(nextContent[0]);
 		} else {
 			// If there is no more Content, Check if there is more Subtitles
 			// Two Cases: No more Subtitles or There are More Subtitles
 			if (SubtitleIndex + 1 >= Subtitles.length) {
 				// Go to Exam
-				dispatch(setContentType("Exam"));
+				handlePressOnExam();
 			} else {
 				// Get Content from the next Subtitle
-				let nextSubtitleContent = contentGetter(SubtitleIndex + 1, 0);
-				dispatch(setSelectedContentIndex(0));
-				dispatch(setContent(nextSubtitleContent[0]));
-				dispatch(setContentType(nextSubtitleContent[0].type));
-				dispatch(setSubtitleIndex(SubtitleIndex + 1));
-				if (nextSubtitleContent[0].type === "Exercise") {
-					let newAnswers = new Array(nextSubtitleContent[0].questions.length);
-					nextSubtitleContent[0].questions.map((question, questionIndex) => {
-						newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-					});
-					dispatch(initializeAnswers(newAnswers));
-					dispatch(setIsSolved(false));
-					dispatch(setSolve(false));
-				} else {
-					dispatch(initializeAnswers([]));
-				}
+				let nextContent = contentGetter(SubtitleIndex + 1, 0);
+				dispatch(
+					setContentInfo({
+						content: nextContent[0],
+						contentType: nextContent[0].type,
+						subtitleIndex: SubtitleIndex + 1,
+						selectedContentIndex: 0,
+					})
+				);
+				// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+				if (nextContent[0].type === "Exercise") setupExercise(nextContent[0]);
+
 				let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex + 1);
 				setOpenCollapses(openCollapsesArray);
 			}
@@ -134,7 +169,9 @@ export default function ContinueCourse() {
 
 	// Sets intital View by getting the Content that should be displayed first.
 	useEffect(() => {
+		// Intitally, there will be no content selected
 		if (SubtitleIndex === -1 && SelectedContentIndex === -1) {
+			// It will find the first content that should be dealt with either !isWatched or !isSolved.
 			let content;
 			let contentIndex;
 			let IsThereContent = Subtitles.find((subtitle, subtitleIndex) => {
@@ -153,32 +190,28 @@ export default function ContinueCourse() {
 					}
 				});
 				if (content) {
-					dispatch(setContent(content));
-					dispatch(setContentType(content.type));
-					dispatch(setSubtitleIndex(subtitleIndex));
-					dispatch(setSelectedContentIndex(contentIndex));
-					if (content.type === "Exam") {
-						let newAnswers = new Array(content.questions.length);
-						content.questions.map((question, questionIndex) => {
-							newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-						});
-						dispatch(initializeAnswers(newAnswers));
-						dispatch(setIsSolved(false));
-						dispatch(setSolve(false));
-					} else {
-						dispatch(initializeAnswers([]));
-					}
+					dispatch(
+						setContentInfo({
+							content: content,
+							contentType: content.type,
+							subtitleIndex: subtitleIndex,
+							selectedContentIndex: contentIndex,
+						})
+					);
 					let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitleIndex);
 					setOpenCollapses(openCollapsesArray);
 				}
 				return content;
 			});
-			if (!IsThereContent) console.log("Go to Exam");
+			// If there all content isSolved and isWatched, then it goes to the exam.
+			if (!IsThereContent) handlePressOnExam();
 		} else {
+			// There is currently selected content, it opens only the collapse of the selected content.
 			let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex);
 			setOpenCollapses(openCollapsesArray);
 		}
 	}, []);
+
 	const mainNavbar = document.getElementById("main-navbar");
 	// const continueCourseBreadcrumbs = document.getElementById("continueCourseBreadcrumbs");
 
@@ -202,11 +235,24 @@ export default function ContinueCourse() {
 							setOpenCollapses={setOpenCollapses}
 							handleOpenCollapse={handleOpenCollapse}
 							combineContent={combineContent}
-							exam={false}
 						/>
 						<Divider key={`subtitle_${subtitle._id}_divider_${subtitle_index}`} />
 					</>
 				))}
+				<ListItem
+					style={{
+						backgroundColor: ContentType === "Exam" ? "#939d9e" : "",
+					}}
+					key={`Exam_${Exam._id}_title_and_icon`}
+					button
+					onClick={() => {
+						handlePressOnExam();
+					}}>
+					<ListItemIcon key={`Exam_${Exam._id}_listItemIcon`}>
+						<ArticleIcon key={`Exam_${Exam._id}_articleIcon`} />
+					</ListItemIcon>
+					<ListItemText primary={Exam.title} key={`Exam_${Exam._id}_listItemTex`} />
+				</ListItem>
 			</List>
 		</div>
 	);
