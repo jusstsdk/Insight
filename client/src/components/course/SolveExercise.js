@@ -34,6 +34,7 @@ export default function SolveExercise(props) {
 
 	//  Page Control
 	const Solve = useSelector((state) => state.continueCourseReducer.solve);
+	const ShowAnswers = useSelector((state) => state.continueCourseReducer.showAnswers);
 	const [MissingAnswer, setMissingAnswer] = useState(false);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 	const Grade = useSelector((state) => state.continueCourseReducer.grade);
@@ -121,7 +122,7 @@ export default function SolveExercise(props) {
 
 	return (
 		<Col>
-			<h3>{Content.title}</h3>
+			<h3 className="mb-4">{Content.title}</h3>
 			{Solve && (
 				<ExerciseBody
 					MissingAnswer={MissingAnswer}
@@ -132,7 +133,7 @@ export default function SolveExercise(props) {
 			)}
 			{!Solve && (
 				<Row className="align-items-center">
-					<h6 className="gradeRecieved mb-0">
+					<h6 className="fitWidth mb-0">
 						Best Received: {"   "}
 						<span>
 							{Content.isSolved && ((OldGrade / Content.maxGrade) * 100).toFixed(2)}
@@ -150,12 +151,10 @@ export default function SolveExercise(props) {
 								dispatch(setIsSolved(false));
 								dispatch(setSolve(true));
 							}}>
-							Start Exercise
+							Start {ContentType}
 						</Button>
 						{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade >= 0.5 && (
-							<Button className="gradeRecieved" onClick={() => console.log("Get Certificate")}>
-								Get Certificate
-							</Button>
+							<Button className="fitWidth">Get Certificate</Button>
 						)}
 					</Col>
 				</Row>

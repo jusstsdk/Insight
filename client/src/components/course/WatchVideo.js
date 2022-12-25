@@ -119,6 +119,11 @@ export default function WatchVideo(props) {
 							Mark as Watched
 						</Button>
 					)}
+					{Content.isWatched && (
+						<Button className="ms-3 w-auto" disabled>
+							Marked as Watched
+						</Button>
+					)}
 				</Row>
 			</Col>
 			<Col>

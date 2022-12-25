@@ -1,6 +1,12 @@
 import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setOldGrade, setSolve, updateAnswer } from "../../redux/continueCourseSlice";
+import {
+	initializeAnswers,
+	setOldGrade,
+	setShowAnswers,
+	setSolve,
+	updateAnswer,
+} from "../../redux/continueCourseSlice";
 export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade, OldGrade }) {
 	const dispatch = useDispatch();
 	const Content = useSelector((state) => state.continueCourseReducer.content);
@@ -8,6 +14,9 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 
 	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
+	const CorrectAnswers = useSelector((state) => state.continueCourseReducer.correctAnswers);
+
+	const ShowAnswers = useSelector((state) => state.continueCourseReducer.showAnswers);
 
 	const handleChoiceClick = (questionIndex, questionId, choice) => {
 		dispatch(
@@ -21,13 +30,16 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 			})
 		);
 	};
+
 	return (
 		<Form>
 			{Content.questions.map((question, question_index) => (
 				<ListGroupItem key={`question_${question._id}`} className="mb-3">
 					<Row>
 						<Col sm={10}>
-							<h6>{question.question}</h6>
+							<h5 className="fitWidth">
+								{question_index + 1}. {question.question}
+							</h5>
 						</Col>
 						{IsSolved && (
 							<Col sm={2}>
@@ -41,42 +53,55 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 						)}
 					</Row>
 					{question.choices.map((choice, choice_index) => (
-						<Form.Check
-							key={`question_${question._id}_choice_${choice}_${choice_index}_check`}
-							type="radio"
-							id={`${question._id}_${choice}`}>
-							<Form.Check.Input
-								key={`question_${question._id}_choice_${choice}_${choice_index}_input`}
+						<Col sm={10}>
+							<Form.Check
+								key={`question_${question._id}_choice_${choice}_${choice_index}_check`}
 								type="radio"
-								checked={choice === Answers[question_index].choice}
-								onChange={() => handleChoiceClick(question_index, question._id, choice)}
-								isValid={
-									IsSolved
-										? question.correctAnswer === choice && Answers[question_index].choice === choice
-										: ""
-								}
-								isInvalid={
-									IsSolved
-										? question.correctAnswer !== choice && Answers[question_index].choice === choice
-										: ""
-								}
-								disabled={IsSolved}
-							/>
-							<Form.Check.Label
-								className={
-									IsSolved ? (Answers[question_index].choice === choice ? "solved" : "") : ""
-								}
-								key={`question_${question._id}_choice_${choice}_${choice_index}_label`}>
-								{choice}
-							</Form.Check.Label>
-						</Form.Check>
+								id={`${question._id}_${choice}`}>
+								<Form.Check.Input
+									key={`question_${question._id}_choice_${choice}_${choice_index}_input`}
+									type="radio"
+									checked={choice === Answers[question_index].choice}
+									onChange={() => handleChoiceClick(question_index, question._id, choice)}
+									isValid={
+										IsSolved
+											? question.correctAnswer === choice &&
+											  Answers[question_index].choice === choice
+											: ""
+									}
+									isInvalid={
+										IsSolved
+											? question.correctAnswer !== choice &&
+											  Answers[question_index].choice === choice
+											: ""
+									}
+									disabled={IsSolved}
+								/>
+
+								<Form.Check.Label
+									className={
+										IsSolved ? (Answers[question_index].choice === choice ? "solved" : "") : ""
+									}
+									key={`question_${question._id}_choice_${choice}_${choice_index}_label`}>
+									{choice}
+								</Form.Check.Label>
+							</Form.Check>
+						</Col>
 					))}
+					{ShowAnswers && (
+						<h6 className="fitWidth my-3">
+							<span className="fst-italic">Correct Answer: </span>
+							<span className="success">
+								{CorrectAnswers.find((answer) => answer.questionId === question._id).choice}
+							</span>
+						</h6>
+					)}
 				</ListGroupItem>
 			))}
 			{IsSolved && (
 				<>
 					<Row className="justify-content-end">
-						<h6 className="gradeRecieved">
+						<h6 className="fitWidth">
 							Grade Recieved:{"   "}
 							<span className={Grade / Content.maxGrade >= 0.5 ? "success" : "error"}>
 								{((Grade / Content.maxGrade) * 100).toFixed(2)}
@@ -84,7 +109,7 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 						</h6>
 
 						{OldGrade > Grade && (
-							<h6 className="gradeRecieved">
+							<h6 className="fitWidth">
 								Best Received: {"   "}
 								<span className={OldGrade / Content.maxGrade >= 0.5 ? "success" : "error"}>
 									{((OldGrade / Content.maxGrade) * 100).toFixed(2)}
@@ -92,17 +117,26 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</h6>
 						)}
 					</Row>
-					<Col className="ms-auto gradeRecieved">
+					<Col className="ms-auto fitWidth">
 						<Button
 							onClick={() => {
 								dispatch(setOldGrade(Content.receivedGrade));
 								dispatch(setSolve(false));
+								dispatch(setShowAnswers(false));
 							}}>
 							Try again
 						</Button>
+						{Grade / Content.maxGrade != 1 && !ShowAnswers && (
+							<Button
+								onClick={() => {
+									dispatch(setShowAnswers(true));
+								}}>
+								Show Correct Answers
+							</Button>
+						)}
 					</Col>
 					{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade > 0.5 && (
-						<Col className="ms-auto gradeRecieved">
+						<Col className="ms-auto fitWidth">
 							<Button onClick={() => console.log("Get Certificate")}>Get Certificate</Button>
 						</Col>
 					)}

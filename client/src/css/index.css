@@ -28,8 +28,7 @@ code {
 }
 
 .courseCardTitle,
-priceLabel,
-.gradeRecieved {
+.fitWidth {
 	width: fit-content !important;
 }
 
@@ -108,4 +107,8 @@ priceLabel,
 }
 #continueCourseBreadcrumbs > nav > ol {
 	margin-bottom: 0 !important;
+}
+
+html {
+	overflow-y: overlay;
 }

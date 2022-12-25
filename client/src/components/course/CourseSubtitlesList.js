@@ -33,7 +33,6 @@ function CourseSubtitlesList({ course }) {
 									onClick={() =>
 										navigate("continueCourse", {
 											state: {
-												courseId: userCourse.course,
 												course: course,
 											},
 										})

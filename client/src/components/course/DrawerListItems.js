@@ -5,17 +5,7 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { Collapse, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
-import {
-	setSubtitleIndex,
-	setSelectedContentIndex,
-	setContent,
-	setContentType,
-	initializeAnswers,
-	setIsSolved,
-	setSolve,
-	setGrade,
-	setOldGrade,
-} from "../../redux/continueCourseSlice";
+import { resetExerciseInfo, setContentInfo } from "../../redux/continueCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DrawerListItems({
@@ -25,6 +15,7 @@ export default function DrawerListItems({
 	setOpenCollapses,
 	handleOpenCollapse,
 	combineContent,
+	setupExercise,
 }) {
 	const dispatch = useDispatch();
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
@@ -32,27 +23,24 @@ export default function DrawerListItems({
 		(state) => state.continueCourseReducer.selectedContentIndex
 	);
 	const handlePressOnContent = (content, content_index, subtitle_index) => {
-		dispatch(setContent(content));
-		dispatch(setSubtitleIndex(subtitle_index));
-		dispatch(setSelectedContentIndex(content_index));
 		let openCollapsesArray = [...openCollapses].map((_, index) => index === subtitle_index);
 		setOpenCollapses(openCollapsesArray);
-		if (content.type === "Video") {
-			dispatch(setContentType("Video"));
-			dispatch(initializeAnswers([]));
-		} else {
-			dispatch(setContentType("Exercise"));
-			let newAnswers = new Array(content.questions.length);
-			content.questions.map((question, questionIndex) => {
-				newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-			});
-			dispatch(initializeAnswers(newAnswers));
-			dispatch(setIsSolved(false));
-			dispatch(setSolve(false));
-			dispatch(setGrade(-1));
-			dispatch(setOldGrade(content.receivedGrade));
+		let type;
+		if (content.type === "Video") type = "Video";
+		else {
+			type = "Exercise";
+			setupExercise(content);
 		}
+		dispatch(
+			setContentInfo({
+				content: content,
+				contentType: type,
+				subtitleIndex: subtitle_index,
+				selectedContentIndex: content_index,
+			})
+		);
 	};
+
 	const listItem = (
 		<>
 			{/* Subtitle Icon and Title */}

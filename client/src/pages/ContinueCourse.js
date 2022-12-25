@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -9,36 +10,36 @@ import {
 	Drawer,
 	Toolbar,
 	Divider,
-	AppBar,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import WatchVideo from "../components/course/WatchVideo";
-import { Breadcrumb, Button } from "react-bootstrap";
 
 import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DrawerListItems from "../components/course/DrawerListItems";
+import SecondaryNavbar from "../components/course/ContinueCourseNavbar";
+import { Button } from "react-bootstrap";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {
 	const location = useLocation();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	// MUI Setup
 	const [mobileOpen, setMobileOpen] = useState(false);
-	const CourseId = location.state.courseId;
 	const Course = location.state.course;
 
 	// Gets Course Index in the User's Courses.
-	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === CourseId
+	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
+		(course) => course.course === Course._id
 	);
 
-	const Exam = useSelector((state) => state.userReducer.user.courses[courseIndex].exam);
-	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
+	const Exam = useSelector((state) => state.userReducer.user.courses[CourseIndex].exam);
+	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
 
 	// Subtitle Collapses State
 	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
@@ -48,7 +49,6 @@ export default function ContinueCourse() {
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
 	);
-	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
 
 	const handleDrawerToggle = () => {
@@ -89,7 +89,17 @@ export default function ContinueCourse() {
 		content.questions.map((question, questionIndex) => {
 			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
 		});
-		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: content.receivedGrade }));
+		let correctAnswers = new Array(content.questions.length);
+		content.questions.map((question, questionIndex) => {
+			correctAnswers[questionIndex] = { questionId: question._id, choice: question.correctAnswer };
+		});
+		dispatch(
+			resetExerciseInfo({
+				answers: newAnswers,
+				correctAnswers: correctAnswers,
+				oldGrade: content.receivedGrade,
+			})
+		);
 	};
 
 	// Setup for Exam onClick on Exam ListItem
@@ -102,11 +112,7 @@ export default function ContinueCourse() {
 				selectedContentIndex: -1,
 			})
 		);
-		let newAnswers = new Array(Exam.questions.length);
-		Exam.questions.map((question, questionIndex) => {
-			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-		});
-		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: Exam.receivedGrade }));
+		setupExercise(Exam);
 		let openCollapsesArray = [...openCollapses].map((_, index) => index === -1);
 		setOpenCollapses(openCollapsesArray);
 	};
@@ -223,6 +229,7 @@ export default function ContinueCourse() {
 							setOpenCollapses={setOpenCollapses}
 							handleOpenCollapse={handleOpenCollapse}
 							combineContent={combineContent}
+							setupExercise={setupExercise}
 						/>
 						<Divider key={`subtitle_${subtitle._id}_divider_${subtitle_index}`} />
 					</>
@@ -247,43 +254,28 @@ export default function ContinueCourse() {
 
 	return (
 		<Box sx={{ display: "flex" }}>
-			<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
-				<Toolbar
-					id="continueCourseBreadcrumbs"
-					className="continueCourseBreadcrumbs"
-					sx={{ marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` } }}>
-					{Subtitles[SubtitleIndex] && (
-						<Breadcrumb>
-							<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
-							<Breadcrumb.Item>{Subtitles[SubtitleIndex].title}</Breadcrumb.Item>
-							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
-						</Breadcrumb>
-					)}
-					<Button variant="link" className="ms-auto" onClick={handleNext}>
-						Next
-					</Button>
-				</Toolbar>
-			</AppBar>
+			<SecondaryNavbar Course={Course} handleNext={handleNext} />
 			{/* Menu Button */}
 			<IconButton
+				key={`course_${Course._id}_iconButton`}
 				color="inherit"
 				aria-label="open drawer"
 				edge="start"
 				onClick={handleDrawerToggle}
 				sx={{ mr: 2, display: { sm: "none" } }}>
-				<MenuIcon />
+				<MenuIcon key={`course_${Course._id}_menuIcon`} />
 			</IconButton>
 
 			{/* Drawer */}
 			<Box
-				key={`course_${CourseId}_drawer_box`}
+				key={`course_${Course._id}_drawer_box`}
 				className="drawerZ-index"
 				component="nav"
 				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
 				aria-label="mailbox folders">
 				{/* Small Screen Drawer */}
 				<Drawer
-					key={`course_${CourseId}_small_screen_drawer`}
+					key={`course_${Course._id}_small_screen_drawer`}
 					variant="temporary"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
@@ -299,7 +291,7 @@ export default function ContinueCourse() {
 
 				{/* Normal Screen Drawer */}
 				<Drawer
-					key={`course_${CourseId}_normal_screen_drawer`}
+					key={`course_${Course._id}_normal_screen_drawer`}
 					variant="permanent"
 					sx={{
 						display: { xs: "none", sm: "block" },
@@ -313,7 +305,7 @@ export default function ContinueCourse() {
 			{/* Content */}
 			<Box
 				id="asd"
-				key={`course_${CourseId}_content_box`}
+				key={`course_${Course._id}_content_box`}
 				component="main"
 				sx={{
 					flexGrow: 1,
@@ -326,11 +318,26 @@ export default function ContinueCourse() {
 					},
 				}}>
 				{ContentType === "Video" ? (
-					<WatchVideo key={`course_${CourseId}_WatchVideo`} CourseId={CourseId} />
+					<WatchVideo key={`course_${Course._id}_WatchVideo`} CourseId={Course._id} />
 				) : ContentType === "Exercise" ? (
-					<SolveExercise key={`course_${CourseId}_SolveExercise`} CourseId={CourseId} />
+					<SolveExercise
+						key={`course_${Course._id}_SolveExercise`}
+						CourseId={Course._id}
+						setupExercise={setupExercise}
+					/>
 				) : (
-					<SolveExercise key={`course_${CourseId}_SolveExam`} CourseId={CourseId} />
+					<SolveExercise key={`course_${Course._id}_SolveExam`} CourseId={Course._id} />
+				)}
+				{ContentType !== "Exam" && (
+					<Button className="ms-auto" onClick={handleNext}>
+						Next {"   "}
+						<AiOutlineArrowRight />
+					</Button>
+				)}
+				{ContentType === "Exam" && (
+					<Button className="ms-auto" onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
+						View Course
+					</Button>
 				)}
 			</Box>
 		</Box>
