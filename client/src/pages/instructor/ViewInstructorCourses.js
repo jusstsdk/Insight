@@ -36,6 +36,15 @@ function ViewInstructorCourses() {
 		getCourses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [DetectChange]);
+	useEffect(() => {
+		let drafts = Courses.filter((course) => course.status === "Draft");
+		let publishedCourses = Courses.filter((course) => course.status === "Published");
+		let closedCourses = Courses.filter((course) => course.status === "Closed");
+
+		setDrafts(drafts);
+		setPublished(publishedCourses);
+		setClosed(closedCourses);
+	}, [Courses]);
 
 	return (
 		<Container className="my-2">
