@@ -3,13 +3,10 @@ import { Col, Button, Row } from "react-bootstrap";
 
 import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useLocation } from "react-router-dom";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 export default function AddSubtitle(props) {
-	const location = useLocation();
 	const [AddSubtitleModalShow, setAddSubtitleModalShow] = useState(false);
-	const status = location.state.status;
 	return (
 		<>
 			<Row>
@@ -21,29 +18,22 @@ export default function AddSubtitle(props) {
 				</Col>
 			</Row>
 			<ViewSubtitles />
+
+			{/* Navigation */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
 				<Button
 					className="me-3"
 					onClick={() => {
-						props.setCurrentTab("addExam");
+						props.setCurrentTab("addInfo");
 					}}>
 					<AiOutlineArrowLeft />
 				</Button>
 
 				<Button
-					className="me-3"
 					onClick={() => {
-						if (status === "New") props.handleCreateCourse("Draft");
-						else props.handleEditCourse("Draft");
+						props.setCurrentTab("addExam");
 					}}>
-					Save Course
-				</Button>
-				<Button
-					onClick={() => {
-						if (status === "New") props.handleCreateCourse("Published");
-						else props.handleEditCourse("Published");
-					}}>
-					Publish Course
+					<AiOutlineArrowRight />
 				</Button>
 			</Col>
 			{AddSubtitleModalShow && (
