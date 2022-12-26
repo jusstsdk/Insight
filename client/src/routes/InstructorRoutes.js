@@ -32,7 +32,7 @@ export function InstructorRoutes() {
 							path="viewInstructorCourses"
 							element={<ViewInstructorCourses />}
 						/>
-						<Route path="viewInstructor" element={<ViewInstructor />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 						<Route path="promotion" element={<Promotion />} />
 					</Route>
 				</Routes>
