@@ -83,6 +83,7 @@ function CourseBasicInfo(props) {
 			<Row>
 				<CourseSummaryPrevVid course={course}></CourseSummaryPrevVid>
 			</Row>
+			<hr />
 			<CourseInstructorsList instructors={instructors}></CourseInstructorsList>
 		</>
 	);

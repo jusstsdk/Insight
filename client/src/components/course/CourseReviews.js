@@ -31,8 +31,9 @@ import ReviewCourseModal from "./ReviewCourseModal";
 
 function CourseReviews(props) {
 	const course = props.course;
-	const newId = props.newId;
+	const setCourse = props.setCourse;
 	const getCourseFromDB = props.getCourseFromDB;
+	const ownsCourse = props.ownsCourse;
 
 	//report course modal
 	const [showReportCourseModal, setShowReportCourseModal] = useState(false);
@@ -46,11 +47,22 @@ function CourseReviews(props) {
 
 	return (
 		<>
-			Reviews
-			<Button onClick={handleShowReviewCourseModal}>Review</Button>
-			<Button variant="danger" onClick={handleShowReportCourseModal}>
-				Report
-			</Button>
+			<Row>
+				<Col>
+					<h3>Reviews</h3>
+				</Col>
+				<Col>
+					{ownsCourse && (
+						<>
+							<Button onClick={handleShowReviewCourseModal}>Review</Button>
+							<Button variant="danger" onClick={handleShowReportCourseModal}>
+								Report
+							</Button>
+						</>
+					)}
+				</Col>
+			</Row>
+
 			{reviews.map((review, index) => {
 				return (
 					<Card key={review.trainee} className="my-2">
@@ -65,11 +77,18 @@ function CourseReviews(props) {
 										<Col lg={8} md={6} sm={8}>
 											<h4>{review.trainee}</h4>
 
-											{new Date(review.updatedAt).toUTCString() ===
-											"Invalid Date" ? (
+											{review.updatedAt ? (
+												new Date(review.updatedAt).toUTCString() ===
+												"Invalid Date" ? (
+													""
+												) : (
+													<h6>{new Date(review.updatedAt).toUTCString()}</h6>
+												)
+											) : new Date(review.createdAt).toUTCString() ===
+											  "Invalid Date" ? (
 												""
 											) : (
-												<h6>{new Date(review.updatedAt).toUTCString()}</h6>
+												<h6>{new Date(review.createdAt).toUTCString()}</h6>
 											)}
 										</Col>
 										<Col sm={4} md={4} lg={2}>
@@ -94,15 +113,14 @@ function CourseReviews(props) {
 				course={course}
 				showReportCourseModal={showReportCourseModal}
 				setShowReportCourseModal={setShowReportCourseModal}
-				newId={newId}
 			></ReportCourseModal>
 			<ReviewCourseModal
 				course={course}
 				showReviewCourseModal={showReviewCourseModal}
 				setShowReviewCourseModal={setShowReviewCourseModal}
-				newId={newId}
 				reviews={reviews}
 				setReviews={setReviews}
+				setCourse={setCourse}
 				getCourseFromDB={getCourseFromDB}
 			></ReviewCourseModal>
 		</>

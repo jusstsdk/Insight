@@ -15,6 +15,7 @@ import {
 	Overlay,
 	OverlayTrigger,
 	Tooltip,
+	Breadcrumb,
 } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
@@ -22,7 +23,6 @@ import API from "../../functions/api";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
@@ -34,13 +34,6 @@ export default function CoursePage() {
 
 	let courseID = params.id;
 	const [loaded, setLoaded] = useState(false);
-
-	//function to give each component a unique id. could be removed i guess.
-	let uniqueId = 1;
-	function newId() {
-		uniqueId++;
-		return uniqueId;
-	}
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
 	const user = useSelector((state) => state.userReducer.user);
@@ -125,30 +118,34 @@ export default function CoursePage() {
 	return (
 		course &&
 		loaded && (
-			<>
-				<Container>
-					<CourseTitle course={course}></CourseTitle>
-					<CourseBasicInfo
-						course={course}
-						instructors={instructors}
-						traineeOwnsCourse={traineeOwnsCourse}
-						traineeVersionOfCourse={traineeVersionOfCourse}
-						corpTraineeOwnsCourse={corpTraineeOwnsCourse}
-						corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
-					></CourseBasicInfo>
-					<hr></hr>
-					<CourseSubtitlesList
-						course={course}
-						newId={newId}
-					></CourseSubtitlesList>
-					<hr></hr>
-					<CourseReviews
-						course={course}
-						newId={newId}
-						getCourseFromDB={getCourseFromDB}
-					></CourseReviews>
-				</Container>
-			</>
+			<Container>
+				<CourseTitle course={course} id="title"></CourseTitle>
+				<hr />
+				<CourseBasicInfo
+					course={course}
+					instructors={instructors}
+					traineeOwnsCourse={traineeOwnsCourse}
+					traineeVersionOfCourse={traineeVersionOfCourse}
+					corpTraineeOwnsCourse={corpTraineeOwnsCourse}
+					corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
+					id="basicInfo"
+				></CourseBasicInfo>
+				<hr />
+				<CourseSubtitlesList
+					course={course}
+					id="subtitles"
+				></CourseSubtitlesList>
+				<hr />
+				<CourseReviews
+					course={course}
+					setCourse={setCourse}
+					getCourseFromDB={getCourseFromDB}
+					ownsCourse={
+						userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
+					}
+					id="reviews"
+				></CourseReviews>
+			</Container>
 		)
 	);
 }

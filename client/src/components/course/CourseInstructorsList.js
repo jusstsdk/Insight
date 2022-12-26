@@ -5,13 +5,15 @@ function CourseInstructorsList(props) {
 	return (
 		<>
 			<ListGroup key="Group " variant="flush">
-				<h5>Instructors</h5>
+				<h3>Instructors</h3>
 				{instructors &&
 					instructors.map((instructor, i) => {
 						return (
 							<ListGroup.Item bg="primary" key={"Instructor " + i + instructor}>
 								<Row>
-									<Col>{instructor.username}</Col>
+									<Col>
+										<p className="lead">{instructor.username}</p>
+									</Col>
 									<Col>
 										<Button>View</Button>
 									</Col>

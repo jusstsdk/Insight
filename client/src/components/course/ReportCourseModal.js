@@ -70,9 +70,11 @@ function ReportCourseModal(props) {
 								<option>Other</option>
 							</select>
 						</Form.Group>
+						<br />
 						<Form.Group className="mb-3" controlId="reportDescription">
 							<Form.Label>Description</Form.Label>
 							<Form.Control
+								as="textarea"
 								ref={reportDescription}
 								placeholder="Description"
 								rows={3}
