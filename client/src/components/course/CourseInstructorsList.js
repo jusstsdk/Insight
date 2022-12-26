@@ -23,7 +23,7 @@ function CourseInstructorsList(props) {
 										<Button
 											style={{ float: "right" }}
 											onClick={() =>
-												navigate(`/${userType.toLowerCase()}/viewInstructor`, {
+												navigate(`/${userType.toLowerCase()}/viewInstructor/${instructor._id}`, {
 													state: { instructorId: instructor._id },
 												})
 											}
