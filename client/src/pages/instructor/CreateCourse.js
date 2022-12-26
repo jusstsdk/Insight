@@ -27,9 +27,7 @@ export default function CreateCourse() {
 	const user = useSelector((state) => state.userReducer.user);
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector(
-		(state) => state.createCourseReducer.examQuestions
-	);
+	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
@@ -54,7 +52,7 @@ export default function CreateCourse() {
 			data: {
 				title: InfoTitle,
 				summary: InfoSummary,
-				originalPrice: (InfoOriginalPrice/user.exchangeRate).toFixed(2),
+				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
 				instructors: [instructorId, ...instructorsIds],
@@ -140,11 +138,11 @@ export default function CreateCourse() {
 		switch (CurrentTab) {
 			case "addInfo":
 				return <AddInfo setCurrentTab={setCurrentTab} />;
-			case "addExam":
-				return <AddExam setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
+				return <AddSubtitles setCurrentTab={setCurrentTab} />;
+			case "addExam":
 				return (
-					<AddSubtitles
+					<AddExam
 						setCurrentTab={setCurrentTab}
 						handleCreateCourse={handleCreateCourse}
 						handleEditCourse={handleEditCourse}

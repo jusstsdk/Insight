@@ -174,9 +174,9 @@ export default function AddInfo(props) {
 				</Col>
 			</Form.Group>
 
-			{/* Navigate Buttons */}
+			{/* Navigation */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
-				<Button onClick={() => props.setCurrentTab("addExam")}>
+				<Button onClick={() => props.setCurrentTab("addSubtitle")}>
 					<AiOutlineArrowRight />
 				</Button>
 			</Col>
