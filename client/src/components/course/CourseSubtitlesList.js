@@ -17,13 +17,12 @@ function CourseSubtitlesList({ course }) {
 								<Col>{subtitle.hours} Hours</Col>
 								{/*
 								<Button
-									key={"Button Subtitle" + subtitle_index}
+									key={"Continue Course" + subtitle_index}
 									onClick={() =>
-										navigate("viewSubtitle", {
+										navigate("continueCourse", {
 											state: {
 												courseId: userCourse.course,
-												subtitleIndex: subtitle_index,
-												subtitle: subtitle,
+												course: course,
 											},
 										})
 									}>

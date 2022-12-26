@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../functions/api";
-import axios from "axios";
 
 export const userSlice = createSlice({
 	name: "user",
@@ -46,6 +45,45 @@ export const userSlice = createSlice({
 		updateInstructorCourses: (state, action) => {
 			state.user.courses = [...state.user.courses, action.payload];
 		},
+		addNoteToVideoNotes: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = [
+				...state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex]
+					.videos[action.payload.videoIndex].notes,
+				action.payload.note,
+			];
+		},
+		deleteNoteFromVideoNotes: (state, action) => {
+			let newNotes = state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].videos[action.payload.videoIndex].notes.filter((_, i) => i !== action.payload.noteIndex);
+
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = newNotes;
+			// state.notifications = state.notifications.filter((notification, i) => i !== action.payload);
+		},
+		solveExercise: (state, action) => {
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex].isSolved = true;
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex].questions = action.payload.questions;
+			state.user.courses[action.payload.courseIndex].subtitles[
+				action.payload.subtitleIndex
+			].exercises[action.payload.exerciseIndex].receivedGrade = action.payload.receivedGrade;
+		},
+		solveExam: (state, action) => {
+			state.user.courses[action.payload.courseIndex].exam.isSolved = true;
+			state.user.courses[action.payload.courseIndex].exam.questions = action.payload.questions;
+			state.user.courses[action.payload.courseIndex].exam.receivedGrade =
+				action.payload.receivedGrade;
+		},
+		resetMonthlyPay: (state) => {
+			state.user.monthlyPay.amount = 0;
+		},
 		login: (state, action) => {
 			state.type = action.payload.type;
 			state.token = action.payload.token;
@@ -74,8 +112,13 @@ export const {
 	setCourses,
 	setRequests,
 	payFromWallet,
+	resetMonthlyPay,
 	watchVideo,
+	addNoteToVideoNotes,
+	deleteNoteFromVideoNotes,
+	solveExercise,
 	updateInstructorCourses,
+	solveExam,
 } = userSlice.actions;
 
 export default userSlice.reducer;

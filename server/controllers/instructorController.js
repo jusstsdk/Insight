@@ -123,6 +123,22 @@ const reviewInstructor = async (req, res) => {
 	res.status(200).json(instructor);
 };
 
+const getMonthlyIncome = async (req,res) => {
+	let instructorId = req.params.id;
+	const instructor = await Instructor.findById(instructorId);
+	if (!instructor) {
+		return res.status(400).json({ error: "No such Instructor" });
+	}
+	if(instructor.monthlyPay.updatedAt.getMonth() < new Date().getMonth()){
+		instructor.monthlyPay.amount = 0;
+	}
+
+	instructor.save();
+	res.status(200).json(instructor.monthlyPay.amount);
+};
+
+
+
 module.exports = {
 	getInstructors,
 	getInstructor,
@@ -131,4 +147,5 @@ module.exports = {
 	updateInstructor,
 	reviewInstructor,
 	getInstructorReviews,
+	getMonthlyIncome,
 };

@@ -6,7 +6,7 @@ function InstructorReviewCard(props) {
 			<Card.Body>
 				<CardGroup as={Row} className="justify-content-between align-items-center">
 					<Col lg={8} md={6} sm={8}>
-						<Card.Title>{props.traineeEmail}</Card.Title>
+						<Card.Title className="textFit">{props.traineeEmail}</Card.Title>
 					</Col>
 					<Col sm={4} md={4} lg={2}>
 						<Stars stars={props.rating} />

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Administrator = require("../models/administratorModel");
 const Course = require("../models/courseModel");
 const Trainee = require("../models/traineeModel");
+const Instructor = require("../models/instructorModel");
 const bcrypt = require("bcrypt");
 const CorporateTrainee = require("../models/corporateTraineeModel");
 
@@ -65,6 +66,9 @@ const handleCourseRequest = async (req, res) => {
 			},
 			{ new: true }
 		);
+		course.enrolledTrainees.push(traineeId);
+		await course.save();
+		
 	}
 
 	res.status(200).json(corporateTraineeUpdated);
@@ -150,7 +154,7 @@ const getRefundRequests = async (req, res) => {
 		const course = await Course.find({
 			refundRequests: { $exists: true, $ne: [] },
 		}).populate({
-			path: "refundRequests.traineeId",
+			path: "refundRequests.trainee",
 		});
 		res.status(200).json(course);
 	} catch (error) {
@@ -183,6 +187,17 @@ const refundToWallet = async (req, res) => {
 			},
 			{ new: true }
 		);
+		course.enrolledTrainees = course.enrolledTrainees.filter(
+			(trainee) => trainee != traineeId
+		);
+		const instructorShare = paidPrice / course.instructors.length;
+		course.instructors.forEach(async (instructorId) => {
+			const instructor = await Instructor.findById(instructorId);
+			instructor.monthlyPay.amount -= instructorShare;
+			await instructor.save();
+		});
+
+		await course.save();
 		res.status(200).json(trainee);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

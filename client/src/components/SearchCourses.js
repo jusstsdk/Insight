@@ -1,18 +1,18 @@
 import { Button, Form } from "react-bootstrap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
+import { SUBJECTS } from "../functions/subjects";
+import { Multiselect } from "multiselect-react-dropdown";
 
-export default function SearchCourses({
-	setCourses,
-	searchInInstructorCourses,
-	hideSearch,
-}) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch }) {
 	const searchQuery = useRef("");
-	const subjectFilter = useRef("");
+	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
 	const minPriceFilter = useRef("");
 	const ratingFilter = useRef("");
+	const [subjectFilter, setSubjectFilter] = useState("");
+	const [sort, setSort] = useState(false);
 	const user = useSelector((state) => state.userReducer.user);
 
 	async function handleSubmit(e) {
@@ -24,19 +24,18 @@ export default function SearchCourses({
 		getCourses();
 	}, [user.country]);
 
+	function comparePopularity(a, b) {
+		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+		return 0;
+	}
 	async function getCourses() {
 		let searchParams = {};
-
-		if (searchQuery.current.value)
-			searchParams.searchQuery = searchQuery.current.value;
-		if (subjectFilter.current.value)
-			searchParams.subject = subjectFilter.current.value;
-		if (maxPriceFilter.current.value)
-			searchParams.maxPrice = maxPriceFilter.current.value;
-		if (minPriceFilter.current.value)
-			searchParams.minPrice = minPriceFilter.current.value;
-		if (ratingFilter.current.value)
-			searchParams.rating = ratingFilter.current.value;
+		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
+		if (subjectFilter) searchParams.subject = subjectFilter;
+		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value;
+		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value;
+		if (ratingFilter.current.value) searchParams.rating = ratingFilter.current.value;
 
 		let courses;
 
@@ -53,9 +52,16 @@ export default function SearchCourses({
 		}
 
 		courses.forEach((course) => {
+			course.originalPrice =
+				Math.trunc(course.originalPrice * user.exchangeRate * 100) /
+				100;
 			course.price =
 				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		if (sort) {
+			courses.sort(comparePopularity);
+		}
+		
 		setCourses(courses);
 	}
 
@@ -74,10 +80,22 @@ export default function SearchCourses({
 
 					<Form.Group className="mb-3" controlId="formSubjectFilter">
 						<Form.Label>Subject</Form.Label>
-						<Form.Control
-							ref={subjectFilter}
-							type="text"
-							placeholder="Filter by a subject"
+						<Multiselect
+							id="singleSelectSubjects"
+							options={SUBJECTS}
+							selectedValues={subjectFilter ? [subjectFilter] : []}
+							onSelect={(_, selectedItem) => {
+								setSubjectFilter(selectedItem);
+							}}
+							onRemove={() => {
+								setSubjectFilter("");
+							}}
+							isObject={false}
+							placeholder="Select Subject Filter"
+							closeOnSelect={true}
+							showArrow={true}
+							avoidHighlightFirstOption={true}
+							hidePlaceholder={true}
 						/>
 					</Form.Group>
 
@@ -107,6 +125,13 @@ export default function SearchCourses({
 							placeholder="Filter by courses that are rated higher than this"
 						/>
 					</Form.Group>
+
+					<Form.Check
+						type="checkbox"
+						id={"default-checkbox"}
+						label="Sort by popularity"
+						onChange={() => setSort(!sort)}
+					/>
 
 					<Button type="submit">Search</Button>
 				</Form>

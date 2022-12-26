@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import InstructorHome from "../pages/instructor/InstructorHome";
 import CreateCourse from "../pages/instructor/CreateCourse";
 import EditProfile from "../pages/instructor/EditProfile";
 import ViewInstructorReviews from "../pages/instructor/ViewInstructorReviews";
@@ -17,6 +18,7 @@ export function InstructorRoutes() {
 				<Routes>
 					<Route path="" element={<Layout />}>
 						<Route path="courses/:id" element={<CoursePage />} />
+						<Route path="" element={<InstructorHome />} />
 						<Route
 							path="courses"
 							element={<Courses searchInInstructorCourses={false} />}
@@ -32,7 +34,7 @@ export function InstructorRoutes() {
 							path="viewInstructorCourses"
 							element={<ViewInstructorCourses />}
 						/>
-						<Route path="viewInstructor" element={<ViewInstructor />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 						<Route path="promotion" element={<Promotion />} />
 					</Route>
 				</Routes>

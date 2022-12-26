@@ -8,7 +8,7 @@ const getCourse = async (req, res) => {
 		return res.status(404).json({ error: "No such Course (getCourse)" });
 	}
 
-	const course = await Course.findById(req.params.id);
+	const course = await Course.findById(req.params.id).populate("instructors");
 
 	if (!course) {
 		return res.status(404).json({ error: "No such Course (getCourse)" });

@@ -16,7 +16,7 @@ export default function SelectCountryPopover() {
 			"https://api.apilayer.com/exchangerates_data/latest",
 			{
 				headers: {
-					apikey: "SE7K7OsXv8dt6U9bbzlHjwCTCNR1karJ",
+					apikey: "J1zJcZ2LQUz9pAhV05AnKEl62pd0iBfn",
 				},
 				params: {
 					base: "USD",
@@ -26,6 +26,12 @@ export default function SelectCountryPopover() {
 		const exchangeRate = responseExchangeRate.data.rates[localCurrency];
 
 		let updatedUser = { ...user };
+		// if(userType === "Trainee"){
+		// 	updatedUser.wallet = Math.trunc(updatedUser.wallet * exchangeRate);
+		// }else if(userType === "Instructor"){
+		// 	updatedUser.monthlyPay = Math.trunc(updatedUser.monthlyPay * exchangeRate);
+		// }
+		// console.log(updatedUser);
 		updatedUser.currency = localCurrency;
 		updatedUser.exchangeRate = exchangeRate;
 

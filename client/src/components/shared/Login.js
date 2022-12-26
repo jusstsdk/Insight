@@ -115,13 +115,7 @@ export default function Login() {
 
 				{isLoggingIn ? (
 					<Button variant="primary" disabled>
-						<Spinner
-							as="span"
-							animation="border"
-							size="sm"
-							role="status"
-							aria-hidden="true"
-						/>{" "}
+						<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
 						Logging in...
 					</Button>
 				) : (

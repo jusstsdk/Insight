@@ -17,7 +17,7 @@ export function CorporateTraineeRoutes() {
 						<Route path="courses" element={<Courses />} />
 						<Route path="changePassword" element={<ChangePassword />} />
 						<Route path="courses/:id" element={<CourseDetails />} />
-						<Route path="viewInstructor" element={<ViewInstructor />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 					</Route>
 				</Routes>
 			</Protected>

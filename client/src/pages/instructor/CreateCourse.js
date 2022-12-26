@@ -24,6 +24,7 @@ export default function CreateCourse() {
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
+	const user = useSelector((state) => state.userReducer.user);
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
 	const ExamQuestions = useSelector(
@@ -53,7 +54,7 @@ export default function CreateCourse() {
 			data: {
 				title: InfoTitle,
 				summary: InfoSummary,
-				originalPrice: InfoOriginalPrice,
+				originalPrice: (InfoOriginalPrice/user.exchangeRate).toFixed(2),
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
 				instructors: [instructorId, ...instructorsIds],
