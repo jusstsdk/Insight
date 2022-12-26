@@ -1,23 +1,23 @@
-import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, Col, Form, ListGroupItem, Row } from "react-bootstrap";
 import {
-	initializeAnswers,
 	setOldGrade,
 	setShowAnswers,
 	setSolve,
 	updateAnswer,
 } from "../../redux/continueCourseSlice";
 export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade, OldGrade }) {
+	// Setup
 	const dispatch = useDispatch();
-	const Content = useSelector((state) => state.continueCourseReducer.content);
-	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
 
+	// Page Control
+	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const IsSolved = useSelector((state) => state.continueCourseReducer.isSolved);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 	const CorrectAnswers = useSelector((state) => state.continueCourseReducer.correctAnswers);
-
 	const ShowAnswers = useSelector((state) => state.continueCourseReducer.showAnswers);
 
+	// Handles choosing an Answer for a Question.
 	const handleChoiceClick = (questionIndex, questionId, choice) => {
 		dispatch(
 			updateAnswer({
@@ -33,14 +33,17 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 
 	return (
 		<Form>
+			{/* Displaying Exercise */}
 			{Content.questions.map((question, question_index) => (
 				<ListGroupItem key={`question_${question._id}`} className="mb-3">
 					<Row>
+						{/* Question Title */}
 						<Col sm={10}>
 							<h5 className="fitWidth">
 								{question_index + 1}. {question.question}
 							</h5>
 						</Col>
+						{/* Recieved Grade for the Question */}
 						{IsSolved && (
 							<Col sm={2}>
 								<h6
@@ -52,12 +55,14 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</Col>
 						)}
 					</Row>
+					{/* Displaying the Question Choices */}
 					{question.choices.map((choice, choice_index) => (
 						<Col sm={10}>
 							<Form.Check
 								key={`question_${question._id}_choice_${choice}_${choice_index}_check`}
 								type="radio"
 								id={`${question._id}_${choice}`}>
+								{/* Checkbox */}
 								<Form.Check.Input
 									key={`question_${question._id}_choice_${choice}_${choice_index}_input`}
 									type="radio"
@@ -78,6 +83,7 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 									disabled={IsSolved}
 								/>
 
+								{/* Choice */}
 								<Form.Check.Label
 									className={
 										IsSolved ? (Answers[question_index].choice === choice ? "solved" : "") : ""
@@ -88,6 +94,8 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</Form.Check>
 						</Col>
 					))}
+
+					{/* Correct Answer */}
 					{ShowAnswers && (
 						<h6 className="fitWidth my-3">
 							<span className="fst-italic">Correct Answer: </span>
@@ -98,9 +106,13 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 					)}
 				</ListGroupItem>
 			))}
+
+			{/* Grades Controls */}
 			{IsSolved && (
 				<>
+					{/* Grades */}
 					<Row className="justify-content-end">
+						{/* Recieved Grade */}
 						<h6 className="fitWidth">
 							Grade Recieved:{"   "}
 							<span className={Grade / Content.maxGrade >= 0.5 ? "success" : "error"}>
@@ -108,6 +120,7 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</span>
 						</h6>
 
+						{/* Best Grade */}
 						{OldGrade > Grade && (
 							<h6 className="fitWidth">
 								Best Received: {"   "}
@@ -117,7 +130,10 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</h6>
 						)}
 					</Row>
-					<Col className="ms-auto fitWidth">
+
+					{/* Controls */}
+					<Col className="ms-auto mt-3 fitWidth">
+						{/* Try again */}
 						<Button
 							onClick={() => {
 								dispatch(setOldGrade(Content.receivedGrade));
@@ -126,8 +142,10 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							}}>
 							Try again
 						</Button>
+						{/* Show Answers */}
 						{Grade / Content.maxGrade != 1 && !ShowAnswers && (
 							<Button
+								className="ms-3"
 								onClick={() => {
 									dispatch(setShowAnswers(true));
 								}}>
@@ -135,15 +153,16 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							</Button>
 						)}
 					</Col>
-					{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade > 0.5 && (
-						<Col className="ms-auto fitWidth">
-							<Button onClick={() => console.log("Get Certificate")}>Get Certificate</Button>
-						</Col>
-					)}
 				</>
 			)}
+			{/* Missing Answer Error */}
 			{MissingAnswer && <h6 className="error">You have to choose an answer to each question!</h6>}
-			{!IsSolved && <Button onClick={handleSubmitAnswers}>Submit Answers</Button>}
+			{/* Submit Button */}
+			{!IsSolved && (
+				<div className="d-flex justify-content-end">
+					<Button onClick={handleSubmitAnswers}>Submit Answers</Button>
+				</div>
+			)}
 		</Form>
 	);
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -19,37 +18,32 @@ import WatchVideo from "../components/course/WatchVideo";
 
 import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice";
 import SolveExercise from "../components/course/SolveExercise";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import DrawerListItems from "../components/course/DrawerListItems";
 import ContinueCourseNavbar from "../components/course/ContinueCourseNavbar";
-import { Button } from "react-bootstrap";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {
+	// Setup
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	// MUI Setup
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const Course = location.state.course;
 
-	// Gets Course Index in the User's Courses.
+	// Page Control
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === Course._id
 	);
-
-	const Exam = useSelector((state) => state.userReducer.user.courses[CourseIndex].exam);
-	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
-
-	// Subtitle Collapses State
-	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
-
-	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
 	);
+	const Exam = useSelector((state) => state.userReducer.user.courses[CourseIndex].exam);
+	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
+	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
+	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -278,6 +272,7 @@ export default function ContinueCourse() {
 	// Displays the Drawer Content based on props.subtitles
 	const drawer = (
 		<div className="mb-5">
+			{/* Filler to avoid Navbar */}
 			<Toolbar
 				sx={{
 					marginTop: {
@@ -286,6 +281,7 @@ export default function ContinueCourse() {
 				}}
 			/>
 			<List id="drawerList">
+				{/* Subtitles Items */}
 				{Subtitles.map((subtitle, subtitle_index) => (
 					<>
 						<DrawerListItems
@@ -300,6 +296,7 @@ export default function ContinueCourse() {
 						<Divider key={`subtitle_${subtitle._id}_divider_${subtitle_index}`} />
 					</>
 				))}
+				{/* Exam */}
 				<ListItem
 					style={{
 						backgroundColor: ContentType === "Exam" ? "#939d9e" : "",
@@ -386,10 +383,13 @@ export default function ContinueCourse() {
 					marginTop: {
 						sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px`,
 					},
-					marginBottom: "5rem",
 				}}>
 				{ContentType === "Video" ? (
-					<WatchVideo key={`course_${Course._id}_WatchVideo`} CourseId={Course._id} />
+					<WatchVideo
+						key={`course_${Course._id}_WatchVideo`}
+						CourseTitle={Course.title}
+						CourseId={Course._id}
+					/>
 				) : ContentType === "Exercise" ? (
 					<SolveExercise
 						key={`course_${Course._id}_SolveExercise`}

@@ -10,11 +10,6 @@ const {
 	addPaymentMethod,
 	deletePaymentMethod,
 	requestRefund,
-	watchVideo,
-	addNoteToVideoNotes,
-	deleteNoteFromVideoNotes,
-	solveExercise,
-	solveExam,
 } = require("../controllers/traineeController");
 
 const router = express.Router();
@@ -36,20 +31,5 @@ router.post("/:id/payment", addPaymentMethod);
 router.delete("/:tid/payment/:pid", deletePaymentMethod);
 
 router.post("/:traineeId/requestRefund/courses/:courseId", requestRefund);
-
-// Mark video as Watched
-router.put("/:id/watchVideo", watchVideo);
-
-// Add Note while watcing Video
-router.put("/:id/addNoteToVideoNotes", addNoteToVideoNotes);
-
-// Delete Note while watching Video
-router.put("/:id/deleteNoteFromVideoNotes", deleteNoteFromVideoNotes);
-
-// Solve an Exercise
-router.put("/:id/solveExercise", solveExercise);
-
-// Solve an Exam
-router.put("/:id/solveExam", solveExam);
 
 module.exports = router;
