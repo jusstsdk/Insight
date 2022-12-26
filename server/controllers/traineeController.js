@@ -203,9 +203,11 @@ const requestRefund = async (req, res) => {
 				refundRequests: { trainee: traineeId, paidPrice: paidPrice },
 			},
 		});
-		res.status(200).json("Requested refund successfully.");
+		res.status(200).json(trainee);
 	} else {
-		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+		res
+			.status(400)
+			.json("Error: Requested refund Failed! Couldn't find Course.");
 	}
 };
 
@@ -216,7 +218,9 @@ const watchVideo = async (req, res) => {
 	const subtitleIndex = req.body.subtitleIndex;
 	const videoIndex = req.body.videoIndex;
 	let trainee = await Trainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
+		videoIndex
+	].isWatched = true;
 	trainee.save();
 	res.status(200).json(trainee);
 };

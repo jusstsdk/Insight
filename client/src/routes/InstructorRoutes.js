@@ -10,12 +10,14 @@ import Courses from "../pages/sharedTrainee/Courses";
 import Promotion from "../pages/admin/Promotion";
 import ViewInstructor from "../pages/ViewInstructor";
 import ChangePassword from "../components/shared/ChangePassword";
+import CoursePage from "../pages/sharedTrainee/CoursePage";
 export function InstructorRoutes() {
 	return (
 		<>
 			<Protected authorizedUserType={"Instructor"}>
 				<Routes>
 					<Route path="" element={<Layout />}>
+						<Route path="courses/:id" element={<CoursePage />} />
 						<Route path="" element={<InstructorHome />} />
 						<Route
 							path="courses"
