@@ -1,14 +1,14 @@
 import RequestCard from "../../components/admin/RequestCard";
 import { useState, useEffect } from "react";
 import api from "../../functions/api";
-import { Container } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 const CourseRequests = () => {
 	const [traineeRequests, setTraineeRequests] = useState([]);
 	const token = useSelector((state) => state.userReducer.token);
 
 	function filterPendingRequests(requests) {
-		return requests.filter((request) => request.status === "pending").length>0;
+		return requests.filter((request) => request.status.toLowerCase() === "pending").length>0;
 	}
 	
 	async function getPendingTrainees() {
