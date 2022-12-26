@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Breadcrumb, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import API from "../../functions/api";
+import API from "../../../functions/api";
 export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
 	// Setup
 	const navigate = useNavigate();

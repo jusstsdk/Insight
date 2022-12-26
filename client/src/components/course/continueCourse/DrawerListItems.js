@@ -5,7 +5,7 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { Collapse, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
-import { resetExerciseInfo, setContentInfo } from "../../redux/continueCourseSlice";
+import { setContentInfo } from "../../../redux/continueCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DrawerListItems({

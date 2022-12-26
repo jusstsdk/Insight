@@ -2,11 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
-import { addNoteToVideoNotes, deleteNoteFromVideoNotes, watchVideo } from "../../redux/userSlice";
-import { setContent } from "../../redux/continueCourseSlice";
-import { addNotification } from "../../redux/notificationsSlice";
-import API from "../../functions/api";
-import YoutubeEmbed from "../YoutubeEmbed";
+import {
+	addNoteToVideoNotes,
+	deleteNoteFromVideoNotes,
+	watchVideo,
+} from "../../../redux/userSlice";
+import { setContent } from "../../../redux/continueCourseSlice";
+import { addNotification } from "../../../redux/notificationsSlice";
+import API from "../../../functions/api";
+import YoutubeEmbed from "../../YoutubeEmbed";
 export default function WatchVideo(props) {
 	// Setup
 	const dispatch = useDispatch();

@@ -14,13 +14,13 @@ import {
 	ListItemText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import WatchVideo from "../components/course/WatchVideo";
+import WatchVideo from "../components/course/continueCourse/WatchVideo";
 
 import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice";
-import SolveExercise from "../components/course/SolveExercise";
+import SolveExercise from "../components/course/continueCourse/SolveExercise";
 import { useLocation } from "react-router-dom";
-import DrawerListItems from "../components/course/DrawerListItems";
-import ContinueCourseNavbar from "../components/course/ContinueCourseNavbar";
+import DrawerListItems from "../components/course/continueCourse/DrawerListItems";
+import ContinueCourseNavbar from "../components/course/continueCourse/ContinueCourseNavbar";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {

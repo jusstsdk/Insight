@@ -5,7 +5,7 @@ import {
 	setShowAnswers,
 	setSolve,
 	updateAnswer,
-} from "../../redux/continueCourseSlice";
+} from "../../../redux/continueCourseSlice";
 export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade, OldGrade }) {
 	// Setup
 	const dispatch = useDispatch();
@@ -143,7 +143,7 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 							Try again
 						</Button>
 						{/* Show Answers */}
-						{Grade / Content.maxGrade != 1 && !ShowAnswers && (
+						{Grade / Content.maxGrade !== 1 && !ShowAnswers && (
 							<Button
 								className="ms-3"
 								onClick={() => {

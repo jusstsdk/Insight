@@ -8,10 +8,10 @@ import {
 	setIsSolved,
 	setOldGrade,
 	setSolve,
-} from "../../redux/continueCourseSlice";
-import { solveExam, solveExercise } from "../../redux/userSlice";
+} from "../../../redux/continueCourseSlice";
+import { solveExam, solveExercise } from "../../../redux/userSlice";
 import ExerciseBody from "./ExerciseBody";
-import API from "../../functions/api";
+import API from "../../../functions/api";
 export default function SolveExercise(props) {
 	// Setup
 	const dispatch = useDispatch();
