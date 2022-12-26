@@ -2,14 +2,14 @@ import { Container } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CourseTitle from "../../components/course/CourseTitle";
 import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
 import CourseBasicInfo from "../../components/course/CourseBasicInfo";
-import { setCourses,payFromWallet } from "../../redux/userSlice";
+import { setCourses, payFromWallet } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 
 export default function CoursePage() {
@@ -73,55 +73,6 @@ export default function CoursePage() {
 
 	/////////////
 
-	async function handleRequestAccess() {
-		let config = {
-			method: "POST",
-			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
-			data: {
-				courseId: courseID,
-			},
-		};
-		
-		try {
-			let response = await axios(config);
-		} catch (err) {
-			console.log(err);
-		}
-		setClickable(false);
-		setButtonText("Request pending");
-		dispatch(
-			addNotification({
-			  title: "request sent",
-			  info: "Access request to" + course.title + " sent successfully,waiting for admin approval",
-			  color: "success",
-			})
-		);
-	}
-	async function handleBuyCourse() {
-		
-		if(course.price === 0 || course.price<=user.wallet * user.exchangeRate){
-			const response = await API.post(
-				`/trainees/${userID}/courses/${courseID}/payment`
-			);
-			
-			if(course.price<=user.wallet * user.exchangeRate){
-				dispatch(payFromWallet(course.price / user.exchangeRate));
-			}
-			dispatch(setCourses(response.data.courses));
-			setClickable(false);
-			dispatch(
-				addNotification({
-				  title: "purchase successful",
-				  info: "course successfully purchased,you can now access all the content!",
-				  color: "success",
-				})
-			);
-			navigate("/");
-		}else{
-			navigate("payment");
-		}
-		
-	}
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadData() {
 		await getCourseFromDB();

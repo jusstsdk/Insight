@@ -30,6 +30,7 @@ import CorpTraineeRequestCourseAlert from "./CorpTraineeCourseRequestAlert";
 import { useDispatch } from "react-redux";
 import { setCourses } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
+import { payFromWallet } from "../../redux/userSlice";
 
 function TraineeCoursePriceAlert(props) {
 	const navigate = useNavigate();
@@ -76,8 +77,26 @@ function TraineeCoursePriceAlert(props) {
 	});
 
 	async function handleTraineeBuyCourse() {
-		// navigate("payment");
-		alert("Mad?");
+		if (course.price === 0 || course.price <= user.wallet * user.exchangeRate) {
+			const response = await API.post(
+				`/trainees/${userID}/courses/${courseID}/payment`
+			);
+
+			if (course.price <= user.wallet * user.exchangeRate) {
+				dispatch(payFromWallet(course.price / user.exchangeRate));
+			}
+			dispatch(setCourses(response.data.courses));
+			dispatch(
+				addNotification({
+					title: "purchase successful",
+					info: "course successfully purchased,you can now access all the content!",
+					color: "success",
+				})
+			);
+			navigate("/");
+		} else {
+			navigate("payment");
+		}
 	}
 
 	async function traineeRefundCourseRequest() {

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/userSlice";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function CorpTraineeRequestCourseAlert(props) {
 	const course = props.course;
@@ -39,6 +40,17 @@ function CorpTraineeRequestCourseAlert(props) {
 		} catch (err) {
 			console.log(err);
 		}
+
+		dispatch(
+			addNotification({
+				title: "request sent",
+				info:
+					"Access request to" +
+					course.title +
+					" sent successfully,waiting for admin approval",
+				color: "success",
+			})
+		);
 	}
 
 	useEffect(() => {
