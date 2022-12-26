@@ -15,7 +15,7 @@ function CourseInstructorsList(props) {
 										<p className="lead">{instructor.username}</p>
 									</Col>
 									<Col>
-										<Button>View</Button>
+										<Button style={{ float: "right" }}>View</Button>
 									</Col>
 								</Row>
 							</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS

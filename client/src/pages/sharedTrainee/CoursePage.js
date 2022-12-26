@@ -1,22 +1,4 @@
-import {
-	Button,
-	Form,
-	Card,
-	Badge,
-	Alert,
-	ListGroup,
-	Tabs,
-	Tab,
-	Container,
-	Row,
-	Col,
-	Table,
-	Modal,
-	Overlay,
-	OverlayTrigger,
-	Tooltip,
-	Breadcrumb,
-} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
 import API from "../../functions/api";
@@ -37,9 +19,7 @@ export default function CoursePage() {
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
 	const user = useSelector((state) => state.userReducer.user);
-	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
-	const currency = useSelector((state) => state.userReducer.user.currency);
 
 	//COURSE STATE
 	const [course, setCourse] = useState();
@@ -47,8 +27,6 @@ export default function CoursePage() {
 
 	//trainee data
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState();
-	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
-		useState();
 	const [traineeVersionOfCourse, setTraineeVersionOfCourse] = useState();
 
 	//corp trainee data
@@ -58,7 +36,7 @@ export default function CoursePage() {
 
 	async function getCourseFromDB() {
 		//get course from DB
-		const response = await API.get(`courses/${courseID}`);
+		const response = await API.get(`courses/${courseID}/fullCourse`);
 
 		//load the instructors of that course
 		let tempInstructors = [];
@@ -83,7 +61,8 @@ export default function CoursePage() {
 		response.data.originalPrice =
 			Math.trunc(response.data.originalPrice * 100) / 100;
 
-		setCourse(response.data);
+		await setCourse(response.data);
+		return true;
 	}
 
 	/////////////

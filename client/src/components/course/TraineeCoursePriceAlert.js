@@ -110,7 +110,7 @@ function TraineeCoursePriceAlert(props) {
 			<>
 				{traineeOwnsCourse ? (
 					<Alert variant="primary" className="lead">
-						Cost{" "}
+						Cost <br />
 						{
 							/* {trainee.courses.map((course) => {
 							if (course.course === id) {
@@ -119,28 +119,37 @@ function TraineeCoursePriceAlert(props) {
 									: "MISSING DATA";
 							}
 						})} */
-							<h1>
-								{" "}
-								{traineeVersionOfCourse &&
-									Math.trunc(
-										traineeVersionOfCourse.paidPrice *
-											(user.exchangeRate ? user.exchangeRate : 1) *
-											100
-									) /
-										100 +
-										" " +
-										(currency ? currency : "USD")}
-							</h1>
+							<Row>
+								<Col>
+									<h1 style={{ display: "inline-block" }}>
+										{" "}
+										{traineeVersionOfCourse &&
+											Math.trunc(
+												traineeVersionOfCourse.paidPrice *
+													(user.exchangeRate ? user.exchangeRate : 1) *
+													100
+											) /
+												100 +
+												" " +
+												(currency ? currency : "USD")}
+									</h1>
+								</Col>
+								<Col>
+									{!traineePastFiftyPercentOfCourse && (
+										<Button
+											style={{ float: "right" }}
+											variant={traineeCanRefund ? "danger" : "secondary"}
+											onClick={handleShowRefundCourseModal}
+											disabled={!traineeCanRefund}
+										>
+											{traineeCanRefund
+												? "Request Refund"
+												: "Refund Request Sent"}
+										</Button>
+									)}
+								</Col>
+							</Row>
 						}
-						{!traineePastFiftyPercentOfCourse && (
-							<Button
-								variant={traineeCanRefund ? "danger" : "secondary"}
-								onClick={handleShowRefundCourseModal}
-								disabled={!traineeCanRefund}
-							>
-								{traineeCanRefund ? "Request Refund" : "Refund Request Sent"}
-							</Button>
-						)}
 					</Alert>
 				) : (
 					<Alert variant="primary" className="lead">

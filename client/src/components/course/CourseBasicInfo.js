@@ -46,40 +46,36 @@ function CourseBasicInfo(props) {
 
 	return (
 		<>
-			<h3>Basic Info</h3>
-			<Row>
-				{userType === "CorporateTrainee" ? (
-					!corpTraineeOwnsCourse && (
-						<Col>
-							<CorpTraineeRequestCourseAlert
-								course={course}
-							></CorpTraineeRequestCourseAlert>
-						</Col>
-					)
-				) : (
+			{userType === "CorporateTrainee" ? (
+				!corpTraineeOwnsCourse && (
 					<Col>
-						<TraineeCoursePriceAlert
+						<CorpTraineeRequestCourseAlert
 							course={course}
-							traineeOwnsCourse={traineeOwnsCourse}
-							traineeVersionOfCourse={traineeVersionOfCourse}
-						></TraineeCoursePriceAlert>
+						></CorpTraineeRequestCourseAlert>
 					</Col>
-				)}
-
+				)
+			) : (
 				<Col>
-					<CourseHours
+					<TraineeCoursePriceAlert
 						course={course}
-						ownsCourse={
-							userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
-						}
-						hisVersionOfCourse={
-							userType === "Trainee"
-								? traineeVersionOfCourse
-								: corpTraineeVersionOfCourse
-						}
-					></CourseHours>
+						traineeOwnsCourse={traineeOwnsCourse}
+						traineeVersionOfCourse={traineeVersionOfCourse}
+					></TraineeCoursePriceAlert>
 				</Col>
-			</Row>
+			)}
+
+			<CourseHours
+				course={course}
+				ownsCourse={
+					userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
+				}
+				hisVersionOfCourse={
+					userType === "Trainee"
+						? traineeVersionOfCourse
+						: corpTraineeVersionOfCourse
+				}
+			></CourseHours>
+			<h3>Basic Info</h3>
 			<Row>
 				<CourseSummaryPrevVid course={course}></CourseSummaryPrevVid>
 			</Row>

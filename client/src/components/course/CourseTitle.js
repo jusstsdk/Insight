@@ -11,25 +11,30 @@ function CourseTitle(props) {
 	return (
 		<Container>
 			<Row>
-				<Col>
-					<h1 style={{ display: "inline-block" }} key="titleHeader">
-						{course.title + " "}
-					</h1>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					{course.subjects.map((eachSubject, i) => {
-						return (
-							<>
-								<Badge
-									bg="info"
-									key={"Badge of Subject: " + i + eachSubject}
-									className="lead"
-								>
-									{eachSubject}
-								</Badge>
-								&nbsp;
-							</>
-						);
-					})}
+				<Col md="auto">
+					<Row>
+						<h1 style={{ display: "inline-block" }} key="titleHeader">
+							{course.title + " "}
+						</h1>
+					</Row>
+					<Row>
+						<Col>
+							{course.subjects.map((eachSubject, i) => {
+								return (
+									<>
+										<Badge
+											bg="info"
+											key={"Badge of Subject: " + i + eachSubject}
+											className="lead"
+										>
+											{eachSubject}
+										</Badge>
+										&nbsp;
+									</>
+								);
+							})}
+						</Col>
+					</Row>
 				</Col>
 				<Col>
 					<Rating
@@ -41,10 +46,7 @@ function CourseTitle(props) {
 					/>
 				</Col>
 				<Col>
-					<Button
-						style={{ alignSelf: "flex-end", marginLeft: "auto" }}
-						onClick={continueCourse}
-					>
+					<Button style={{ float: "right" }} onClick={continueCourse}>
 						Continue Course
 					</Button>
 				</Col>
