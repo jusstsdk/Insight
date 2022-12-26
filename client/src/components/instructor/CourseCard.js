@@ -118,9 +118,7 @@ function CourseCard(props) {
 									className="p-0 me-2"
 									variant="link"
 									onClick={() =>
-										navigate("/instructor/viewInstructor", {
-											state: { instructorId: instructor._id },
-										})
+										navigate("/instructor/viewInstructor/"+ instructor._id)
 									}
 									key={"instructor_" + i}>
 									{instructor.username}

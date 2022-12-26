@@ -23,10 +23,9 @@ function CourseCard({ course }) {
 	const handleOpen = () => {
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
-	
+
 	return (
 		<>
-
 			<Card className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}
@@ -60,7 +59,10 @@ function CourseCard({ course }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
-						<h6 className="textFit courseCardLabel">Number of students : {course.enrolledTrainees.length}</h6>
+						<h6 className="textFit courseCardLabel">
+							Number of students :{" "}
+							{course.enrolledTrainees.length}
+						</h6>
 					</CardGroup>
 					<CardGroup as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel">
@@ -87,13 +89,23 @@ function CourseCard({ course }) {
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
-									<a
-										href="#"
+									<Button
+										className="p-0 me-2"
+										variant="link"
+										onClick={() => {
+											
+											if (userType === "Trainee") {
+												navigate("/trainee/viewInstructor/" + instructor._id);
+											}else if(userType === "CorporateTrainee"){
+												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
+											}else if(userType === "Instructor"){
+												navigate("/instructor/viewInstructor/" + instructor._id);
+											}
+										}}
 										key={"instructor_" + i}
-										className="mx-1"
 									>
 										{instructor.username}
-									</a>
+									</Button>
 								))}
 							</ListGroup>
 						</Col>
