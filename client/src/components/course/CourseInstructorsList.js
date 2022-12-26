@@ -1,6 +1,11 @@
 import { ListGroup, Col, Row, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 function CourseInstructorsList(props) {
 	const instructors = props.instructors;
+	const navigate = useNavigate();
+	const userType = useSelector((state) => state.userReducer.type);
 
 	return (
 		<>
@@ -15,7 +20,16 @@ function CourseInstructorsList(props) {
 										<p className="lead">{instructor.username}</p>
 									</Col>
 									<Col>
-										<Button style={{ float: "right" }}>View</Button>
+										<Button
+											style={{ float: "right" }}
+											onClick={() =>
+												navigate(`/${userType.toLowerCase()}/viewInstructor`, {
+													state: { instructorId: instructor._id },
+												})
+											}
+										>
+											View
+										</Button>
 									</Col>
 								</Row>
 							</ListGroup.Item> //SHOULD BE {instructor.firstName} ONCE WE FIX MODELS

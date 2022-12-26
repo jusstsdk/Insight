@@ -58,8 +58,8 @@ function CorpTraineeRequestCourseAlert(props) {
 					<Alert variant="primary" className="lead">
 						{corpTraineeAlreadyRequestedAccess ? (
 							<>
-								<h3>Request Status:</h3>
-								<h1>{corpTraineeRequestStatus}</h1>
+								Request Status:
+								<h2>{corpTraineeRequestStatus}</h2>
 							</>
 						) : (
 							<Button

@@ -30,7 +30,7 @@ function ReportCourseModal(props) {
 			url: `http://localhost:4000/api/reports/courses/${courseID}`,
 			data: {
 				title: reportTitle.current.value,
-				type: reportType.toLowerCase(),
+				type: reportType,
 				description: reportDescription.current.value,
 				author: userID,
 				authorType: userType,

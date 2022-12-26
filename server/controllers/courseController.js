@@ -231,7 +231,7 @@ const getReports = async (req, res) => {
 
 const reviewCourse = async (req, res) => {
 	let courseId = req.params.id;
-	const course = await Course.findById(courseId).then((course) => {
+	let course = await Course.findById(courseId).then(async (course) => {
 		if (!course) {
 			return res.status(400).json({ error: "No such course" });
 		}
@@ -243,17 +243,23 @@ const reviewCourse = async (req, res) => {
 			}
 		});
 		if (!found) course.reviews.push(req.body);
-		course.save();
+		await course.save();
 		return course;
 	});
 	if (!course) {
 		return res.status(400).json({ error: "No such course" });
 	}
-
-	res.status(200).json(course);
+	try {
+		course = await Course.findById(courseId).populate({
+			path: "reviews.trainee",
+		});
+		res.status(200).json(course);
+	} catch (err) {
+		res.status(400).json({ error: error.message });
+	}
 };
 
-// Get all courses and populate review author
+// Get course and populate review author
 const getCourseWithReviews = async (req, res) => {
 	try {
 		const course = await Course.findById(req.params.id).populate({

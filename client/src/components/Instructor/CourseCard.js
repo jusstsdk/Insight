@@ -1,10 +1,21 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import API from "../../functions/api";
 import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 
-import { setExamsAndSubtitles, clearCreateCourse } from "../../redux/createCourseSlice";
+import {
+	setExamsAndSubtitles,
+	clearCreateCourse,
+} from "../../redux/createCourseSlice";
 
 import { addNotification } from "../../redux/notificationsSlice";
 
@@ -13,6 +24,7 @@ function CourseCard(props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const currency = useSelector((state) => state.userReducer.user.currency);
+	const userType = useSelector((state) => state.userReducer.type);
 
 	const handleEditCourse = () => {
 		dispatch(setInfo(props.course));
@@ -81,8 +93,12 @@ function CourseCard(props) {
 			<Card.Body>
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
-					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
-					<p className="textFit my-auto text-muted">{props.course.totalHours} Hours</p>
+					<Card.Title className="courseCardTitle">
+						{props.course.title}
+					</Card.Title>
+					<p className="textFit my-auto text-muted">
+						{props.course.totalHours} Hours
+					</p>
 					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
 							<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
@@ -118,18 +134,24 @@ function CourseCard(props) {
 									className="p-0 me-2"
 									variant="link"
 									onClick={() =>
-										navigate("/instructor/viewInstructor", {
+										navigate(`/${userType.toLowerCase()}/viewInstructor`, {
 											state: { instructorId: instructor._id },
 										})
 									}
-									key={"instructor_" + i}>
+									key={"instructor_" + i}
+								>
 									{instructor.username}
 								</Button>
 							))}
 						</ListGroup>
 					</Col>
-					<Col className="viewCourseButton d-flex  justify-content-end align-items-center" sm={6}>
-						{props.allCourses && <h6 className="text-muted me-3">{props.course.status}</h6>}
+					<Col
+						className="viewCourseButton d-flex  justify-content-end align-items-center"
+						sm={6}
+					>
+						{props.allCourses && (
+							<h6 className="text-muted me-3">{props.course.status}</h6>
+						)}
 						{displayButtons()}
 						<Button>View Course</Button>
 					</Col>

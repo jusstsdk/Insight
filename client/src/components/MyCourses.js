@@ -8,9 +8,7 @@ import CourseCard from "./CourseCard";
 const MyCourses = () => {
 	const [courses, setCourses] = useState([]);
 
-	const coursesWithId = useSelector(
-		(state) => state.userReducer.user.courses
-	);
+	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 
 	async function getCourses() {
 		let newCourses = [];

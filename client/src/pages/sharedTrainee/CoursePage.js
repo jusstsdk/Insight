@@ -26,13 +26,16 @@ export default function CoursePage() {
 	const [instructors, setInstructors] = useState();
 
 	//trainee data
-	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState();
+	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
 	const [traineeVersionOfCourse, setTraineeVersionOfCourse] = useState();
 
 	//corp trainee data
-	const [corpTraineeOwnsCourse, setCorpTraineeOwnsCourse] = useState();
+	const [corpTraineeOwnsCourse, setCorpTraineeOwnsCourse] = useState(false);
 	const [corpTraineeVersionOfCourse, setCorpTraineeVersionOfCourse] =
 		useState();
+
+	//instructor data
+	const [instructorTeachesCourse, setInstrcutorTeachesCourse] = useState(false);
 
 	async function getCourseFromDB() {
 		//get course from DB
@@ -88,6 +91,18 @@ export default function CoursePage() {
 				}
 			});
 		}
+
+		if (userType === "Administrator") {
+		}
+
+		if (userType === "Instructor") {
+			user.courses.forEach((course) => {
+				if (course.course === courseID) {
+					setInstrcutorTeachesCourse(true);
+				}
+			});
+		}
+
 		setLoaded(true);
 	}
 	useEffect(() => {
@@ -98,7 +113,17 @@ export default function CoursePage() {
 		course &&
 		loaded && (
 			<Container>
-				<CourseTitle course={course} id="title"></CourseTitle>
+				<CourseTitle
+					course={course}
+					id="title"
+					ownsCourse={
+						userType === "Trainee"
+							? traineeOwnsCourse
+							: userType === "CorporateTrainee"
+							? corpTraineeOwnsCourse
+							: instructorTeachesCourse
+					}
+				></CourseTitle>
 				<hr />
 				<CourseBasicInfo
 					course={course}

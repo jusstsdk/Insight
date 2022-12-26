@@ -48,12 +48,9 @@ function ReviewCourseModal(props) {
 		handleCloseReviewCourseModal();
 		try {
 			const response = await axios(config);
-			//setCourse(response.data);
-			const updatedCourse = await getCourseFromDB();
-			console.log(course);
-			await getCourseFromDB();
-			console.log(course);
-			updatedCourse && setReviews(course.reviews);
+			setCourse(response.data);
+			setReviews(response.data.reviews);
+			console.log(response.data);
 		} catch (err) {
 			console.log("omgggggg");
 			console.log(err);

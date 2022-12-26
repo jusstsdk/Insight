@@ -5,7 +5,7 @@ function CourseSubtitlesList({ course }) {
 	return (
 		<>
 			<h3>Subtitles</h3>
-			<ListGroup>
+			<ListGroup variant="flush">
 				{course.subtitles.map((subtitle, subtitle_index) => {
 					return (
 						<ListGroup.Item

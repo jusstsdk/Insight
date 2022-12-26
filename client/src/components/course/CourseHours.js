@@ -40,12 +40,11 @@ function CourseHours(props) {
 				Hours
 				<h1>{course.totalHours}</h1>
 				{ownsCourse && "Progress"}
-				{ownsCourse && (
+				{ownsCourse && hisVersionOfCourse && (
 					<ProgressBar>
 						<ProgressBar
-							striped
-							variant="success"
-							now={hisVersionOfCourse && hisVersionOfCourse.progress}
+							variant="info"
+							now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
 							label={`${hisVersionOfCourse.progress * 100}%`}
 						/>
 					</ProgressBar>
