@@ -17,7 +17,7 @@ const getAllCoursesRequests = async (req, res) => {
 	try {
 		const corporateTraineeRequests = await CorporateTrainee.find({
 			requests: { $exists: true, $ne: [] },
-		},"_id username corporate requests").populate("requests.courseId","_id price summary subjects rating instructors title");
+		},"_id username corporate requests").populate({path : "requests.courseId",populate : {path : "instructors",model : "Instructor"}});
 		res.status(200).json( corporateTraineeRequests );
 	} catch (error) {
 		res.status(400).json({ error: error.message });

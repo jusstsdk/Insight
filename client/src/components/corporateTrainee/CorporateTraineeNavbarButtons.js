@@ -13,6 +13,13 @@ export default function CorporateTraineeNavbarButtons() {
 			>
 				Search
 			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("myReports");
+				}}
+			>
+				My Reports
+			</Nav.Link>
 		</>
 	);
 }

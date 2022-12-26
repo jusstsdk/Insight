@@ -12,6 +12,7 @@ import ViewCourseReports from "../pages/admin/ViewCourseReports";
 import Promotion from "../pages/admin/Promotion";
 import ChangePassword from "../components/shared/ChangePassword";
 import Refunds from "../pages/admin/Refunds";
+import ViewInstructor from "../pages/ViewInstructor";
 
 export function AdminRoutes() {
 	return (
@@ -52,6 +53,7 @@ export function AdminRoutes() {
 							element={<ViewCourseReports />}
 						/>
 						<Route path="promotion" element={<Promotion />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 					</Route>
 				</Routes>
 			</Protected>

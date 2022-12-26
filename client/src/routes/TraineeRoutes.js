@@ -8,6 +8,7 @@ import Courses from "../pages/sharedTrainee/Courses";
 import ChangePassword from "../components/shared/ChangePassword";
 import ContinueCourse from "../pages/ContinueCourse";
 import ViewInstructor from "../pages/ViewInstructor";
+import MyReports from "../pages/MyReports";
 
 export function TraineeRoutes() {
 	return (
@@ -22,6 +23,7 @@ export function TraineeRoutes() {
 						<Route path="courses/:id/continueCourse" element={<ContinueCourse />} />
 						<Route path="changePassword" element={<ChangePassword />} />
 						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
+						<Route path="myReports" element={<MyReports />} />
 					</Route>
 				</Routes>
 			</Protected>

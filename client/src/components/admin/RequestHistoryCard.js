@@ -2,13 +2,15 @@ import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-boots
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
+import { useNavigate } from "react-router-dom";
 function RequestHistoryCard({ request, course }) {
-    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
+	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState("");
 	const [show, setShow] = useState(true);
 
 	useEffect(() => {
-		if(request.status === "pending"){
+		if(request.status.toLowerCase() === "pending"){
 			setShow(false);
 		}
         if(request.status === "accepted"){
@@ -51,7 +53,25 @@ function RequestHistoryCard({ request, course }) {
 				</CardGroup>
 
 				{/* Instructors and View Course*/}
-				
+				<CardGroup as={Row} className="mt-2 align-items-center">
+						<h6 className="text-muted textFit courseCardLabel my-1">
+							Instructors
+						</h6>
+						<Col sm={2}>
+							<ListGroup horizontal>
+								{course.instructors.map((instructor, i) => (
+									<Button
+										className="p-0 me-2"
+										variant="link"
+										onClick={() => navigate("/admin/viewInstructor/" + instructor._id)}
+										key={"instructor_" + i}
+									>
+										{instructor.username}
+									</Button>
+								))}
+							</ListGroup>
+						</Col>
+					</CardGroup>
 			</Card.Body>
 		</Card>
 		)
