@@ -18,6 +18,7 @@ export default function SolveExercise(props) {
 
 	// Data Setup
 	const User = useSelector((state) => state.userReducer.user);
+	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
@@ -81,11 +82,13 @@ export default function SolveExercise(props) {
 					subtitleIndex: SubtitleIndex,
 					exerciseIndex: ExerciseIndex,
 					questions: userQuestions,
+					userType: UserType,
 				});
 			} else {
 				await API.put(`/courses/${User._id}/solveExam`, {
 					courseIndex: CourseIndex,
 					questions: userQuestions,
+					userType: UserType,
 				});
 			}
 			bestGrade = grade;

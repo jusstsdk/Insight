@@ -59,7 +59,7 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
-				progress: Number, // range from 0.0 to 1.0
+				progress: { type: Number, default: 0 }, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				requestedRefund: Boolean,
 				paidPrice: Number,

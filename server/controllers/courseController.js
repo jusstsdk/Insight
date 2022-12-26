@@ -284,10 +284,13 @@ async function promotionCourses(req, res) {
 // updates isWatched to true in trainee.courses.subtitles.videos
 const watchVideo = async (req, res) => {
 	const traineeId = req.params.id;
+	const userType = req.body.userType;
 	const courseIndex = req.body.courseIndex;
 	const subtitleIndex = req.body.subtitleIndex;
 	const videoIndex = req.body.videoIndex;
-	let trainee = await Trainee.findById(traineeId);
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
 	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
 	await trainee.save();
 	res.status(200).json(trainee);
@@ -296,11 +299,15 @@ const watchVideo = async (req, res) => {
 // adds Note to a Video's Notes
 const addNoteToVideoNotes = async (req, res) => {
 	const traineeId = req.params.id;
+	const userType = req.body.userType;
 	const courseIndex = req.body.courseIndex;
 	const subtitleIndex = req.body.subtitleIndex;
 	const videoIndex = req.body.videoIndex;
 	const note = req.body.note;
-	let trainee = await Trainee.findById(traineeId);
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+
 	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = [
 		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes,
 		note,
@@ -312,11 +319,14 @@ const addNoteToVideoNotes = async (req, res) => {
 // deletes a Note from a Video's Notes
 const deleteNoteFromVideoNotes = async (req, res) => {
 	const traineeId = req.params.id;
+	const userType = req.body.userType;
 	const courseIndex = req.body.courseIndex;
 	const subtitleIndex = req.body.subtitleIndex;
 	const videoIndex = req.body.videoIndex;
 	const noteIndex = req.body.noteIndex;
-	let trainee = await Trainee.findById(traineeId);
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
 	let newNotes = trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
 		videoIndex
 	].notes.filter((_, i) => i !== noteIndex);
@@ -328,11 +338,14 @@ const deleteNoteFromVideoNotes = async (req, res) => {
 // updates the user's choices for an exercise
 const solveExercise = async (req, res) => {
 	const traineeId = req.params.id;
+	const userType = req.body.userType;
 	const courseIndex = req.body.courseIndex;
 	const subtitleIndex = req.body.subtitleIndex;
 	const exerciseIndex = req.body.exerciseIndex;
 	const questions = req.body.questions;
-	let trainee = await Trainee.findById(traineeId);
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
 	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
 	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
 		questions;
@@ -343,9 +356,12 @@ const solveExercise = async (req, res) => {
 // updates the user's choices for an exam
 const solveExam = async (req, res) => {
 	const traineeId = req.params.id;
+	const userType = req.body.userType;
 	const courseIndex = req.body.courseIndex;
 	const questions = req.body.questions;
-	let trainee = await Trainee.findById(traineeId);
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
 	trainee.courses[courseIndex].exam.isSolved = true;
 	trainee.courses[courseIndex].exam.questions = questions;
 	await trainee.save();
@@ -353,7 +369,7 @@ const solveExam = async (req, res) => {
 };
 
 // send the certificate to the user when he/she finsihes the course
-async function sendCertificate(req, res) {
+const sendCertificate = (req, res) => {
 	let mailTransporter = nodemailer.createTransport({
 		service: "Gmail",
 		auth: {
@@ -382,7 +398,7 @@ async function sendCertificate(req, res) {
 			res.sendStatus(200);
 		}
 	});
-}
+};
 
 module.exports = {
 	getCourse,

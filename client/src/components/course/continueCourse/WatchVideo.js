@@ -17,18 +17,17 @@ export default function WatchVideo(props) {
 
 	// Page Control
 	const User = useSelector((state) => state.userReducer.user);
+	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
-	const NoteRef = useRef();
-	const [Note, setNote] = useState("");
-
-	// Gets Course Index in the User's Courses.
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === props.CourseId
 	);
 	const VideoIndex = User.courses[CourseIndex].subtitles[SubtitleIndex].videos.findIndex(
 		(video) => video._id === Content._id
 	);
+	const NoteRef = useRef();
+	const [Note, setNote] = useState("");
 
 	// Updates the status of the Video in Database, User and current Content.
 	const handleMarkAsWatched = async () => {
@@ -37,6 +36,7 @@ export default function WatchVideo(props) {
 			courseIndex: CourseIndex,
 			subtitleIndex: SubtitleIndex,
 			videoIndex: VideoIndex,
+			userType: UserType,
 		});
 
 		// Send the Certificate in a mail if the User completed the Course.
@@ -78,6 +78,7 @@ export default function WatchVideo(props) {
 			subtitleIndex: SubtitleIndex,
 			videoIndex: VideoIndex,
 			note: note,
+			userType: UserType,
 		});
 		// Adds the Note to the Video in User.
 		dispatch(
@@ -101,6 +102,7 @@ export default function WatchVideo(props) {
 			subtitleIndex: SubtitleIndex,
 			videoIndex: VideoIndex,
 			noteIndex: note_index,
+			userType: UserType,
 		});
 		// Removes the Note from the User.
 		dispatch(

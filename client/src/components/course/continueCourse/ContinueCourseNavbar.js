@@ -1,15 +1,19 @@
 import { Toolbar, AppBar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Breadcrumb, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import API from "../../../functions/api";
+import { addNotification } from "../../../redux/notificationsSlice";
 export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
 	// Setup
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	// Page Control
 	const User = useSelector((state) => state.userReducer.user);
+	const UserType = useSelector((state) => state.userReducer.type);
+
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === Course._id
 	);
@@ -60,6 +64,13 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 									variant="link"
 									className="ms-3"
 									onClick={async () => {
+										dispatch(
+											addNotification({
+												title: "Continue Course",
+												info: "We have sent to you your Certificate.",
+												color: "success",
+											})
+										);
 										await API.post(`/courses/sendCertificate`, {
 											courseTitle: Course.title,
 											email: User.email,
@@ -88,7 +99,7 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 							<Button
 								variant="link"
 								className="ms-1"
-								onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
+								onClick={() => navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)}>
 								View Course
 							</Button>
 						)}
