@@ -14,6 +14,7 @@ export default function ViewInstructor() {
 
 	// const instructorId = location.state.instructorId;
 	const 	instructorId = id;
+	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
 	const [InstructorInfo, setInstructorInfo] = useState([]);
@@ -34,6 +35,10 @@ export default function ViewInstructor() {
 			const response = await API.get(
 				`/instructors/${instructorId}/courses`
 			);
+			response.data.courses.forEach((course) => {
+				course.originalPrice = (course.originalPrice * user.exchangeRate).toFixed(2);
+				course.price = (course.price * user.exchangeRate).toFixed(2);
+			});
 			setInstructorCourses(response.data.courses);
 		} catch (err) {
 			console.log(err);
