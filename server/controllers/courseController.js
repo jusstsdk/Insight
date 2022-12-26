@@ -1,6 +1,9 @@
 const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
+const Trainee = require("../models/traineeModel");
+const CorporateTrainee = require("../models/corporateTraineeModel");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 
 // Get a single course
 const getCourse = async (req, res) => {
@@ -289,6 +292,125 @@ async function promotionCourses(req, res) {
 	res.sendStatus(200);
 }
 
+// updates isWatched to true in trainee.courses.subtitles.videos
+const watchVideo = async (req, res) => {
+	const traineeId = req.params.id;
+	const userType = req.body.userType;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const videoIndex = req.body.videoIndex;
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
+	await trainee.save();
+	res.status(200).json(trainee);
+};
+
+// adds Note to a Video's Notes
+const addNoteToVideoNotes = async (req, res) => {
+	const traineeId = req.params.id;
+	const userType = req.body.userType;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const videoIndex = req.body.videoIndex;
+	const note = req.body.note;
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = [
+		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes,
+		note,
+	];
+	trainee.save();
+	res.status(200).json(trainee);
+};
+
+// deletes a Note from a Video's Notes
+const deleteNoteFromVideoNotes = async (req, res) => {
+	const traineeId = req.params.id;
+	const userType = req.body.userType;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const videoIndex = req.body.videoIndex;
+	const noteIndex = req.body.noteIndex;
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+	let newNotes = trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
+		videoIndex
+	].notes.filter((_, i) => i !== noteIndex);
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = newNotes;
+	trainee.save();
+	res.status(200).json(trainee);
+};
+
+// updates the user's choices for an exercise
+const solveExercise = async (req, res) => {
+	const traineeId = req.params.id;
+	const userType = req.body.userType;
+	const courseIndex = req.body.courseIndex;
+	const subtitleIndex = req.body.subtitleIndex;
+	const exerciseIndex = req.body.exerciseIndex;
+	const questions = req.body.questions;
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
+		questions;
+	await trainee.save();
+	res.status(200).json(trainee);
+};
+
+// updates the user's choices for an exam
+const solveExam = async (req, res) => {
+	const traineeId = req.params.id;
+	const userType = req.body.userType;
+	const courseIndex = req.body.courseIndex;
+	const questions = req.body.questions;
+	let trainee;
+	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+	else trainee = await CorporateTrainee.findById(traineeId);
+	trainee.courses[courseIndex].exam.isSolved = true;
+	trainee.courses[courseIndex].exam.questions = questions;
+	await trainee.save();
+	res.status(200).json(trainee);
+};
+
+// send the certificate to the user when he/she finsihes the course
+const sendCertificate = (req, res) => {
+	let mailTransporter = nodemailer.createTransport({
+		service: "Gmail",
+		auth: {
+			user: process.env.EMAIL_USERNAME,
+			pass: process.env.EMAIL_PASSWORD,
+		},
+	});
+	let mailDetails = {
+		from: "You have completed a Course",
+		to: `${req.body.email}`,
+		subject: `You have completed the Course: ${req.body.courseTitle}`,
+		text: "Here is your Certificate",
+		attachments: [
+			{
+				filename: "Certificate.pdf",
+				path: "./Certificate.pdf",
+				contentType: "application/pdf",
+			},
+		],
+	};
+
+	mailTransporter.sendMail(mailDetails, function (err, data) {
+		if (err) {
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
+	});
+};
+
 module.exports = {
 	getCourse,
 	getCourseWithReviews,
@@ -301,4 +423,10 @@ module.exports = {
 	getReports,
 	reviewCourse,
 	promotionCourses,
+	sendCertificate,
+	watchVideo,
+	addNoteToVideoNotes,
+	deleteNoteFromVideoNotes,
+	solveExercise,
+	solveExam,
 };

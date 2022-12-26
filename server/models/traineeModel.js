@@ -59,7 +59,7 @@ const traineeSchema = new Schema(
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
 				subtitles: [subtitleSchema],
-				progress: Number, // range from 0.0 to 1.0
+				progress: { type: Number, default: 0 }, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				requestedRefund: Boolean,
 				paidPrice: Number,
@@ -75,31 +75,23 @@ const traineeSchema = new Schema(
 );
 
 traineeSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign(
-		{ _id: this._id, userType: "Trainee" },
-		process.env.SECRET
-	);
+	const token = jwt.sign({ _id: this._id, userType: "Trainee" }, process.env.SECRET);
 	return token;
 };
 
 traineeSchema.pre("save", async function (next) {
 	// calculate progress
 	this.courses.forEach((course) => {
-		let finishedExercisesAndVideos = 0;
-		let totalExercisesAndVideos = 0;
+		let finishedVideos = 0;
+		let totalVideos = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
 			subtitle.videos.forEach((video) => {
-				totalExercisesAndVideos++;
-				if (video.isWatched) finishedExercisesAndVideos++;
-			});
-
-			subtitle.exercises.forEach((exercise) => {
-				totalExercisesAndVideos++;
-				if (exercise.isSolved) finishedExercisesAndVideos++;
+				totalVideos++;
+				if (video.isWatched) finishedVideos++;
 			});
 		});
-		course.progress = finishedExercisesAndVideos / totalExercisesAndVideos;
+		course.progress = finishedVideos / totalVideos;
 	});
 	next();
 });

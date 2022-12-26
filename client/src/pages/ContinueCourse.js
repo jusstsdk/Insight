@@ -9,47 +9,41 @@ import {
 	Drawer,
 	Toolbar,
 	Divider,
-	AppBar,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import WatchVideo from "../components/course/WatchVideo";
-import { Breadcrumb, Button } from "react-bootstrap";
+import WatchVideo from "../components/course/continueCourse/WatchVideo";
 
 import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice";
-import SolveExercise from "../components/course/SolveExercise";
+import SolveExercise from "../components/course/continueCourse/SolveExercise";
 import { useLocation } from "react-router-dom";
-import DrawerListItems from "../components/course/DrawerListItems";
+import DrawerListItems from "../components/course/continueCourse/DrawerListItems";
+import ContinueCourseNavbar from "../components/course/continueCourse/ContinueCourseNavbar";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {
+	// Setup
 	const location = useLocation();
 	const dispatch = useDispatch();
 	// MUI Setup
 	const [mobileOpen, setMobileOpen] = useState(false);
-	const CourseId = location.state.courseId;
 	const Course = location.state.course;
 
-	// Gets Course Index in the User's Courses.
-	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === CourseId
+	// Page Control
+	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
+		(course) => course.course === Course._id
 	);
-
-	const Exam = useSelector((state) => state.userReducer.user.courses[courseIndex].exam);
-	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
-
-	// Subtitle Collapses State
-	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
-
-	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
 	);
-	const Content = useSelector((state) => state.continueCourseReducer.content);
+	const Exam = useSelector((state) => state.userReducer.user.courses[CourseIndex].exam);
+	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
+	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
+	const [openCollapses, setOpenCollapses] = useState(new Array(Subtitles.length + 1).fill(false));
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -89,7 +83,17 @@ export default function ContinueCourse() {
 		content.questions.map((question, questionIndex) => {
 			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
 		});
-		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: content.receivedGrade }));
+		let correctAnswers = new Array(content.questions.length);
+		content.questions.map((question, questionIndex) => {
+			correctAnswers[questionIndex] = { questionId: question._id, choice: question.correctAnswer };
+		});
+		dispatch(
+			resetExerciseInfo({
+				answers: newAnswers,
+				correctAnswers: correctAnswers,
+				oldGrade: content.receivedGrade,
+			})
+		);
 	};
 
 	// Setup for Exam onClick on Exam ListItem
@@ -98,15 +102,11 @@ export default function ContinueCourse() {
 			setContentInfo({
 				content: Exam,
 				contentType: "Exam",
-				subtitleIndex: -1,
-				selectedContentIndex: -1,
+				subtitleIndex: Subtitles.length,
+				selectedContentIndex: Subtitles.length,
 			})
 		);
-		let newAnswers = new Array(Exam.questions.length);
-		Exam.questions.map((question, questionIndex) => {
-			newAnswers[questionIndex] = { questionId: question._id, choice: "" };
-		});
-		dispatch(resetExerciseInfo({ answers: newAnswers, oldGrade: Exam.receivedGrade }));
+		setupExercise(Exam);
 		let openCollapsesArray = [...openCollapses].map((_, index) => index === -1);
 		setOpenCollapses(openCollapsesArray);
 	};
@@ -152,6 +152,72 @@ export default function ContinueCourse() {
 				let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex + 1);
 				setOpenCollapses(openCollapsesArray);
 			}
+		}
+	};
+
+	// Handles Press on Next Button
+	const handlePrevious = () => {
+		// Tries to get the next content in the same subtitle
+		if (ContentType !== "Exam") {
+			let previousContent = contentGetter(SubtitleIndex, SelectedContentIndex - 1);
+
+			// Two Cases: There is more Content or No more content in the same Subtitle.
+			if (previousContent.length !== 0) {
+				// If there is more Content, Get the next Content.
+				dispatch(
+					setContentInfo({
+						content: previousContent[0],
+						contentType: previousContent[0].type,
+						subtitleIndex: SubtitleIndex,
+						selectedContentIndex: SelectedContentIndex - 1,
+					})
+				);
+				// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+				if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+			} else {
+				// If there is no more Content, Check if there is more Subtitles
+				// Two Cases: No more Subtitles or There are More Subtitles
+
+				if (SubtitleIndex - 1 >= 0) {
+					// Get Content from the previous Subtitle
+					let exerciseLength = Subtitles[SubtitleIndex - 1].exercises.length;
+					let videosLength = Subtitles[SubtitleIndex - 1].videos.length;
+					let previousContent = contentGetter(SubtitleIndex - 1, exerciseLength + videosLength - 1);
+					dispatch(
+						setContentInfo({
+							content: previousContent[0],
+							contentType: previousContent[0].type,
+							subtitleIndex: SubtitleIndex - 1,
+							selectedContentIndex: exerciseLength + videosLength - 1,
+						})
+					);
+					// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+					if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+
+					let openCollapsesArray = [...openCollapses].map(
+						(_, index) => index === SubtitleIndex - 1
+					);
+					setOpenCollapses(openCollapsesArray);
+				}
+			}
+		} else {
+			let lastSubtitle = Subtitles.length - 1;
+			let exerciseLength = Subtitles[lastSubtitle].exercises.length;
+			let videosLength = Subtitles[lastSubtitle].videos.length;
+			let previousContent = contentGetter(lastSubtitle, exerciseLength + videosLength - 1);
+			dispatch(
+				setContentInfo({
+					content: previousContent[0],
+					contentType: previousContent[0].type,
+					subtitleIndex: SubtitleIndex - 1,
+					selectedContentIndex: exerciseLength + videosLength - 1,
+				})
+			);
+			// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+			if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+
+			let openCollapsesArray = [...openCollapses].map((_, index) => index === lastSubtitle);
+			setOpenCollapses(openCollapsesArray);
 		}
 	};
 
@@ -206,6 +272,7 @@ export default function ContinueCourse() {
 	// Displays the Drawer Content based on props.subtitles
 	const drawer = (
 		<div className="mb-5">
+			{/* Filler to avoid Navbar */}
 			<Toolbar
 				sx={{
 					marginTop: {
@@ -214,6 +281,7 @@ export default function ContinueCourse() {
 				}}
 			/>
 			<List id="drawerList">
+				{/* Subtitles Items */}
 				{Subtitles.map((subtitle, subtitle_index) => (
 					<>
 						<DrawerListItems
@@ -223,10 +291,12 @@ export default function ContinueCourse() {
 							setOpenCollapses={setOpenCollapses}
 							handleOpenCollapse={handleOpenCollapse}
 							combineContent={combineContent}
+							setupExercise={setupExercise}
 						/>
 						<Divider key={`subtitle_${subtitle._id}_divider_${subtitle_index}`} />
 					</>
 				))}
+				{/* Exam */}
 				<ListItem
 					style={{
 						backgroundColor: ContentType === "Exam" ? "#939d9e" : "",
@@ -247,43 +317,32 @@ export default function ContinueCourse() {
 
 	return (
 		<Box sx={{ display: "flex" }}>
-			<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
-				<Toolbar
-					id="continueCourseBreadcrumbs"
-					className="continueCourseBreadcrumbs"
-					sx={{ marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` } }}>
-					{Subtitles[SubtitleIndex] && (
-						<Breadcrumb>
-							<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
-							<Breadcrumb.Item>{Subtitles[SubtitleIndex].title}</Breadcrumb.Item>
-							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
-						</Breadcrumb>
-					)}
-					<Button variant="link" className="ms-auto" onClick={handleNext}>
-						Next
-					</Button>
-				</Toolbar>
-			</AppBar>
+			<ContinueCourseNavbar
+				Course={Course}
+				handleNext={handleNext}
+				handlePrevious={handlePrevious}
+			/>
 			{/* Menu Button */}
 			<IconButton
+				key={`course_${Course._id}_iconButton`}
 				color="inherit"
 				aria-label="open drawer"
 				edge="start"
 				onClick={handleDrawerToggle}
 				sx={{ mr: 2, display: { sm: "none" } }}>
-				<MenuIcon />
+				<MenuIcon key={`course_${Course._id}_menuIcon`} />
 			</IconButton>
 
 			{/* Drawer */}
 			<Box
-				key={`course_${CourseId}_drawer_box`}
+				key={`course_${Course._id}_drawer_box`}
 				className="drawerZ-index"
 				component="nav"
 				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
 				aria-label="mailbox folders">
 				{/* Small Screen Drawer */}
 				<Drawer
-					key={`course_${CourseId}_small_screen_drawer`}
+					key={`course_${Course._id}_small_screen_drawer`}
 					variant="temporary"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
@@ -299,7 +358,7 @@ export default function ContinueCourse() {
 
 				{/* Normal Screen Drawer */}
 				<Drawer
-					key={`course_${CourseId}_normal_screen_drawer`}
+					key={`course_${Course._id}_normal_screen_drawer`}
 					variant="permanent"
 					sx={{
 						display: { xs: "none", sm: "block" },
@@ -313,7 +372,7 @@ export default function ContinueCourse() {
 			{/* Content */}
 			<Box
 				id="asd"
-				key={`course_${CourseId}_content_box`}
+				key={`course_${Course._id}_content_box`}
 				component="main"
 				sx={{
 					flexGrow: 1,
@@ -326,11 +385,19 @@ export default function ContinueCourse() {
 					},
 				}}>
 				{ContentType === "Video" ? (
-					<WatchVideo key={`course_${CourseId}_WatchVideo`} CourseId={CourseId} />
+					<WatchVideo
+						key={`course_${Course._id}_WatchVideo`}
+						CourseTitle={Course.title}
+						CourseId={Course._id}
+					/>
 				) : ContentType === "Exercise" ? (
-					<SolveExercise key={`course_${CourseId}_SolveExercise`} CourseId={CourseId} />
+					<SolveExercise
+						key={`course_${Course._id}_SolveExercise`}
+						CourseId={Course._id}
+						setupExercise={setupExercise}
+					/>
 				) : (
-					<SolveExercise key={`course_${CourseId}_SolveExam`} CourseId={CourseId} />
+					<SolveExercise key={`course_${Course._id}_SolveExam`} CourseId={Course._id} />
 				)}
 			</Box>
 		</Box>
