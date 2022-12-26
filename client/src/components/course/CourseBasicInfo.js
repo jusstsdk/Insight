@@ -31,6 +31,7 @@ import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceA
 import CourseHours from "../../components/course/CourseHours";
 import CourseSummaryPrevVid from "../../components/course/CourseSummaryPrevVid";
 import CourseInstructorsList from "../../components/course/CourseInstructorsList";
+import InstructorPriceAlert from "./InstructorPriceAlert";
 
 function CourseBasicInfo(props) {
 	const course = props.course;
@@ -54,13 +55,17 @@ function CourseBasicInfo(props) {
 						></CorpTraineeRequestCourseAlert>
 					</Col>
 				)
-			) : (
+			) : userType === "Trainee" ? (
 				<Col>
 					<TraineeCoursePriceAlert
 						course={course}
 						traineeOwnsCourse={traineeOwnsCourse}
 						traineeVersionOfCourse={traineeVersionOfCourse}
 					></TraineeCoursePriceAlert>
+				</Col>
+			) : (
+				<Col>
+					<InstructorPriceAlert course={course}></InstructorPriceAlert>
 				</Col>
 			)}
 

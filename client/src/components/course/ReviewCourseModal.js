@@ -50,7 +50,6 @@ function ReviewCourseModal(props) {
 			const response = await axios(config);
 			setCourse(response.data);
 			setReviews(response.data.reviews);
-			console.log(response.data);
 		} catch (err) {
 			console.log("omgggggg");
 			console.log(err);

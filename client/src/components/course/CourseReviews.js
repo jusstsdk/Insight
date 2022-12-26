@@ -35,6 +35,7 @@ function CourseReviews(props) {
 	const getCourseFromDB = props.getCourseFromDB;
 	const ownsCourse = props.ownsCourse;
 
+	const userType = useSelector((state) => state.userReducer.type);
 	const userID = useSelector((state) => state.userReducer.user._id);
 
 	//report course modal
@@ -54,24 +55,21 @@ function CourseReviews(props) {
 					<h3>Reviews</h3>
 				</Col>
 				<Col>
-					{ownsCourse && (
-						<>
-							<Button
-								style={{ float: "right" }}
-								variant="danger"
-								onClick={handleShowReportCourseModal}
-							>
-								Report
-							</Button>
-							&nbsp;
-							<Button
-								style={{ float: "right" }}
-								onClick={handleShowReviewCourseModal}
-							>
-								Review
-							</Button>
-						</>
-					)}
+					{!(userType === "Instructor" || userType === "Administrator") &&
+						ownsCourse && (
+							<>
+								<div style={{ float: "right" }}>
+									<Button onClick={handleShowReviewCourseModal}>Review</Button>
+									&nbsp;
+									<Button
+										variant="danger"
+										onClick={handleShowReportCourseModal}
+									>
+										Report
+									</Button>
+								</div>
+							</>
+						)}
 				</Col>
 			</Row>
 

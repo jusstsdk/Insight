@@ -45,7 +45,7 @@ function CourseTitle(props) {
 						allowFraction="true"
 						initialValue={course.rating}
 						readonly="true"
-						size={25}
+						size={22}
 						/* Available Props */
 					/>
 				</Col>

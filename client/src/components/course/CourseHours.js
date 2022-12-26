@@ -34,21 +34,27 @@ function CourseHours(props) {
 	const ownsCourse = props.ownsCourse;
 	const hisVersionOfCourse = props.hisVersionOfCourse;
 
+	const userType = useSelector((state) => state.userReducer.type);
+
 	return (
 		<>
 			<Alert variant="dark" className="lead">
 				Hours
 				<h1>{course.totalHours}</h1>
-				{ownsCourse && "Progress"}
-				{ownsCourse && hisVersionOfCourse && (
-					<ProgressBar>
-						<ProgressBar
-							variant="info"
-							now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
-							label={`${hisVersionOfCourse.progress * 100}%`}
-						/>
-					</ProgressBar>
-				)}
+				{!(userType === "Instructor" || userType === "Administrator") &&
+					ownsCourse &&
+					"Progress"}
+				{!(userType === "Instructor" || userType === "Administrator") &&
+					ownsCourse &&
+					hisVersionOfCourse && (
+						<ProgressBar>
+							<ProgressBar
+								variant="info"
+								now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
+								label={`${hisVersionOfCourse.progress * 100}%`}
+							/>
+						</ProgressBar>
+					)}
 			</Alert>
 		</>
 	);
