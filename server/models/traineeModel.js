@@ -6,53 +6,53 @@ const Schema = mongoose.Schema;
 const paymentMethodSchema = new Schema({
 	cardHolder: {
 		type: String,
-		required: true
+		required: true,
 	},
 	cardNumber: {
 		type: String,
-		match: /\d{16}/
+		match: /\d{16}/,
 	},
 	expiryMonth: {
 		type: Number,
 		min: 1,
-		max: 12
+		max: 12,
 	},
 	expiryYear: {
-		type: Number
+		type: Number,
 		// min: new Date().getUTCFullYear,
 		// max: 99,
-	}
+	},
 });
 
 const traineeSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true
+			required: true,
 		},
 		password: {
 			type: String,
-			required: true
+			required: true,
 		},
 		email: {
 			type: String,
-			required: true
+			required: true,
 		},
 		firstName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		lastName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		gender: {
 			type: String,
-			required: true
+			required: true,
 		},
 		country: {
 			type: String,
-			required: false
+			required: false,
 		},
 		currency: String,
 		courses: [
@@ -62,44 +62,36 @@ const traineeSchema = new Schema(
 				progress: Number, // range from 0.0 to 1.0
 				exam: exerciseSchema,
 				requestedRefund: Boolean,
-				paidPrice: Number
-			}
+				paidPrice: Number,
+			},
 		],
 		paymentMethods: {
 			type: [paymentMethodSchema],
-			required: false
+			required: false,
 		},
-		wallet: { type: Number, default: 0 }
+		wallet: { type: Number, default: 0 },
 	},
 	{ timestamps: true }
 );
 
 traineeSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign(
-		{ _id: this._id, userType: "Trainee" },
-		process.env.SECRET
-	);
+	const token = jwt.sign({ _id: this._id, userType: "Trainee" }, process.env.SECRET);
 	return token;
 };
 
 traineeSchema.pre("save", async function (next) {
 	// calculate progress
 	this.courses.forEach((course) => {
-		let finishedExercisesAndVideos = 0;
-		let totalExercisesAndVideos = 0;
+		let finishedVideos = 0;
+		let totalVideos = 0;
 		course.progress = 0;
 		course.subtitles.forEach((subtitle) => {
 			subtitle.videos.forEach((video) => {
-				totalExercisesAndVideos++;
-				if (video.isWatched) finishedExercisesAndVideos++;
-			});
-
-			subtitle.exercises.forEach((exercise) => {
-				totalExercisesAndVideos++;
-				if (exercise.isSolved) finishedExercisesAndVideos++;
+				totalVideos++;
+				if (video.isWatched) finishedVideos++;
 			});
 		});
-		course.progress = finishedExercisesAndVideos / totalExercisesAndVideos;
+		course.progress = finishedVideos / totalVideos;
 	});
 	next();
 });

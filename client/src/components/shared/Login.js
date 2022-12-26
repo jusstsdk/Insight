@@ -33,14 +33,12 @@ export default function Login() {
 			let responseUser = response.data["user"];
 
 			if (!responseUser.country) responseUser.country = "USA";
-			
+
 			const responseCountryApi = await axios.get(
 				`https://restcountries.com/v3.1/name/${responseUser.country}`
 			);
 
-			const localCurrency = Object.keys(
-				responseCountryApi.data[0].currencies
-			)[0];
+			const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
 
 			responseUser.currency = localCurrency;
 
@@ -48,7 +46,7 @@ export default function Login() {
 				"https://api.apilayer.com/exchangerates_data/latest",
 				{
 					headers: {
-						apikey: "J1zJcZ2LQUz9pAhV05AnKEl62pd0iBfn",
+						apikey: "2eW6i0302nCBBM4KsBQKB22NwqWiDTAq",
 					},
 					params: {
 						base: "USD",
@@ -98,11 +96,7 @@ export default function Login() {
 			<Form onSubmit={!isLoggingIn ? loginFunction : null}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label>Username</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Enter username"
-						ref={username}
-					/>
+					<Form.Control type="text" placeholder="Enter username" ref={username} />
 					<Form.Text className="text-muted">
 						We'll never share your email with anyone else.
 					</Form.Text>

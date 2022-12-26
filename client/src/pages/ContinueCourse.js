@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -386,6 +386,7 @@ export default function ContinueCourse() {
 					marginTop: {
 						sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px`,
 					},
+					marginBottom: "5rem",
 				}}>
 				{ContentType === "Video" ? (
 					<WatchVideo key={`course_${Course._id}_WatchVideo`} CourseId={Course._id} />
@@ -397,17 +398,6 @@ export default function ContinueCourse() {
 					/>
 				) : (
 					<SolveExercise key={`course_${Course._id}_SolveExam`} CourseId={Course._id} />
-				)}
-				{ContentType !== "Exam" && (
-					<Button className="ms-auto" onClick={handleNext}>
-						Next {"   "}
-						<AiOutlineArrowRight />
-					</Button>
-				)}
-				{ContentType === "Exam" && (
-					<Button className="ms-auto" onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
-						View Course
-					</Button>
 				)}
 			</Box>
 		</Box>

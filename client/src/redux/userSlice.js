@@ -41,6 +41,7 @@ export const userSlice = createSlice({
 			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
 				action.payload.videoIndex
 			].isWatched = true;
+			state.user.courses[action.payload.courseIndex].progress = action.payload.progress;
 		},
 		updateInstructorCourses: (state, action) => {
 			state.user.courses = [...state.user.courses, action.payload];

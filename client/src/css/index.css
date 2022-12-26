@@ -105,8 +105,15 @@ code {
 	height: auto;
 	min-height: 2.5rem !important;
 }
-#continueCourseBreadcrumbs > nav > ol {
+#continueCourseBreadcrumbs > div > nav > ol {
 	margin-bottom: 0 !important;
+}
+.cut-text {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 10rem;
+	height: 1.2em;
+	white-space: nowrap;
 }
 
 html {

@@ -34,7 +34,6 @@ export default function SolveExercise(props) {
 
 	//  Page Control
 	const Solve = useSelector((state) => state.continueCourseReducer.solve);
-	const ShowAnswers = useSelector((state) => state.continueCourseReducer.showAnswers);
 	const [MissingAnswer, setMissingAnswer] = useState(false);
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 	const Grade = useSelector((state) => state.continueCourseReducer.grade);

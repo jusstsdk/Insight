@@ -192,7 +192,7 @@ const watchVideo = async (req, res) => {
 	const videoIndex = req.body.videoIndex;
 	let trainee = await Trainee.findById(traineeId);
 	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
-	trainee.save();
+	await trainee.save();
 	res.status(200).json(trainee);
 };
 
@@ -238,7 +238,7 @@ const solveExercise = async (req, res) => {
 	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
 	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
 		questions;
-	trainee.save();
+	await trainee.save();
 	res.status(200).json(trainee);
 };
 
@@ -249,8 +249,7 @@ const solveExam = async (req, res) => {
 	let trainee = await Trainee.findById(traineeId);
 	trainee.courses[courseIndex].exam.isSolved = true;
 	trainee.courses[courseIndex].exam.questions = questions;
-
-	trainee.save();
+	await trainee.save();
 	res.status(200).json(trainee);
 };
 module.exports = {

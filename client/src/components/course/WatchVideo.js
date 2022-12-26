@@ -25,16 +25,18 @@ export default function WatchVideo(props) {
 	);
 
 	const handleMarkAsWatched = async () => {
-		await API.put(`/trainees/${user._id}/watchVideo`, {
+		let response = await API.put(`/trainees/${user._id}/watchVideo`, {
 			courseIndex: courseIndex,
 			subtitleIndex: SubtitleIndex,
 			videoIndex: videoIndex,
 		});
+		let progress = response.data.courses[courseIndex].progress;
 		dispatch(
 			watchVideo({
 				courseIndex: courseIndex,
 				subtitleIndex: SubtitleIndex,
 				videoIndex: videoIndex,
+				progress: progress,
 			})
 		);
 		dispatch(setContent({ ...Content, isWatched: true }));

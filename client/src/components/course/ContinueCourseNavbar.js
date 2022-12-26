@@ -1,15 +1,18 @@
 import { Toolbar, AppBar } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Breadcrumb, Button } from "react-bootstrap";
+import { Breadcrumb, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
 	const navigate = useNavigate();
 	// Gets Course Index in the User's Courses.
-	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
+	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === Course._id
 	);
-	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
+
+	const Progress = useSelector((state) => state.userReducer.user.courses[CourseIndex].progress);
+
+	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
@@ -24,41 +27,55 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 				id="continueCourseBreadcrumbs"
 				className="continueCourseBreadcrumbs"
 				sx={{ marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` } }}>
-				{Subtitles[SubtitleIndex] && (
-					<Breadcrumb>
-						<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
-						<Breadcrumb.Item>{Subtitles[SubtitleIndex].title}</Breadcrumb.Item>
-						<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
-					</Breadcrumb>
-				)}
-				{ContentType === "Exam" && (
-					<Breadcrumb>
-						<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
-						<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
-					</Breadcrumb>
-				)}
-				<div className="ms-auto">
-					{(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (
-						<Button variant="link" className="" onClick={handlePrevious}>
-							<AiOutlineArrowLeft />
-							Previous
-						</Button>
-					)}
-					{ContentType !== "Exam" && (
-						<Button variant="link" className="" onClick={handleNext}>
-							Next
-							<AiOutlineArrowRight />
-						</Button>
+				<Col sm={7}>
+					{Subtitles[SubtitleIndex] && (
+						<Breadcrumb className="my-auto">
+							<Breadcrumb.Item className="cut-text">{Course.title}</Breadcrumb.Item>
+							<Breadcrumb.Item className="cut-text">
+								{Subtitles[SubtitleIndex].title}
+							</Breadcrumb.Item>
+							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
+						</Breadcrumb>
 					)}
 					{ContentType === "Exam" && (
-						<Button
-							variant="link"
-							className="ms-auto"
-							onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
-							View Course
-						</Button>
+						<Breadcrumb>
+							<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
+							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
+						</Breadcrumb>
 					)}
-				</div>
+				</Col>
+				<Col sm={5}>
+					<div className="ms-auto d-flex">
+						<div className="d-flex ms-auto my-auto">
+							<p className="fitWidth m-auto">Progress: {Progress * 100}%</p>
+							{Progress === 1 && (
+								<Button variant="link" className=" ms-3">
+									Get Certificate
+								</Button>
+							)}
+						</div>
+						{(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (
+							<Button variant="link" className="" onClick={handlePrevious}>
+								<AiOutlineArrowLeft />
+								Previous
+							</Button>
+						)}
+						{ContentType !== "Exam" && (
+							<Button variant="link" className="" onClick={handleNext}>
+								Next
+								<AiOutlineArrowRight />
+							</Button>
+						)}
+						{ContentType === "Exam" && (
+							<Button
+								variant="link"
+								className="ms-1"
+								onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
+								View Course
+							</Button>
+						)}
+					</div>
+				</Col>
 			</Toolbar>
 		</AppBar>
 	);
