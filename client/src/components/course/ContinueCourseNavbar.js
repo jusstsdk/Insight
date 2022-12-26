@@ -2,8 +2,8 @@ import { Toolbar, AppBar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Breadcrumb, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineArrowRight } from "react-icons/ai";
-export default function SecondaryNavbar({ Course, handleNext }) {
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
 	const navigate = useNavigate();
 	// Gets Course Index in the User's Courses.
 	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
@@ -11,6 +11,9 @@ export default function SecondaryNavbar({ Course, handleNext }) {
 	);
 	const Subtitles = useSelector((state) => state.userReducer.user.courses[courseIndex].subtitles);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
+	const SelectedContentIndex = useSelector(
+		(state) => state.continueCourseReducer.selectedContentIndex
+	);
 
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
@@ -34,20 +37,28 @@ export default function SecondaryNavbar({ Course, handleNext }) {
 						<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
 					</Breadcrumb>
 				)}
-				{ContentType !== "Exam" && (
-					<Button variant="link" className="ms-auto" onClick={handleNext}>
-						Next {"   "}
-						<AiOutlineArrowRight />
-					</Button>
-				)}
-				{ContentType === "Exam" && (
-					<Button
-						variant="link"
-						className="ms-auto"
-						onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
-						View Course
-					</Button>
-				)}
+				<div className="ms-auto">
+					{(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (
+						<Button variant="link" className="" onClick={handlePrevious}>
+							<AiOutlineArrowLeft />
+							Previous
+						</Button>
+					)}
+					{ContentType !== "Exam" && (
+						<Button variant="link" className="" onClick={handleNext}>
+							Next
+							<AiOutlineArrowRight />
+						</Button>
+					)}
+					{ContentType === "Exam" && (
+						<Button
+							variant="link"
+							className="ms-auto"
+							onClick={() => navigate(`/trainee/courses/${Course._id}`)}>
+							View Course
+						</Button>
+					)}
+				</div>
 			</Toolbar>
 		</AppBar>
 	);

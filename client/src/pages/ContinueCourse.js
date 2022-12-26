@@ -21,7 +21,7 @@ import { resetExerciseInfo, setContentInfo } from "../redux/continueCourseSlice"
 import SolveExercise from "../components/course/SolveExercise";
 import { useLocation, useNavigate } from "react-router-dom";
 import DrawerListItems from "../components/course/DrawerListItems";
-import SecondaryNavbar from "../components/course/ContinueCourseNavbar";
+import ContinueCourseNavbar from "../components/course/ContinueCourseNavbar";
 import { Button } from "react-bootstrap";
 const drawerWidth = "20%";
 
@@ -108,8 +108,8 @@ export default function ContinueCourse() {
 			setContentInfo({
 				content: Exam,
 				contentType: "Exam",
-				subtitleIndex: -1,
-				selectedContentIndex: -1,
+				subtitleIndex: Subtitles.length,
+				selectedContentIndex: Subtitles.length,
 			})
 		);
 		setupExercise(Exam);
@@ -158,6 +158,72 @@ export default function ContinueCourse() {
 				let openCollapsesArray = [...openCollapses].map((_, index) => index === SubtitleIndex + 1);
 				setOpenCollapses(openCollapsesArray);
 			}
+		}
+	};
+
+	// Handles Press on Next Button
+	const handlePrevious = () => {
+		// Tries to get the next content in the same subtitle
+		if (ContentType !== "Exam") {
+			let previousContent = contentGetter(SubtitleIndex, SelectedContentIndex - 1);
+
+			// Two Cases: There is more Content or No more content in the same Subtitle.
+			if (previousContent.length !== 0) {
+				// If there is more Content, Get the next Content.
+				dispatch(
+					setContentInfo({
+						content: previousContent[0],
+						contentType: previousContent[0].type,
+						subtitleIndex: SubtitleIndex,
+						selectedContentIndex: SelectedContentIndex - 1,
+					})
+				);
+				// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+				if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+			} else {
+				// If there is no more Content, Check if there is more Subtitles
+				// Two Cases: No more Subtitles or There are More Subtitles
+
+				if (SubtitleIndex - 1 >= 0) {
+					// Get Content from the previous Subtitle
+					let exerciseLength = Subtitles[SubtitleIndex - 1].exercises.length;
+					let videosLength = Subtitles[SubtitleIndex - 1].videos.length;
+					let previousContent = contentGetter(SubtitleIndex - 1, exerciseLength + videosLength - 1);
+					dispatch(
+						setContentInfo({
+							content: previousContent[0],
+							contentType: previousContent[0].type,
+							subtitleIndex: SubtitleIndex - 1,
+							selectedContentIndex: exerciseLength + videosLength - 1,
+						})
+					);
+					// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+					if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+
+					let openCollapsesArray = [...openCollapses].map(
+						(_, index) => index === SubtitleIndex - 1
+					);
+					setOpenCollapses(openCollapsesArray);
+				}
+			}
+		} else {
+			let lastSubtitle = Subtitles.length - 1;
+			let exerciseLength = Subtitles[lastSubtitle].exercises.length;
+			let videosLength = Subtitles[lastSubtitle].videos.length;
+			let previousContent = contentGetter(lastSubtitle, exerciseLength + videosLength - 1);
+			dispatch(
+				setContentInfo({
+					content: previousContent[0],
+					contentType: previousContent[0].type,
+					subtitleIndex: SubtitleIndex - 1,
+					selectedContentIndex: exerciseLength + videosLength - 1,
+				})
+			);
+			// If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
+			if (previousContent[0].type === "Exercise") setupExercise(previousContent[0]);
+
+			let openCollapsesArray = [...openCollapses].map((_, index) => index === lastSubtitle);
+			setOpenCollapses(openCollapsesArray);
 		}
 	};
 
@@ -254,7 +320,11 @@ export default function ContinueCourse() {
 
 	return (
 		<Box sx={{ display: "flex" }}>
-			<SecondaryNavbar Course={Course} handleNext={handleNext} />
+			<ContinueCourseNavbar
+				Course={Course}
+				handleNext={handleNext}
+				handlePrevious={handlePrevious}
+			/>
 			{/* Menu Button */}
 			<IconButton
 				key={`course_${Course._id}_iconButton`}
