@@ -15,6 +15,7 @@ const {
 	solveExercise,
 	solveExam,
 	sendCertificate,
+	getCourseWithReviews,
 } = require("../controllers/courseController");
 
 const router = express.Router();
@@ -60,5 +61,8 @@ router.get("/", getCourses);
 
 // Review a Course
 router.post("/:id/review", reviewCourse);
+
+// Get all reviews
+router.get("/:id/fullCourse", getCourseWithReviews);
 
 module.exports = router;

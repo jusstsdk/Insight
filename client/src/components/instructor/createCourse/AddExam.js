@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+
 import { Form, Row, Col, Button, Accordion } from "react-bootstrap";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import {
 	setExamTitle,
 	addToExamQuestions,
@@ -14,6 +16,9 @@ import AddQuestion from "../createCourse/AddQuestion";
 
 export default function AddExam(props) {
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const status = location.state.status;
+
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
 	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
 	const [showAddModal, setShowAddModal] = useState(false);
@@ -61,20 +66,32 @@ export default function AddExam(props) {
 					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
 				/>
 			</Accordion>
+			{/* Navigation and Actions */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
+				{/* Go back to Subtitles */}
 				<Button
 					className="me-3"
 					onClick={() => {
-						props.setCurrentTab("addInfo");
+						props.setCurrentTab("addSubtitle");
 					}}>
 					<AiOutlineArrowLeft />
 				</Button>
-
+				{/* Save Course */}
+				<Button
+					className="me-3"
+					onClick={() => {
+						if (status === "New") props.handleCreateCourse("Draft");
+						else props.handleEditCourse("Draft");
+					}}>
+					Save Course
+				</Button>
+				{/* Publish Course */}
 				<Button
 					onClick={() => {
-						props.setCurrentTab("addSubtitle");
+						if (status === "New") props.handleCreateCourse("Published");
+						else props.handleEditCourse("Published");
 					}}>
-					<AiOutlineArrowRight />
+					Publish Course
 				</Button>
 			</Col>
 			<AddQuestion

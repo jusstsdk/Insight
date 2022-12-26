@@ -9,6 +9,7 @@ import SelectCountryPopover from "./SelectCountryPopover";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
+	const user = useSelector((state) => state.userReducer.user);
 	const navigate = useNavigate();
 
 	if (userType == "Guest")
@@ -60,6 +61,9 @@ export default function Profile() {
 						<Popover id={`popover-positioned-bottom`}>
 							<Popover.Header as="h3">{`Profile`}</Popover.Header>
 							<Popover.Body>
+								{userType === "Trainee" && (<h6>balance : {Math.trunc(user.wallet * user.exchangeRate *100)/100} {user.currency}</h6>) }
+								{userType === "Instructor" && (<h6>month's pay : {Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100)/100} {user.currency}</h6>) }
+
 								<SelectCountryPopover />
 								<div className="d-flex mt-2">
 									{userType === "Instructor" && <EditProfilePopover />}

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Col, Card, Row } from "react-bootstrap";
+import { Button, Accordion, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import QuizIcon from "@mui/icons-material/Quiz";

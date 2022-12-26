@@ -48,7 +48,8 @@ const corporateTraineeSchema = new Schema(
 		requests: [
 			{
 				courseId: { type: Schema.ObjectId, ref: "Course" },
-				status: { type: String, default: "pending" },
+				status: { type: String, default: "Pending" },
+				enum: ["Pending", "Rejected", "Accepted"],
 			},
 		],
 	},

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Trainee = require("../models/traineeModel");
+const Instructor = require("../models/instructorModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcrypt");
 
@@ -49,9 +50,13 @@ const updateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such trainee" });
 	}
 
-	const trainee = await Trainee.findOneAndUpdate({ _id: traineeId }, req.body, {
-		new: true,
-	});
+	const trainee = await Trainee.findOneAndUpdate(
+		{ _id: traineeId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!trainee) {
 		return res.status(400).json({ error: "No such trainee" });
@@ -113,7 +118,25 @@ const payCourse = async (req, res) => {
 		exam: course.exam,
 		paidPrice: course.price,
 	};
-
+	const instructorShare = course.price / course.instructors.length;
+	course.instructors.forEach(async (instructorId) => {
+		const instructor = await Instructor.findById(instructorId);
+		if (!instructor) {
+			return res.status(400).json({ error: "No such Instructor" });
+		}
+		if(!instructor.monthlyPay.updatedAt) {
+			instructor.monthlyPay.updatedAt = new Date();
+		}	 
+		if (instructor.monthlyPay.updatedAt.getMonth() === new Date().getMonth()) {
+			instructor.monthlyPay.amount += instructorShare;
+		} else {
+			instructor.monthlyPay.amount = instructorShare;
+		}
+		
+		instructor.save();
+	});
+	course.enrolledTrainees.push(traineeId);
+	await course.save();
 	// add to the database
 	trainee.courses.push(newCourse);
 	await trainee.save();
@@ -144,7 +167,9 @@ const deletePaymentMethod = async (req, res) => {
 
 	const trainee = await Trainee.findById(traineeId);
 
-	trainee.paymentMethods = trainee.paymentMethods.filter((card) => card._id != paymentId);
+	trainee.paymentMethods = trainee.paymentMethods.filter(
+		(card) => card._id != paymentId
+	);
 
 	await trainee.save();
 	res.status(200).json(trainee);
@@ -178,9 +203,11 @@ const requestRefund = async (req, res) => {
 				refundRequests: { trainee: traineeId, paidPrice: paidPrice },
 			},
 		});
-		res.status(200).json("Requested refund successfully.");
+		res.status(200).json(trainee);
 	} else {
-		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+		res
+			.status(400)
+			.json("Error: Requested refund Failed! Couldn't find Course.");
 	}
 };
 
