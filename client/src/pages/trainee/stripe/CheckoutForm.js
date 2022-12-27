@@ -31,7 +31,8 @@ export default function CheckoutForm() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		let response = await API.get(`courses/${courseId}`);
+		const course = response.data;
 		if (!stripe || !elements) {
 			// Stripe.js has not yet loaded.
 			// Make sure to disable form submission until Stripe.js has loaded.
@@ -48,22 +49,23 @@ export default function CheckoutForm() {
 				redirect: "if_required",
 			},
 		});
-		const response = await API.post(
+		const response2 = await API.post(
 			`/trainees/${userID}/courses/${courseId}/payment`
 		);
 
-		dispatch(setCourses(response.data.courses));
-		if (response.data.price > wallet) {
+		dispatch(setCourses(response2.data.courses));
+
+		if (course.price > wallet) {
 			dispatch(payFromWallet(wallet));
 		} else {
-			dispatch(payFromWallet(response.data.price));
+			dispatch(payFromWallet(course.price));
 		}
-		
+
 		dispatch(
 			addNotification({
-			  title: "purchase successful",
-			  info: "course successfully purchased,you can now access all the content!",
-			  color: "success",
+				title: "purchase successful",
+				info: "course successfully purchased,you can now access all the content!",
+				color: "success",
 			})
 		);
 		navigate("/");

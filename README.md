@@ -25,6 +25,7 @@
 1. preview vid
 1. feedback that discount already exists
 1. request courses on main page
+1. Access Denied Page instead or redirecting to guest
 1. Q. What does "follow up" mean? 
    A. It means an instructor or trainee that previously reported an issue can view this issue and write a comment if the admin had never responded to it.
 1. Q. What should the certificate look like?

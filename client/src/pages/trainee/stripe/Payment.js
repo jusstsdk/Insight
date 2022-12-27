@@ -7,7 +7,6 @@ import CheckoutForm from "./CheckoutForm";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
-
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);
 	const [clientSecret, setClientSecret] = useState("");
@@ -36,7 +35,7 @@ function Payment() {
 			url: "http://localhost:4000/create-payment-intent",
 			data: {
 				currency: "usd",
-				amount: amount,
+				amount: amount.toFixed(0),
 				automatic_payment_methods: { enabled: true },
 			},
 		};
