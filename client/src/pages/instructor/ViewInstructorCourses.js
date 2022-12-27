@@ -87,10 +87,7 @@ function ViewInstructorCourses() {
 
 	return (
 		<Container className="my-2">
-			<ListCourses
-				setCourses={setCourses}
-				searchInInstructorCourses={true}
-			/>
+			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			<Tabs
 				id="controlled-tab-example"
 				defaultActiveKey="AllCourses"

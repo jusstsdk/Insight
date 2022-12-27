@@ -10,7 +10,6 @@ function ReportCourseModal(props) {
 	const course = props.course;
 	const showReportCourseModal = props.showReportCourseModal;
 	const setShowReportCourseModal = props.setShowReportCourseModal;
-	const newId = props.newId;
 
 	const courseID = course._id;
 
@@ -31,7 +30,7 @@ function ReportCourseModal(props) {
 			url: `http://localhost:4000/api/reports/courses/${courseID}`,
 			data: {
 				title: reportTitle.current.value,
-				type: reportType.toLowerCase(),
+				type: reportType,
 				description: reportDescription.current.value,
 				author: userID,
 				authorType: userType,
@@ -47,26 +46,21 @@ function ReportCourseModal(props) {
 
 	return (
 		<>
-			<Modal
-				key={newId()}
-				show={showReportCourseModal}
-				onHide={handleCloseReportCourseModal}
-			>
-				<Modal.Header key={newId()} closeButton>
-					<Modal.Title key={newId()}>Report Course</Modal.Title>
+			<Modal show={showReportCourseModal} onHide={handleCloseReportCourseModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Report Course</Modal.Title>
 				</Modal.Header>
-				<Modal.Body key={newId()}>
-					<Form key={newId()}>
-						<Form.Group key={newId()} className="mb-3" controlId="reportTitle">
-							<Form.Label key={newId()}>Title</Form.Label>
+				<Modal.Body>
+					<Form>
+						<Form.Group className="mb-3" controlId="reportTitle">
+							<Form.Label>Title</Form.Label>
 							<Form.Control
-								key={newId()}
 								ref={reportTitle}
 								type="text"
 								placeholder="Title of report."
 							/>
 						</Form.Group>
-						<Form.Group key={newId()}>
+						<Form.Group>
 							<select
 								value={reportType}
 								onChange={(e) => setReportType(e.target.value)}
@@ -76,14 +70,11 @@ function ReportCourseModal(props) {
 								<option>Other</option>
 							</select>
 						</Form.Group>
-						<Form.Group
-							key={newId()}
-							className="mb-3"
-							controlId="reportDescription"
-						>
-							<Form.Label key={newId()}>Description</Form.Label>
+						<br />
+						<Form.Group className="mb-3" controlId="reportDescription">
+							<Form.Label>Description</Form.Label>
 							<Form.Control
-								key={newId()}
+								as="textarea"
 								ref={reportDescription}
 								placeholder="Description"
 								rows={3}
@@ -92,15 +83,11 @@ function ReportCourseModal(props) {
 						</Form.Group>
 					</Form>
 				</Modal.Body>
-				<Modal.Footer key={newId()}>
-					<Button
-						key={newId()}
-						variant="secondary"
-						onClick={handleCloseReportCourseModal}
-					>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleCloseReportCourseModal}>
 						Cancel
 					</Button>
-					<Button key={newId()} variant="primary" onClick={submitReport}>
+					<Button variant="primary" onClick={submitReport}>
 						Submit
 					</Button>
 				</Modal.Footer>

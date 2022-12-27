@@ -14,9 +14,7 @@ const MyCourses = () => {
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
 
-	const coursesWithId = useSelector(
-		(state) => state.userReducer.user.courses
-	);
+	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 
 	async function getCourses() {
 		let newCourses = [];
