@@ -1,8 +1,11 @@
 import MyCourses from "../../components/MyCourses";
+import PopularCourses from "../../components/shared/PopularCourses";
 export default function CorporateTraineeHome() {
 	return (
 		<>
-			<h1>corporateTrainee</h1>
+
+			<h2>Popular Courses</h2>
+			<PopularCourses />
 			<h2>My Courses</h2>
 			<MyCourses />
 		</>
