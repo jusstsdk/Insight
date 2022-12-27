@@ -17,7 +17,7 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
-
+	const user = useSelector((state) => state.userReducer.user);
 	const [AllInstructors, setAllInstructors] = useState([]);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
@@ -81,8 +81,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 
-				<Form.Label column sm={1}>
-					Price
+				<Form.Label className="textFit" column sm={1}>
+					Price in {user.currency}
 				</Form.Label>
 				<Col sm={2}>
 					<Form.Control
@@ -93,6 +93,7 @@ export default function AddInfo(props) {
 							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
+					
 				</Col>
 			</Form.Group>
 

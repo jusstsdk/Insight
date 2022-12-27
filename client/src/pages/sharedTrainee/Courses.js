@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
 import SearchCourses from "../../components/SearchCourses";
 import CourseList from "../../components/shared/CourseList";
-import api from "../../functions/api";
 export default function Courses() {
 	const [courses, setCourses] = useState([]);
-	// async function getCourses() {
-	// 	const response = await api.get("courses");
-	// 	setCourses(response.data);
-	// 	console.log(response.data);
-	// }
-	// useEffect(() => {
-	// 	getCourses();
-	// }, []);
+
+	const [sort, setSort] = useState(false);
 
 	return (
 		<div className="course-list">
-			<SearchCourses setCourses={setCourses} />
+			<SearchCourses setCourses={setCourses} sort={sort} />
+			<Form.Check
+				type="checkbox"
+				id={"default-checkbox"}
+				label="Sort by popularity"
+				onChange={() => setSort(!sort)}
+			/>
 			<CourseList courses={courses} />
 		</div>
 	);

@@ -59,9 +59,8 @@ export default function Profile() {
 					placement="bottom"
 					overlay={
 						<Popover id={`popover-positioned-bottom`}>
-							<Popover.Header as="h3">{`Profile`}</Popover.Header>
+							<Popover.Header as="h3">Hello, {user.username}</Popover.Header>
 							<Popover.Body>
-								<h6>Hello, {user.username}</h6>
 								{userType === "Trainee" && (<h6>balance : {Math.trunc(user.wallet * user.exchangeRate *100)/100} {user.currency}</h6>) }
 								{userType === "Instructor" && (<h6>month's pay : {Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100)/100} {user.currency}</h6>) }
 

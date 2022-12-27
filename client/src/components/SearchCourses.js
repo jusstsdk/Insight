@@ -5,16 +5,20 @@ import { useSelector } from "react-redux";
 import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch }) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort }) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
 	const minPriceFilter = useRef("");
 	const ratingFilter = useRef("");
 	const [subjectFilter, setSubjectFilter] = useState("");
-	const [sort, setSort] = useState(false);
 	const user = useSelector((state) => state.userReducer.user);
 
+	function comparePopularity(a, b) {
+		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+		return 0;
+	}
 	async function handleSubmit(e) {
 		e.preventDefault();
 		await getCourses();
@@ -22,13 +26,8 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 
 	useEffect(() => {
 		getCourses();
-	}, [user.country]);
+	}, [user.country,sort]);
 
-	function comparePopularity(a, b) {
-		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
-		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
-		return 0;
-	}
 	async function getCourses() {
 		let searchParams = {};
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
@@ -58,10 +57,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.price =
 				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
-		if (sort) {
-			courses.sort(comparePopularity);
-		}
-		
+		if(sort) courses.sort(comparePopularity);
 		setCourses(courses);
 	}
 
@@ -126,12 +122,6 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 						/>
 					</Form.Group>
 
-					<Form.Check
-						type="checkbox"
-						id={"default-checkbox"}
-						label="Sort by popularity"
-						onChange={() => setSort(!sort)}
-					/>
 
 					<Button type="submit">Search</Button>
 				</Form>
