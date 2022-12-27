@@ -15,16 +15,10 @@ const getAdministrators = async (req, res) => {
 //GET all access requests of a all courses returning trainee id and for each request the course id
 const getAllCoursesRequests = async (req, res) => {
 	try {
-		const corporateTraineeRequests = await CorporateTrainee.find(
-			{
-				requests: { $exists: true, $ne: [] },
-			},
-			"_id username corporate requests"
-		).populate(
-			"requests.courseId",
-			"_id price summary subjects rating instructors title"
-		);
-		res.status(200).json(corporateTraineeRequests);
+		const corporateTraineeRequests = await CorporateTrainee.find({
+			requests: { $exists: true, $ne: [] },
+		},"_id username corporate requests").populate({path : "requests.courseId",populate : {path : "instructors",model : "Instructor"}});
+		res.status(200).json( corporateTraineeRequests );
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

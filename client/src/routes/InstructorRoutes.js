@@ -10,7 +10,9 @@ import Courses from "../pages/sharedTrainee/Courses";
 import Promotion from "../pages/admin/Promotion";
 import ViewInstructor from "../pages/ViewInstructor";
 import ChangePassword from "../components/shared/ChangePassword";
+import MyReports from "../pages/MyReports";
 import CoursePage from "../pages/sharedTrainee/CoursePage";
+
 export function InstructorRoutes() {
 	return (
 		<>
@@ -36,6 +38,7 @@ export function InstructorRoutes() {
 						/>
 						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 						<Route path="promotion" element={<Promotion />} />
+						<Route path="myReports" element={<MyReports />} />
 					</Route>
 				</Routes>
 			</Protected>

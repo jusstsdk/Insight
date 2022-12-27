@@ -12,6 +12,7 @@ import Stars from "../Stars";
 import api from "../../functions/api";
 import { useSelector,useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
+import { useNavigate } from "react-router-dom";
 function RequestCard({ request, course, username }) {
 	const [handled, setHandled] = useState(false);
 	const [message, setMessage] = useState("");
@@ -19,6 +20,7 @@ function RequestCard({ request, course, username }) {
 	const [show, setShow] = useState(true);
 	const token = useSelector((state) => state.userReducer.token);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	async function grantAccess() {
 		await api.put(
 			"/administrators/requests",
@@ -64,7 +66,7 @@ function RequestCard({ request, course, username }) {
 		);
 	}
 	useEffect(() => {
-		if (request.status !== "pending") {
+		if (request.status.toLowerCase() !== "pending") {
 			setShow(false);
 		}
 	}, []);
@@ -98,6 +100,28 @@ function RequestCard({ request, course, username }) {
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
+						
+					</CardGroup>
+
+					{/* Instructors and View Course*/}
+					<CardGroup as={Row} className="mt-2 align-items-center">
+						<h6 className="text-muted textFit courseCardLabel my-1">
+							Instructors
+						</h6>
+						<Col sm={2}>
+							<ListGroup horizontal>
+								{course.instructors.map((instructor, i) => (
+									<Button
+										className="p-0 me-2"
+										variant="link"
+										onClick={() => navigate("/admin/viewInstructor/" + instructor._id)}
+										key={"instructor_" + i}
+									>
+										{instructor.username}
+									</Button>
+								))}
+							</ListGroup>
+						</Col>
 						<Col
 							className="viewCourseButton d-flex  justify-content-end"
 							sm={2}
@@ -123,8 +147,6 @@ function RequestCard({ request, course, username }) {
 							{handled && <h6 className={variant}>{message}</h6>}
 						</Col>
 					</CardGroup>
-
-					{/* Instructors and View Course*/}
 				</Card.Body>
 			</Card>
 		)
