@@ -76,10 +76,10 @@ export default function CoursePage() {
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadData() {
 		await getCourseFromDB();
-
+		
 		if (userType === "CorporateTrainee") {
 			user.courses.forEach((course) => {
-				if (course.course === courseID) {
+				if (course._id === courseID) {
 					setCorpTraineeOwnsCourse(true);
 					setCorpTraineeVersionOfCourse(course);
 				}
@@ -88,7 +88,7 @@ export default function CoursePage() {
 
 		if (userType === "Trainee") {
 			user.courses.forEach((course) => {
-				if (course.course === courseID) {
+				if (course._id === courseID) {
 					setTraineeOwnsCourse(true);
 					setTraineeVersionOfCourse(course);
 				}
@@ -116,6 +116,7 @@ export default function CoursePage() {
 		course &&
 		loaded && (
 			<Container>
+				
 				<CourseTitle
 					course={course}
 					id="title"

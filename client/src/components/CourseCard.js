@@ -13,13 +13,11 @@ import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 function CourseCard({ course }) {
-	const [show, setShow] = useState(false);
+	
 	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
 	const currency = useSelector((state) => state.userReducer.user.currency);
 	const navigate = useNavigate();
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
 	const handleOpen = () => {
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
@@ -127,39 +125,12 @@ function CourseCard({ course }) {
 							md={2}
 							lg={2}
 						>
-							<Button onClick={handleShow}>View Course</Button>
+							<Button onClick={handleOpen}>View Course</Button>
 						</Col>
 					</CardGroup>
 				</Card.Body>
 			</Card>
-			<Modal size="lg" show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>{course.title}</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<p>total hours : {course.totalHours}</p>
-					<p>
-						price : {course.price} {currency}{" "}
-						<strong>
-							{course.discount > 0 && (
-								<span>
-									{course.discount} off, was{" "}
-									{course.originalPrice} {currency}
-								</span>
-							)}
-						</strong>
-					</p>
-					<p>rating : {course.rating}</p>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
-					<Button variant="primary" onClick={handleOpen}>
-						open course
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			
 		</>
 	);
 }

@@ -30,12 +30,13 @@ const MyCourses = () => {
 					courseFromDb = await API.get("courses/" + course.course);
 				}
 				
-
+				
 				const fullCourse = {
 					_id: course.course,
 					...courseFromDb.data,
 					subtitles: course.subtitles,
 					exam: course.exam,
+					progress : course.progress,
 				};
 				fullCourse.originalPrice = (fullCourse.originalPrice * user.exchangeRate).toFixed(2);
 				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
