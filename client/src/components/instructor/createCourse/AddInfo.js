@@ -81,8 +81,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 
-				<Form.Label column sm={1}>
-					Price
+				<Form.Label className="textFit" column sm={1}>
+					Price in {user.currency}
 				</Form.Label>
 				<Col sm={2}>
 					<Form.Control
@@ -90,9 +90,10 @@ export default function AddInfo(props) {
 						placeholder="Price"
 						value={InfoOriginalPrice}
 						onChange={(e) => {
-							dispatch(setOriginalPrice((e.target.value/user.exchangeRate).toFixed(2)));
+							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
+					
 				</Col>
 			</Form.Group>
 
