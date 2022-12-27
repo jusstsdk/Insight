@@ -53,7 +53,7 @@ function MyReportCard({report}) {
 				<Modal.Body>
 					<ListGroup>
 						{comments.map((comment, i) => (
-							<ListGroup.Item>
+							<ListGroup.Item key={i}>
 								<Row>
 									<Col sm={2}>
 										<h6>{comment.username}:</h6>

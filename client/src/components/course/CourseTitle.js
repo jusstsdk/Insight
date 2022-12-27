@@ -17,7 +17,10 @@ function CourseTitle(props) {
 			<Row>
 				<Col md="auto">
 					<Row>
-						<h1 style={{ display: "inline-block" }} key="titleHeader">
+						<h1
+							style={{ display: "inline-block" }}
+							key="titleHeader"
+						>
 							{course.title + " "}
 						</h1>
 					</Row>
@@ -25,16 +28,17 @@ function CourseTitle(props) {
 						<Col>
 							{course.subjects.map((eachSubject, i) => {
 								return (
-									<>
-										<Badge
-											bg="info"
-											key={"Badge of Subject: " + i + eachSubject}
-											className="lead"
-										>
-											{eachSubject}
-										</Badge>
-										&nbsp;
-									</>
+									<Badge
+										bg="info"
+										key={
+											"Badge of Subject: " +
+											i +
+											eachSubject
+										}
+										className="lead me-1"
+									>
+										{eachSubject}
+									</Badge>
 								);
 							})}
 						</Col>
@@ -51,7 +55,10 @@ function CourseTitle(props) {
 				</Col>
 				<Col>
 					{(userType === "Administrator" || ownsCourse) && (
-						<Button style={{ float: "right" }} onClick={continueCourse}>
+						<Button
+							style={{ float: "right" }}
+							onClick={continueCourse}
+						>
 							Continue Course
 						</Button>
 					)}
