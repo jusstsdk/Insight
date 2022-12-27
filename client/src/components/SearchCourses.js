@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch }) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort }) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
@@ -14,6 +14,11 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 	const [subjectFilter, setSubjectFilter] = useState("");
 	const user = useSelector((state) => state.userReducer.user);
 
+	function comparePopularity(a, b) {
+		if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+		if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+		return 0;
+	}
 	async function handleSubmit(e) {
 		e.preventDefault();
 		await getCourses();
@@ -21,7 +26,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 
 	useEffect(() => {
 		getCourses();
-	}, [user.country]);
+	}, [user.country,sort]);
 
 	async function getCourses() {
 		let searchParams = {};
@@ -52,7 +57,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.price =
 				Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
-		
+		if(sort) courses.sort(comparePopularity);
 		setCourses(courses);
 	}
 
