@@ -13,11 +13,11 @@ function RequestHistoryCard({ request, course }) {
 		if(request.status.toLowerCase() === "pending"){
 			setShow(false);
 		}
-        if(request.status === "accepted"){
+        if(request.status.toLowerCase() === "accepted"){
             setMessage("Access Granted");
             setVariant("success");
         }
-        if(request.status === "denied"){
+        if(request.status.toLowerCase() === "denied"){
             setMessage("Access Denied");
             setVariant("danger");
         }

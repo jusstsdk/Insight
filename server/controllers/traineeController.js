@@ -203,81 +203,14 @@ const requestRefund = async (req, res) => {
 				refundRequests: { trainee: traineeId, paidPrice: paidPrice },
 			},
 		});
-		res.status(200).json("Requested refund successfully.");
+		res.status(200).json(trainee);
 	} else {
-		res.status(400).json("Error: Requested refund Failed! Couldn't find Course.");
+		res
+			.status(400)
+			.json("Error: Requested refund Failed! Couldn't find Course.");
 	}
 };
 
-// update isWatched to true in trainee.courses.subtitles.videos
-const watchVideo = async (req, res) => {
-	const traineeId = req.params.id;
-	const courseIndex = req.body.courseIndex;
-	const subtitleIndex = req.body.subtitleIndex;
-	const videoIndex = req.body.videoIndex;
-	let trainee = await Trainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
-	trainee.save();
-	res.status(200).json(trainee);
-};
-
-// Adds Note to a Video's Notes
-const addNoteToVideoNotes = async (req, res) => {
-	const traineeId = req.params.id;
-	const courseIndex = req.body.courseIndex;
-	const subtitleIndex = req.body.subtitleIndex;
-	const videoIndex = req.body.videoIndex;
-	const note = req.body.note;
-	let trainee = await Trainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = [
-		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes,
-		note,
-	];
-	trainee.save();
-	res.status(200).json(trainee);
-};
-
-// Deletes a Note from a Video's Notes
-const deleteNoteFromVideoNotes = async (req, res) => {
-	const traineeId = req.params.id;
-	const courseIndex = req.body.courseIndex;
-	const subtitleIndex = req.body.subtitleIndex;
-	const videoIndex = req.body.videoIndex;
-	const noteIndex = req.body.noteIndex;
-	let trainee = await Trainee.findById(traineeId);
-	let newNotes = trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
-		videoIndex
-	].notes.filter((_, i) => i !== noteIndex);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = newNotes;
-	trainee.save();
-	res.status(200).json(trainee);
-};
-
-const solveExercise = async (req, res) => {
-	const traineeId = req.params.id;
-	const courseIndex = req.body.courseIndex;
-	const subtitleIndex = req.body.subtitleIndex;
-	const exerciseIndex = req.body.exerciseIndex;
-	const questions = req.body.questions;
-	let trainee = await Trainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
-		questions;
-	trainee.save();
-	res.status(200).json(trainee);
-};
-
-const solveExam = async (req, res) => {
-	const traineeId = req.params.id;
-	const courseIndex = req.body.courseIndex;
-	const questions = req.body.questions;
-	let trainee = await Trainee.findById(traineeId);
-	trainee.courses[courseIndex].exam.isSolved = true;
-	trainee.courses[courseIndex].exam.questions = questions;
-
-	trainee.save();
-	res.status(200).json(trainee);
-};
 module.exports = {
 	createTrainee,
 	requestRefund,
@@ -288,9 +221,4 @@ module.exports = {
 	payCourse,
 	addPaymentMethod,
 	deletePaymentMethod,
-	watchVideo,
-	addNoteToVideoNotes,
-	deleteNoteFromVideoNotes,
-	solveExercise,
-	solveExam,
 };

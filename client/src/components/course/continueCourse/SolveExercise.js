@@ -1,8 +1,6 @@
-import { Button, Col, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import API from "../../functions/api";
-import { solveExam, solveExercise } from "../../redux/userSlice";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Col, Row } from "react-bootstrap";
 import {
 	initializeAnswers,
 	setContent,
@@ -10,24 +8,26 @@ import {
 	setIsSolved,
 	setOldGrade,
 	setSolve,
-} from "../../redux/continueCourseSlice";
+} from "../../../redux/continueCourseSlice";
+import { solveExam, solveExercise } from "../../../redux/userSlice";
 import ExerciseBody from "./ExerciseBody";
+import API from "../../../functions/api";
 export default function SolveExercise(props) {
-	// Data Setup
+	// Setup
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.userReducer.user);
 
-	//  Incoming Info
+	// Data Setup
+	const User = useSelector((state) => state.userReducer.user);
+	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
-
-	const courseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
+	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
 		(course) => course.course === props.CourseId
 	);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
-	const exerciseIndex =
+	const ExerciseIndex =
 		ContentType === "Exercise"
-			? user.courses[courseIndex].subtitles[SubtitleIndex].exercises.findIndex(
+			? User.courses[CourseIndex].subtitles[SubtitleIndex].exercises.findIndex(
 					(video) => video._id === Content._id
 			  )
 			: -1;
@@ -38,6 +38,8 @@ export default function SolveExercise(props) {
 	const Answers = useSelector((state) => state.continueCourseReducer.answers);
 	const Grade = useSelector((state) => state.continueCourseReducer.grade);
 	const OldGrade = useSelector((state) => state.continueCourseReducer.oldGrade);
+
+	// Updates Exercise in Database, User and Content.
 
 	const handleSubmitAnswers = async () => {
 		// Checks if there are empty answers.
@@ -73,27 +75,31 @@ export default function SolveExercise(props) {
 		if (grade < Content.receivedGrade) {
 			bestGrade = Content.receivedGrade;
 		} else {
+			// Updates Exercise in Database.
 			if (ContentType === "Exercise") {
-				await API.put(`/trainees/${user._id}/solveExercise`, {
-					courseIndex: courseIndex,
+				await API.put(`/courses/${User._id}/solveExercise`, {
+					courseIndex: CourseIndex,
 					subtitleIndex: SubtitleIndex,
-					exerciseIndex: exerciseIndex,
+					exerciseIndex: ExerciseIndex,
 					questions: userQuestions,
+					userType: UserType,
 				});
 			} else {
-				await API.put(`/trainees/${user._id}/solveExam`, {
-					courseIndex: courseIndex,
+				await API.put(`/courses/${User._id}/solveExam`, {
+					courseIndex: CourseIndex,
 					questions: userQuestions,
+					userType: UserType,
 				});
 			}
 			bestGrade = grade;
 		}
+		// Updates Exercise in User.
 		if (ContentType === "Exercise") {
 			dispatch(
 				solveExercise({
-					courseIndex: courseIndex,
+					courseIndex: CourseIndex,
 					subtitleIndex: SubtitleIndex,
-					exerciseIndex: exerciseIndex,
+					exerciseIndex: ExerciseIndex,
 					questions: userQuestions,
 					receivedGrade: bestGrade,
 				})
@@ -101,13 +107,13 @@ export default function SolveExercise(props) {
 		} else {
 			dispatch(
 				solveExam({
-					courseIndex: courseIndex,
+					courseIndex: CourseIndex,
 					questions: userQuestions,
 					receivedGrade: bestGrade,
 				})
 			);
 		}
-
+		// Updates Exercise in Control.
 		dispatch(setIsSolved(true));
 		dispatch(
 			setContent({
@@ -121,7 +127,8 @@ export default function SolveExercise(props) {
 
 	return (
 		<Col>
-			<h3>{Content.title}</h3>
+			<h3 className="mb-4">{Content.title}</h3>
+			{/* Display Exercise on Start */}
 			{Solve && (
 				<ExerciseBody
 					MissingAnswer={MissingAnswer}
@@ -130,18 +137,22 @@ export default function SolveExercise(props) {
 					handleSubmitAnswers={handleSubmitAnswers}
 				/>
 			)}
+			{/* Display Start Exercise and Old Grade */}
 			{!Solve && (
 				<Row className="align-items-center">
-					<h6 className="gradeRecieved mb-0">
+					{/* Old Grade */}
+					<h6 className="fitWidth mb-0">
 						Best Received: {"   "}
 						<span>
 							{Content.isSolved && ((OldGrade / Content.maxGrade) * 100).toFixed(2)}
 							{!Content.isSolved && "-"}
 						</span>
 					</h6>
+					{/* Start Exercise */}
 					<Col>
 						<Button
 							onClick={() => {
+								// Setup for Solving the Exercise
 								let newAnswers = new Array(Content.questions.length);
 								Content.questions.map((question, questionIndex) => {
 									newAnswers[questionIndex] = { questionId: question._id, choice: "" };
@@ -150,13 +161,8 @@ export default function SolveExercise(props) {
 								dispatch(setIsSolved(false));
 								dispatch(setSolve(true));
 							}}>
-							Start Exercise
+							Start {ContentType}
 						</Button>
-						{ContentType === "Exam" && Content.receivedGrade / Content.maxGrade >= 0.5 && (
-							<Button className="gradeRecieved" onClick={() => console.log("Get Certificate")}>
-								Get Certificate
-							</Button>
-						)}
 					</Col>
 				</Row>
 			)}
