@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
 
@@ -8,10 +8,16 @@ import axios from "axios";
 function ChangePassword() {
 	const dispatch = useDispatch();
 	const password = useRef();
+	const confirmPassword = useRef();
 	const token = useSelector((state) => state.userReducer.token);
+	const [error, setError] = useState(false);
 
 	const handleChangePassword = async () => {
 		try {
+			if(password.current.value !== confirmPassword.current.value) {
+				setError(true);
+				return;
+			}
 			const config = {
 				method: "POST",
 				url: "http://localhost:4000/api/users/resetPassword",
@@ -28,6 +34,7 @@ function ChangePassword() {
 					color: "success",
 				})
 			);
+			setError(false);
 		} catch (err) {
 			dispatch(
 				addNotification({
@@ -45,10 +52,13 @@ function ChangePassword() {
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Enter new password</Form.Label>
 					<Form.Control type="password" ref={password} placeholder="password" />
+					<Form.Label>Confirm password</Form.Label>
+					<Form.Control type="password" ref={confirmPassword} placeholder="Confirm Password" />
 				</Form.Group>
 				<Button variant="success" onClick={handleChangePassword}>
 					Submit
 				</Button>
+				{error && <p className="text-danger">Passwords don't match!</p>}
 			</Col>
 		</Form>
 	);

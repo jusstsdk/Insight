@@ -9,7 +9,8 @@ import './shared/pagination/style.scss'
 let pageSize =2;
 const MyCourses = () => {
 	const [courses, setCourses] = useState([]);
-	const user = useSelector((state) => state.userReducer.user);	const [currentPage, setCurrentPage] = useState(1);
+	const user = useSelector((state) => state.userReducer.user);	
+	const [currentPage, setCurrentPage] = useState(1);
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
