@@ -2,18 +2,20 @@ import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import API from "../functions/api";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import {setCourses} from "../redux/userSlice";
 import CourseCard from "./CourseCard";
 import Pagination from "./shared/pagination/Pagination";
 import './shared/pagination/style.scss'
 let pageSize =2;
 const MyCourses = () => {
-	const [courses, setCourses] = useState([]);
+	const [myCourses, setMyCourses] = useState([]);
 	const user = useSelector((state) => state.userReducer.user);	
+	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
-	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
+	let currentCourses = myCourses.slice(firstPageIndex, lastPageIndex);
 
 	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 
@@ -21,7 +23,13 @@ const MyCourses = () => {
 		let newCourses = [];
 		await Promise.all(
 			coursesWithId.map(async (course) => {
-				const courseFromDb = await API.get("courses/" + course.course);
+				let courseFromDb;
+				if(course.course === undefined){
+					courseFromDb = await API.get("courses/" + course._id);
+				}else{
+					courseFromDb = await API.get("courses/" + course.course);
+				}
+				
 
 				const fullCourse = {
 					_id: course.course,
@@ -35,7 +43,9 @@ const MyCourses = () => {
 				newCourses.push(fullCourse);
 			})
 		);
-		setCourses(newCourses);
+		setMyCourses(newCourses);
+		dispatch(setCourses(newCourses));
+	
 	}
 
 	useEffect(() => {
@@ -43,7 +53,7 @@ const MyCourses = () => {
 	}, []);
 
 	return (
-		courses && (
+		myCourses && (
 			<div className="course-list">
 				{currentCourses.map((course) => (
 					<div className="course-preview" key={course._id}>
@@ -53,7 +63,7 @@ const MyCourses = () => {
 				<Pagination
 					className="pagination-bar"
 					currentPage={currentPage}
-					totalCount={courses.length}
+					totalCount={myCourses.length}
 					pageSize={pageSize}
 					onPageChange={(page) => setCurrentPage(page)}
 				/>

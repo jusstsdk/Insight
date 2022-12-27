@@ -137,6 +137,7 @@ function RequestCard({ request, course, username }) {
 										Deny access
 									</Button>
 									<Button
+										className="ms-1	"
 										variant="success"
 										onClick={grantAccess}
 									>

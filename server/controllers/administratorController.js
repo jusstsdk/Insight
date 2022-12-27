@@ -43,7 +43,7 @@ const handleCourseRequest = async (req, res) => {
 	let traineeId = corporateTrainee._id;
 
 	let corporateTraineeUpdated = {};
-	if (req.body.status == "Accepted") {
+	if (req.body.status.toLowerCase() == "accepted") {
 		const course = await Course.findById(courseId);
 
 		corporateTraineeUpdated = await CorporateTrainee.findByIdAndUpdate(

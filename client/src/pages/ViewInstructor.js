@@ -17,6 +17,25 @@ export default function ViewInstructor() {
 	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
 	const userType = useSelector((state) => state.userReducer.type);
+	let instructorFound = false;
+	
+	if(userType === "Trainee" || userType === "CorporateTrainee") {
+		
+		user.courses.some((course) => {
+			
+			course.instructors.some((instructor) => {
+				if(instructor._id === instructorId) {
+					instructorFound = true;
+					return true;
+				}
+			});
+			if(instructorFound) {
+				return true;
+			}
+		});
+	}
+	
+
 	const [InstructorInfo, setInstructorInfo] = useState([]);
 	const [InstructorCourses, setInstructorCourses] = useState([]);
 	const [InstructorReviews, setInstructorReviews] = useState([]);
@@ -95,7 +114,7 @@ export default function ViewInstructor() {
 					<h1 className="fw-bold">{InstructorInfo.username}</h1>
 				</Col>
 				<Col className="d-flex justify-content-end">
-					{userType !== "Instructor" && (
+					{userType !== "Instructor" && instructorFound && (
 						<Button
 							color="primary"
 							variant="contained"

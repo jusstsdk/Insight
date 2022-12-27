@@ -17,7 +17,7 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
-
+	const user = useSelector((state) => state.userReducer.user);
 	const [AllInstructors, setAllInstructors] = useState([]);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
@@ -90,7 +90,7 @@ export default function AddInfo(props) {
 						placeholder="Price"
 						value={InfoOriginalPrice}
 						onChange={(e) => {
-							dispatch(setOriginalPrice(e.target.value));
+							dispatch(setOriginalPrice((e.target.value/user.exchangeRate).toFixed(2)));
 						}}
 					/>
 				</Col>
