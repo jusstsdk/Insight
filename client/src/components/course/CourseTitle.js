@@ -1,15 +1,21 @@
 import { Badge, Button, Col, Container, Row } from "react-bootstrap";
 import { Rating } from "react-simple-star-rating";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function CourseTitle(props) {
+	const navigate = useNavigate();
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function continueCourse() {
-		alert("no");
+		navigate("continueCourse", {
+			state: {
+				course: { _id: props.course._id, title: props.course.title },
+			},
+		});
 	}
 
 	return (
@@ -17,10 +23,7 @@ function CourseTitle(props) {
 			<Row>
 				<Col md="auto">
 					<Row>
-						<h1
-							style={{ display: "inline-block" }}
-							key="titleHeader"
-						>
+						<h1 style={{ display: "inline-block" }} key="titleHeader">
 							{course.title + " "}
 						</h1>
 					</Row>
@@ -30,13 +33,8 @@ function CourseTitle(props) {
 								return (
 									<Badge
 										bg="info"
-										key={
-											"Badge of Subject: " +
-											i +
-											eachSubject
-										}
-										className="lead me-1"
-									>
+										key={"Badge of Subject: " + i + eachSubject}
+										className="lead me-1">
 										{eachSubject}
 									</Badge>
 								);
@@ -55,10 +53,7 @@ function CourseTitle(props) {
 				</Col>
 				<Col>
 					{(userType === "Administrator" || ownsCourse) && (
-						<Button
-							style={{ float: "right" }}
-							onClick={continueCourse}
-						>
+						<Button style={{ float: "right" }} onClick={continueCourse}>
 							Continue Course
 						</Button>
 					)}

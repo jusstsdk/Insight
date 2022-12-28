@@ -22,7 +22,7 @@ export default function SolveExercise(props) {
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === props.CourseId
+		(course) => course._id === props.CourseId
 	);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const ExerciseIndex =

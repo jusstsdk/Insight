@@ -30,10 +30,9 @@ export default function ContinueCourse() {
 	// MUI Setup
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const Course = location.state.course;
-
 	// Page Control
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === Course._id
+		(course) => course._id === Course._id
 	);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const SelectedContentIndex = useSelector(

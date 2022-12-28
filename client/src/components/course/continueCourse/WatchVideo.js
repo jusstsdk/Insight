@@ -21,7 +21,7 @@ export default function WatchVideo(props) {
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === props.CourseId
+		(course) => course._id === props.CourseId
 	);
 	const VideoIndex = User.courses[CourseIndex].subtitles[SubtitleIndex].videos.findIndex(
 		(video) => video._id === Content._id

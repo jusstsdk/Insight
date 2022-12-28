@@ -15,7 +15,7 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 	const UserType = useSelector((state) => state.userReducer.type);
 
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course.course === Course._id
+		(course) => course._id === Course._id
 	);
 	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
