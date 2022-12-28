@@ -55,18 +55,18 @@ function CourseReviews(props) {
 					<h3>Reviews</h3>
 				</Col>
 				<Col>
-					{!(userType === "Instructor" || userType === "Administrator") &&
-						ownsCourse && (
+					{!(userType === "Administrator") &&
+						(ownsCourse || userType === "Instructor") && (
 							<>
 								<div style={{ float: "right" }}>
-									<Button onClick={handleShowReviewCourseModal}>Review</Button>
+									{ownsCourse && <Button onClick={handleShowReviewCourseModal}>Review</Button>}
 									&nbsp;
-									<Button
+									{!(ownsCourse && userType === "Instructor") && <Button
 										variant="danger"
 										onClick={handleShowReportCourseModal}
 									>
 										Report
-									</Button>
+									</Button>}
 								</div>
 							</>
 						)}

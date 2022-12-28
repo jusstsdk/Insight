@@ -37,6 +37,7 @@ const MyCourses = () => {
 					subtitles: course.subtitles,
 					exam: course.exam,
 					progress : course.progress,
+					paidPrice : course.paidPrice,
 				};
 				fullCourse.originalPrice = (fullCourse.originalPrice * user.exchangeRate).toFixed(2);
 				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);

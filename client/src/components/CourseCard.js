@@ -19,9 +19,32 @@ function CourseCard({ course }) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
 	const navigate = useNavigate();
 	const handleOpen = () => {
-		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
+		if(userType === "Administrator"){
+			navigate("/admin/courses/" + course._id);
+		} else{
+			navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
+		}
+		
 	};
+	const [showContinue, setShowContinue] = useState(false);
+	
 
+	function continueCourse() {
+		navigate("/" + userType.toLowerCase() + "/courses/" + course._id +  "/continueCourse", {
+			state: {
+				course: { _id: course._id, title: course.title },
+			},
+		});
+	}
+	useEffect(() => {
+		if(!(userType === "Administrator" || userType === "Instructor")) {
+			if(user.courses.findIndex((c) => c._id === course._id) !== -1) {
+				setShowContinue(true);
+			}
+		}
+		
+		
+	}, []);
 	return (
 		<>
 			<Card className="my-3">
@@ -126,6 +149,7 @@ function CourseCard({ course }) {
 							lg={2}
 						>
 							<Button onClick={handleOpen}>View Course</Button>
+							{showContinue && <Button variant="success" className="" onClick={continueCourse}>Continue Course</Button>}
 						</Col>
 					</CardGroup>
 				</Card.Body>
