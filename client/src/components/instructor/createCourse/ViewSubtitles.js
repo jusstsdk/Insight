@@ -26,31 +26,40 @@ export default function ViewSubtitles() {
 
 	return (
 		<>
-			<Accordion className="mt-2">
+			<Accordion variant="light" className="mt-2">
 				{Subtitles.map((subtitle, subtitle_key) => {
 					return (
-						<Accordion.Item eventKey={`subtitle_${subtitle_key}`} key={`subtitle_${subtitle_key}`}>
+						<Accordion.Item
+							eventKey={`subtitle_${subtitle_key}`}
+							key={`subtitle_${subtitle_key}`}
+						>
 							<div className="d-flex">
 								<Col sm={11} className="me-auto">
 									<Accordion.Header className="accordionHeaderWidth">
-										<BookIcon key={`subtitle_${subtitle._id}_bookIcon_${subtitle_key}`} />
+										<BookIcon
+											key={`subtitle_${subtitle._id}_bookIcon_${subtitle_key}`}
+										/>
 										<h6 className="me-3 mb-0">Title: {subtitle.title}</h6>
 										<h6 className="mb-0">Hours: {subtitle.hours}</h6>
 									</Accordion.Header>
 								</Col>
 								<Col sm={1} className="d-flex justify-content-end">
 									<Button
-										variant="success"
+										variant="dark"
 										className="accordionTrash accordionLikeEditButton"
 										key={`subtitle_edit_button_${subtitle_key}`}
-										onClick={() => handleEditSubtitleModalShow(subtitle, subtitle_key)}>
+										onClick={() =>
+											handleEditSubtitleModalShow(subtitle, subtitle_key)
+										}
+									>
 										<AiOutlineEdit key={"subtitle_edit_" + subtitle_key} />
 									</Button>
 									<Button
 										className="accordionTrash accordionLikeDeleteButton"
-										variant="danger"
+										variant="primary"
 										key={`subtitle_trash_button_${subtitle_key}`}
-										onClick={() => dispatch(removeSubtitle(subtitle_key))}>
+										onClick={() => dispatch(removeSubtitle(subtitle_key))}
+									>
 										<BsTrash key={"subtitle_trash_" + subtitle_key} />
 									</Button>
 								</Col>

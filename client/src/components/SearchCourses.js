@@ -5,7 +5,12 @@ import { useSelector } from "react-redux";
 import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort }) {
+export default function SearchCourses({
+	setCourses,
+	searchInInstructorCourses,
+	hideSearch,
+	sort,
+}) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
@@ -26,15 +31,19 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 
 	useEffect(() => {
 		getCourses();
-	}, [user.country,sort]);
+	}, [user.country, sort]);
 
 	async function getCourses() {
 		let searchParams = {};
-		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
+		if (searchQuery.current.value)
+			searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
-		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value;
-		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value;
-		if (ratingFilter.current.value) searchParams.rating = ratingFilter.current.value;
+		if (maxPriceFilter.current.value)
+			searchParams.maxPrice = maxPriceFilter.current.value;
+		if (minPriceFilter.current.value)
+			searchParams.minPrice = minPriceFilter.current.value;
+		if (ratingFilter.current.value)
+			searchParams.rating = ratingFilter.current.value;
 
 		let courses;
 
@@ -52,12 +61,10 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 
 		courses.forEach((course) => {
 			course.originalPrice =
-				Math.trunc(course.originalPrice * user.exchangeRate * 100) /
-				100;
-			course.price =
-				Math.trunc(course.price * user.exchangeRate * 100) / 100;
+				Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
+			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
-		if(sort) courses.sort(comparePopularity);
+		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 	}
 
@@ -122,8 +129,9 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 						/>
 					</Form.Group>
 
-
-					<Button type="submit">Search</Button>
+					<Button variant="primary" type="submit" className=" border-0">
+						Search
+					</Button>
 				</Form>
 			)}
 		</>

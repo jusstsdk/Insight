@@ -1,0 +1,12 @@
+$theme-colors: (
+  "primary": #a00407,
+  "light": #F8F8F8,
+  "medium":#C8C8C8,
+  "dark": #707070,
+  "secondary":#FEFEFE,
+  "outline":#000,
+
+);
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';

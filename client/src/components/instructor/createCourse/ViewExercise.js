@@ -16,7 +16,8 @@ export default function ViewExercise(props) {
 		setShowEditModal(true);
 	};
 	const handleEditQuestion = (question_key, newQuestion) => {
-		if (props.case === "Exam") props.handleAddQuestion(question_key, newQuestion);
+		if (props.case === "Exam")
+			props.handleAddQuestion(question_key, newQuestion);
 		else props.handleAddQuestion(props.exerciseKey, question_key, newQuestion);
 		handleEditModalClose();
 	};
@@ -28,38 +29,46 @@ export default function ViewExercise(props) {
 						<div className="d-flex">
 							<Col sm={11} className="me-auto">
 								<Card className="border-0 questionTitleContainer">
-									<Card.Header className="accordionHeaderWidth accordionLikeHeader d-flex align-items-center border-bottom-0">
+									<Card.Header className=" accordionHeaderWidth accordionLikeHeader d-flex align-items-center border-bottom-0">
 										<h6 className="questionTitle">{question.question}</h6>
 									</Card.Header>
 								</Card>
 							</Col>
 							<Col sm={1} className="d-flex justify-content-end">
 								<Button
-									variant="success"
+									variant="dark"
 									className="accordionTrash accordionLikeEditButton"
 									key={`exercise_edit_button_${question_key}`}
-									onClick={() => handleEditModalShow(question, question_key)}>
+									onClick={() => handleEditModalShow(question, question_key)}
+								>
 									<AiOutlineEdit key={"exercise_edit_" + question_key} />
 								</Button>
 								<Button
 									className="accordionTrash accordionLikeDeleteButton"
-									variant="danger"
+									variant="primary"
 									key={`exercise_trash_button_${question_key}`}
-									onClick={() => props.handleDeleteQuestion(question_key)}>
+									onClick={() => props.handleDeleteQuestion(question_key)}
+								>
 									<BsTrash key={"exercise_trash_" + question_key} />
 								</Button>
 							</Col>
 						</div>
 						<div>
-							<Form.Group as={Row} className="d-flex align-items-center justify-content-evenly">
+							<Form.Group
+								as={Row}
+								className="d-flex align-items-center justify-content-evenly"
+							>
 								<Col>
 									<ListGroup variant="flush">
 										{question.choices.map((choice, choice_key) => {
 											return (
 												<ListGroup.Item
 													key={`question_${question_key}_choice_${choice_key}`}
-													variant={choice === question.correctAnswer ? "success" : ""}>
-													{choice}
+													variant={
+														choice === question.correctAnswer ? "success" : ""
+													}
+												>
+													Choice {choice_key + 1} : {choice}
 												</ListGroup.Item>
 											);
 										})}

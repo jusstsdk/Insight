@@ -111,7 +111,11 @@ function ViewCourseReports() {
 				className="d-flex justify-content-start reportTabs"
 			>
 				<Tab eventKey="All-Reports" title="All Reports">
-					<DropdownButton id="dropdown-item-button" title={selectedItem}>
+					<DropdownButton
+						variant="dark"
+						id="courseReportsFilter"
+						title={selectedItem}
+					>
 						<Dropdown.Item
 							as="button"
 							onClick={() => setSelectedItem("No-Filter")}
@@ -159,7 +163,11 @@ function ViewCourseReports() {
 					</Container>
 				</Tab>
 				<Tab eventKey="Pending" title="Pending">
-					<DropdownButton id="dropdown-item-button" title={selectedItem}>
+					<DropdownButton
+						variant="dark"
+						id="dropdown-item-button"
+						title={selectedItem}
+					>
 						<Dropdown.Item
 							as="button"
 							onClick={() => setSelectedItem("No-Filter")}

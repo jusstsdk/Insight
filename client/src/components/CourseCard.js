@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 function CourseCard({ course }) {
-	
 	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
 	const currency = useSelector((state) => state.userReducer.user.currency);
@@ -24,13 +23,11 @@ function CourseCard({ course }) {
 
 	return (
 		<>
-			<Card className="my-3">
+			<Card className="my-3" bg="light">
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 
 						<p className="textFit my-auto text-muted">
 							{course.totalHours} Hours
@@ -41,6 +38,7 @@ function CourseCard({ course }) {
 								<Badge
 									key={"subject_badge_" + i}
 									className="p-2 mx-1 "
+									bg="dark"
 								>
 									{subject}
 								</Badge>
@@ -58,14 +56,11 @@ function CourseCard({ course }) {
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
 						<h6 className="textFit courseCardLabel">
-							Number of students :{" "}
-							{course.enrolledTrainees.length}
+							Number of students : {course.enrolledTrainees.length}
 						</h6>
 					</CardGroup>
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted textFit courseCardLabel">
-							Summary
-						</h6>
+						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
@@ -88,16 +83,19 @@ function CourseCard({ course }) {
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
 									<Button
-										className="p-0 me-2"
+										className="p-0 me-2 "
 										variant="link"
 										onClick={() => {
-											
 											if (userType === "Trainee") {
 												navigate("/trainee/viewInstructor/" + instructor._id);
-											}else if(userType === "CorporateTrainee"){
-												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
-											}else if(userType === "Instructor"){
-												navigate("/instructor/viewInstructor/" + instructor._id);
+											} else if (userType === "CorporateTrainee") {
+												navigate(
+													"/corporateTrainee/viewInstructor/" + instructor._id
+												);
+											} else if (userType === "Instructor") {
+												navigate(
+													"/instructor/viewInstructor/" + instructor._id
+												);
 											}
 										}}
 										key={"instructor_" + i}
@@ -125,12 +123,17 @@ function CourseCard({ course }) {
 							md={2}
 							lg={2}
 						>
-							<Button onClick={handleOpen}>View Course</Button>
+							<Button
+								variant="primary"
+								onClick={handleOpen}
+								className=" border-0"
+							>
+								View Course
+							</Button>
 						</Col>
 					</CardGroup>
 				</Card.Body>
 			</Card>
-			
 		</>
 	);
 }

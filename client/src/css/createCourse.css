@@ -29,7 +29,7 @@
 }
 .accordionHeaderWidth {
 	width: 100%;
-	border-top-right-radius: 0;
+	border-top-right-radius: 0!important;
 }
 .accordionTrash {
 	border: 0 !important;
@@ -67,7 +67,6 @@ textarea {
 }
 
 .questionTitleContainer {
-	background-color: rgb(41, 192, 192) !important;
 	border-top-right-radius: 0 !important;
 	border-bottom-right-radius: 0 !important;
 }
