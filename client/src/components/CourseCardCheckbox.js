@@ -1,14 +1,4 @@
-import {
-	Button,
-	Badge,
-	Card,
-	CardGroup,
-	Col,
-	Row,
-	ListGroup,
-	Modal,
-    Form
-} from "react-bootstrap";
+import { Button, Badge, Card, CardGroup, Col, Row, ListGroup, Modal, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
@@ -28,15 +18,10 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge
-									key={"subject_badge_" + i}
-									className="p-2 mx-1 "
-								>
+								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}
@@ -48,44 +33,28 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted courseCardLabel">Summary</h6>
-						<Col sm={8}>
+						<h6 className="text-muted courseCardLabel fitWidth">Summary</h6>
+						<Col sm={9}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						<Col
-							sm={1}
-							className="priceContainer d-flex justify-content-end"
-						>
-							<Card.Text className="priceLabel">
-								{course.originalPrice}$
-							</Card.Text>
+						<Col sm={1} className="priceContainer d-flex justify-content-end">
+							<Card.Text className="priceLabel">{course.originalPrice}$</Card.Text>
 						</Col>
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1">
-							Instructors
-						</h6>
+						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
-									<a
-										href="#"
-										key={"instructor_" + i}
-										className="mx-1"
-									>
+									<a href="#" key={"instructor_" + i} className="mx-1">
 										{instructor.username}
 									</a>
 								))}
 							</ListGroup>
 						</Col>
-						<Col
-							className="viewCourseButton d-flex  justify-content-end"
-							sm={2}
-							md={2}
-							lg={2}
-						>
+						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							<Form.Check
 								value={course._id}
 								type="checkbox"
