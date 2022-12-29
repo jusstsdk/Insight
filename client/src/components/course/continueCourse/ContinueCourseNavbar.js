@@ -88,7 +88,7 @@ export default function ContinueCourseNavbar({
 							{Progress === 1 && (
 								<Button
 									variant="link"
-									className="ms-3"
+									className="ms-3 blackText "
 									onClick={async () => {
 										dispatch(
 											addNotification({

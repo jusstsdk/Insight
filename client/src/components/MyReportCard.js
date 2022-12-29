@@ -6,24 +6,24 @@ import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useSelector } from "react-redux";
 
-function MyReportCard({report}) {
+function MyReportCard({ report }) {
 	const username = useSelector((state) => state.userReducer.user.username);
 	const [comments, setComments] = useState(report.comments);
-    const [show, setShow] = useState(false);
+	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const CommentRef = useRef();
-	
+
 	const handleAddComment = async () => {
 		await API.put(`reports/${report._id}/comments`, {
 			username: username,
 			comment: CommentRef.current.value,
 		});
-        report.comments.push({
-            username: username,
-            comment: CommentRef.current.value,
-        });
-        setComments(report.comments);
+		report.comments.push({
+			username: username,
+			comment: CommentRef.current.value,
+		});
+		setComments(report.comments);
 		CommentRef.current.value = "";
 	};
 	return (
@@ -31,11 +31,14 @@ function MyReportCard({report}) {
 			<Card>
 				<Card.Body>
 					<Card.Title>{report.title}</Card.Title>
-                    <Card.Text className="mb-1">Type : {report.type}</Card.Text>
-                    <Card.Text className="mb-1">
-						Status : {report.isSeen ? "Seen" : "Unseen"} and {report.isResolved ? "Resolved" : "Pending"}
+					<Card.Text className="mb-1">Type : {report.type}</Card.Text>
+					<Card.Text className="mb-1">
+						Status : {report.isSeen ? "Seen" : "Unseen"} and{" "}
+						{report.isResolved ? "Resolved" : "Pending"}
 					</Card.Text>
-                    <Card.Text className="mb-1">Description : {report.description}</Card.Text>
+					<Card.Text className="mb-1">
+						Description : {report.description}
+					</Card.Text>
 					<Button
 						variant="primary"
 						onClick={() => {
@@ -53,7 +56,7 @@ function MyReportCard({report}) {
 				<Modal.Body>
 					<ListGroup>
 						{comments.map((comment, i) => (
-							<ListGroup.Item key={i}>
+							<ListGroup.Item className="reportComments" key={i}>
 								<Row>
 									<Col sm={2}>
 										<h6>{comment.username}:</h6>
@@ -65,11 +68,13 @@ function MyReportCard({report}) {
 							</ListGroup.Item>
 						))}
 					</ListGroup>
-					{!report.isResolved && <Form.Group className="mb-3" controlId="Add comment">
-						<Form.Label>Type new comment:</Form.Label>
-						<Form.Control as="textarea" rows={3} ref={CommentRef} />
-						<Button onClick={handleAddComment}>Add comment</Button>
-					</Form.Group>}
+					{!report.isResolved && (
+						<Form.Group className="mb-3" controlId="Add comment">
+							<Form.Label>Type new comment:</Form.Label>
+							<Form.Control as="textarea" rows={3} ref={CommentRef} />
+							<Button onClick={handleAddComment}>Add comment</Button>
+						</Form.Group>
+					)}
 				</Modal.Body>
 				{/* <Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
