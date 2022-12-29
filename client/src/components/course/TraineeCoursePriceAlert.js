@@ -157,7 +157,7 @@ function TraineeCoursePriceAlert(props) {
 									{!traineePastFiftyPercentOfCourse && (
 										<Button
 											style={{ float: "right" }}
-											variant={traineeCanRefund ? "danger" : "secondary"}
+											variant={traineeCanRefund ? "primary" : "secondary"}
 											onClick={handleShowRefundCourseModal}
 											disabled={!traineeCanRefund}
 										>
@@ -171,7 +171,7 @@ function TraineeCoursePriceAlert(props) {
 						}
 					</Alert>
 				) : (
-					<Alert variant="primary" className="lead">
+					<Alert variant="dark" className="lead">
 						Price:
 						{course.discount && course.discount !== 0 ? (
 							<>
@@ -182,7 +182,7 @@ function TraineeCoursePriceAlert(props) {
 						) : (
 							<h1>{course.originalPrice + " " + currency}</h1>
 						)}{" "}
-						<Button variant="success" onClick={handleTraineeBuyCourse}>
+						<Button variant="primary" onClick={handleTraineeBuyCourse}>
 							Purchase
 						</Button>
 					</Alert>

@@ -62,7 +62,7 @@ function CourseReviews(props) {
 									<Button onClick={handleShowReviewCourseModal}>Review</Button>
 									&nbsp;
 									<Button
-										variant="danger"
+										variant="primary"
 										onClick={handleShowReportCourseModal}
 									>
 										Report

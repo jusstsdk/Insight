@@ -46,4 +46,13 @@
 .reportComments{
     background-color: #f8f8f8!important;
 }
+.blackText
+{
+    color: #000!important
+}
+
+.breadcrumbItem > a,.breadcrumbItem > a:hover       
+{
+color: #000
+}
 

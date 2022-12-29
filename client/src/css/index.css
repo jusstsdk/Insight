@@ -119,3 +119,9 @@ code {
 html {
 	overflow-y: overlay;
 }
+
+.breadcrumbItem > a,.breadcrumbItem > a:hover       
+{
+text-decoration: none;
+cursor: auto;
+}

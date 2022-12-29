@@ -32,9 +32,10 @@ function CourseTitle(props) {
 							{course.subjects.map((eachSubject, i) => {
 								return (
 									<Badge
-										bg="info"
+										bg="dark"
 										key={"Badge of Subject: " + i + eachSubject}
-										className="lead me-1">
+										className="lead me-1"
+									>
 										{eachSubject}
 									</Badge>
 								);

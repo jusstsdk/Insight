@@ -1,4 +1,11 @@
-import { Button, Col, OverlayTrigger, Popover } from "react-bootstrap";
+import {
+	Button,
+	Col,
+	Nav,
+	NavLink,
+	OverlayTrigger,
+	Popover,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChangePasswordPopOver from "./ChangePasswordPopOver";
@@ -89,9 +96,9 @@ export default function Profile() {
 					}
 					rootClose
 				>
-					<Button variant="link" className="PrimaryTwo linkDecor">
+					<NavLink id="profileButton" className="secondaryText linkDecor">
 						Profile
-					</Button>
+					</NavLink>
 				</OverlayTrigger>
 			</>
 		);
