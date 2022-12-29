@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button } from "react-bootstrap";
-
+import { MdOutlineError } from "react-icons/md";
 import {
 	setTitle,
 	setSummary,
@@ -14,10 +14,13 @@ import {
 import { SUBJECTS } from "../../../functions/subjects";
 import DropDownMenu from "../../DropDownMenu";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { addNotification } from "../../../redux/notificationsSlice";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userReducer.user);
+	const [displayErrors, setDisplayErrors] = useState(false);
+
 	const [AllInstructors, setAllInstructors] = useState([]);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
@@ -31,6 +34,13 @@ export default function AddInfo(props) {
 	);
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
+	const [MissingTitle, setMissingTitle] = useState(false);
+	const [MissingSummary, setMissingSummary] = useState(false);
+	const [MissingPreviewVideo, setMissingPreviewVideo] = useState(false);
+	const [MissingInstructors, setMissingInstructors] = useState(false);
+	const [MissingSubjects, setMissingSubjects] = useState(false);
+
+
 	const getData = async () => {
 		const config = {
 			method: "GET",
@@ -52,6 +62,51 @@ export default function AddInfo(props) {
 		SummaryRef.current.style.height = "auto";
 		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
+	
+		
+	const handleNext = () => {
+		if (InfoTitle === "") {
+			setMissingTitle(true);
+		} else {
+			setMissingTitle(false);
+		}
+		if (InfoSummary === "") {
+			setMissingSummary(true);
+		} else {
+			setMissingSummary(false);
+		}
+		if (InfoPreviewVideo === "") {
+			setMissingPreviewVideo(true);
+		} else {
+			setMissingPreviewVideo(false);
+		}
+		if (InfoInstructors.length === 0) {
+			setMissingInstructors(true);
+		} else {
+			setMissingInstructors(false);
+		}
+		if (InfoSubjects.length === 0) {
+			setMissingSubjects(true);
+		} else {
+			setMissingSubjects(false);
+		}
+		if (InfoTitle === "" || InfoSummary === "" || InfoPreviewVideo === "" || InfoInstructors.length === 0 || InfoSubjects.length === 0) {
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Please fill in all fields in the Info tab!`,
+					color: "error",
+				})
+			);
+			return;
+		} else {
+			console.log(InfoTitle);
+			props.setCurrentTab("addSubtitle")
+		}
+
+
+	};
+
 	useEffect(resizeTextArea, [InfoSummary]);
 
 	useEffect(() => {
@@ -68,8 +123,9 @@ export default function AddInfo(props) {
 				className="mb-3 d-flex align-items-center justify-content-start"
 				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
-					Title
+					Title {MissingTitle && <span className="error">missing<MdOutlineError/></span>}
 				</Form.Label>
+				
 				<Col sm={3}>
 					<Form.Control
 						type="text"
@@ -100,7 +156,7 @@ export default function AddInfo(props) {
 			{/* Subjects */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
-					Subjects
+					Subjects {MissingSubjects && <span className="error">missing<MdOutlineError/></span>}
 				</Form.Label>
 				<Col sm={8}>
 					<DropDownMenu
@@ -120,7 +176,7 @@ export default function AddInfo(props) {
 			{/* Summary */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
-					Summary
+					Summary {MissingSummary && <span className="error">missing<MdOutlineError/></span>}
 				</Form.Label>
 				<Col sm={10}>
 					<Form.Control
@@ -140,7 +196,7 @@ export default function AddInfo(props) {
 			{/* Instructors */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
-					Instructors
+					Instructors {MissingInstructors && <span className="error">missing<MdOutlineError/></span>}
 				</Form.Label>
 				<Col sm={8}>
 					<DropDownMenu
@@ -161,7 +217,7 @@ export default function AddInfo(props) {
 			{/* Preview Video */}
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
-					Preview Video
+					Preview Video {MissingPreviewVideo && <span className="error">missing<MdOutlineError/></span>}
 				</Form.Label>
 				<Col sm={5}>
 					<Form.Control
@@ -177,7 +233,7 @@ export default function AddInfo(props) {
 
 			{/* Navigation */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
-				<Button onClick={() => props.setCurrentTab("addSubtitle")}>
+				<Button onClick={() =>handleNext()}>
 					<AiOutlineArrowRight />
 				</Button>
 			</Col>

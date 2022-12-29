@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Col, Breadcrumb } from "react-bootstrap";
-
+import { MdOutlineError } from "react-icons/md";
 import "../../css/createCourse.css";
 
 import { clearInfo } from "../../redux/courseInfoSlice";
@@ -22,13 +22,21 @@ export default function CreateCourse() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
+	const [CurrentTabMissingFields, setCurrentTabMissingFields] =
+		useState(true);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
 
-	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
-	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
+	const ExamTitle = useSelector(
+		(state) => state.createCourseReducer.examTitle
+	);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
+	const Subtitles = useSelector(
+		(state) => state.createCourseReducer.subtitles
+	);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
@@ -38,13 +46,17 @@ export default function CreateCourse() {
 	const InfoPreviewVideo = useSelector(
 		(state) => state.courseInfoReducer.previewVideo
 	);
-	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
+	const InfoSubjects = useSelector(
+		(state) => state.courseInfoReducer.subjects
+	);
 	const InfoInstructors = useSelector(
 		(state) => state.courseInfoReducer.instructors
 	);
 
 	const handleCreateCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		let instructorsIds = InfoInstructors.map(
+			(instructor) => instructor._id
+		);
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
@@ -52,7 +64,9 @@ export default function CreateCourse() {
 			data: {
 				title: InfoTitle,
 				summary: InfoSummary,
-				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
+				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(
+					2
+				),
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
 				instructors: [instructorId, ...instructorsIds],
@@ -92,7 +106,9 @@ export default function CreateCourse() {
 	};
 
 	const handleEditCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
+		let instructorsIds = InfoInstructors.map(
+			(instructor) => instructor._id
+		);
 		instructorsIds = instructorsIds.filter((instructor) => {
 			return instructor !== instructorId;
 		});
@@ -133,11 +149,77 @@ export default function CreateCourse() {
 			);
 		}
 	};
+	const changeTabs = (tab) => {
+		let displayError = false;
+
+		if (CurrentTab === "addInfo") {
+			if (
+				InfoTitle === "" ||
+				InfoSummary === "" ||
+				InfoPreviewVideo === "" ||
+				InfoSubjects.length === 0 ||
+				InfoInstructors.length === 0
+			) {
+				displayError = true;
+			} else {
+				setCurrentTab(tab);
+			}
+		} else if (CurrentTab === "addSubtitle") {
+			if (Subtitles.length === 0) {
+				displayError = true;
+			} else {
+				setCurrentTab(tab);
+			}
+		} else if (CurrentTab === "addExam") {
+			if (ExamTitle === "" || ExamQuestions.length === 0) {
+				displayError = true;
+			} else {
+				setCurrentTab(tab);
+			}
+		}
+		if(displayError){
+			if(CurrentTab === "addInfo"){
+				dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Please fill in all fields in the ${CurrentTab.slice(3)} tab!`,
+					color: "error",
+				})
+			);
+			}else if(CurrentTab === "addSubtitle"){
+				dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Please add at least one subtitle!`,
+					color: "error",
+				})
+			)} else if(CurrentTab === "addExam"){
+				dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Make sure your exam has a title and at least one question!`,
+					color: "error",
+				})
+			);
+			}
+
+
+			
+			
+			
+		}
+	};
+
+	
 
 	const displayView = () => {
 		switch (CurrentTab) {
 			case "addInfo":
-				return <AddInfo setCurrentTab={setCurrentTab} />;
+				return (
+					<AddInfo
+						setCurrentTab={setCurrentTab}
+					/>
+				);
 			case "addSubtitle":
 				return <AddSubtitles setCurrentTab={setCurrentTab} />;
 			case "addExam":
@@ -161,28 +243,29 @@ export default function CreateCourse() {
 					className="fw-semibold"
 					active={CurrentTab === "addInfo" ? true : false}
 					onClick={() => {
-						setCurrentTab("addInfo");
+						changeTabs("addInfo")
 					}}
 				>
 					Info
 				</Breadcrumb.Item>
 				<Breadcrumb.Item
 					className="fw-semibold"
-					active={CurrentTab === "addExam" ? true : false}
-					onClick={() => {
-						setCurrentTab("addExam");
-					}}
-				>
-					Exam
-				</Breadcrumb.Item>
-				<Breadcrumb.Item
-					className="fw-semibold"
 					active={CurrentTab === "addSubtitle" ? true : false}
 					onClick={() => {
-						setCurrentTab("addSubtitle");
+						changeTabs("addSubtitle")
 					}}
 				>
 					Subtitles
+				</Breadcrumb.Item>
+				<Breadcrumb.Item
+					className="fw-semibold"
+					active={CurrentTab === "addExam" ? true : false}
+					onClick={() => {
+						changeTabs("addExam")
+					}
+					}
+				>
+					Exam
 				</Breadcrumb.Item>
 			</Breadcrumb>
 			{displayView()}
