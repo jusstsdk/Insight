@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 function CourseCard({ course }) {
-	
 	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
 	const currency = useSelector((state) => state.userReducer.user.currency);
@@ -91,13 +90,25 @@ function CourseCard({ course }) {
 										className="p-0 me-2"
 										variant="link"
 										onClick={() => {
-											
 											if (userType === "Trainee") {
-												navigate("/trainee/viewInstructor/" + instructor._id);
-											}else if(userType === "CorporateTrainee"){
-												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
-											}else if(userType === "Instructor"){
-												navigate("/instructor/viewInstructor/" + instructor._id);
+												navigate(
+													"/trainee/viewInstructor/" +
+														instructor._id
+												);
+											} else if (
+												userType === "CorporateTrainee"
+											) {
+												navigate(
+													"/corporateTrainee/viewInstructor/" +
+														instructor._id
+												);
+											} else if (
+												userType === "Instructor"
+											) {
+												navigate(
+													"/instructor/viewInstructor/" +
+														instructor._id
+												);
 											}
 										}}
 										key={"instructor_" + i}
@@ -112,9 +123,9 @@ function CourseCard({ course }) {
 							className="priceContainer textFit  d-flex justify-content-end"
 						>
 							<strong>
-								{course.discount > 0 && (
+								{course.promotion.discount > 0 && course.promotion.endDate > new Date().toISOString() && (
 									<Card.Text className="priceLabel  discountLabel">
-										{course.discount}% off
+										{course.promotion.discount}% off
 									</Card.Text>
 								)}
 							</strong>
@@ -130,7 +141,6 @@ function CourseCard({ course }) {
 					</CardGroup>
 				</Card.Body>
 			</Card>
-			
 		</>
 	);
 }

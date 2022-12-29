@@ -53,8 +53,10 @@ function TraineeCoursePriceAlert(props) {
 	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
 	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
 		useState(false);
-	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
-		useState(false);
+	const [
+		traineePastFiftyPercentOfCourse,
+		setTraineePastFiftyPercentOfCourse,
+	] = useState(false);
 
 	const [showRefundRequestModal, setShowRefundRequestModal] = useState(false);
 
@@ -77,7 +79,10 @@ function TraineeCoursePriceAlert(props) {
 	});
 
 	async function handleTraineeBuyCourse() {
-		if (course.price === 0 || course.price <= user.wallet * user.exchangeRate) {
+		if (
+			course.price === 0 ||
+			course.price <= user.wallet * user.exchangeRate
+		) {
 			const response = await API.post(
 				`/trainees/${userID}/courses/${courseID}/payment`
 			);
@@ -145,7 +150,9 @@ function TraineeCoursePriceAlert(props) {
 										{traineeVersionOfCourse &&
 											Math.trunc(
 												traineeVersionOfCourse.paidPrice *
-													(user.exchangeRate ? user.exchangeRate : 1) *
+													(user.exchangeRate
+														? user.exchangeRate
+														: 1) *
 													100
 											) /
 												100 +
@@ -157,8 +164,14 @@ function TraineeCoursePriceAlert(props) {
 									{!traineePastFiftyPercentOfCourse && (
 										<Button
 											style={{ float: "right" }}
-											variant={traineeCanRefund ? "danger" : "secondary"}
-											onClick={handleShowRefundCourseModal}
+											variant={
+												traineeCanRefund
+													? "danger"
+													: "secondary"
+											}
+											onClick={
+												handleShowRefundCourseModal
+											}
 											disabled={!traineeCanRefund}
 										>
 											{traineeCanRefund
@@ -171,18 +184,25 @@ function TraineeCoursePriceAlert(props) {
 						}
 					</Alert>
 				) : (
+					
 					<Alert variant="primary" className="lead">
 						Price:
-						{course.discount && course.discount !== 0 ? (
+						{course.promotion.discount &&
+						course.promotion.discount !== 0 && course.promotion.endDate >= new Date().toISOString() ? (
 							<>
 								<h1>{"" + course.price + " " + currency}</h1>
 								<del>{course.originalPrice}</del>{" "}
-								<span>{"" + course.discount + "% OFF"}</span>
+								<span>
+									{"" + course.promotion.discount + "% OFF"}
+								</span>
 							</>
 						) : (
 							<h1>{course.originalPrice + " " + currency}</h1>
 						)}{" "}
-						<Button variant="success" onClick={handleTraineeBuyCourse}>
+						<Button
+							variant="success"
+							onClick={handleTraineeBuyCourse}
+						>
 							Purchase
 						</Button>
 					</Alert>
@@ -199,10 +219,16 @@ function TraineeCoursePriceAlert(props) {
 						{"You will no longer have access to the course."}
 					</Modal.Body>
 					<Modal.Footer>
-						<Button variant="secondary" onClick={handleCloseRefundCourseModal}>
+						<Button
+							variant="secondary"
+							onClick={handleCloseRefundCourseModal}
+						>
 							Cancel
 						</Button>
-						<Button variant="primary" onClick={traineeRefundCourseRequest}>
+						<Button
+							variant="primary"
+							onClick={traineeRefundCourseRequest}
+						>
 							Confirm
 						</Button>
 					</Modal.Footer>
