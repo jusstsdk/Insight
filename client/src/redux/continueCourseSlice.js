@@ -22,6 +22,9 @@ export const continueCourseSlice = createSlice({
 		setContent: (state, action) => {
 			state.content = action.payload;
 		},
+		setContentWatched: (state, action) => {
+			state.content.isWatched = true;
+		},
 		setContentType: (state, action) => {
 			state.contentType = action.payload;
 		},
@@ -82,6 +85,7 @@ export const {
 	setShowAnswers,
 	resetExerciseInfo,
 	setContentInfo,
+	setContentWatched,
 } = continueCourseSlice.actions;
 
 export default continueCourseSlice.reducer;
