@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
 function RequestCard({ request, course, username }) {
@@ -37,9 +37,9 @@ function RequestCard({ request, course, username }) {
 		setVariant("success");
 		dispatch(
 			addNotification({
-			  title: "access granted",
-			  info: "access to course '" + course.title + "' granted to " + username,
-			  color: "success",
+				title: "access granted",
+				info: "access to course '" + course.title + "' granted to " + username,
+				color: "success",
 			})
 		);
 	}
@@ -59,9 +59,9 @@ function RequestCard({ request, course, username }) {
 		setVariant("danger");
 		dispatch(
 			addNotification({
-			  title: "access granted",
-			  info: "access to course '" + course.title + "' denied to " + username,
-			  color: "danger",
+				title: "access granted",
+				info: "access to course '" + course.title + "' denied to " + username,
+				color: "danger",
 			})
 		);
 	}
@@ -72,16 +72,15 @@ function RequestCard({ request, course, username }) {
 	}, []);
 	return (
 		show && (
-			<Card className="my-3">
+			<Card bg="light" className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
 								<Badge
+									bg="dark"
 									key={"subject_badge_" + i}
 									className="p-2 mx-1 "
 								>
@@ -100,7 +99,6 @@ function RequestCard({ request, course, username }) {
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
@@ -114,7 +112,9 @@ function RequestCard({ request, course, username }) {
 									<Button
 										className="p-0 me-2"
 										variant="link"
-										onClick={() => navigate("/admin/viewInstructor/" + instructor._id)}
+										onClick={() =>
+											navigate("/admin/viewInstructor/" + instructor._id)
+										}
 										key={"instructor_" + i}
 									>
 										{instructor.username}
@@ -130,15 +130,12 @@ function RequestCard({ request, course, username }) {
 						>
 							{!handled && (
 								<>
-									<Button
-										variant="danger"
-										onClick={denyAccess}
-									>
+									<Button variant="primary" onClick={denyAccess}>
 										Deny access
 									</Button>
 									<Button
 										className="ms-1	"
-										variant="success"
+										variant="primary"
 										onClick={grantAccess}
 									>
 										Grant access

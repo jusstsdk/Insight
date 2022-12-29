@@ -7,7 +7,7 @@ import {
 	Row,
 	ListGroup,
 	Modal,
-    Form
+	Form,
 } from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,12 +28,11 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
 								<Badge
+									bg="dark"
 									key={"subject_badge_" + i}
 									className="p-2 mx-1 "
 								>
@@ -52,10 +51,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						<Col
-							sm={1}
-							className="priceContainer d-flex justify-content-end"
-						>
+						<Col sm={1} className="priceContainer d-flex justify-content-end">
 							<Card.Text className="priceLabel">
 								{course.originalPrice}$
 							</Card.Text>
@@ -64,17 +60,11 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1">
-							Instructors
-						</h6>
+						<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
-									<a
-										href="#"
-										key={"instructor_" + i}
-										className="mx-1"
-									>
+									<a href="#" key={"instructor_" + i} className="mx-1">
 										{instructor.username}
 									</a>
 								))}

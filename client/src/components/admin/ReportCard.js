@@ -62,7 +62,7 @@ function ReportCard(props) {
 				<Modal.Body>
 					<ListGroup>
 						{props.report.comments.map((comment, i) => (
-							<ListGroup.Item>
+							<ListGroup.Item className="reportComments">
 								<Row>
 									<Col sm={2}>
 										<h6>{comment.username}:</h6>
@@ -86,7 +86,7 @@ function ReportCard(props) {
 					</Button>
 					{!props.report.isResolved && (
 						<Button
-							variant="secondary"
+							variant="primary"
 							onClick={() => {
 								handleReport({ resolved: true });
 								props.resolvingReport(props.report);
