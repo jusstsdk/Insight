@@ -119,3 +119,6 @@ code {
 html {
 	overflow-y: overlay;
 }
+.course-list {
+	margin-left: 25%;
+}

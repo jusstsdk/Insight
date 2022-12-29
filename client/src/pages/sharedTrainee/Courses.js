@@ -5,17 +5,10 @@ import CourseList from "../../components/shared/CourseList";
 export default function Courses() {
 	const [courses, setCourses] = useState([]);
 
-	const [sort, setSort] = useState(false);
-
 	return (
 		<div className="course-list">
-			<SearchCourses setCourses={setCourses} sort={sort} />
-			<Form.Check
-				type="checkbox"
-				id={"default-checkbox"}
-				label="Sort by popularity"
-				onChange={() => setSort(!sort)}
-			/>
+			<SearchCourses setCourses={setCourses} />
+
 			<CourseList courses={courses} />
 		</div>
 	);
