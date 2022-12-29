@@ -35,7 +35,7 @@ export default function ViewSubtitles() {
 									<Accordion.Header className="accordionHeaderWidth">
 										<BookIcon key={`subtitle_${subtitle._id}_bookIcon_${subtitle_key}`} />
 										<h6 className="me-3 mb-0">Title: {subtitle.title}</h6>
-										<h6 className="mb-0">Hours: {subtitle.hours}</h6>
+										<h6 className="mb-0">Minutes: {Math.ceil(subtitle.seconds / 60)}</h6>
 									</Accordion.Header>
 								</Col>
 								<Col sm={1} className="d-flex justify-content-end">

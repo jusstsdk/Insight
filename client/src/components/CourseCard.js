@@ -1,19 +1,9 @@
-import {
-	Button,
-	Badge,
-	Card,
-	CardGroup,
-	Col,
-	Row,
-	ListGroup,
-	Modal,
-} from "react-bootstrap";
+import { Button, Badge, Card, CardGroup, Col, Row, ListGroup, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 function CourseCard({ course }) {
-	
 	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
 	const currency = useSelector((state) => state.userReducer.user.currency);
@@ -28,20 +18,15 @@ function CourseCard({ course }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 
 						<p className="textFit my-auto text-muted">
-							{course.totalHours} Hours
+							{Math.ceil(course.totalSeconds / 60)} Minutes
 						</p>
 
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge
-									key={"subject_badge_" + i}
-									className="p-2 mx-1 "
-								>
+								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}
@@ -58,21 +43,15 @@ function CourseCard({ course }) {
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
 						<h6 className="textFit courseCardLabel">
-							Number of students :{" "}
-							{course.enrolledTrainees.length}
+							Number of students : {course.enrolledTrainees.length}
 						</h6>
 					</CardGroup>
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted textFit courseCardLabel">
-							Summary
-						</h6>
+						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						<Col
-							sm={1}
-							className="priceContainer textFit d-flex justify-content-end"
-						>
+						<Col sm={1} className="priceContainer textFit d-flex justify-content-end">
 							<Card.Text className="priceLabel">
 								{course.originalPrice} {currency}
 							</Card.Text>
@@ -81,9 +60,7 @@ function CourseCard({ course }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted textFit courseCardLabel my-1">
-							Instructors
-						</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
@@ -91,26 +68,21 @@ function CourseCard({ course }) {
 										className="p-0 me-2"
 										variant="link"
 										onClick={() => {
-											
 											if (userType === "Trainee") {
 												navigate("/trainee/viewInstructor/" + instructor._id);
-											}else if(userType === "CorporateTrainee"){
+											} else if (userType === "CorporateTrainee") {
 												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
-											}else if(userType === "Instructor"){
+											} else if (userType === "Instructor") {
 												navigate("/instructor/viewInstructor/" + instructor._id);
 											}
 										}}
-										key={"instructor_" + i}
-									>
+										key={"instructor_" + i}>
 										{instructor.username}
 									</Button>
 								))}
 							</ListGroup>
 						</Col>
-						<Col
-							sm={1}
-							className="priceContainer textFit  d-flex justify-content-end"
-						>
+						<Col sm={1} className="priceContainer textFit  d-flex justify-content-end">
 							<strong>
 								{course.discount > 0 && (
 									<Card.Text className="priceLabel  discountLabel">
@@ -119,18 +91,12 @@ function CourseCard({ course }) {
 								)}
 							</strong>
 						</Col>
-						<Col
-							className="viewCourseButton d-flex  justify-content-end"
-							sm={2}
-							md={2}
-							lg={2}
-						>
+						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							<Button onClick={handleOpen}>View Course</Button>
 						</Col>
 					</CardGroup>
 				</Card.Body>
 			</Card>
-			
 		</>
 	);
 }

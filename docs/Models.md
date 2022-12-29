@@ -1,4 +1,5 @@
 # Newcomers Docs
+
 ## Models
 
 - Admin
@@ -10,21 +11,21 @@
   }
   ```
 
----------------
+---
 
 Course
 
 title
 price
 Instructors[]
-totalHours
+totalSeconds
 courseRatings:
 [
-    {
-        rating : int
-        review : string
-        trainee : ref
-    }
+{
+rating : int
+review : string
+trainee : ref
+}
 ]
 short summary
 subtitle
@@ -35,7 +36,7 @@ discount
 [reports]
 [Students]
 
------------------
+---
 
 Instructor
 
@@ -45,16 +46,16 @@ Email : String
 Minibiography : String
 Country : String
 Courses: [references]
-Ratings: 
+Ratings:
 [
-    {
-        Rating: Int,
-        Review: String,
-        Trainee: Ref
-    }
+{
+Rating: Int,
+Review: String,
+Trainee: Ref
+}
 ]
 
------------------
+---
 
 Corperate Trainee
 
@@ -63,21 +64,21 @@ password : string,
 email : string,
 country : string,
 corperate : ref,
-courses: 
+courses:
 [
-    {
-        course_id : ref,
-        exercises: 
-        [
-            {
-                exercise_id : ref,
-                grade : number
-            }
-        ]
-    }
+{
+course_id : ref,
+exercises:
+[
+{
+exercise_id : ref,
+grade : number
+}
+]
+}
 ]
 
------------------
+---
 
 Individual Trainee
 
@@ -86,13 +87,13 @@ Password
 Email
 Country
 [
-    {
-        Course id,
-        [
-            {
-                Exercise id,
-                Grade
-            }
-        ]
-    }
+{
+Course id,
+[
+{
+Exercise id,
+Grade
+}
+]
+}
 ]

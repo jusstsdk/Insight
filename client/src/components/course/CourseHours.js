@@ -40,10 +40,8 @@ function CourseHours(props) {
 		<>
 			<Alert variant="dark" className="lead">
 				Hours
-				<h1>{course.totalHours}</h1>
-				{!(userType === "Instructor" || userType === "Administrator") &&
-					ownsCourse &&
-					"Progress"}
+				<h1>{Math.ceil(course.totalSeconds / 3600)}</h1>
+				{!(userType === "Instructor" || userType === "Administrator") && ownsCourse && "Progress"}
 				{!(userType === "Instructor" || userType === "Administrator") &&
 					ownsCourse &&
 					hisVersionOfCourse && (

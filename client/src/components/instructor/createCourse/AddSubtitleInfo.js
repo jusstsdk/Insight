@@ -12,9 +12,6 @@ export default function AddSubtitleInfo(props) {
 	const [Title, setTitle] = useState(
 		props.case === "Add" ? "" : props.subtitle.title ? props.subtitle.title : ""
 	);
-	const [Hours, setHours] = useState(
-		props.case === "Add" ? 0 : props.subtitle.hours ? props.subtitle.hours : 0
-	);
 	const SubtitleKey = props.case === "Add" ? -1 : props.subtitleKey;
 
 	const handleAddSubtitle = () => {
@@ -24,7 +21,7 @@ export default function AddSubtitleInfo(props) {
 			case "Add": {
 				let newSubtitle = {
 					title: Title,
-					hours: Hours,
+					seconds: 0,
 					exercises: [],
 					videos: [],
 				};
@@ -34,7 +31,6 @@ export default function AddSubtitleInfo(props) {
 			case "Edit": {
 				let newSubtitle = {
 					title: Title,
-					hours: Hours,
 				};
 				dispatch(editSubtitleInfo({ key: SubtitleKey, subtitle: newSubtitle }));
 				break;
@@ -42,7 +38,6 @@ export default function AddSubtitleInfo(props) {
 			default:
 		}
 		setTitle("");
-		setHours("");
 		props.handleClose();
 	};
 	return (
@@ -73,19 +68,6 @@ export default function AddSubtitleInfo(props) {
 							value={Title}
 							onChange={(e) => {
 								setTitle(e.target.value);
-							}}
-						/>
-					</Col>
-					<Form.Label id="hours" column sm={1}>
-						Hours
-					</Form.Label>
-					<Col sm={2}>
-						<Form.Control
-							type="number"
-							placeholder="Hours"
-							value={Hours}
-							onChange={(e) => {
-								setHours(parseFloat(e.target.value));
 							}}
 						/>
 					</Col>
