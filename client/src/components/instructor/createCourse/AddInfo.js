@@ -85,6 +85,8 @@ export default function AddInfo(props) {
 		let invalidUrl = false;
 		if (InfoPreviewVideo === "") {
 			setMissingPreviewVideo(true);
+			
+			setBadUrl(false);
 		} else {
 			setMissingPreviewVideo(false);
 			let videoId;
@@ -106,7 +108,7 @@ export default function AddInfo(props) {
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
 				setBadUrl(true);
-				return;
+				
 			} else{
 				invalidUrl = false;
 				setBadUrl(false);
