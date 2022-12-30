@@ -53,12 +53,15 @@ export default function ViewBoth(props) {
 
 	const handleDeleteExercise = (exercise_key) => {
 		let exerciseIndex = props.SubtitleExercises[exercise_key].index;
+		let numberOfQuestions = props.SubtitleExercises[exercise_key].questions.length;
+
 		let newExercises = props.SubtitleExercises.filter((_, i) => i !== exercise_key);
 		dispatch(
 			removeExerciseFromSubtitle({
 				subtitleKey: props.subtitleKey,
 				newExercises: newExercises,
 				exerciseIndex: exerciseIndex,
+				numberOfQuestions: numberOfQuestions,
 			})
 		);
 	};
@@ -83,14 +86,14 @@ export default function ViewBoth(props) {
 		);
 	};
 
-	const handleDeleteQuestion = (question_key) => {
-		let newQuestions = props.SubtitleExercises[ExerciseKey].questions.filter(
+	const handleDeleteQuestion = (question_key, exercise_key) => {
+		let newQuestions = props.SubtitleExercises[exercise_key].questions.filter(
 			(question, i) => i !== question_key
 		);
 		dispatch(
 			removeQuestionFromExercise({
 				subtitleKey: props.subtitleKey,
-				exerciseKey: ExerciseKey,
+				exerciseKey: exercise_key,
 				newQuestions: newQuestions,
 			})
 		);
