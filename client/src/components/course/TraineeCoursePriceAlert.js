@@ -77,7 +77,7 @@ function TraineeCoursePriceAlert(props) {
 			{
 				<Alert variant="primary" className="lead">
 					Price:
-					{course.discount && course.discount !== 0 && course.promotion.endDate >= new Date().toISOString() ? (
+					{course.promotion.discount && course.promotion.discount !== 0 && course.promotion.endDate >= new Date().toISOString() ? (
 						<>
 							<h1>{"" + course.price + " " + currency}</h1>
 							<del>{course.originalPrice}</del>{" "}
