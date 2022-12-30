@@ -6,6 +6,8 @@ import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
 import { Drawer, List, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
+import { Rating } from "react-simple-star-rating";
+import { BsSearch } from "react-icons/bs";
 const drawerWidth = "25%";
 
 export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch }) {
@@ -13,7 +15,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
 	const minPriceFilter = useRef("");
-	const ratingFilter = useRef("");
+	const [ratingFilter, setRatingFilter] = useState(0);
 	const [subjectFilter, setSubjectFilter] = useState("");
 	const user = useSelector((state) => state.userReducer.user);
 
@@ -39,7 +41,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		if (subjectFilter) searchParams.subject = subjectFilter;
 		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value;
 		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value;
-		if (ratingFilter.current.value) searchParams.rating = ratingFilter.current.value;
+		if (ratingFilter) searchParams.rating = ratingFilter;
 
 		let courses;
 
@@ -75,7 +77,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 					},
 				}}
 			/>
-			<Container id="drawerList">
+			<Container id="searchDrawer" className="my-auto">
 				{!hideSearch && (
 					<>
 						<Form.Group className="mb-3" controlId="formSubjectFilter">
@@ -99,7 +101,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							/>
 						</Form.Group>
 
-						<Form.Group as={Row} className="my-3 mx-auto" controlId="formPriceFilter">
+						<Form.Group as={Row} className="my-3 " controlId="formPriceFilter">
 							<Form.Label className="fitWidth my-auto me-1">Price</Form.Label>
 							<Col className="p-0 me-1" sm={4}>
 								<Form.Control ref={minPriceFilter} type="number" placeholder="Min" />
@@ -109,12 +111,12 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							</Col>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formRatingFilter">
-							<Form.Label>Rating ≥</Form.Label>
-							<Form.Control
-								ref={ratingFilter}
-								type="text"
-								placeholder="Filter by courses that are rated higher than this"
+						<Form.Group className="mb-3" controlId="formRatingFilter class">
+							<Form.Label className="align-items-center me-3">Min Rating</Form.Label>
+							<Rating
+								allowFraction="true"
+								onClick={(rating) => setRatingFilter(rating)}
+								/* Available Props */
 							/>
 						</Form.Group>
 						<Form.Check
@@ -124,7 +126,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							onChange={() => setSort(!sort)}
 						/>
 
-						<Button onClick={async () => await getCourses()}>Search</Button>
+						<Button onClick={async () => await getCourses()}>Filter</Button>
 					</>
 				)}
 			</Container>
@@ -151,14 +153,22 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 					{drawer}
 				</Drawer>
 			</Box>
-			<Form.Group className="mb-3" controlId="formSearchQuery">
-				<Form.Label>Search Term</Form.Label>
-				<Form.Control
-					ref={searchQuery}
-					type="search"
-					placeholder="Search for a course by name, subject or instructors"
-				/>
-			</Form.Group>
+			<Row className="mb-3 align-items-center" controlId="formSearchQuery">
+				<Form.Label className="fitWidth my-auto">Search Term</Form.Label>
+
+				<Col sm={9}>
+					<Form.Control
+						ref={searchQuery}
+						type="search"
+						placeholder="Search for a course by name, subject or instructors"
+					/>
+				</Col>
+				<Col sm={1}>
+					<Button onClick={async () => await getCourses()}>
+						<BsSearch />
+					</Button>
+				</Col>
+			</Row>
 		</>
 	);
 }

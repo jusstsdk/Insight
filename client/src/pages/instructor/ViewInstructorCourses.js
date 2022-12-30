@@ -86,17 +86,16 @@ function ViewInstructorCourses() {
 			id="asd"
 			// key={`course_${Course._id}_content_box`}
 			component="main"
+			className="search-course-list"
 			sx={{
 				flexGrow: 1,
 				p: 3,
 				width: {
 					sm: `calc(100% - ${drawerWidth}px)`,
 				},
-				marginTop: {
-					sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px`,
-				},
 			}}>
 			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
+			<div className="search-course-list"></div>
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (
