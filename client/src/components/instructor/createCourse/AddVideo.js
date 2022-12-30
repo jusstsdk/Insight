@@ -16,10 +16,10 @@ export default function AddVideo(props) {
 	const [Description, setDescription] = useState(
 		props.case === "Add" ? "" : props.video.description
 	);
-	const [MissingTitle , setMissingTitle] = useState(false);
-	const [MissingUrl , setMissingUrl] = useState(false);
-	const [BadUrl , setBadUrl] = useState(false);
-	const [MissingDescription , setMissingDescription] = useState(false);
+	const [MissingTitle, setMissingTitle] = useState(false);
+	const [MissingUrl, setMissingUrl] = useState(false);
+	const [BadUrl, setBadUrl] = useState(false);
+	const [MissingDescription, setMissingDescription] = useState(false);
 	const SubtitleKey = props.subtitleKey;
 	const VideoKey = props.videoKey;
 	const videoIndex = useSelector(
@@ -39,13 +39,12 @@ export default function AddVideo(props) {
 		} else {
 			videoId = url.split("/")[url.split("/").length - 1];
 		}
-	
+
 		// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
 		let response = await API.get(
 			`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
 		);
-		
-    
+
 		if (response.data.items.length === 0) {
 			setBadUrl(true);
 			return;
@@ -66,16 +65,14 @@ export default function AddVideo(props) {
 		}
 		return totalseconds;
 	};
-	const handleAddVideo = async () => {
-		let totalSeconds = await getVideoDuration(Url);
 
 	const handleAddVideo = async () => {
-		if(Title === ""){
+		if (Title === "") {
 			setMissingTitle(true);
 		} else {
 			setMissingTitle(false);
 		}
-		if(Description === ""){
+		if (Description === "") {
 			setMissingDescription(true);
 		} else {
 			setMissingDescription(false);
@@ -83,7 +80,7 @@ export default function AddVideo(props) {
 		let invalidUrl = false;
 		if (Url === "") {
 			setMissingUrl(true);
-			
+
 			setBadUrl(false);
 		} else {
 			setMissingUrl(false);
@@ -91,12 +88,9 @@ export default function AddVideo(props) {
 			if (Url.includes("watch?v=")) {
 				videoId = Url.split("watch?v=")[1];
 			} else {
-				videoId =
-					Url.split("/")[
-						Url.split("/").length - 1
-					];
+				videoId = Url.split("/")[Url.split("/").length - 1];
 			}
-      
+
 			// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
 			let response = await API.get(
 				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
@@ -105,16 +99,16 @@ export default function AddVideo(props) {
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
 				setBadUrl(true);
-				
-			} else{
+			} else {
 				invalidUrl = false;
 				setBadUrl(false);
-			} 
+			}
 		}
-		if(invalidUrl || Url === "" || Title === "" || Description === ""){
+		if (invalidUrl || Url === "" || Title === "" || Description === "") {
 			return;
 		}
-		
+		let totalSeconds = await getVideoDuration(Url);
+
 		if (props.case === "Add") {
 			let newVideo = { title: Title, url: Url, description: Description, index: videoIndex };
 			dispatch(
@@ -169,11 +163,18 @@ export default function AddVideo(props) {
 					<Col>
 						<Row className="justify-content-center">
 							<Form.Label column sm={1}>
-							<span>Title</span>
-							<br />
-							<span>{MissingTitle && <span className="error">Missing<MdOutlineError/></span>}</span>
+								<span>Title</span>
+								<br />
+								<span>
+									{MissingTitle && (
+										<span className="error">
+											Missing
+											<MdOutlineError />
+										</span>
+									)}
+								</span>
 							</Form.Label>
-							
+
 							<Col sm={5}>
 								<Form.Control
 									type="text"
@@ -185,9 +186,23 @@ export default function AddVideo(props) {
 							<Form.Label column sm={1}>
 								<span>Url</span>
 								<br />
-								<span>{MissingUrl && <span className="error">Missing<MdOutlineError/></span>}</span>
+								<span>
+									{MissingUrl && (
+										<span className="error">
+											Missing
+											<MdOutlineError />
+										</span>
+									)}
+								</span>
 								<br />
-								<span>{BadUrl && <span className="error">Invalid Url<MdOutlineError/></span>}</span>
+								<span>
+									{BadUrl && (
+										<span className="error">
+											Invalid Url
+											<MdOutlineError />
+										</span>
+									)}
+								</span>
 							</Form.Label>
 							<Col sm={4}>
 								<Form.Control
@@ -201,9 +216,16 @@ export default function AddVideo(props) {
 						</Row>
 						<Row className="mt-3 justify-content-center">
 							<Form.Label column sm={1}>
-							<span>Description</span>
-							<br />
-							<span>{MissingDescription && <span className="error">Missing<MdOutlineError/></span>}</span>
+								<span>Description</span>
+								<br />
+								<span>
+									{MissingDescription && (
+										<span className="error">
+											Missing
+											<MdOutlineError />
+										</span>
+									)}
+								</span>
 							</Form.Label>
 							<Col sm={10}>
 								<Form.Control

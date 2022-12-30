@@ -14,27 +14,20 @@ export default function AddSubtitleInfo(props) {
 		props.case === "Add" ? "" : props.subtitle.title ? props.subtitle.title : ""
 	);
 	const SubtitleKey = props.case === "Add" ? -1 : props.subtitleKey;
-	const [MissingTitle , setMissingTitle] = useState(false);
-	const [MissingHours , setMissingHours] = useState(false);
+	const [MissingTitle, setMissingTitle] = useState(false);
 
 	const handleAddSubtitle = () => {
-		console.log(Hours);
-		if(Title === ""){
-				setMissingTitle(true);
-			} else {
-				setMissingTitle(false);
-			}
-			if(isNaN(Hours) || parseFloat(Hours) <= 0){
-				setMissingHours(true);
-			} else {
-				setMissingHours(false);
-			}
-			if(Title === "" ||  parseFloat(Hours) <=0 || isNaN(Hours)){
-				return;
-			}switch (props.case) {
+		if (Title === "") {
+			setMissingTitle(true);
+		} else {
+			setMissingTitle(false);
+		}
+		if (Title === "") {
+			return;
+		}
+		switch (props.case) {
 			// If the component is used for Add, it adds the subtitleInfo to the Subtitles array in the reducer
 			// If the component is used for Edit, it edits the subtitleInfo of a specific subtitle in the reducer using the index
-			
 
 			case "Add": {
 				let newSubtitle = {
@@ -79,9 +72,16 @@ export default function AddSubtitleInfo(props) {
 					<Form.Label column sm={2}>
 						<span>Subtitle title</span>
 						<br />
-						<span>{MissingTitle && <span className="error">Missing<MdOutlineError/></span>}</span>
+						<span>
+							{MissingTitle && (
+								<span className="error">
+									Missing
+									<MdOutlineError />
+								</span>
+							)}
+						</span>
 					</Form.Label>
-					
+
 					<Col sm={6}>
 						<Form.Control
 							type="text"
@@ -93,7 +93,6 @@ export default function AddSubtitleInfo(props) {
 						/>
 					</Col>
 				</Form.Group>
-				
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={props.handleClose}>

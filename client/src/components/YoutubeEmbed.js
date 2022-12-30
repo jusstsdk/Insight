@@ -16,7 +16,7 @@ const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 	const Content = useSelector((state) => state.continueCourseReducer.content);
 	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
 	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course._id === CourseId
+		(course) => course.course === CourseId
 	);
 	const VideoIndex = User.courses[CourseIndex].subtitles[SubtitleIndex].videos.findIndex(
 		(video) => video._id === Content._id
