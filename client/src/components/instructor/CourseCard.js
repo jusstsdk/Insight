@@ -7,12 +7,14 @@ import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 import { setExamsAndSubtitles, clearCreateCourse } from "../../redux/createCourseSlice";
 
 import { addNotification } from "../../redux/notificationsSlice";
+import { deleteCourseInstructor } from "../../redux/userSlice";
 
 import Stars from "../Stars";
 function CourseCard(props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const currency = useSelector((state) => state.userReducer.user.currency);
+	const instructorId = useSelector((state) => state.userReducer.user._id);
 
 	const handleEditCourse = () => {
 		dispatch(setInfo(props.course));
@@ -50,11 +52,30 @@ function CourseCard(props) {
 		props.setDetectChange(!props.DetectChange);
 	};
 
+	const handleDeleteDraft = async () => {
+		await API.delete(`/courses/${instructorId}`, { data: { courseId: props.course._id } });
+
+		dispatch(clearInfo());
+		dispatch(clearCreateCourse());
+		dispatch(deleteCourseInstructor({ courseId: props.course._id }));
+		dispatch(
+			addNotification({
+				title: "Delete Course",
+				info: "Draft Deleted Successfully!",
+				color: "success",
+			})
+		);
+		props.setDetectChange(!props.DetectChange);
+	};
+
 	const displayButtons = () => {
 		switch (props.course.status) {
 			case "Draft": {
 				return (
 					<>
+						<Button className="me-3" onClick={handleDeleteDraft}>
+							Delete Course
+						</Button>
 						<Button className="me-3" onClick={handleEditCourse}>
 							Edit Course
 						</Button>
@@ -117,9 +138,7 @@ function CourseCard(props) {
 								<Button
 									className="p-0 me-2"
 									variant="link"
-									onClick={() =>
-										navigate("/instructor/viewInstructor/"+ instructor._id)
-									}
+									onClick={() => navigate("/instructor/viewInstructor/" + instructor._id)}
 									key={"instructor_" + i}>
 									{instructor.username}
 								</Button>
