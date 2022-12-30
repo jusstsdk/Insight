@@ -41,14 +41,6 @@ export default function AddSubtitle(props) {
 				<Button
 					className="me-3"
 					onClick={() => {
-						if(Subtitles.length === 0){
-							showErrorMessage();
-							setNoSubtitles(true);
-							
-							return;
-						} else {
-							setNoSubtitles(false);
-						}
 						props.setCurrentTab("addInfo");
 					}}>
 					<AiOutlineArrowLeft />

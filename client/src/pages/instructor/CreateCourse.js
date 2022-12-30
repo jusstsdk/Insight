@@ -164,18 +164,14 @@ export default function CreateCourse() {
 			} else {
 				setCurrentTab(tab);
 			}
-		} else if (CurrentTab === "addSubtitle") {
-			if (Subtitles.length === 0) {
+		} else if (CurrentTab === "addSubtitle" ) {
+			if (Subtitles.length === 0 && tab === "addExam") {
 				displayError = true;
 			} else {
 				setCurrentTab(tab);
 			}
 		} else if (CurrentTab === "addExam") {
-			if (ExamTitle === "" || ExamQuestions.length === 0) {
-				displayError = true;
-			} else {
-				setCurrentTab(tab);
-			}
+			setCurrentTab(tab);
 		}
 		if(displayError){
 			if(CurrentTab === "addInfo"){

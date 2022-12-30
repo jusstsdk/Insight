@@ -32,7 +32,7 @@ export default function AddExam(props) {
 		dispatch(addToExamQuestions(question));
 		handleAddModalClose();
 	};
-	const handleBack = () => {
+	const handleButtons = (action) => {
 		if (ExamTitle === "") {
 			setMissingTitle(true);
 		} else {
@@ -53,8 +53,14 @@ export default function AddExam(props) {
 			);
 			return;
 		} else {
+			if(action === "save"){
+				if (status === "New") props.handleCreateCourse("Draft");
+						else props.handleEditCourse("Draft");
+			} else {
+				if (status === "New") props.handleCreateCourse("Published");
+						else props.handleEditCourse("Published");
+			}
 			
-			props.setCurrentTab("addSubtitle")
 		}
 
 
@@ -104,7 +110,7 @@ export default function AddExam(props) {
 				<Button
 					className="me-3"
 					onClick={() => {
-						handleBack();
+						props.setCurrentTab("addSubtitle")
 					}}>
 					<AiOutlineArrowLeft />
 				</Button>
@@ -112,16 +118,14 @@ export default function AddExam(props) {
 				<Button
 					className="me-3"
 					onClick={() => {
-						if (status === "New") props.handleCreateCourse("Draft");
-						else props.handleEditCourse("Draft");
+						handleButtons("save");	
 					}}>
 					Save Course
 				</Button>
 				{/* Publish Course */}
 				<Button
 					onClick={() => {
-						if (status === "New") props.handleCreateCourse("Published");
-						else props.handleEditCourse("Published");
+						handleButtons("publish");
 					}}>
 					Publish Course
 				</Button>
