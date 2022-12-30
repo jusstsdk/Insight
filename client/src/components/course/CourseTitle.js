@@ -44,20 +44,18 @@ function CourseTitle(props) {
 							})}
 						</Col>
 					</Row>
-					<Row>
-						<Col>
-							<Badge bg="warning" className="lead me-1">
-								ranked {course.rank}
-								{course.rank % 10 === 1
-									? "st"
-									: course.rank % 10 === 2
-									? "nd"
-									: course.rank % 10 === 3
-									? "rd"
-									: "th"}
-							</Badge>
-						</Col>
-					</Row>
+				</Col>
+				<Col>
+					<Badge bg="warning" className="lead me-1">
+						#{course.rank}
+						{/* {course.rank % 10 === 1
+							? "st"
+							: course.rank % 10 === 2
+							? "nd"
+							: course.rank % 10 === 3
+							? "rd"
+							: "th"} */}
+					</Badge>
 				</Col>
 				<Col>
 					<Rating

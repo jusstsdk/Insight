@@ -57,6 +57,9 @@ function CourseReviews(props) {
 
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
+	const setTraineeAlreadyRequestedRefund =
+		props.setTraineeAlreadyRequestedRefund;
 
 	const courseID = course._id;
 
@@ -68,8 +71,6 @@ function CourseReviews(props) {
 
 	//Trainee Data
 	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
-	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
-		useState(false);
 	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
 		useState(false);
 

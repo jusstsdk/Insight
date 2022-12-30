@@ -161,6 +161,7 @@ export default function CoursePage() {
 					traineeOwnsCourse={traineeOwnsCourse}
 					traineeVersionOfCourse={traineeVersionOfCourse}
 					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
+					setTraineeAlreadyRequestedRefund={setTraineeAlreadyRequestedRefund}
 				></CourseReviews>
 			</Container>
 		)

@@ -43,11 +43,11 @@ function CorpTraineeRequestCourseAlert(props) {
 
 		dispatch(
 			addNotification({
-				title: "request sent",
+				title: "Request Sent",
 				info:
-					"Access request to" +
+					"Access request to " +
 					course.title +
-					" sent successfully,waiting for admin approval",
+					" was sent successfully,waiting for admin approval",
 				color: "success",
 			})
 		);
