@@ -4,10 +4,10 @@ function CourseSummaryPrevVid(props) {
 	const course = props.course;
 	return (
 		<>
+			<h5>Enrolled</h5>{" "}
+			<p className="lead">{course.enrolledTrainees.length} Students </p>
 			<h5>Summary</h5>
-
 			<p className="lead">{course.summary}</p>
-
 			<h5>Preview Video</h5>
 			<iframe
 				width="560"
