@@ -9,11 +9,12 @@ function InstructorPriceAlert(props) {
 		<>
 			<Alert variant="primary" className="lead">
 				Price:
-				{course.discount && course.discount !== 0 ? (
+				{course.promotion.discount &&
+				course.promotion.discount !== 0 ? (
 					<>
 						<h1>{"" + course.price + " " + currency}</h1>
 						<del>{course.originalPrice}</del>{" "}
-						<span>{"" + course.discount + "% OFF"}</span>
+						<span>{"" + course.promotion.discount + "% OFF"}</span>
 					</>
 				) : (
 					<h1>{course.originalPrice + " " + currency}</h1>
