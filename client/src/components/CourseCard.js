@@ -36,7 +36,7 @@ function CourseCard({ course }) {
 		});
 	}
 	useEffect(() => {
-		if(!(userType === "Administrator" || userType === "Instructor")) {
+		if(!(userType === "Administrator" || userType === "Instructor" || userType === "Guest")) {
 			if(user.courses.findIndex((c) => c._id === course._id) !== -1) {
 				setShowContinue(true);
 			}
@@ -94,7 +94,7 @@ function CourseCard({ course }) {
 						<Col
 							sm={1}
 							className="priceContainer textFit d-flex justify-content-end"
-						>
+						>	
 							<Card.Text className="priceLabel">
 								{course.originalPrice} {currency}
 							</Card.Text>
