@@ -76,21 +76,21 @@ export default function CoursePage() {
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadData() {
 		await getCourseFromDB();
-		
+
 		if (userType === "CorporateTrainee") {
-			user.courses.forEach((course) => {
-				if (course._id === courseID) {
+			user.courses.forEach((userCourse) => {
+				if (userCourse.course === courseID) {
 					setCorpTraineeOwnsCourse(true);
-					setCorpTraineeVersionOfCourse(course);
+					setCorpTraineeVersionOfCourse(userCourse);
 				}
 			});
 		}
 
 		if (userType === "Trainee") {
-			user.courses.forEach((course) => {
-				if (course._id === courseID) {
+			user.courses.forEach((userCourse) => {
+				if (userCourse.course === courseID) {
 					setTraineeOwnsCourse(true);
-					setTraineeVersionOfCourse(course);
+					setTraineeVersionOfCourse(userCourse);
 				}
 			});
 		}
@@ -116,7 +116,6 @@ export default function CoursePage() {
 		course &&
 		loaded && (
 			<Container>
-				
 				<CourseTitle
 					course={course}
 					id="title"
@@ -152,6 +151,8 @@ export default function CoursePage() {
 						userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
 					}
 					id="reviews"
+					traineeOwnsCourse={traineeOwnsCourse}
+					traineeVersionOfCourse={traineeVersionOfCourse}
 				></CourseReviews>
 			</Container>
 		)
