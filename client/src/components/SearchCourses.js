@@ -68,7 +68,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 
 	// Displays the Drawer Content based on props.subtitles
 	const drawer = (
-		<div className="mb-5">
+		<div className="">
 			{/* Filler to avoid Navbar */}
 			<Toolbar
 				sx={{
@@ -80,8 +80,8 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			<Container id="searchDrawer" className="my-auto">
 				{!hideSearch && (
 					<>
+						<h3 className="mb-3">Filters</h3>
 						<Form.Group className="mb-3" controlId="formSubjectFilter">
-							<Form.Label>Subject</Form.Label>
 							<Multiselect
 								id="singleSelectSubjects"
 								options={SUBJECTS}
@@ -101,9 +101,9 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							/>
 						</Form.Group>
 
-						<Form.Group as={Row} className="my-3 " controlId="formPriceFilter">
+						<Form.Group className="my-3 d-flex" controlId="formPriceFilter">
 							<Form.Label className="fitWidth my-auto me-1">Price</Form.Label>
-							<Col className="p-0 me-1" sm={4}>
+							<Col className="p-0 me-1 ms-auto" sm={4}>
 								<Form.Control ref={minPriceFilter} type="number" placeholder="Min" />
 							</Col>
 							<Col className="p-0 me-1" sm={4}>
@@ -111,22 +111,33 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 							</Col>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formRatingFilter class">
-							<Form.Label className="align-items-center me-3">Min Rating</Form.Label>
-							<Rating
-								allowFraction="true"
-								onClick={(rating) => setRatingFilter(rating)}
-								/* Available Props */
-							/>
-						</Form.Group>
-						<Form.Check
-							type="checkbox"
-							id={"default-checkbox"}
-							label="Sort by popularity"
-							onChange={() => setSort(!sort)}
-						/>
+						{!searchInInstructorCourses && (
+							<Form.Group
+								className="mb-3 d-flex  justify-content-between "
+								controlId="formRatingFilter">
+								<Form.Label className="me-3 my-auto">Min Rating</Form.Label>
+								<div className="fitWidth">
+									<Rating
+										allowFraction="true"
+										onClick={(rating) => setRatingFilter(rating)}
+										/* Available Props */
+									/>
+								</div>
+							</Form.Group>
+						)}
+						<Form.Group className="d-flex justify-content-between">
+							<Col sm={8}>
+								<Form.Check
+									type="checkbox"
+									id={"default-checkbox"}
+									label="Sort by popularity"
+									className="fitWidth"
+									onChange={() => setSort(!sort)}
+								/>
+							</Col>
 
-						<Button onClick={async () => await getCourses()}>Filter</Button>
+							<Button onClick={async () => await getCourses()}>Filter</Button>
+						</Form.Group>
 					</>
 				)}
 			</Container>
@@ -153,7 +164,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 					{drawer}
 				</Drawer>
 			</Box>
-			<Row className="mb-3 align-items-center" controlId="formSearchQuery">
+			<Row className="mb-3 align-items-center">
 				<Form.Label className="fitWidth my-auto">Search Term</Form.Label>
 
 				<Col sm={9}>
@@ -163,7 +174,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 						placeholder="Search for a course by name, subject or instructors"
 					/>
 				</Col>
-				<Col sm={1}>
+				<Col sm={1} className="ms-auto">
 					<Button onClick={async () => await getCourses()}>
 						<BsSearch />
 					</Button>
