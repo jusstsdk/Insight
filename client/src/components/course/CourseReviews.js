@@ -126,7 +126,7 @@ function CourseReviews(props) {
 						<h3>Reviews</h3>
 					</Col>
 					<Col>
-						{!(userType === "Instructor" || userType === "Administrator") &&
+						{(userType === "Trainee" || userType === "CorporateTrainee") &&
 							ownsCourse && (
 								<>
 									<div style={{ float: "right" }}>
@@ -161,6 +161,18 @@ function CourseReviews(props) {
 									</div>
 								</>
 							)}
+						{userType === "Instructor" && (
+							<>
+								<div style={{ float: "right" }}>
+									<Button
+										variant="danger"
+										onClick={handleShowReportCourseModal}
+									>
+										Report
+									</Button>
+								</div>
+							</>
+						)}
 					</Col>
 				</Row>
 
