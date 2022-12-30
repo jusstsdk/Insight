@@ -82,13 +82,11 @@ function CourseHours(props) {
 				{!(userType === "Instructor" || userType === "Administrator") &&
 					ownsCourse &&
 					hisVersionOfCourse && (
-						<ProgressBar>
-							<ProgressBar
-								variant="info"
-								now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
-								label={`${hisVersionOfCourse.progress * 100}%`}
-							/>
-						</ProgressBar>
+						<ProgressBar
+							variant="info"
+							now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
+							label={`${hisVersionOfCourse.progress * 100}%`}
+						/>
 					)}
 			</Alert>
 		</>

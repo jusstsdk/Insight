@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice";
+import { setRequests, setUser } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 
 function CorpTraineeRequestCourseAlert(props) {
@@ -35,8 +35,8 @@ function CorpTraineeRequestCourseAlert(props) {
 
 		try {
 			let response = await axios(config);
-			dispatch(setUser(response.data));
-			setCorpTraineeAlreadyRequestedAccess(true);
+			dispatch(setRequests(response.data.requests));
+			//setCorpTraineeAlreadyRequestedAccess(true);
 		} catch (err) {
 			console.log(err);
 		}

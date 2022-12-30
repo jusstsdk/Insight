@@ -238,14 +238,12 @@ const reviewCourse = async (req, res) => {
 		if (!course) {
 			return res.status(400).json({ error: "No such course" });
 		}
-		const found = course.reviews.some((review, i) => {
+		course.reviews.some((review, i) => {
 			if (review.trainee.toString() === req.body.trainee) {
-				course.reviews[i].rating = req.body.rating;
-				course.reviews[i].review = req.body.review;
-				return review.trainee.toString() === req.body.trainee;
+				course.reviews.splice(i, 1);
 			}
 		});
-		if (!found) course.reviews.push(req.body);
+		course.reviews.push(req.body);
 		await course.save();
 		return course;
 	});
@@ -302,7 +300,9 @@ const watchVideo = async (req, res) => {
 	let trainee;
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
+		videoIndex
+	].isWatched = true;
 	await trainee.save();
 	res.status(200).json(trainee);
 };
@@ -319,8 +319,11 @@ const addNoteToVideoNotes = async (req, res) => {
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
 
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = [
-		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes,
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
+		videoIndex
+	].notes = [
+		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex]
+			.notes,
 		note,
 	];
 	trainee.save();
@@ -341,7 +344,9 @@ const deleteNoteFromVideoNotes = async (req, res) => {
 	let newNotes = trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
 		videoIndex
 	].notes.filter((_, i) => i !== noteIndex);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = newNotes;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
+		videoIndex
+	].notes = newNotes;
 	trainee.save();
 	res.status(200).json(trainee);
 };
@@ -357,9 +362,12 @@ const solveExercise = async (req, res) => {
 	let trainee;
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
-		questions;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
+		exerciseIndex
+	].isSolved = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
+		exerciseIndex
+	].questions = questions;
 	await trainee.save();
 	res.status(200).json(trainee);
 };
