@@ -174,7 +174,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 						placeholder="Search for a course by name, subject or instructors"
 					/>
 				</Col>
-				<Col sm={1} className="ms-auto">
+				<Col sm={1} className="me-auto">
 					<Button onClick={async () => await getCourses()}>
 						<BsSearch />
 					</Button>
