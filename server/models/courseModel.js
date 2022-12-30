@@ -88,6 +88,10 @@ const courseSchema = new Schema(
 			required: true,
 			enum: ["Draft", "Published", "Closed"],
 		},
+		rank : {
+			type: Number,
+			default: 0
+		},
 	},
 	{ timestamps: true }
 );

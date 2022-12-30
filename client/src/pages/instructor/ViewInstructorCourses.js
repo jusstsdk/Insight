@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Tab, Tabs } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ListCourses from "../../components/SearchCourses";
-import CourseCard from "../../components/CourseCard";
+import CourseCard from "../../components/instructor/CourseCard";
 import Pagination from "../../components/shared/pagination/Pagination";
 import "../../components/shared/pagination/style.scss";
 

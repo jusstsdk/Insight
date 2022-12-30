@@ -6,6 +6,13 @@ export default function AdminNavbarButtons() {
 
 	return (
 		<>
+			<Nav.Link
+				onClick={() => {
+					navigate("courses");
+				}}
+			>
+				Search
+			</Nav.Link>
 			<NavDropdown title="Create User" id="basic-nav-dropdown">
 				<NavDropdown.Item
 					onClick={() => {
