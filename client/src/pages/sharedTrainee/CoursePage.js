@@ -62,10 +62,10 @@ export default function CoursePage() {
 
 		//accomodate country into price
 		if (response.data.price) {
-			response.data.price *= user.exchangeRate;
+			response.data.price *= user.exchangeRate ? user.exchangeRate : 1;
 			response.data.price = Math.trunc(response.data.price * 100) / 100;
 		}
-		response.data.originalPrice *= user.exchangeRate;
+		response.data.originalPrice *= user.exchangeRate ? user.exchangeRate : 1;
 		response.data.originalPrice =
 			Math.trunc(response.data.originalPrice * 100) / 100;
 

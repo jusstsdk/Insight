@@ -9,6 +9,7 @@ export const userSlice = createSlice({
 		user: {
 			country: "USA",
 			currency: "USD",
+			exchangeRate: 1,
 		},
 	},
 	reducers: {
