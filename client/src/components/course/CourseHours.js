@@ -34,6 +34,8 @@ import { addNotification } from "../../redux/notificationsSlice";
 function CourseHours(props) {
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
+
 	const hisVersionOfCourse = props.hisVersionOfCourse;
 	const User = useSelector((state) => state.userReducer.user);
 
@@ -78,10 +80,12 @@ function CourseHours(props) {
 				</Row>
 				{!(userType === "Instructor" || userType === "Administrator") &&
 					ownsCourse &&
+					!traineeAlreadyRequestedRefund &&
 					"Progress"}
 				{!(userType === "Instructor" || userType === "Administrator") &&
 					ownsCourse &&
-					hisVersionOfCourse && (
+					hisVersionOfCourse &&
+					!traineeAlreadyRequestedRefund && (
 						<ProgressBar
 							variant="info"
 							now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}

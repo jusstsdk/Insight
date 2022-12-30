@@ -39,6 +39,7 @@ function CourseBasicInfo(props) {
 
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
 
 	const corpTraineeOwnsCourse = props.corpTraineeOwnsCourse;
 	const corpTraineeVersionOfCourse = props.corpTraineeVersionOfCourse;
@@ -81,6 +82,7 @@ function CourseBasicInfo(props) {
 						? traineeVersionOfCourse
 						: corpTraineeVersionOfCourse
 				}
+				traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 			></CourseHours>
 			<h3>Basic Info</h3>
 			<Row>

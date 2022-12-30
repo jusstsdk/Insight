@@ -8,6 +8,8 @@ function CourseTitle(props) {
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
+
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function continueCourse() {
@@ -23,10 +25,7 @@ function CourseTitle(props) {
 			<Row>
 				<Col md="auto">
 					<Row>
-						<h1
-							style={{ display: "inline-block" }}
-							key="titleHeader"
-						>
+						<h1 style={{ display: "inline-block" }} key="titleHeader">
 							{course.title + " "}
 						</h1>
 					</Row>
@@ -36,11 +35,7 @@ function CourseTitle(props) {
 								return (
 									<Badge
 										bg="info"
-										key={
-											"Badge of Subject: " +
-											i +
-											eachSubject
-										}
+										key={"Badge of Subject: " + i + eachSubject}
 										className="lead me-1"
 									>
 										{eachSubject}
@@ -74,11 +69,8 @@ function CourseTitle(props) {
 					/>
 				</Col>
 				<Col>
-					{ownsCourse && (
-						<Button
-							style={{ float: "right" }}
-							onClick={continueCourse}
-						>
+					{ownsCourse && !traineeAlreadyRequestedRefund && (
+						<Button style={{ float: "right" }} onClick={continueCourse}>
 							Continue Course
 						</Button>
 					)}

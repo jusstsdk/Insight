@@ -130,17 +130,21 @@ function CourseReviews(props) {
 							ownsCourse && (
 								<>
 									<div style={{ float: "right" }}>
-										<Button onClick={handleShowReviewCourseModal}>
-											Review
-										</Button>
-										&nbsp;
-										<Button
-											variant="danger"
-											onClick={handleShowReportCourseModal}
-										>
-											Report
-										</Button>
-										&nbsp;
+										{!traineeAlreadyRequestedRefund && (
+											<>
+												<Button onClick={handleShowReviewCourseModal}>
+													Review
+												</Button>
+												&nbsp;
+												<Button
+													variant="danger"
+													onClick={handleShowReportCourseModal}
+												>
+													Report
+												</Button>
+												&nbsp;
+											</>
+										)}
 										{userType === "Trainee" &&
 											!traineePastFiftyPercentOfCourse && (
 												<Button
