@@ -115,6 +115,7 @@ export const userSlice = createSlice({
 			state.user = {
 				country: "USA",
 				currency: "USD",
+				exchangeRate: 1,
 			};
 		},
 	},
