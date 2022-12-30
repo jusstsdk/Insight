@@ -1,10 +1,11 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function ReportCourseModal(props) {
 	const course = props.course;
@@ -12,6 +13,8 @@ function ReportCourseModal(props) {
 	const setShowReportCourseModal = props.setShowReportCourseModal;
 
 	const courseID = course._id;
+
+	const dispatch = useDispatch();
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING
 	const userID = useSelector((state) => state.userReducer.user._id);
@@ -39,8 +42,21 @@ function ReportCourseModal(props) {
 		handleCloseReportCourseModal();
 		try {
 			let response = await axios(config);
+			dispatch(
+				addNotification({
+					title: "Issue Reported",
+					info: "Report has been sent.",
+					color: "success",
+				})
+			);
 		} catch (err) {
-			console.log(err);
+			dispatch(
+				addNotification({
+					title: "Error",
+					info: err.data,
+					color: "error",
+				})
+			);
 		}
 	}
 
@@ -48,7 +64,7 @@ function ReportCourseModal(props) {
 		<>
 			<Modal show={showReportCourseModal} onHide={handleCloseReportCourseModal}>
 				<Modal.Header closeButton>
-					<Modal.Title>Report Course</Modal.Title>
+					<Modal.Title>Report Issue with the Course</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form>

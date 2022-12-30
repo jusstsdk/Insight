@@ -57,6 +57,9 @@ function CourseReviews(props) {
 
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
+	const setTraineeAlreadyRequestedRefund =
+		props.setTraineeAlreadyRequestedRefund;
 
 	const courseID = course._id;
 
@@ -68,8 +71,6 @@ function CourseReviews(props) {
 
 	//Trainee Data
 	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
-	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
-		useState(false);
 	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
 		useState(false);
 
@@ -126,21 +127,25 @@ function CourseReviews(props) {
 						<h3>Reviews</h3>
 					</Col>
 					<Col>
-						{!(userType === "Instructor" || userType === "Administrator") &&
+						{(userType === "Trainee" || userType === "CorporateTrainee") &&
 							ownsCourse && (
 								<>
 									<div style={{ float: "right" }}>
-										<Button onClick={handleShowReviewCourseModal}>
-											Review
-										</Button>
-										&nbsp;
-										<Button
-											variant="danger"
-											onClick={handleShowReportCourseModal}
-										>
-											Report
-										</Button>
-										&nbsp;
+										{!traineeAlreadyRequestedRefund && (
+											<>
+												<Button onClick={handleShowReviewCourseModal}>
+													Review
+												</Button>
+												&nbsp;
+												<Button
+													variant="danger"
+													onClick={handleShowReportCourseModal}
+												>
+													Report
+												</Button>
+												&nbsp;
+											</>
+										)}
 										{userType === "Trainee" &&
 											!traineePastFiftyPercentOfCourse && (
 												<Button
@@ -157,6 +162,18 @@ function CourseReviews(props) {
 									</div>
 								</>
 							)}
+						{userType === "Instructor" && (
+							<>
+								<div style={{ float: "right" }}>
+									<Button
+										variant="danger"
+										onClick={handleShowReportCourseModal}
+									>
+										Report
+									</Button>
+								</div>
+							</>
+						)}
 					</Col>
 				</Row>
 

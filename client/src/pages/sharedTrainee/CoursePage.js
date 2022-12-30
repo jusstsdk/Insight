@@ -31,6 +31,8 @@ export default function CoursePage() {
 	//trainee data
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
 	const [traineeVersionOfCourse, setTraineeVersionOfCourse] = useState();
+	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
+		useState(false);
 
 	//corp trainee data
 	const [corpTraineeOwnsCourse, setCorpTraineeOwnsCourse] = useState(false);
@@ -60,10 +62,10 @@ export default function CoursePage() {
 
 		//accomodate country into price
 		if (response.data.price) {
-			response.data.price *= user.exchangeRate;
+			response.data.price *= user.exchangeRate ? user.exchangeRate : 1;
 			response.data.price = Math.trunc(response.data.price * 100) / 100;
 		}
-		response.data.originalPrice *= user.exchangeRate;
+		response.data.originalPrice *= user.exchangeRate ? user.exchangeRate : 1;
 		response.data.originalPrice =
 			Math.trunc(response.data.originalPrice * 100) / 100;
 
@@ -91,6 +93,9 @@ export default function CoursePage() {
 				if (userCourse.course === courseID) {
 					setTraineeOwnsCourse(true);
 					setTraineeVersionOfCourse(userCourse);
+					if (userCourse.requestedRefund) {
+						setTraineeAlreadyRequestedRefund(true);
+					}
 				}
 			});
 		}
@@ -126,6 +131,7 @@ export default function CoursePage() {
 							? corpTraineeOwnsCourse
 							: instructorTeachesCourse
 					}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 				></CourseTitle>
 				<hr />
 				<CourseBasicInfo
@@ -133,6 +139,7 @@ export default function CoursePage() {
 					instructors={instructors}
 					traineeOwnsCourse={traineeOwnsCourse}
 					traineeVersionOfCourse={traineeVersionOfCourse}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 					corpTraineeOwnsCourse={corpTraineeOwnsCourse}
 					corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
 					id="basicInfo"
@@ -153,6 +160,8 @@ export default function CoursePage() {
 					id="reviews"
 					traineeOwnsCourse={traineeOwnsCourse}
 					traineeVersionOfCourse={traineeVersionOfCourse}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
+					setTraineeAlreadyRequestedRefund={setTraineeAlreadyRequestedRefund}
 				></CourseReviews>
 			</Container>
 		)

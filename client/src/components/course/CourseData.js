@@ -1,13 +1,15 @@
 import { Col } from "react-bootstrap";
 
-function CourseSummaryPrevVid(props) {
+function CourseData(props) {
 	const course = props.course;
 	return (
 		<>
+			<h5>Hours</h5>
+			<p className="lead">{Math.ceil(course.totalSeconds / 3600)} Total</p>
+			<h5>Enrolled</h5>{" "}
+			<p className="lead">{course.enrolledTrainees.length} Students </p>
 			<h5>Summary</h5>
-
 			<p className="lead">{course.summary}</p>
-
 			<h5>Preview Video</h5>
 			<iframe
 				width="560"
@@ -20,4 +22,4 @@ function CourseSummaryPrevVid(props) {
 	);
 }
 
-export default CourseSummaryPrevVid;
+export default CourseData;

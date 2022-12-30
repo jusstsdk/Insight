@@ -28,8 +28,8 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { Rating } from "react-simple-star-rating";
 import CorpTraineeRequestCourseAlert from "../../components/course/CorpTraineeCourseRequestAlert";
 import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceAlert";
-import CourseHours from "../../components/course/CourseHours";
-import CourseSummaryPrevVid from "../../components/course/CourseSummaryPrevVid";
+import CourseProgress from "./CourseProgress";
+import CourseData from "./CourseData";
 import CourseInstructorsList from "../../components/course/CourseInstructorsList";
 import InstructorPriceAlert from "./InstructorPriceAlert";
 
@@ -39,6 +39,7 @@ function CourseBasicInfo(props) {
 
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
 
 	const corpTraineeOwnsCourse = props.corpTraineeOwnsCourse;
 	const corpTraineeVersionOfCourse = props.corpTraineeVersionOfCourse;
@@ -71,7 +72,7 @@ function CourseBasicInfo(props) {
 				</Col>
 			)}
 
-			<CourseHours
+			<CourseProgress
 				course={course}
 				ownsCourse={
 					userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
@@ -81,10 +82,12 @@ function CourseBasicInfo(props) {
 						? traineeVersionOfCourse
 						: corpTraineeVersionOfCourse
 				}
-			></CourseHours>
+				traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
+			></CourseProgress>
+
 			<h3>Basic Info</h3>
 			<Row>
-				<CourseSummaryPrevVid course={course}></CourseSummaryPrevVid>
+				<CourseData course={course}></CourseData>
 			</Row>
 			<hr />
 			<CourseInstructorsList instructors={instructors}></CourseInstructorsList>

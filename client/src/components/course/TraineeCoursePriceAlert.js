@@ -46,10 +46,7 @@ function TraineeCoursePriceAlert(props) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
 
 	async function handleTraineeBuyCourse() {
-		if (
-			course.price === 0 ||
-			course.price <= user.wallet * user.exchangeRate
-		) {
+		if (course.price === 0 || course.price <= user.wallet * user.exchangeRate) {
 			const response = await API.post(
 				`/trainees/${userID}/courses/${courseID}/payment`
 			);
@@ -61,8 +58,8 @@ function TraineeCoursePriceAlert(props) {
 			dispatch(setCourses(response.data.courses));
 			dispatch(
 				addNotification({
-					title: "purchase successful",
-					info: "course successfully purchased,you can now access all the content!",
+					title: "Sucesss",
+					info: "You purchased the Course. You can now view all content!",
 					color: "success",
 				})
 			);
@@ -76,18 +73,33 @@ function TraineeCoursePriceAlert(props) {
 		<>
 			{
 				<Alert variant="primary" className="lead">
-					Price:
-					{course.promotion.discount && course.promotion.discount !== 0 && course.promotion.endDate >= new Date().toISOString() ? (
+					{course.promotion.discount &&
+					course.promotion.discount !== 0 &&
+					course.promotion.endDate >= new Date().toISOString() ? (
 						<>
-							<h1>{"" + course.price + " " + currency}</h1>
+							Price:
+							<h1 style={{ display: "inline-block" }}>
+								{"" +
+									(course.price === 0 ? "FREE" : course.price) +
+									" " +
+									currency}
+							</h1>
 							<del>{course.originalPrice}</del>{" "}
 							<span>{"" + course.promotion.discount + "% OFF"}</span>
 						</>
 					) : (
-						<h1>{course.originalPrice + " " + currency}</h1>
+						<h1 style={{ display: "inline-block" }}>
+							{course.originalPrice === 0
+								? "FREE"
+								: course.originalPrice + " " + currency}
+						</h1>
 					)}{" "}
-					<Button variant="success" onClick={handleTraineeBuyCourse}>
-						Purchase
+					<Button
+						variant="success"
+						onClick={handleTraineeBuyCourse}
+						style={{ float: "right" }}
+					>
+						{course.originalPrice === 0 ? "Claim" : "Purchase"}
 					</Button>
 				</Alert>
 			}
