@@ -35,8 +35,10 @@ const MyCourses = () => {
 					...courseFromDb.data,
 					subtitles: course.subtitles,
 					exam: course.exam,
-					progress: course.progress,
+					progress : course.progress,
+					paidPrice : course.paidPrice,
 				};
+        
 				fullCourse.originalPrice = (
 					fullCourse.originalPrice * user.exchangeRate
 				).toFixed(2);
@@ -46,7 +48,6 @@ const MyCourses = () => {
 			})
 		);
 		setMyCourses(newCourses);
-		//dispatch(setCourses(newCourses));
 	}
 
 	useEffect(() => {

@@ -171,11 +171,23 @@ const getCourses = async (req, res) => {
 	// find results
 	try {
 		const course = await Course.find(query).populate("instructors");
+		let rankedCourses = course;
+		rankedCourses.sort(comparePopularity);
+		course.forEach((course) => {
+			course.rank = rankedCourses.indexOf(course) + 1;
+			course.save();
+		});
+		
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
 };
+function comparePopularity(a, b) {
+	if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
+	if (a.enrolledTrainees.length < b.enrolledTrainees.length) return 1;
+	return 0;
+}
 
 // Update a Course
 const updateCourse = async (req, res) => {

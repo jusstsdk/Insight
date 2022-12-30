@@ -46,7 +46,10 @@ function TraineeCoursePriceAlert(props) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
 
 	async function handleTraineeBuyCourse() {
-		if (course.price === 0 || course.price <= user.wallet * user.exchangeRate) {
+		if (
+			course.price === 0 ||
+			course.price <= user.wallet * user.exchangeRate
+		) {
 			const response = await API.post(
 				`/trainees/${userID}/courses/${courseID}/payment`
 			);
@@ -74,11 +77,11 @@ function TraineeCoursePriceAlert(props) {
 			{
 				<Alert variant="primary" className="lead">
 					Price:
-					{course.discount && course.discount !== 0 ? (
+					{course.discount && course.discount !== 0 && course.promotion.endDate >= new Date().toISOString() ? (
 						<>
 							<h1>{"" + course.price + " " + currency}</h1>
 							<del>{course.originalPrice}</del>{" "}
-							<span>{"" + course.discount + "% OFF"}</span>
+							<span>{"" + course.promotion.discount + "% OFF"}</span>
 						</>
 					) : (
 						<h1>{course.originalPrice + " " + currency}</h1>
