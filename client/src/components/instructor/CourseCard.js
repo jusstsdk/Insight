@@ -92,11 +92,9 @@ function CourseCard(props) {
 			<Card.Body>
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
-					<Card.Title className="courseCardTitle">
-						{props.course.title}
-					</Card.Title>
+					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
 					<p className="textFit my-auto text-muted">
-						{props.course.totalHours} Hours
+						{Math.ceil(props.course.totalSeconds / 3600)} Hours
 					</p>
 					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
@@ -132,11 +130,8 @@ function CourseCard(props) {
 								<Button
 									className="p-0 me-2"
 									variant="link"
-									onClick={() =>
-										navigate("/instructor/viewInstructor/" + instructor._id)
-									}
-									key={"instructor_" + i}
-								>
+									onClick={() => navigate("/instructor/viewInstructor/" + instructor._id)}
+									key={"instructor_" + i}>
 									{instructor.username}
 								</Button>
 							))}
