@@ -28,30 +28,65 @@ import CourseSubtitlesList from "../../components/course/CourseSubtitlesList";
 import CourseReviews from "../../components/course/CourseReviews";
 import CorpTraineeRequestCourseAlert from "../../components/course/CorpTraineeCourseRequestAlert";
 import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceAlert";
+import { useDispatch } from "react-redux";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function CourseHours(props) {
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 	const hisVersionOfCourse = props.hisVersionOfCourse;
+	const User = useSelector((state) => state.userReducer.user);
 
 	const userType = useSelector((state) => state.userReducer.type);
+
+	const dispatch = useDispatch();
 
 	return (
 		<>
 			<Alert variant="dark" className="lead">
 				Hours
-				<h1>{Math.ceil(course.totalSeconds / 3600)}</h1>
-				{!(userType === "Instructor" || userType === "Administrator") && ownsCourse && "Progress"}
+				<Row>
+					<Col>
+						<h1>{Math.ceil(course.totalSeconds / 3600)}</h1>
+					</Col>
+					<Col>
+						{!(userType === "Instructor" || userType === "Administrator") &&
+							ownsCourse &&
+							hisVersionOfCourse &&
+							hisVersionOfCourse.progress === 1 && (
+								<Button
+									style={{ float: "right" }}
+									variant="success"
+									onClick={async () => {
+										dispatch(
+											addNotification({
+												title: "Congrats BABE",
+												info: "We have sent your Certificate to you email.",
+												color: "success",
+											})
+										);
+										await API.post(`/courses/sendCertificate`, {
+											courseTitle: course.title,
+											email: User.email,
+										});
+									}}
+								>
+									Get Certificate
+								</Button>
+							)}
+					</Col>
+				</Row>
+				{!(userType === "Instructor" || userType === "Administrator") &&
+					ownsCourse &&
+					"Progress"}
 				{!(userType === "Instructor" || userType === "Administrator") &&
 					ownsCourse &&
 					hisVersionOfCourse && (
-						<ProgressBar>
-							<ProgressBar
-								variant="info"
-								now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
-								label={`${hisVersionOfCourse.progress * 100}%`}
-							/>
-						</ProgressBar>
+						<ProgressBar
+							variant="info"
+							now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
+							label={`${hisVersionOfCourse.progress * 100}%`}
+						/>
 					)}
 			</Alert>
 		</>

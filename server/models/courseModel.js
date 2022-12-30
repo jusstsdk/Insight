@@ -45,10 +45,6 @@ const courseSchema = new Schema(
 		subjects: [String],
 		summary: String,
 		originalPrice: Number,
-		discount: {
-			type: Number,
-			default: 0,
-		},
 		promotion: {
 			startDate: Date,
 			endDate: Date,
@@ -89,12 +85,18 @@ const courseSchema = new Schema(
 			required: true,
 			enum: ["Draft", "Published", "Closed"],
 		},
+		rank : {
+			type: Number,
+			default: 0
+		},
 	},
 	{ timestamps: true }
 );
 
 courseSchema.pre("save", function (next) {
-	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price =
+		this.originalPrice -
+		(this.originalPrice * this.promotion.discount) / 100;
 	this.popularity = this.enrolledTrainees.length;
 	this.totalSeconds = 0;
 	let totalRatingsValue = 0;

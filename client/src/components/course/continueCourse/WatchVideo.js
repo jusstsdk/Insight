@@ -20,13 +20,15 @@ export default function WatchVideo(props) {
 	const User = useSelector((state) => state.userReducer.user);
 	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
-	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
-	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course._id === props.CourseId
+	const SubtitleIndex = useSelector(
+		(state) => state.continueCourseReducer.subtitleIndex
 	);
-	const VideoIndex = User.courses[CourseIndex].subtitles[SubtitleIndex].videos.findIndex(
-		(video) => video._id === Content._id
-	);
+	const CourseIndex = useSelector(
+		(state) => state.userReducer.user.courses
+	).findIndex((course) => course.course === props.CourseId);
+	const VideoIndex = User.courses[CourseIndex].subtitles[
+		SubtitleIndex
+	].videos.findIndex((video) => video._id === Content._id);
 	const NoteRef = useRef();
 	const [Note, setNote] = useState("");
 
@@ -133,7 +135,8 @@ export default function WatchVideo(props) {
 						<>
 							<ListGroup.Item
 								key={`subtitle_${Content._id}_note_${note_index}_container`}
-								variant="dark">
+								variant="dark"
+							>
 								<Row className="justify-content-between">
 									<Col sm={11}>
 										<p>{note}</p>
@@ -143,8 +146,11 @@ export default function WatchVideo(props) {
 											className=" w-auto"
 											variant="danger"
 											key={`video_${Content._id}_notes_trash_button_${note_index}`}
-											onClick={() => handleDeleteNote(note_index)}>
-											<BsTrash key={`video_${Content._id}_notes_trash_${note_index}`} />
+											onClick={() => handleDeleteNote(note_index)}
+										>
+											<BsTrash
+												key={`video_${Content._id}_notes_trash_${note_index}`}
+											/>
 										</Button>
 									</Col>
 								</Row>

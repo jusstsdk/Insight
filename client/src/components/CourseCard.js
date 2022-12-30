@@ -9,9 +9,32 @@ function CourseCard({ course }) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
 	const navigate = useNavigate();
 	const handleOpen = () => {
-		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
+		if(userType === "Administrator"){
+			navigate("/admin/courses/" + course._id);
+		} else{
+			navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
+		}
+		
 	};
+	const [showContinue, setShowContinue] = useState(false);
+	
 
+	function continueCourse() {
+		navigate("/" + userType.toLowerCase() + "/courses/" + course._id +  "/continueCourse", {
+			state: {
+				course: { _id: course._id, title: course.title },
+			},
+		});
+	}
+	useEffect(() => {
+		if(!(userType === "Administrator" || userType === "Instructor" || userType === "Guest")) {
+			if(user.courses.findIndex((c) => c._id === course._id) !== -1) {
+				setShowContinue(true);
+			}
+		}
+		
+		
+	}, []);
 	return (
 		<>
 			<Card className="my-3">
@@ -84,15 +107,16 @@ function CourseCard({ course }) {
 						</Col>
 						<Col sm={1} className="priceContainer textFit  d-flex justify-content-end">
 							<strong>
-								{course.discount > 0 && (
+								{course.promotion.discount > 0 && course.promotion.endDate > new Date().toISOString() && (
 									<Card.Text className="priceLabel  discountLabel">
-										{course.discount}% off
+										{course.promotion.discount}% off
 									</Card.Text>
 								)}
 							</strong>
 						</Col>
 						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							<Button onClick={handleOpen}>View Course</Button>
+							{showContinue && <Button variant="success" className="" onClick={continueCourse}>Continue Course</Button>}
 						</Col>
 					</CardGroup>
 				</Card.Body>

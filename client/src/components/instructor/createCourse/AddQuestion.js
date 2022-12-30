@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Form, Row, Col, Button, Popover, OverlayTrigger, Modal, FormLabel } from "react-bootstrap";
+import { MdOutlineError } from "react-icons/md";
 
 export default function AddQuestion(props) {
 	const [Question, setQuestion] = useState(props.case === "Add" ? "" : props.question.question);
@@ -21,10 +22,29 @@ export default function AddQuestion(props) {
 	const [CorrectAnswer, setCorrectAnswer] = useState(
 		props.case === "Add" ? "default" : props.question.correctAnswer
 	);
-
+	const [MissingTitle, setMissingTitle] = useState(false);
+	const [MissingFirstChoice, setMissingFirstChoice] = useState(false);
+	const [MissingSecondChoice, setMissingSecondChoice] = useState(false);
+	const [MissingThirdChoice, setMissingThirdChoice] = useState(false);
+	const [MissingFourthChoice, setMissingFourthChoice] = useState(false);
 	const [MissingCorrectAnswer, setMissingCorrectAnswer] = useState(false);
 
 	const handleAddQuestion = (e) => {
+		if(Question === "") {
+			setMissingTitle(true);
+		} else setMissingTitle(false);
+		if(FirstChoice === "") {
+			setMissingFirstChoice(true);
+		} else setMissingFirstChoice(false);
+		if(SecondChoice === "") {
+			setMissingSecondChoice(true);
+		} else setMissingSecondChoice(false);
+		if(ThirdChoice === "") {
+			setMissingThirdChoice(true);
+		} else setMissingThirdChoice(false);
+		if(FourthChoice === "") {
+			setMissingFourthChoice(true);
+		} else setMissingFourthChoice(false);
 		if (
 			(CorrectAnswer !== FirstChoice) &
 			(CorrectAnswer !== SecondChoice) &
@@ -40,6 +60,7 @@ export default function AddQuestion(props) {
 			setMissingCorrectAnswer(true);
 			return;
 		} else setMissingCorrectAnswer(false);
+		if(Question === "" || FirstChoice === "" || SecondChoice === "" || ThirdChoice === "" || FourthChoice === "" || CorrectAnswer === "default") return;
 		let newQuestion = {
 			question: Question,
 			choices: Choices,
@@ -110,7 +131,7 @@ export default function AddQuestion(props) {
 				<Modal.Body>
 					<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 						<Form.Label column sm={2}>
-							Question
+							Question {MissingTitle && <span className="error">missing<MdOutlineError/></span>}
 						</Form.Label>
 						<Col sm={9}>
 							<Form.Control
@@ -126,7 +147,7 @@ export default function AddQuestion(props) {
 					<Col className="mb-3">
 						<Row className="mb-2 d-flex align-items-center">
 							<Col sm={2}>
-								<FormLabel>Choice 1</FormLabel>
+								<FormLabel>Choice 1 {MissingFirstChoice && <span className="error">missing<MdOutlineError/></span>}</FormLabel>
 							</Col>
 							<Col sm={9}>
 								<Form.Control
@@ -141,7 +162,7 @@ export default function AddQuestion(props) {
 						</Row>
 						<Row className="mb-2 d-flex align-items-center">
 							<Col sm={2}>
-								<FormLabel>Choice 2</FormLabel>
+								<FormLabel>Choice 2 {MissingSecondChoice && <span className="error">missing<MdOutlineError/></span>}</FormLabel>
 							</Col>
 							<Col sm={9}>
 								<Form.Control
@@ -156,7 +177,7 @@ export default function AddQuestion(props) {
 						</Row>
 						<Row className="mb-2 d-flex align-items-center">
 							<Col sm={2}>
-								<FormLabel>Choice 3</FormLabel>
+								<FormLabel>Choice 3 {MissingThirdChoice && <span className="error">missing<MdOutlineError/></span>}</FormLabel>
 							</Col>
 							<Col sm={9}>
 								<Form.Control
@@ -171,7 +192,7 @@ export default function AddQuestion(props) {
 						</Row>
 						<Row className="mb-2 d-flex align-items-center">
 							<Col sm={2}>
-								<FormLabel>Choice 4</FormLabel>
+								<FormLabel>Choice 4 {MissingFourthChoice && <span className="error">missing<MdOutlineError/></span>}</FormLabel>
 							</Col>
 							<Col sm={9}>
 								<Form.Control
@@ -187,7 +208,7 @@ export default function AddQuestion(props) {
 					</Col>
 					<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 						<Form.Label column sm={2}>
-							Correct Answer
+							Correct Answer 
 						</Form.Label>
 						<Col sm={3}>
 							<Form.Select
@@ -203,6 +224,10 @@ export default function AddQuestion(props) {
 								<option value={Choices[2]}>Choice 3</option>
 								<option value={Choices[3]}>Choice 4</option>
 							</Form.Select>
+								
+						</Col>
+						<Col sm={3}>
+							{MissingCorrectAnswer && <span className="error">correct answer missing<MdOutlineError/></span>}
 						</Col>
 					</Form.Group>
 				</Modal.Body>
