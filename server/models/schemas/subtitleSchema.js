@@ -39,7 +39,7 @@ const videoSchema = new Schema({
 
 const subtitleSchema = new Schema({
 	title: String,
-	hours: Number,
+	seconds: Number,
 	videos: [videoSchema],
 	exercises: [exerciseSchema],
 });

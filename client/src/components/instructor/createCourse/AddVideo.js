@@ -16,12 +16,10 @@ export default function AddVideo(props) {
 	const [Description, setDescription] = useState(
 		props.case === "Add" ? "" : props.video.description
 	);
-	
 	const [MissingTitle , setMissingTitle] = useState(false);
 	const [MissingUrl , setMissingUrl] = useState(false);
 	const [BadUrl , setBadUrl] = useState(false);
 	const [MissingDescription , setMissingDescription] = useState(false);
-
 	const SubtitleKey = props.subtitleKey;
 	const VideoKey = props.videoKey;
 	const videoIndex = useSelector(
@@ -33,6 +31,43 @@ export default function AddVideo(props) {
 		textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
 	};
 	useEffect(() => resizeTextArea(DescriptionRef), [Description]);
+
+	const getVideoDuration = async (url) => {
+		let videoId;
+		if (url.includes("watch?v=")) {
+			videoId = url.split("watch?v=")[1];
+		} else {
+			videoId = url.split("/")[url.split("/").length - 1];
+		}
+	
+		// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
+		let response = await API.get(
+			`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
+		);
+		
+    
+		if (response.data.items.length === 0) {
+			setBadUrl(true);
+			return;
+		} else setBadUrl(false);
+		let videoDuration = response.data.items[0].contentDetails.duration;
+		var reptms = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
+		var hours = 0,
+			minutes = 0,
+			seconds = 0,
+			totalseconds;
+
+		if (reptms.test(videoDuration)) {
+			var matches = reptms.exec(videoDuration);
+			if (matches[1]) hours = Number(matches[1]);
+			if (matches[2]) minutes = Number(matches[2]);
+			if (matches[3]) seconds = Number(matches[3]);
+			totalseconds = hours * 3600 + minutes * 60 + seconds;
+		}
+		return totalseconds;
+	};
+	const handleAddVideo = async () => {
+		let totalSeconds = await getVideoDuration(Url);
 
 	const handleAddVideo = async () => {
 		if(Title === ""){
@@ -61,12 +96,11 @@ export default function AddVideo(props) {
 						Url.split("/").length - 1
 					];
 			}
-			console.log(videoId);
+      
 			// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
 			let response = await API.get(
 				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
 			);
-			console.log(response);
 
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
@@ -83,8 +117,15 @@ export default function AddVideo(props) {
 		
 		if (props.case === "Add") {
 			let newVideo = { title: Title, url: Url, description: Description, index: videoIndex };
-			dispatch(addVideoToSubtitle({ subtitleKey: SubtitleKey, video: newVideo }));
+			dispatch(
+				addVideoToSubtitle({
+					subtitleKey: SubtitleKey,
+					video: newVideo,
+					seconds: totalSeconds,
+				})
+			);
 		} else {
+			let oldTotalSeconds = await getVideoDuration(props.video.url);
 			let newVideo = {
 				title: Title,
 				url: Url,
@@ -93,7 +134,13 @@ export default function AddVideo(props) {
 			};
 
 			dispatch(
-				editVideoOfSubtitle({ subtitleKey: props.subtitleKey, videoKey: VideoKey, video: newVideo })
+				editVideoOfSubtitle({
+					subtitleKey: props.subtitleKey,
+					videoKey: VideoKey,
+					video: newVideo,
+					oldSeconds: oldTotalSeconds,
+					seconds: totalSeconds,
+				})
 			);
 		}
 		setUrl("");
@@ -149,6 +196,7 @@ export default function AddVideo(props) {
 									value={Url}
 									onChange={(e) => setUrl(e.target.value)}
 								/>
+								{BadUrl && <h6 className="error">The Url doesn't exist!</h6>}
 							</Col>
 						</Row>
 						<Row className="mt-3 justify-content-center">

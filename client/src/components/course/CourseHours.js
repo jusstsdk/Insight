@@ -47,7 +47,7 @@ function CourseHours(props) {
 				Hours
 				<Row>
 					<Col>
-						<h1 style={{ display: "inline-block" }}>{course.totalHours}</h1>
+						<h1>{Math.ceil(course.totalSeconds / 3600)}</h1>
 					</Col>
 					<Col>
 						{!(userType === "Instructor" || userType === "Administrator") &&
