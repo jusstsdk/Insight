@@ -21,9 +21,17 @@ function ViewInstructorCourses() {
 	//DRAFTS
 	const [Drafts, setDrafts] = useState([]);
 	const [draftsCurrentPage, setDraftsCurrentPage] = useState(1);
+	
 	let draftsFirstPageIndex = (draftsCurrentPage - 1) * pageSize;
+	if(Drafts.length !== 0){ 
+		if(draftsFirstPageIndex > Drafts.length - 1){
+			setDraftsCurrentPage(draftsCurrentPage - 1);
+		}
+	}
 	let draftsLastPageIndex = draftsFirstPageIndex + pageSize;
 	let currentDrafts = Drafts.slice(draftsFirstPageIndex, draftsLastPageIndex);
+	console.log(currentDrafts);
+	console.log(Drafts);
 	//PUBLISHED
 	const [Published, setPublished] = useState([]);
 	const [publishedCurrentPage, setPublishedCurrentPage] = useState(1);
