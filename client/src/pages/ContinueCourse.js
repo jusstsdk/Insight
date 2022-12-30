@@ -37,7 +37,7 @@ export default function ContinueCourse() {
 	// Page Control
 	const CourseIndex = useSelector(
 		(state) => state.userReducer.user.courses
-	).findIndex((course) => course._id === Course._id);
+	).findIndex((course) => course.course === Course._id);
 	const SubtitleIndex = useSelector(
 		(state) => state.continueCourseReducer.subtitleIndex
 	);

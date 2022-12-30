@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import API from "../../../functions/api";
 import { addNotification } from "../../../redux/notificationsSlice";
-export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
+export default function ContinueCourseNavbar({
+	Course,
+	handleNext,
+	handlePrevious,
+}) {
 	// Setup
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -14,30 +18,43 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 	const User = useSelector((state) => state.userReducer.user);
 	const UserType = useSelector((state) => state.userReducer.type);
 
-	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course._id === Course._id
+	const CourseIndex = useSelector(
+		(state) => state.userReducer.user.courses
+	).findIndex((course) => course.course === Course._id);
+	const Subtitles = useSelector(
+		(state) => state.userReducer.user.courses[CourseIndex].subtitles
 	);
-	const Subtitles = useSelector((state) => state.userReducer.user.courses[CourseIndex].subtitles);
-	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
+	const SubtitleIndex = useSelector(
+		(state) => state.continueCourseReducer.subtitleIndex
+	);
 	const SelectedContentIndex = useSelector(
 		(state) => state.continueCourseReducer.selectedContentIndex
 	);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
-	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
-	const Progress = useSelector((state) => state.userReducer.user.courses[CourseIndex].progress);
+	const ContentType = useSelector(
+		(state) => state.continueCourseReducer.contentType
+	);
+	const Progress = useSelector(
+		(state) => state.userReducer.user.courses[CourseIndex].progress
+	);
 	const mainNavbar = document.getElementById("main-navbar");
 	return (
 		<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
 			<Toolbar
 				id="continueCourseBreadcrumbs"
 				className="continueCourseBreadcrumbs"
-				sx={{ marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` } }}>
+				sx={{
+					marginTop: { sm: `${mainNavbar ? mainNavbar.offsetHeight : ""}px` },
+				}}
+			>
 				{/* Breadcrumbs */}
 				<Col sm={7}>
 					{/* Subtitles */}
 					{Subtitles[SubtitleIndex] && (
 						<Breadcrumb className="my-auto">
-							<Breadcrumb.Item className="cut-text">{Course.title}</Breadcrumb.Item>
+							<Breadcrumb.Item className="cut-text">
+								{Course.title}
+							</Breadcrumb.Item>
 							<Breadcrumb.Item className="cut-text">
 								{Subtitles[SubtitleIndex].title}
 							</Breadcrumb.Item>
@@ -75,7 +92,8 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 											courseTitle: Course.title,
 											email: User.email,
 										});
-									}}>
+									}}
+								>
 									Get Certificate
 								</Button>
 							)}
@@ -99,7 +117,10 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 							<Button
 								variant="link"
 								className="ms-1"
-								onClick={() => navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)}>
+								onClick={() =>
+									navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)
+								}
+							>
 								View Course
 							</Button>
 						)}
