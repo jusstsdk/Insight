@@ -14,10 +14,6 @@ export default function CourseListPromotion({ courses, handleCheck }) {
 		);
 	}
 
-	{
-		console.log(courses);
-		console.log(filteredCourses);
-	}
 	return filteredCourses.map((course) => (
 		<>
 			<CourseCardCheckbox key={course._id} course={course} handleCheck={handleCheck} />
