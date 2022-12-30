@@ -56,13 +56,15 @@ function CourseBasicInfo(props) {
 					</Col>
 				)
 			) : userType === "Trainee" ? (
-				<Col>
-					<TraineeCoursePriceAlert
-						course={course}
-						traineeOwnsCourse={traineeOwnsCourse}
-						traineeVersionOfCourse={traineeVersionOfCourse}
-					></TraineeCoursePriceAlert>
-				</Col>
+				!traineeOwnsCourse && (
+					<Col>
+						<TraineeCoursePriceAlert
+							course={course}
+							traineeOwnsCourse={traineeOwnsCourse}
+							traineeVersionOfCourse={traineeVersionOfCourse}
+						></TraineeCoursePriceAlert>
+					</Col>
+				)
 			) : (
 				<Col>
 					<InstructorPriceAlert course={course}></InstructorPriceAlert>
