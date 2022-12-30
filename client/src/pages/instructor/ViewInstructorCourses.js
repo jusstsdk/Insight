@@ -94,7 +94,6 @@ function ViewInstructorCourses() {
 				},
 			}}>
 			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
-			<div className="search-course-list"></div>
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (

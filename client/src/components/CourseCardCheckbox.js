@@ -15,6 +15,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 	return (
 		<>
 			<Card className="my-3">
+				{console.log(course)}
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">

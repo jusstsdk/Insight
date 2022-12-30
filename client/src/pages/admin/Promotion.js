@@ -21,7 +21,6 @@ export default function Promotion() {
 
 	return (
 		<div className="search-course-list">
-			{console.log(courses)}
 			<PromotionForm courses={checkedCourses} />
 			<SearchCourses setCourses={setCourses} searchInInstructorCourses={userType == "instructor"} />
 			<CourseListPromotion courses={courses} handleCheck={handleCheck} />

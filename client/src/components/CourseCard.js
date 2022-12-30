@@ -44,34 +44,31 @@ function CourseCard({ course }) {
 					</CardGroup>
 
 					{/* Summary and Price */}
-					<CardGroup as={Row} className="my-2">
+					<Row as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel my-1">Instructor</h6>
-						<Col sm={2}>
-							<ListGroup horizontal>
-								{course.instructors.map((instructor, i) => (
-									<Button
-										className="p-0 me-2"
-										variant="link"
-										onClick={() => {
-											if (userType === "Trainee") {
-												navigate("/trainee/viewInstructor/" + instructor._id);
-											} else if (userType === "CorporateTrainee") {
-												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
-											} else if (userType === "Instructor") {
-												navigate("/instructor/viewInstructor/" + instructor._id);
-											}
-										}}
-										key={"instructor_" + i}>
-										{instructor.username}
-									</Button>
-								))}
-							</ListGroup>
-						</Col>
+
+						{course.instructors.map((instructor, i) => (
+							<Button
+								className="p-0 me-2 fitWidth"
+								variant="link"
+								onClick={() => {
+									if (userType === "Trainee") {
+										navigate("/trainee/viewInstructor/" + instructor._id);
+									} else if (userType === "CorporateTrainee") {
+										navigate("/corporateTrainee/viewInstructor/" + instructor._id);
+									} else if (userType === "Instructor") {
+										navigate("/instructor/viewInstructor/" + instructor._id);
+									}
+								}}
+								key={"instructor_" + i}>
+								{instructor.username}
+							</Button>
+						))}
 						<h6 className=" fitWidth my-auto">
 							<span className="text-muted">Students: </span>
 							{course.enrolledTrainees.length}
 						</h6>
-					</CardGroup>
+					</Row>
 					<CardGroup as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>

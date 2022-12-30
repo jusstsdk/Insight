@@ -8,7 +8,6 @@ export default function Courses() {
 	return (
 		<div className="search-course-list">
 			<SearchCourses setCourses={setCourses} />
-
 			<CourseList courses={courses} />
 		</div>
 	);

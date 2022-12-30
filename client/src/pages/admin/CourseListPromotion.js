@@ -7,17 +7,20 @@ export default function CourseListPromotion({ courses, handleCheck }) {
 	if (userType == "Instructor") {
 		filteredCourses = filteredCourses.filter(
 			(course) =>
-				(course.promotion.endDate <
-					new Date().toISOString().slice(0, 10) &&
+				!course.promotion.discount ||
+				(course.promotion.endDate < new Date().toISOString().slice(0, 10) &&
 					course.promotion.offeredBy == "Administrator") ||
 				course.promotion.offeredBy == "Instructor"
 		);
 	}
+
+	{
+		console.log(courses);
+		console.log(filteredCourses);
+	}
 	return filteredCourses.map((course) => (
-		<CourseCardCheckbox
-			key={course._id}
-			course={course}
-			handleCheck={handleCheck}
-		/>
+		<>
+			<CourseCardCheckbox key={course._id} course={course} handleCheck={handleCheck} />
+		</>
 	));
 }
