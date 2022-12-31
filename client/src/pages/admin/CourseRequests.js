@@ -10,7 +10,6 @@ const CourseRequests = () => {
 	const [DetectChange, setDetectChange] = useState(false);
 	const token = useSelector((state) => state.userReducer.token);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [totalCount, setTotalCount] = useState(0);
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	if(traineeRequests.length !== 0){
 		if(firstPageIndex > traineeRequests.length - 1){
@@ -31,18 +30,19 @@ const CourseRequests = () => {
 		});
 		const pending = response.data.filter((trainee) => filterPendingRequests(trainee.requests));
 		setTraineeRequests(pending);
-		setTotalCount(pending.length);
+		
 	}
 	useEffect(() => {
 		getPendingTrainees();
 	}, [DetectChange]);
+	
 	return (
 		<>
 			<h1>Course Requests</h1>
 			<Pagination
 					className="pagination-bar"
 					currentPage={currentPage}
-					totalCount={totalCount}
+					totalCount={traineeRequests.length}
 					pageSize={pageSize}
 					onPageChange={(page) => setCurrentPage(page)}
 				/>
