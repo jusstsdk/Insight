@@ -63,7 +63,7 @@ function CourseCard({ course }) {
 						if (userCourse.requestedRefund === true) {
 							setTraineeRequestedrefund(true);
 						} else {
-							setOwnsCourse();
+							setOwnsCourse(true);
 						}
 					}
 					if (userType === "CorporateTrainee") {

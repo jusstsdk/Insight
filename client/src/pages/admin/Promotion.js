@@ -1,36 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PromotionForm from "../../components/PromotionForm";
 import SearchCourses from "../../components/SearchCourses";
 import CourseListPromotion from "./CourseListPromotion";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { Col, ListGroup, ListGroupItem, Row } from "react-bootstrap";
+import api from "../../functions/api";
 
 export default function Promotion() {
 	const [courses, setCourses] = useState([]);
 	const [checkedCourses, setCheckedCourses] = useState([]);
+	const [completeCheckedCourses, setCompleteCheckedCourses] = useState([]);
+	const [allCourses, setAllCourses] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function handleCheck(event) {
 		let updatedList = [...checkedCourses];
+		let completeUpdatedList = [...completeCheckedCourses];
+
 		if (event.target.checked) {
 			updatedList = [...checkedCourses, event.target.value];
+
+			let completeCourse;
+
+			allCourses.forEach((myCompleteCourse) => {
+				if (myCompleteCourse._id === event.target.value) {
+					completeCourse = myCompleteCourse;
+				}
+			});
+
+			completeUpdatedList = [...completeCheckedCourses, completeCourse];
 		} else {
-			updatedList.splice(checkedCourses.indexOf(event.target.value), 1);
+			updatedList.splice(updatedList.indexOf(event.target.value), 1);
+
+			completeUpdatedList.splice(
+				completeUpdatedList.findIndex((object) => {
+					return object._id === event.target.value;
+				}),
+				1
+			);
 		}
 		setCheckedCourses(updatedList);
-		console.log("OMG");
+		setCompleteCheckedCourses(completeUpdatedList);
 	}
+
+	async function getAllCourses() {
+		try {
+			let response = await api.get(`courses/`);
+			setAllCourses(response.data);
+		} catch (e) {}
+	}
+	useEffect(() => {
+		getAllCourses();
+	}, []);
 
 	return (
 		<>
-			<ListGroup>
-				<ListGroupItem>HI</ListGroupItem>
-				{checkedCourses.forEach((course) => {
-					console.log(course);
-					<ListGroup.Item>{course.title}</ListGroup.Item>;
-				})}
-			</ListGroup>
 			<div className="search-course-list">
 				<PromotionForm courses={checkedCourses} />
 				<SearchCourses
@@ -38,8 +63,11 @@ export default function Promotion() {
 					searchInInstructorCourses={userType === "Instructor"}
 					setCurrentPage={setCurrentPage}
 				/>
+
 				<CourseListPromotion
 					courses={courses}
+					checkedCourses={checkedCourses}
+					completeCheckedCourses={completeCheckedCourses}
 					currentPage={currentPage}
 					setCurrentPage={setCurrentPage}
 					handleCheck={handleCheck}
