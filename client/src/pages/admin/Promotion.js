@@ -7,6 +7,7 @@ import CourseListPromotion from "./CourseListPromotion";
 export default function Promotion() {
 	const [courses, setCourses] = useState([]);
 	const [checkedCourses, setCheckedCourses] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function handleCheck(event) {

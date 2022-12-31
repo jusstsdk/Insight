@@ -38,8 +38,9 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		let searchParams = {};
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
-		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value/user.exchangeRate;
-		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value/user.exchangeRate;
+		if (maxPriceFilter.current.value) searchParams.maxPrice = (maxPriceFilter.current.value/user.exchangeRate).toFixed(2);
+		console.log(searchParams.maxPrice);
+		if (minPriceFilter.current.value) searchParams.minPrice = (minPriceFilter.current.value/user.exchangeRate).toFixed(2);
 		if (ratingFilter) searchParams.rating = ratingFilter;
 
 		let courses;
@@ -60,6 +61,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.originalPrice = Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		courses = courses.filter((course) => course.status === "Published");
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);
