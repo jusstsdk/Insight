@@ -181,9 +181,12 @@ const refundToWallet = async (req, res) => {
 			},
 			{ new: true }
 		);
-		course.enrolledTrainees = course.enrolledTrainees.filter(
-			(trainee) => trainee != traineeId
+		
+		course.enrolledTrainees = course.enrolledTrainees.filter((enrolledTrainee) => {
+				!enrolledTrainee.equals(traineeId);
+			}
 		);
+		
 		const instructorShare = paidPrice / course.instructors.length;
 		course.instructors.forEach(async (instructorId) => {
 			const instructor = await Instructor.findById(instructorId);

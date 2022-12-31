@@ -22,7 +22,6 @@ export default function CreateCourse() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
-	const [CurrentTabMissingFields, setCurrentTabMissingFields] = useState(true);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
@@ -36,10 +35,8 @@ export default function CreateCourse() {
 	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
 	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
-	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
 
 	const handleCreateCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
@@ -50,7 +47,6 @@ export default function CreateCourse() {
 				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,
@@ -83,10 +79,6 @@ export default function CreateCourse() {
 	};
 
 	const handleEditCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
-		instructorsIds = instructorsIds.filter((instructor) => {
-			return instructor !== instructorId;
-		});
 
 		try {
 			API.put(`/courses/${location.state._id}`, {
@@ -95,7 +87,6 @@ export default function CreateCourse() {
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
-				instructors: [instructorId, ...instructorsIds],
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
 				status: status,

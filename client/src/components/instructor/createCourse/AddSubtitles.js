@@ -11,9 +11,9 @@ import { MdOutlineError } from "react-icons/md";
 export default function AddSubtitle(props) {
 	const [AddSubtitleModalShow, setAddSubtitleModalShow] = useState(false);
 	const [NoSubtitles, setNoSubtitles] = useState(false);
-	const [MissingVideos, setMissingVideos] = useState(false);
-	const [MissingExcersises, setMissingExcersises] = useState(false);
-	const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
+	// const [MissingVideos, setMissingVideos] = useState(false);
+	// const [MissingExcersises, setMissingExcersises] = useState(false);
+	// const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
 	const dispatch = useDispatch();
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 	const showErrorMessage = () => {
@@ -28,15 +28,17 @@ export default function AddSubtitle(props) {
 	const handleNext = () => {
 		if (Subtitles.length === 0) {
 			setNoSubtitles(true);
-			setMissingExcersises(false);
-			setMissingVideos(false);
-			setExcersisesMissingQuestions(false);
+			// setMissingExcersises(false);
+			// setMissingVideos(false);
+			// setExcersisesMissingQuestions(false);
 			showErrorMessage();
 		} else {
 			setNoSubtitles(false);
-			console.log(Subtitles);
-			if (Subtitles.some((subtitle) => subtitle.videos.length === 0)) {
-				setMissingVideos(true);
+			let MissingVideosTemp = false;
+			let MissingQuestionsTemp = false;
+			if(Subtitles.some((subtitle) => subtitle.videos.length === 0)){
+				// setMissingVideos(true);
+				MissingVideosTemp = true;
 				dispatch(
 					addNotification({
 						title: "Create Course",
@@ -44,23 +46,11 @@ export default function AddSubtitle(props) {
 						color: "error",
 					})
 				);
-			}
-			if (Subtitles.some((subtitle) => subtitle.exercises.length === 0)) {
-				setMissingExcersises(true);
-				dispatch(
-					addNotification({
-						title: "Create Course",
-						info: `Please add at least one exercise to each subtitle!`,
-						color: "error",
-					})
-				);
-			} else if (
-				Subtitles.some((subtitle) =>
-					subtitle.exercises.some((exercise) => exercise.questions.length === 0)
-				)
-			) {
-				setExcersisesMissingQuestions(true);
-				setMissingExcersises(false);
+			}  
+			if(Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
+				// setExcersisesMissingQuestions(true);
+				// setMissingExcersises(false);
+				MissingQuestionsTemp = true;
 				dispatch(
 					addNotification({
 						title: "Create Course",
@@ -68,11 +58,12 @@ export default function AddSubtitle(props) {
 						color: "error",
 					})
 				);
-			} else {
+			}
+			if(!(MissingQuestionsTemp || MissingVideosTemp)){
 				setNoSubtitles(false);
-				setMissingVideos(false);
-				setMissingExcersises(false);
-				setExcersisesMissingQuestions(false);
+				// setMissingVideos(false);
+				// setMissingExcersises(false);
+				// setExcersisesMissingQuestions(false);
 				props.setCurrentTab("addExam");
 			}
 		}

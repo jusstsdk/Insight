@@ -11,7 +11,8 @@ import { BsFilter, BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 const drawerWidth = "25%";
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch }) {
+
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort, setCurrentPage }) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
@@ -61,6 +62,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		});
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
+		setCurrentPage(1);
 	}
 
 	// Displays the Drawer Content based on props.subtitles

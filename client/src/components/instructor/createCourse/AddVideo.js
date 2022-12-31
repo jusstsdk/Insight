@@ -184,25 +184,7 @@ export default function AddVideo(props) {
 								/>
 							</Col>
 							<Form.Label column sm={1}>
-								<span>Url</span>
-								<br />
-								<span>
-									{MissingUrl && (
-										<span className="error">
-											Missing
-											<MdOutlineError />
-										</span>
-									)}
-								</span>
-								<br />
-								<span>
-									{BadUrl && (
-										<span className="error">
-											Invalid Url
-											<MdOutlineError />
-										</span>
-									)}
-								</span>
+								Url
 							</Form.Label>
 							<Col sm={4}>
 								<Form.Control
@@ -211,7 +193,8 @@ export default function AddVideo(props) {
 									value={Url}
 									onChange={(e) => setUrl(e.target.value)}
 								/>
-								{BadUrl && <h6 className="error">The Url doesn't exist!</h6>}
+								{MissingUrl && <h6 className="error">Missing Url <MdOutlineError/></h6>}
+								{BadUrl && <h6 className="error">The Url doesn't exist <MdOutlineError/></h6>}
 							</Col>
 						</Row>
 						<Row className="mt-3 justify-content-center">
