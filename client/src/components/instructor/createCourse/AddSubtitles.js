@@ -4,7 +4,7 @@ import { Col, Button, Row } from "react-bootstrap";
 import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../../redux/notificationsSlice";
 import { MdOutlineError } from "react-icons/md";
 
@@ -15,9 +15,7 @@ export default function AddSubtitle(props) {
 	// const [MissingExcersises, setMissingExcersises] = useState(false);
 	// const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
 	const dispatch = useDispatch();
-	const Subtitles = useSelector(
-		(state) => state.createCourseReducer.subtitles
-	);
+	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 	const showErrorMessage = () => {
 		dispatch(
 			addNotification({
@@ -34,7 +32,7 @@ export default function AddSubtitle(props) {
 			// setMissingVideos(false);
 			// setExcersisesMissingQuestions(false);
 			showErrorMessage();
-		}else{
+		} else {
 			setNoSubtitles(false);
 			let MissingVideosTemp = false;
 			let MissingQuestionsTemp = false;
@@ -69,24 +67,22 @@ export default function AddSubtitle(props) {
 				props.setCurrentTab("addExam");
 			}
 		}
-
-
-		
 	};
 
 	return (
-		<>	
+		<>
 			<Row>
 				<Col>
 					<h1 className="fs-3 fw-semibold text-muted">Adding Course Subtitles</h1>
 				</Col>
-				<Col className="d-flex justify-content-end">{NoSubtitles && (
-						<span className="error">
-							You need add at least one subtitle <MdOutlineError />	
-						</span>
-					)}</Col>
 				<Col className="d-flex justify-content-end">
-					
+					{NoSubtitles && (
+						<span className="error">
+							You need add at least one subtitle <MdOutlineError />
+						</span>
+					)}
+				</Col>
+				<Col className="d-flex justify-content-end">
 					<Button onClick={() => setAddSubtitleModalShow(true)}>Add a Subtitle</Button>
 				</Col>
 			</Row>
@@ -105,7 +101,6 @@ export default function AddSubtitle(props) {
 				<Button
 					onClick={() => {
 						handleNext();
-						
 					}}>
 					<AiOutlineArrowRight />
 				</Button>

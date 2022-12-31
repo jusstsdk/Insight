@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button } from "react-bootstrap";
@@ -8,7 +7,6 @@ import {
 	setSummary,
 	setOriginalPrice,
 	setPreviewVideo,
-	setInstructors,
 	setSubjects,
 } from "../../../redux/courseInfoSlice";
 import { SUBJECTS } from "../../../functions/subjects";
@@ -31,6 +29,7 @@ export default function AddInfo(props) {
 	const InfoSubjects = useSelector(
 		(state) => state.courseInfoReducer.subjects
 	);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const [MissingTitle, setMissingTitle] = useState(false);
 	const [InvalidPrice, setInvalidPrice] = useState(false);
@@ -41,8 +40,7 @@ export default function AddInfo(props) {
 
 	const resizeTextArea = () => {
 		SummaryRef.current.style.height = "auto";
-		SummaryRef.current.style.height =
-			SummaryRef.current.scrollHeight + "px";
+		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
 
 	const handleNext = async () => {
@@ -64,7 +62,6 @@ export default function AddInfo(props) {
 		let invalidUrl = false;
 		if (InfoPreviewVideo === "") {
 			setMissingPreviewVideo(true);
-			
 			setBadUrl(false);
 		} else {
 			setMissingPreviewVideo(false);
@@ -72,26 +69,19 @@ export default function AddInfo(props) {
 			if (InfoPreviewVideo.includes("watch?v=")) {
 				videoId = InfoPreviewVideo.split("watch?v=")[1];
 			} else {
-				videoId =
-					InfoPreviewVideo.split("/")[
-						InfoPreviewVideo.split("/").length - 1
-					];
+				videoId = InfoPreviewVideo.split("/")[InfoPreviewVideo.split("/").length - 1];
 			}
-			console.log(videoId);
-			// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
 			let response = await API.get(
 				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
 			);
-			console.log(response);
 
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
 				setBadUrl(true);
-				
-			} else{
+			} else {
 				invalidUrl = false;
 				setBadUrl(false);
-			} 
+			}
 		}
 		if (InfoSubjects.length === 0) {
 			setMissingSubjects(true);
@@ -120,16 +110,18 @@ export default function AddInfo(props) {
 
 	useEffect(resizeTextArea, [InfoSummary]);
 
-
 	return (
 		<>
-			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+			<Col className="d-flex justify-content-center">
+				<Col sm={9}>
+					<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+				</Col>
+			</Col>
 			{/* Title and Price */}
 			<Form.Group
 				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-				controlId="formHorizontalEmail"
-			>
+				className="mb-3 d-flex align-items-center justify-content-center"
+				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
 					Title{" "}
 					{MissingTitle && (
@@ -139,8 +131,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-
-				<Col sm={3}>
+				<Col sm={5}>
 					<Form.Control
 						type="text"
 						placeholder="Title"
@@ -151,8 +142,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 
-				<Form.Label className="textFit" column sm={1}>
-					Price in {user.currency}
+				<Form.Label className="" column sm={1}>
+					Price
 				</Form.Label>
 				<Col sm={2}>
 					<Form.Control
@@ -168,10 +159,7 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Subjects */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Subjects{" "}
 					{MissingSubjects && (
@@ -197,10 +185,7 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Summary */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Summary{" "}
 					{MissingSummary && (
@@ -210,7 +195,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-				<Col sm={10}>
+				<Col sm={8}>
 					<Form.Control
 						ref={SummaryRef}
 						as="textarea"
@@ -228,10 +213,7 @@ export default function AddInfo(props) {
 			{/* Instructors */}
 
 			{/* Preview Video */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Preview Video{" "}
 					{MissingPreviewVideo && (
@@ -247,7 +229,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-				<Col sm={5}>
+				<Col sm={8}>
 					<Form.Control
 						type="text"
 						placeholder="Preview Video"
