@@ -44,7 +44,7 @@ export default function PromotionForm({ courses }) {
 
 	return (
 		<>
-			<Form onSubmit={setPromotion} className="mb-3">
+			<Form onSubmit={setPromotion} className="mb-3 row">
 				<Col sm={3}>
 					<Form.Group className="" controlId="form1">
 						<Form.Label>Start Date of the promotion</Form.Label>
