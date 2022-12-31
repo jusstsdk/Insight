@@ -20,10 +20,6 @@ import API from "../../../functions/api";
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userReducer.user);
-	const [displayErrors, setDisplayErrors] = useState(false);
-
-	const [AllInstructors, setAllInstructors] = useState([]);
-	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
 	const InfoOriginalPrice = useSelector(
@@ -32,39 +28,17 @@ export default function AddInfo(props) {
 	const InfoPreviewVideo = useSelector(
 		(state) => state.courseInfoReducer.previewVideo
 	);
-	const InfoInstructors = useSelector(
-		(state) => state.courseInfoReducer.instructors
-	).filter((instructor) => {
-		return instructor._id !== instructorId;
-	});
 	const InfoSubjects = useSelector(
 		(state) => state.courseInfoReducer.subjects
 	);
 	const SummaryRef = useRef();
 	const [MissingTitle, setMissingTitle] = useState(false);
+	const [InvalidPrice, setInvalidPrice] = useState(false);
 	const [MissingSummary, setMissingSummary] = useState(false);
 	const [MissingPreviewVideo, setMissingPreviewVideo] = useState(false);
 	const [BadUrl, setBadUrl] = useState(false);
-	const [MissingInstructors, setMissingInstructors] = useState(false);
 	const [MissingSubjects, setMissingSubjects] = useState(false);
 
-	const getData = async () => {
-		const config = {
-			method: "GET",
-			url: `http://localhost:4000/api/instructors`,
-			headers: {},
-		};
-
-		try {
-			let response = await axios(config);
-			let filteredInstructors = response.data.filter((instructor) => {
-				return instructor._id !== instructorId;
-			});
-			setAllInstructors(filteredInstructors);
-		} catch (err) {
-			console.log(err);
-		}
-	};
 	const resizeTextArea = () => {
 		SummaryRef.current.style.height = "auto";
 		SummaryRef.current.style.height =
@@ -76,6 +50,11 @@ export default function AddInfo(props) {
 			setMissingTitle(true);
 		} else {
 			setMissingTitle(false);
+		}
+		if (InfoOriginalPrice<0){
+			setInvalidPrice(true);
+		} else {
+			setInvalidPrice(false);
 		}
 		if (InfoSummary === "") {
 			setMissingSummary(true);
@@ -114,11 +93,6 @@ export default function AddInfo(props) {
 				setBadUrl(false);
 			} 
 		}
-		if (InfoInstructors.length === 0) {
-			setMissingInstructors(true);
-		} else {
-			setMissingInstructors(false);
-		}
 		if (InfoSubjects.length === 0) {
 			setMissingSubjects(true);
 		} else {
@@ -128,8 +102,7 @@ export default function AddInfo(props) {
 			InfoTitle === "" ||
 			InfoSummary === "" ||
 			InfoPreviewVideo === "" || invalidUrl ||
-			InfoInstructors.length === 0 ||
-			InfoSubjects.length === 0
+			InfoSubjects.length === 0 || InfoOriginalPrice<0
 		) {
 			dispatch(
 				addNotification({
@@ -147,10 +120,6 @@ export default function AddInfo(props) {
 
 	useEffect(resizeTextArea, [InfoSummary]);
 
-	useEffect(() => {
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	return (
 		<>
@@ -194,6 +163,7 @@ export default function AddInfo(props) {
 							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
+					{InvalidPrice && <h6 className="error">Invalid Price <MdOutlineError/></h6>}
 				</Col>
 			</Form.Group>
 
@@ -256,34 +226,6 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Instructors */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
-				<Form.Label column sm={1}>
-					Instructors{" "}
-					{MissingInstructors && (
-						<span className="error">
-							missing
-							<MdOutlineError />
-						</span>
-					)}
-				</Form.Label>
-				<Col sm={8}>
-					<DropDownMenu
-						id="multiselectInstructors"
-						state={AllInstructors}
-						selectedState={InfoInstructors}
-						onChange={(selectedList, selectedItem) => {
-							dispatch(setInstructors(selectedList));
-						}}
-						isObject={true}
-						displayValue="email"
-						placeholder="Select Course Instructors"
-						emptyRecordMsg="You can't add more Instructors."
-					/>
-				</Col>
-			</Form.Group>
 
 			{/* Preview Video */}
 			<Form.Group
