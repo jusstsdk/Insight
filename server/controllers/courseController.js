@@ -168,7 +168,7 @@ const getCourses = async (req, res) => {
 	// find results
 	try {
 		const course = await Course.find(query).populate("instructors");
-		let rankedCourses = course;
+		let rankedCourses = [...course];
 		rankedCourses.sort(comparePopularity);
 		course.forEach((course) => {
 			course.rank = rankedCourses.indexOf(course) + 1;
