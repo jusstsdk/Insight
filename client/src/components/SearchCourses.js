@@ -12,7 +12,7 @@ import { AiOutlineClose } from "react-icons/ai";
 const drawerWidth = "25%";
 
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch,setCurrentPage }) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, setCurrentPage, includeAll}) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
@@ -39,7 +39,6 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
 		if (maxPriceFilter.current.value) searchParams.maxPrice = (maxPriceFilter.current.value/user.exchangeRate).toFixed(2);
-		console.log(searchParams.maxPrice);
 		if (minPriceFilter.current.value) searchParams.minPrice = (minPriceFilter.current.value/user.exchangeRate).toFixed(2);
 		if (ratingFilter) searchParams.rating = ratingFilter;
 
@@ -61,7 +60,11 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.originalPrice = Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
-		courses = courses.filter((course) => course.status === "Published");
+		if(!includeAll){
+			courses = courses.filter((course) => course.status === "Published");
+		}
+
+		
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);

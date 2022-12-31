@@ -93,7 +93,7 @@ function ViewInstructorCourses() {
 
 	return (
 		<>
-			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} setCurrentPage={setCurrentPage} />
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} setCurrentPage={setCurrentPage} includeAll={true}/>
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (
