@@ -17,8 +17,8 @@ export default function PromotionForm({ courses }) {
 		if (endDate.current.value < startDate.current.value) {
 			dispatch(
 				addNotification({
-					title: "You entered wrong information",
-					info: "Start date must be before end date",
+					title: "You entered wrong information.",
+					info: "Start date must be before end date.",
 					color: "error",
 				})
 			);
@@ -46,21 +46,35 @@ export default function PromotionForm({ courses }) {
 		<>
 			<Form onSubmit={setPromotion} className="mb-3">
 				<Col sm={3}>
-					<Form.Group className="" controlId="formBasicUsername">
+					<Form.Group className="" controlId="form1">
 						<Form.Label>Start Date of the promotion</Form.Label>
-						<Form.Control type="date" ref={startDate} min={new Date().toISOString().slice(0, 10)} />
+						<Form.Control
+							type="date"
+							ref={startDate}
+							min={new Date().toISOString().slice(0, 10)}
+						/>
 					</Form.Group>
 				</Col>
 				<Col sm={3}>
-					<Form.Group className="" controlId="formBasicUsername">
+					<Form.Group className="" controlId="form12">
 						<Form.Label>End Date of the promotion</Form.Label>
-						<Form.Control type="date" ref={endDate} min={new Date().toISOString().slice(0, 10)} />
+						<Form.Control
+							type="date"
+							ref={endDate}
+							min={new Date().toISOString().slice(0, 10)}
+						/>
 					</Form.Group>
 				</Col>
 				<Col sm={3}>
-					<Form.Group className="" controlId="formBasicUsername">
+					<Form.Group className="" controlId="form13">
 						<Form.Label>Discount Amount</Form.Label>
-						<Form.Control placeholder="Amount" type="number" ref={discount} min="0" max="100" />
+						<Form.Control
+							placeholder="Amount"
+							type="number"
+							ref={discount}
+							min="0"
+							max="100"
+						/>
 					</Form.Group>
 				</Col>
 				<Col className="d-flex" sm={3}>

@@ -1,39 +1,62 @@
 import { useSelector } from "react-redux";
 import CourseCardCheckbox from "../../components/CourseCardCheckbox";
 import Pagination from "../../components/shared/pagination/Pagination";
+
 let pageSize = 2;
-export default function CourseListPromotion({ courses, handleCheck,currentPage,setCurrentPage  }) {
-	
-	
+export default function CourseListPromotion({
+	courses,
+	checkedCourses,
+	completeCheckedCourses,
+	handleCheck,
+	currentPage,
+	setCurrentPage,
+}) {
 	const userType = useSelector((state) => state.userReducer.type);
+
 	let filteredCourses = courses;
-	if (userType == "Instructor") {
+	if (userType === "Instructor") {
 		filteredCourses = filteredCourses.filter(
 			(course) =>
 				!course.promotion.discount ||
 				(course.promotion.endDate < new Date().toISOString().slice(0, 10) &&
-					course.promotion.offeredBy == "Administrator") ||
-				course.promotion.offeredBy == "Instructor"
+					course.promotion.offeredBy === "Administrator") ||
+				course.promotion.offeredBy === "Instructor"
 		);
 	}
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = filteredCourses.slice(firstPageIndex, lastPageIndex);
+
 	return (
 		<>
-			
-			{currentCourses.map((course) => (
-			<CourseCardCheckbox key={course._id} course={course} handleCheck={handleCheck} />
+			{currentCourses.map(
+				(course) =>
+					!checkedCourses.includes(course._id) && (
+						<CourseCardCheckbox
+							key={course._id}
+							course={course}
+							handleCheck={handleCheck}
+							defaultChecked={false}
+							bg="light"
+						/>
+					)
+			)}
+			{completeCheckedCourses.map((course) => (
+				<CourseCardCheckbox
+					key={course._id}
+					course={course}
+					handleCheck={handleCheck}
+					defaultChecked={true}
+					bg="warning"
+				/>
 			))}
 			<Pagination
-					className="pagination-bar"
-					currentPage={currentPage}
-					totalCount={filteredCourses.length}
-					pageSize={pageSize}
-					onPageChange={(page) => setCurrentPage(page)}
-				/>
-		
+				className="pagination-bar"
+				currentPage={currentPage}
+				totalCount={filteredCourses.length}
+				pageSize={pageSize}
+				onPageChange={(page) => setCurrentPage(page)}
+			/>
 		</>
-	)
-	
+	);
 }
