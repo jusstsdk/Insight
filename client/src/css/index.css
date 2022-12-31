@@ -119,3 +119,11 @@ code {
 html {
 	overflow-y: overlay;
 }
+/* .search-course-list {
+	margin-left: 22%;
+} */
+
+.clearRatingButton {
+	background-color: rgba(0, 0, 0, 0) !important;
+	border-color: #dc3545 !important;
+}

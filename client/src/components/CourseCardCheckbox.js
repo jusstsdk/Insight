@@ -33,8 +33,8 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 
 					{/* Summary and Price */}
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted courseCardLabel">Summary</h6>
-						<Col sm={8}>
+						<h6 className="text-muted courseCardLabel fitWidth">Summary</h6>
+						<Col sm={9}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
 						<Col sm={1} className="priceContainer d-flex justify-content-end">
@@ -44,7 +44,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1">Instructors</h6>
+						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">Instructor</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (

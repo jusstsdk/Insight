@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container, Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import ListCourses from "../../components/SearchCourses";
-import CourseCard from "../../components/instructor/CourseCard";
+import SearchCourses from "../../components/SearchCourses";
+import CourseCard from "../../components/CourseCard";
 import Pagination from "../../components/shared/pagination/Pagination";
 import "../../components/shared/pagination/style.scss";
 
 let pageSize = 2;
+
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
@@ -36,7 +37,6 @@ function ViewInstructorCourses() {
 	let closedFirstPageIndex = (closedCurrentPage - 1) * pageSize;
 	let closedLastPageIndex = closedFirstPageIndex + pageSize;
 	let currentClosed = Closed.slice(closedFirstPageIndex, closedLastPageIndex);
-	////////////////////////
 	const [DetectChange, setDetectChange] = useState(false);
 	// Gets all Instructor's Review populated with Trainee's information.
 	const getCourses = async () => {
@@ -78,8 +78,8 @@ function ViewInstructorCourses() {
 	}, [Courses]);
 
 	return (
-		<Container className="my-2">
-			<ListCourses setCourses={setCourses} searchInInstructorCourses={true} />
+		<>
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (
@@ -151,7 +151,7 @@ function ViewInstructorCourses() {
 					/>
 				</Tab>
 			</Tabs>
-		</Container>
+		</>
 	);
 }
 export default ViewInstructorCourses;

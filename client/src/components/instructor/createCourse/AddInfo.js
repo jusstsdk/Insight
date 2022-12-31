@@ -170,8 +170,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-
-				<Col sm={3}>
+				<Col sm={5}>
 					<Form.Control
 						type="text"
 						placeholder="Title"
@@ -182,8 +181,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 
-				<Form.Label className="textFit" column sm={1}>
-					Price in {user.currency}
+				<Form.Label className="" column sm={1}>
+					Price
 				</Form.Label>
 				<Col sm={2}>
 					<Form.Control
@@ -240,7 +239,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-				<Col sm={10}>
+				<Col sm={8}>
 					<Form.Control
 						ref={SummaryRef}
 						as="textarea"
@@ -256,10 +255,7 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Instructors */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			{/* <Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={1}>
 					Instructors{" "}
 					{MissingInstructors && (
@@ -283,7 +279,7 @@ export default function AddInfo(props) {
 						emptyRecordMsg="You can't add more Instructors."
 					/>
 				</Col>
-			</Form.Group>
+			</Form.Group> */}
 
 			{/* Preview Video */}
 			<Form.Group
@@ -305,7 +301,7 @@ export default function AddInfo(props) {
 						</span>
 					)}
 				</Form.Label>
-				<Col sm={5}>
+				<Col sm={8}>
 					<Form.Control
 						type="text"
 						placeholder="Preview Video"

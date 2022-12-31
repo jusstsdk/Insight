@@ -41,18 +41,21 @@ function CourseCard({ course }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
+						<Card.Title className="courseCardTitle pe-0">{course.title}</Card.Title>
 
-						<p className="textFit my-auto text-muted">
-							{Math.ceil(course.totalSeconds / 60)} Minutes
-						</p>
+						<p className="textFit my-auto text-muted">{Math.ceil(course.totalSeconds / 3600)} Hours</p>
 
-						<Col sm={6}>
-							{course.subjects.map((subject, i) => (
-								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
-									{subject}
-								</Badge>
-							))}
+						<Col sm={5}>
+							{course.subjects.map((subject, i) =>
+								i <= 1 ? (
+									<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
+										{subject}
+									</Badge>
+								) : (
+									""
+								)
+							)}
+							{course.subjects.length >= 2 && <span>...</span>}
 						</Col>
 						<Col className="starsContainer" sm={4} md={4} lg={2}>
 							<Stars
@@ -64,11 +67,31 @@ function CourseCard({ course }) {
 					</CardGroup>
 
 					{/* Summary and Price */}
-					<CardGroup as={Row} className="my-2">
-						<h6 className="textFit courseCardLabel">
-							Number of students : {course.enrolledTrainees.length}
+					<Row as={Row} className="my-2">
+						<h6 className="text-muted textFit courseCardLabel my-1">Instructor</h6>
+
+						{course.instructors.map((instructor, i) => (
+							<Button
+								className="p-0 me-2 fitWidth"
+								variant="link"
+								onClick={() => {
+									if (userType === "Trainee") {
+										navigate("/trainee/viewInstructor/" + instructor._id);
+									} else if (userType === "CorporateTrainee") {
+										navigate("/corporateTrainee/viewInstructor/" + instructor._id);
+									} else if (userType === "Instructor") {
+										navigate("/instructor/viewInstructor/" + instructor._id);
+									}
+								}}
+								key={"instructor_" + i}>
+								{instructor.username}
+							</Button>
+						))}
+						<h6 className=" fitWidth my-auto">
+							<span className="text-muted">Students: </span>
+							{course.enrolledTrainees.length}
 						</h6>
-					</CardGroup>
+					</Row>
 					<CardGroup as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>
@@ -83,28 +106,6 @@ function CourseCard({ course }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted textFit courseCardLabel my-1">Instructors</h6>
-						<Col sm={2}>
-							<ListGroup horizontal>
-								{course.instructors.map((instructor, i) => (
-									<Button
-										className="p-0 me-2"
-										variant="link"
-										onClick={() => {
-											if (userType === "Trainee") {
-												navigate("/trainee/viewInstructor/" + instructor._id);
-											} else if (userType === "CorporateTrainee") {
-												navigate("/corporateTrainee/viewInstructor/" + instructor._id);
-											} else if (userType === "Instructor") {
-												navigate("/instructor/viewInstructor/" + instructor._id);
-											}
-										}}
-										key={"instructor_" + i}>
-										{instructor.username}
-									</Button>
-								))}
-							</ListGroup>
-						</Col>
 						<Col sm={1} className="priceContainer textFit  d-flex justify-content-end">
 							<strong>
 								{course.promotion.discount > 0 && course.promotion.endDate > new Date().toISOString() && (
@@ -114,7 +115,7 @@ function CourseCard({ course }) {
 								)}
 							</strong>
 						</Col>
-						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
+						<Col className="ms-auto fitWidth d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							<Button onClick={handleOpen}>View Course</Button>
 							{showContinue && <Button variant="success" className="" onClick={continueCourse}>Continue Course</Button>}
 						</Col>
