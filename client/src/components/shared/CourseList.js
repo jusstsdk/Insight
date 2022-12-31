@@ -5,7 +5,7 @@ import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
 
 let pageSize = 2;
-export default function CourseList({ courses ,currentPage,setCurrentPage }) {
+export default function CourseList({ courses, currentPage, setCurrentPage }) {
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
@@ -16,21 +16,18 @@ export default function CourseList({ courses ,currentPage,setCurrentPage }) {
 	// 	return courses.slice(firstPageIndex, lastPageIndex);
 	// }, [currentPage]);
 
-	
 	return (
-		
-			<>
-				{currentCourses.map((course, i) => (
-					<CourseCard key={"course" + i} course={course} />
-				))}
-				<Pagination
-					className="pagination-bar"
-					currentPage={currentPage}
-					totalCount={courses.length}
-					pageSize={pageSize}
-					onPageChange={(page) => setCurrentPage(page)}
-				/>
-			</>
-		
+		<>
+			{currentCourses.map((course, i) => (
+				<CourseCard key={"course" + i} course={course} />
+			))}
+			<Pagination
+				className="pagination-bar"
+				currentPage={currentPage}
+				totalCount={courses.length}
+				pageSize={pageSize}
+				onPageChange={(page) => setCurrentPage(page)}
+			/>
+		</>
 	);
 }
