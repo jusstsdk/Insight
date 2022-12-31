@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Col, Breadcrumb } from "react-bootstrap";
-import { MdOutlineError } from "react-icons/md";
 import "../../css/createCourse.css";
 
 import { clearInfo } from "../../redux/courseInfoSlice";
@@ -46,7 +45,7 @@ export default function CreateCourse() {
 				summary: InfoSummary,
 				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
 				previewVideo: InfoPreviewVideo,
-				instructors : [instructorId],
+				instructors: [user._id],
 				subjects: InfoSubjects,
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,
@@ -80,7 +79,6 @@ export default function CreateCourse() {
 	};
 
 	const handleEditCourse = async (status) => {
-
 		try {
 			API.put(`/courses/${location.state._id}`, {
 				title: InfoTitle,

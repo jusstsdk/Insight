@@ -1,7 +1,10 @@
 import { useSelector } from "react-redux";
 import CourseCardCheckbox from "../../components/CourseCardCheckbox";
-
-export default function CourseListPromotion({ courses, handleCheck }) {
+import Pagination from "../../components/shared/pagination/Pagination";
+let pageSize = 2;
+export default function CourseListPromotion({ courses, handleCheck,currentPage,setCurrentPage  }) {
+	
+	
 	const userType = useSelector((state) => state.userReducer.type);
 	let filteredCourses = courses;
 	if (userType == "Instructor") {
@@ -13,10 +16,24 @@ export default function CourseListPromotion({ courses, handleCheck }) {
 				course.promotion.offeredBy == "Instructor"
 		);
 	}
-
-	return filteredCourses.map((course) => (
+	let firstPageIndex = (currentPage - 1) * pageSize;
+	let lastPageIndex = firstPageIndex + pageSize;
+	let currentCourses = filteredCourses.slice(firstPageIndex, lastPageIndex);
+	return (
 		<>
+			
+			{currentCourses.map((course) => (
 			<CourseCardCheckbox key={course._id} course={course} handleCheck={handleCheck} />
+			))}
+			<Pagination
+					className="pagination-bar"
+					currentPage={currentPage}
+					totalCount={filteredCourses.length}
+					pageSize={pageSize}
+					onPageChange={(page) => setCurrentPage(page)}
+				/>
+		
 		</>
-	));
+	)
+	
 }

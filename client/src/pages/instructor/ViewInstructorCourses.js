@@ -70,6 +70,12 @@ function ViewInstructorCourses() {
 			console.log(err);
 		}
 	};
+	const setCurrentPage = (key) => {
+		setCoursesCurrentPage(1);
+		setDraftsCurrentPage(1);
+		setPublishedCurrentPage(1);
+		setClosedCurrentPage(1);
+	};
 
 	useEffect(() => {
 		getCourses();
@@ -87,7 +93,7 @@ function ViewInstructorCourses() {
 
 	return (
 		<>
-			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} setCurrentPage={setCurrentPage} />
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (
