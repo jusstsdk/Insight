@@ -26,9 +26,7 @@ export default function AddInfo(props) {
 	const InfoPreviewVideo = useSelector(
 		(state) => state.courseInfoReducer.previewVideo
 	);
-	const InfoSubjects = useSelector(
-		(state) => state.courseInfoReducer.subjects
-	);
+	
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const [MissingTitle, setMissingTitle] = useState(false);

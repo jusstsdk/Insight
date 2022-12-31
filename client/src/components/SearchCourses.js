@@ -12,7 +12,7 @@ import { AiOutlineClose } from "react-icons/ai";
 const drawerWidth = "25%";
 
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort, setCurrentPage }) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch,setCurrentPage }) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
