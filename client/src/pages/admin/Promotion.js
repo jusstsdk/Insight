@@ -25,6 +25,7 @@ export default function Promotion() {
 			<PromotionForm courses={checkedCourses} />
 			<SearchCourses setCourses={setCourses} searchInInstructorCourses={userType == "instructor"} setCurrentPage={setCurrentPage} />
 			<CourseListPromotion courses={courses} currentPage={currentPage} setCurrentPage={setCurrentPage} handleCheck={handleCheck} />
+
 		</div>
 	);
 }
