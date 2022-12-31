@@ -40,6 +40,7 @@ const instructorSchema = new Schema(
 			type: [reviewSchema],
 			required: false,
 		},
+		rating: Number,
 		monthlyPay: {
 			type: monthlyPaySchema,
 			default: {
@@ -57,6 +58,14 @@ instructorSchema.methods.generateAuthToken = function () {
 	);
 	return token;
 };
+instructorSchema.pre("save", function (next) {
+	let totalRatingsValue = 0;
+	this.reviews.forEach((review) => {
+		totalRatingsValue += review.rating;
+	});
+	this.rating = totalRatingsValue / this.reviews.length;
+	next();
+});
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;
