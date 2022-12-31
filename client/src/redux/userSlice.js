@@ -9,6 +9,7 @@ export const userSlice = createSlice({
 		user: {
 			country: "USA",
 			currency: "USD",
+			exchangeRate: 1,
 		},
 	},
 	reducers: {
@@ -30,6 +31,16 @@ export const userSlice = createSlice({
 		},
 		setCourses: (state, action) => {
 			state.user.courses = action.payload;
+		},
+		setCourseRefund: (state, action) => {
+			console.log(action);
+			state.user.courses = state.user.courses.map((course) => {
+				if (course.course === action.payload) {
+					course.requestedRefund = true;
+				}
+				//console.log(course);
+				return course;
+			});
 		},
 		setRequests: (state, action) => {
 			state.user.requests = action.payload;
@@ -97,6 +108,7 @@ export const userSlice = createSlice({
 			state.user = {
 				country: "USA",
 				currency: "USD",
+				exchangeRate: 1,
 			};
 		},
 		deleteCourseInstructor: (state, action) => {
@@ -126,6 +138,7 @@ export const {
 	updateInstructorCourses,
 	solveExam,
 	deleteCourseInstructor,
+	setCourseRefund
 } = userSlice.actions;
 
 export default userSlice.reducer;

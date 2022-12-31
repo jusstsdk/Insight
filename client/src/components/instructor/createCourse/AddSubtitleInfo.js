@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import { addSubtitle, editSubtitleInfo } from "../../../redux/createCourseSlice";
+import { MdOutlineError } from "react-icons/md";
 
 export default function AddSubtitleInfo(props) {
 	const dispatch = useDispatch();
@@ -12,19 +13,26 @@ export default function AddSubtitleInfo(props) {
 	const [Title, setTitle] = useState(
 		props.case === "Add" ? "" : props.subtitle.title ? props.subtitle.title : ""
 	);
-	const [Hours, setHours] = useState(
-		props.case === "Add" ? 0 : props.subtitle.hours ? props.subtitle.hours : 0
-	);
 	const SubtitleKey = props.case === "Add" ? -1 : props.subtitleKey;
+	const [MissingTitle, setMissingTitle] = useState(false);
 
 	const handleAddSubtitle = () => {
+		if (Title === "") {
+			setMissingTitle(true);
+		} else {
+			setMissingTitle(false);
+		}
+		if (Title === "") {
+			return;
+		}
 		switch (props.case) {
 			// If the component is used for Add, it adds the subtitleInfo to the Subtitles array in the reducer
 			// If the component is used for Edit, it edits the subtitleInfo of a specific subtitle in the reducer using the index
+
 			case "Add": {
 				let newSubtitle = {
 					title: Title,
-					hours: Hours,
+					seconds: 0,
 					exercises: [],
 					videos: [],
 				};
@@ -34,7 +42,6 @@ export default function AddSubtitleInfo(props) {
 			case "Edit": {
 				let newSubtitle = {
 					title: Title,
-					hours: Hours,
 				};
 				dispatch(editSubtitleInfo({ key: SubtitleKey, subtitle: newSubtitle }));
 				break;
@@ -42,7 +49,6 @@ export default function AddSubtitleInfo(props) {
 			default:
 		}
 		setTitle("");
-		setHours("");
 		props.handleClose();
 	};
 	return (
@@ -64,8 +70,18 @@ export default function AddSubtitleInfo(props) {
 					className="mb-3 d-flex align-items-center justify-content-start"
 					controlId="formHorizontalEmail">
 					<Form.Label column sm={2}>
-						Subtitle Title
+						<span>Subtitle title</span>
+						<br />
+						<span>
+							{MissingTitle && (
+								<span className="error">
+									Missing
+									<MdOutlineError />
+								</span>
+							)}
+						</span>
 					</Form.Label>
+
 					<Col sm={6}>
 						<Form.Control
 							type="text"
@@ -73,19 +89,6 @@ export default function AddSubtitleInfo(props) {
 							value={Title}
 							onChange={(e) => {
 								setTitle(e.target.value);
-							}}
-						/>
-					</Col>
-					<Form.Label id="hours" column sm={1}>
-						Hours
-					</Form.Label>
-					<Col sm={2}>
-						<Form.Control
-							type="number"
-							placeholder="Hours"
-							value={Hours}
-							onChange={(e) => {
-								setHours(parseFloat(e.target.value));
 							}}
 						/>
 					</Col>

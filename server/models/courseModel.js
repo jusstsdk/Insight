@@ -58,7 +58,7 @@ const courseSchema = new Schema(
 			},
 		},
 		price: Number,
-		totalHours: Number,
+		totalSeconds: Number,
 		previewVideo: String,
 		instructors: [{ type: Schema.ObjectId, ref: "Instructor" }],
 		enrolledTrainees: [
@@ -98,14 +98,14 @@ courseSchema.pre("save", function (next) {
 		this.originalPrice -
 		(this.originalPrice * this.promotion.discount) / 100;
 	this.popularity = this.enrolledTrainees.length;
-	this.totalHours = 0;
+	this.totalSeconds = 0;
 	let totalRatingsValue = 0;
 	this.reviews.forEach((review) => {
 		totalRatingsValue += review.rating;
 	});
 	this.rating = totalRatingsValue / this.reviews.length;
 	this.subtitles.forEach((subtitle) => {
-		this.totalHours += subtitle.hours;
+		this.totalSeconds += subtitle.seconds;
 	});
 	next();
 });

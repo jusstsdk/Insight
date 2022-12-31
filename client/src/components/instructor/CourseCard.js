@@ -1,6 +1,7 @@
 import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
 import API from "../../functions/api";
 import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 
@@ -103,7 +104,9 @@ function CourseCard(props) {
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
 					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
-					<p className="textFit my-auto text-muted">{props.course.totalHours} Hours</p>
+					<p className="textFit my-auto text-muted">
+						{Math.ceil(props.course.totalSeconds / 3600)} Hours
+					</p>
 					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
 							<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
@@ -111,8 +114,13 @@ function CourseCard(props) {
 							</Badge>
 						))}
 					</Col>
-					<Col className="starsContainer" sm={4} md={4} lg={2}>
-						<Stars stars={props.course.rating ? props.course.rating : 0} />
+					<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+						<Rating
+							allowFraction="true"
+							initialValue={props.course.rating ? props.course.rating : 0}
+							readonly="true"
+							size={20}
+						/>
 					</Col>
 				</CardGroup>
 

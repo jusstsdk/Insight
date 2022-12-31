@@ -20,13 +20,10 @@ export default function Promotion() {
 	}
 
 	return (
-		<>
+		<div className="search-course-list">
 			<PromotionForm courses={checkedCourses} />
-			<SearchCourses
-				setCourses={setCourses}
-				searchInInstructorCourses={userType == "instructor"}
-			/>
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={userType == "instructor"} />
 			<CourseListPromotion courses={courses} handleCheck={handleCheck} />
-		</>
+		</div>
 	);
 }

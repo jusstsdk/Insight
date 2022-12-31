@@ -20,11 +20,15 @@ export default function SolveExercise(props) {
 	const User = useSelector((state) => state.userReducer.user);
 	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
-	const ContentType = useSelector((state) => state.continueCourseReducer.contentType);
-	const CourseIndex = useSelector((state) => state.userReducer.user.courses).findIndex(
-		(course) => course._id === props.CourseId
+	const ContentType = useSelector(
+		(state) => state.continueCourseReducer.contentType
 	);
-	const SubtitleIndex = useSelector((state) => state.continueCourseReducer.subtitleIndex);
+	const CourseIndex = useSelector(
+		(state) => state.userReducer.user.courses
+	).findIndex((course) => course.course === props.CourseId);
+	const SubtitleIndex = useSelector(
+		(state) => state.continueCourseReducer.subtitleIndex
+	);
 	const ExerciseIndex =
 		ContentType === "Exercise"
 			? User.courses[CourseIndex].subtitles[SubtitleIndex].exercises.findIndex(
@@ -144,7 +148,8 @@ export default function SolveExercise(props) {
 					<h6 className="fitWidth mb-0">
 						Best Received: {"   "}
 						<span>
-							{Content.isSolved && ((OldGrade / Content.maxGrade) * 100).toFixed(2)}
+							{Content.isSolved &&
+								((OldGrade / Content.maxGrade) * 100).toFixed(2)}
 							{!Content.isSolved && "-"}
 						</span>
 					</h6>
@@ -155,12 +160,16 @@ export default function SolveExercise(props) {
 								// Setup for Solving the Exercise
 								let newAnswers = new Array(Content.questions.length);
 								Content.questions.map((question, questionIndex) => {
-									newAnswers[questionIndex] = { questionId: question._id, choice: "" };
+									newAnswers[questionIndex] = {
+										questionId: question._id,
+										choice: "",
+									};
 								});
 								dispatch(initializeAnswers(newAnswers));
 								dispatch(setIsSolved(false));
 								dispatch(setSolve(true));
-							}}>
+							}}
+						>
 							Start {ContentType}
 						</Button>
 					</Col>
