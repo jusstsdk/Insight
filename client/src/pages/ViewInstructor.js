@@ -44,6 +44,7 @@ export default function ViewInstructor() {
 				).toFixed(2);
 				course.price = (course.price * user.exchangeRate).toFixed(2);
 			});
+			response.data.courses = response.data.courses.filter((course) => course.status === "Published");
 			setInstructorCourses(response.data.courses);
 
 			if (userType === "Trainee" || userType === "CorporateTrainee") {
