@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button } from "react-bootstrap";
@@ -8,7 +7,6 @@ import {
 	setSummary,
 	setOriginalPrice,
 	setPreviewVideo,
-	setInstructors,
 	setSubjects,
 } from "../../../redux/courseInfoSlice";
 import { SUBJECTS } from "../../../functions/subjects";
@@ -19,56 +17,46 @@ import API from "../../../functions/api";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.userReducer.user);
-	const [displayErrors, setDisplayErrors] = useState(false);
 
-	const [AllInstructors, setAllInstructors] = useState([]);
+	// const [AllInstructors, setAllInstructors] = useState([]);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
-	const InfoOriginalPrice = useSelector(
-		(state) => state.courseInfoReducer.originalPrice
+	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors).filter(
+		(instructor) => {
+			return instructor._id !== instructorId;
+		}
 	);
-	const InfoPreviewVideo = useSelector(
-		(state) => state.courseInfoReducer.previewVideo
-	);
-	const InfoInstructors = useSelector(
-		(state) => state.courseInfoReducer.instructors
-	).filter((instructor) => {
-		return instructor._id !== instructorId;
-	});
-	const InfoSubjects = useSelector(
-		(state) => state.courseInfoReducer.subjects
-	);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 	const [MissingTitle, setMissingTitle] = useState(false);
 	const [MissingSummary, setMissingSummary] = useState(false);
 	const [MissingPreviewVideo, setMissingPreviewVideo] = useState(false);
 	const [BadUrl, setBadUrl] = useState(false);
-	const [MissingInstructors, setMissingInstructors] = useState(false);
 	const [MissingSubjects, setMissingSubjects] = useState(false);
 
-	const getData = async () => {
-		const config = {
-			method: "GET",
-			url: `http://localhost:4000/api/instructors`,
-			headers: {},
-		};
+	// const getData = async () => {
+	// 	const config = {
+	// 		method: "GET",
+	// 		url: `http://localhost:4000/api/instructors`,
+	// 		headers: {},
+	// 	};
 
-		try {
-			let response = await axios(config);
-			let filteredInstructors = response.data.filter((instructor) => {
-				return instructor._id !== instructorId;
-			});
-			setAllInstructors(filteredInstructors);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// 	try {
+	// 		let response = await axios(config);
+	// 		let filteredInstructors = response.data.filter((instructor) => {
+	// 			return instructor._id !== instructorId;
+	// 		});
+	// 		setAllInstructors(filteredInstructors);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 	const resizeTextArea = () => {
 		SummaryRef.current.style.height = "auto";
-		SummaryRef.current.style.height =
-			SummaryRef.current.scrollHeight + "px";
+		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
 
 	const handleNext = async () => {
@@ -85,7 +73,6 @@ export default function AddInfo(props) {
 		let invalidUrl = false;
 		if (InfoPreviewVideo === "") {
 			setMissingPreviewVideo(true);
-			
 			setBadUrl(false);
 		} else {
 			setMissingPreviewVideo(false);
@@ -93,31 +80,19 @@ export default function AddInfo(props) {
 			if (InfoPreviewVideo.includes("watch?v=")) {
 				videoId = InfoPreviewVideo.split("watch?v=")[1];
 			} else {
-				videoId =
-					InfoPreviewVideo.split("/")[
-						InfoPreviewVideo.split("/").length - 1
-					];
+				videoId = InfoPreviewVideo.split("/")[InfoPreviewVideo.split("/").length - 1];
 			}
-			console.log(videoId);
-			// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
 			let response = await API.get(
 				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
 			);
-			console.log(response);
 
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
 				setBadUrl(true);
-				
-			} else{
+			} else {
 				invalidUrl = false;
 				setBadUrl(false);
-			} 
-		}
-		if (InfoInstructors.length === 0) {
-			setMissingInstructors(true);
-		} else {
-			setMissingInstructors(false);
+			}
 		}
 		if (InfoSubjects.length === 0) {
 			setMissingSubjects(true);
@@ -127,8 +102,8 @@ export default function AddInfo(props) {
 		if (
 			InfoTitle === "" ||
 			InfoSummary === "" ||
-			InfoPreviewVideo === "" || invalidUrl ||
-			InfoInstructors.length === 0 ||
+			InfoPreviewVideo === "" ||
+			invalidUrl ||
 			InfoSubjects.length === 0
 		) {
 			dispatch(
@@ -147,20 +122,23 @@ export default function AddInfo(props) {
 
 	useEffect(resizeTextArea, [InfoSummary]);
 
-	useEffect(() => {
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	// useEffect(() => {
+	// 	getData();
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, []);
 
 	return (
 		<>
-			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+			<Col className="d-flex justify-content-center">
+				<Col sm={9}>
+					<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+				</Col>
+			</Col>
 			{/* Title and Price */}
 			<Form.Group
 				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-				controlId="formHorizontalEmail"
-			>
+				className="mb-3 d-flex align-items-center justify-content-center"
+				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
 					Title{" "}
 					{MissingTitle && (
@@ -197,10 +175,7 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Subjects */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Subjects{" "}
 					{MissingSubjects && (
@@ -226,10 +201,7 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Summary */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Summary{" "}
 					{MissingSummary && (
@@ -282,10 +254,7 @@ export default function AddInfo(props) {
 			</Form.Group> */}
 
 			{/* Preview Video */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
-			>
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Preview Video{" "}
 					{MissingPreviewVideo && (

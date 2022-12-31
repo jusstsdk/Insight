@@ -22,41 +22,24 @@ export default function CreateCourse() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
-	const [CurrentTabMissingFields, setCurrentTabMissingFields] =
-		useState(true);
+	const [CurrentTabMissingFields, setCurrentTabMissingFields] = useState(true);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
 
-	const ExamTitle = useSelector(
-		(state) => state.createCourseReducer.examTitle
-	);
-	const ExamQuestions = useSelector(
-		(state) => state.createCourseReducer.examQuestions
-	);
-	const Subtitles = useSelector(
-		(state) => state.createCourseReducer.subtitles
-	);
+	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
+	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
-	const InfoOriginalPrice = useSelector(
-		(state) => state.courseInfoReducer.originalPrice
-	);
-	const InfoPreviewVideo = useSelector(
-		(state) => state.courseInfoReducer.previewVideo
-	);
-	const InfoSubjects = useSelector(
-		(state) => state.courseInfoReducer.subjects
-	);
-	const InfoInstructors = useSelector(
-		(state) => state.courseInfoReducer.instructors
-	);
+	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
+	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors);
 
 	const handleCreateCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map(
-			(instructor) => instructor._id
-		);
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
@@ -64,9 +47,7 @@ export default function CreateCourse() {
 			data: {
 				title: InfoTitle,
 				summary: InfoSummary,
-				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(
-					2
-				),
+				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
 				previewVideo: InfoPreviewVideo,
 				subjects: InfoSubjects,
 				instructors: [instructorId, ...instructorsIds],
@@ -85,9 +66,7 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Course ${
-						status === "Draft" ? "saved" : "published"
-					} successfully`,
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
 					color: "success",
 				})
 			);
@@ -96,9 +75,7 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Error while ${
-						status === "Draft" ? "saving" : "publishing"
-					} course!`,
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
 					color: "error",
 				})
 			);
@@ -106,9 +83,7 @@ export default function CreateCourse() {
 	};
 
 	const handleEditCourse = async (status) => {
-		let instructorsIds = InfoInstructors.map(
-			(instructor) => instructor._id
-		);
+		let instructorsIds = InfoInstructors.map((instructor) => instructor._id);
 		instructorsIds = instructorsIds.filter((instructor) => {
 			return instructor !== instructorId;
 		});
@@ -130,9 +105,7 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Course ${
-						status === "Draft" ? "saved" : "published"
-					} successfully`,
+					info: `Course ${status === "Draft" ? "saved" : "published"} successfully`,
 					color: "success",
 				})
 			);
@@ -141,9 +114,7 @@ export default function CreateCourse() {
 			dispatch(
 				addNotification({
 					title: "Create Course",
-					info: `Error while ${
-						status === "Draft" ? "saving" : "publishing"
-					} course!`,
+					info: `Error while ${status === "Draft" ? "saving" : "publishing"} course!`,
 					color: "error",
 				})
 			);
@@ -157,14 +128,13 @@ export default function CreateCourse() {
 				InfoTitle === "" ||
 				InfoSummary === "" ||
 				InfoPreviewVideo === "" ||
-				InfoSubjects.length === 0 ||
-				InfoInstructors.length === 0
+				InfoSubjects.length === 0
 			) {
 				displayError = true;
 			} else {
 				setCurrentTab(tab);
 			}
-		} else if (CurrentTab === "addSubtitle" ) {
+		} else if (CurrentTab === "addSubtitle") {
 			if (Subtitles.length === 0 && tab === "addExam") {
 				displayError = true;
 			} else {
@@ -173,49 +143,39 @@ export default function CreateCourse() {
 		} else if (CurrentTab === "addExam") {
 			setCurrentTab(tab);
 		}
-		if(displayError){
-			if(CurrentTab === "addInfo"){
+		if (displayError) {
+			if (CurrentTab === "addInfo") {
 				dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Please fill in all fields in the ${CurrentTab.slice(3)} tab!`,
-					color: "error",
-				})
-			);
-			}else if(CurrentTab === "addSubtitle"){
+					addNotification({
+						title: "Create Course",
+						info: `Please fill in all fields in the ${CurrentTab.slice(3)} tab!`,
+						color: "error",
+					})
+				);
+			} else if (CurrentTab === "addSubtitle") {
 				dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Please add at least one subtitle!`,
-					color: "error",
-				})
-			)} else if(CurrentTab === "addExam"){
+					addNotification({
+						title: "Create Course",
+						info: `Please add at least one subtitle!`,
+						color: "error",
+					})
+				);
+			} else if (CurrentTab === "addExam") {
 				dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Make sure your exam has a title and at least one question!`,
-					color: "error",
-				})
-			);
+					addNotification({
+						title: "Create Course",
+						info: `Make sure your exam has a title and at least one question!`,
+						color: "error",
+					})
+				);
 			}
-
-
-			
-			
-			
 		}
 	};
-
-	
 
 	const displayView = () => {
 		switch (CurrentTab) {
 			case "addInfo":
-				return (
-					<AddInfo
-						setCurrentTab={setCurrentTab}
-					/>
-				);
+				return <AddInfo setCurrentTab={setCurrentTab} />;
 			case "addSubtitle":
 				return <AddSubtitles setCurrentTab={setCurrentTab} />;
 			case "addExam":
@@ -234,36 +194,36 @@ export default function CreateCourse() {
 			<Col className="d-flex justify-content-center">
 				<h1 className="fw-bold fs-2">Instructor Create Course</h1>
 			</Col>
-			<Breadcrumb>
-				<Breadcrumb.Item
-					className="fw-semibold"
-					active={CurrentTab === "addInfo" ? true : false}
-					onClick={() => {
-						changeTabs("addInfo")
-					}}
-				>
-					Info
-				</Breadcrumb.Item>
-				<Breadcrumb.Item
-					className="fw-semibold"
-					active={CurrentTab === "addSubtitle" ? true : false}
-					onClick={() => {
-						changeTabs("addSubtitle")
-					}}
-				>
-					Subtitles
-				</Breadcrumb.Item>
-				<Breadcrumb.Item
-					className="fw-semibold"
-					active={CurrentTab === "addExam" ? true : false}
-					onClick={() => {
-						changeTabs("addExam")
-					}
-					}
-				>
-					Exam
-				</Breadcrumb.Item>
-			</Breadcrumb>
+			<Col className="d-flex justify-content-center">
+				{/* <Col sm={9}> */}
+				<Breadcrumb>
+					<Breadcrumb.Item
+						className="fw-semibold"
+						active={CurrentTab === "addInfo" ? true : false}
+						onClick={() => {
+							changeTabs("addInfo");
+						}}>
+						Info
+					</Breadcrumb.Item>
+					<Breadcrumb.Item
+						className="fw-semibold"
+						active={CurrentTab === "addSubtitle" ? true : false}
+						onClick={() => {
+							changeTabs("addSubtitle");
+						}}>
+						Subtitles
+					</Breadcrumb.Item>
+					<Breadcrumb.Item
+						className="fw-semibold"
+						active={CurrentTab === "addExam" ? true : false}
+						onClick={() => {
+							changeTabs("addExam");
+						}}>
+						Exam
+					</Breadcrumb.Item>
+				</Breadcrumb>
+				{/* </Col> */}
+			</Col>
 			{displayView()}
 		</Form>
 	);
