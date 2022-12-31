@@ -85,6 +85,7 @@ export default function CreateCourse() {
 				summary: InfoSummary,
 				originalPrice: InfoOriginalPrice,
 				previewVideo: InfoPreviewVideo,
+				instructors : [instructorId],
 				subjects: InfoSubjects,
 				exam: { title: ExamTitle, questions: ExamQuestions },
 				subtitles: Subtitles,

@@ -61,6 +61,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.originalPrice = Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		courses = courses.filter((course) => course.status === "Published");
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);
