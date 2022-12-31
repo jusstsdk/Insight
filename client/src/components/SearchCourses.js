@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
 
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort }) {
+export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch, sort, setCurrentPage }) {
 	const searchQuery = useRef("");
 	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
@@ -22,6 +22,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 	async function handleSubmit(e) {
 		e.preventDefault();
 		await getCourses();
+		setCurrentPage(1);
 	}
 
 	useEffect(() => {

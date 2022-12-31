@@ -5,8 +5,7 @@ import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
 
 let pageSize = 2;
-export default function CourseList({ courses }) {
-	const [currentPage, setCurrentPage] = useState(1);
+export default function CourseList({ courses ,currentPage,setCurrentPage }) {
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
