@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
+import { Rating } from "react-simple-star-rating";
 
 export default function CourseCardCheckbox({ course, handleCheck }) {
 	const [show, setShow] = useState(false);
@@ -26,8 +27,15 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 								</Badge>
 							))}
 						</Col>
-						<Col className="starsContainer" sm={4} md={4} lg={2}>
-							<Stars stars={course.rating ? course.rating : 0} />
+						<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+							<Rating
+								key={"stars_" + course._id}
+								id={course._id}
+								allowFraction="true"
+								initialValue={course.rating ? course.rating : 0}
+								readonly="true"
+								size={20}
+							/>
 						</Col>
 					</CardGroup>
 
