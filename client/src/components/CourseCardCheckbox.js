@@ -44,7 +44,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">Instructors</h6>
+						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">Instructor</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
@@ -72,7 +72,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 					<Modal.Title>{course.title}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<p>total hours : {course.totalHours}</p>
+					<p>total hours : Math.ceil({course.totalSeconds / 3600})</p>
 					<p>price : {course.price}</p>
 					<p>rating : {course.rating}</p>
 				</Modal.Body>

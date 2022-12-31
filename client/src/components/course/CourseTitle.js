@@ -8,6 +8,8 @@ function CourseTitle(props) {
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 
+	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
+
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function continueCourse() {
@@ -34,13 +36,26 @@ function CourseTitle(props) {
 									<Badge
 										bg="info"
 										key={"Badge of Subject: " + i + eachSubject}
-										className="lead me-1">
+										className="lead me-1"
+									>
 										{eachSubject}
 									</Badge>
 								);
 							})}
 						</Col>
 					</Row>
+				</Col>
+				<Col>
+					<Badge bg="warning" className="lead me-1">
+						#{course.rank}
+						{/* {course.rank % 10 === 1
+							? "st"
+							: course.rank % 10 === 2
+							? "nd"
+							: course.rank % 10 === 3
+							? "rd"
+							: "th"} */}
+					</Badge>
 				</Col>
 				<Col>
 					<Rating
@@ -52,7 +67,7 @@ function CourseTitle(props) {
 					/>
 				</Col>
 				<Col>
-					{(userType === "Administrator" || ownsCourse) && (
+					{ownsCourse && !traineeAlreadyRequestedRefund && (
 						<Button style={{ float: "right" }} onClick={continueCourse}>
 							Continue Course
 						</Button>

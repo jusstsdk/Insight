@@ -2,45 +2,50 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const reviewSchema = require("./schemas/reviewSchema");
-const monthlyPaySchema = new Schema({
-	amount: {
-		type: Number,
-		default: 0,
-		required: true
-	},}, { _id: false ,timestamps: true });
-
+const monthlyPaySchema = new Schema(
+	{
+		amount: {
+			type: Number,
+			default: 0,
+		},
+	},
+	{ _id: false, timestamps: true }
+);
 
 const instructorSchema = new Schema(
 	{
 		username: {
 			type: String,
-			required: true
+			required: true,
 		},
 		password: {
 			type: String,
-			required: true
+			required: true,
 		},
 		email: {
 			type: String,
-			required: true
+			required: true,
 		},
 		biography: {
 			type: String,
-			required: false
+			required: false,
 		},
 		country: {
 			type: String,
-			required: false
+			required: false,
 		},
 		currency: String,
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
 		reviews: {
 			type: [reviewSchema],
-			required: false
+			required: false,
 		},
-		monthlyPay: monthlyPaySchema,
-		
-		
+		monthlyPay: {
+			type: monthlyPaySchema,
+			default: {
+				amount: 0,
+			},
+		},
 	},
 	{ timestamps: false }
 );

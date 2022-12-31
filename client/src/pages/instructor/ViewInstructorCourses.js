@@ -1,15 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container, Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import SearchCourses from "../../components/SearchCourses";
 import CourseCard from "../../components/CourseCard";
 import Pagination from "../../components/shared/pagination/Pagination";
 import "../../components/shared/pagination/style.scss";
-import { Box } from "@mui/material";
 
 let pageSize = 2;
-const drawerWidth = "20%";
 
 function ViewInstructorCourses() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
@@ -39,7 +37,6 @@ function ViewInstructorCourses() {
 	let closedFirstPageIndex = (closedCurrentPage - 1) * pageSize;
 	let closedLastPageIndex = closedFirstPageIndex + pageSize;
 	let currentClosed = Closed.slice(closedFirstPageIndex, closedLastPageIndex);
-	////////////////////////
 	const [DetectChange, setDetectChange] = useState(false);
 	// Gets all Instructor's Review populated with Trainee's information.
 	const getCourses = async () => {
@@ -79,20 +76,9 @@ function ViewInstructorCourses() {
 		setPublished(publishedCourses);
 		setClosed(closedCourses);
 	}, [Courses]);
-	const mainNavbar = document.getElementById("main-navbar");
 
 	return (
-		<Box
-			id="asd"
-			// key={`course_${Course._id}_content_box`}
-			component="main"
-			className="search-course-list"
-			sx={{
-				flexGrow: 1,
-				width: {
-					sm: `calc(100% - ${drawerWidth}px)`,
-				},
-			}}>
+		<>
 			<SearchCourses setCourses={setCourses} searchInInstructorCourses={true} />
 			<Tabs id="controlled-tab-example" defaultActiveKey="AllCourses" className="mb-3">
 				<Tab eventKey="AllCourses" title="All Courses">
@@ -165,7 +151,7 @@ function ViewInstructorCourses() {
 					/>
 				</Tab>
 			</Tabs>
-		</Box>
+		</>
 	);
 }
 export default ViewInstructorCourses;

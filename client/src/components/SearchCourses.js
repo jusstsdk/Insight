@@ -37,8 +37,8 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		let searchParams = {};
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
-		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value;
-		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value;
+		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value/user.exchangeRate;
+		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value/user.exchangeRate;
 		if (ratingFilter) searchParams.rating = ratingFilter;
 
 		let courses;

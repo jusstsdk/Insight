@@ -28,6 +28,7 @@
     "react-router-dom": "^6.4.4",
     "react-scripts": "^5.0.1",
     "react-simple-star-rating": "^5.1.7",
+    "react-youtube": "^10.1.0",
     "redux-persist": "^6.0.0",
     "sass": "^1.57.1",
     "stripe": "^11.3.0",

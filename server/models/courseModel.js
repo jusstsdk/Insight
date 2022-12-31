@@ -45,10 +45,6 @@ const courseSchema = new Schema(
 		subjects: [String],
 		summary: String,
 		originalPrice: Number,
-		discount: {
-			type: Number,
-			default: 0,
-		},
 		promotion: {
 			startDate: Date,
 			endDate: Date,
@@ -62,14 +58,15 @@ const courseSchema = new Schema(
 			},
 		},
 		price: Number,
-		totalHours: Number,
+		totalSeconds: Number,
 		previewVideo: String,
 		instructors: [{ type: Schema.ObjectId, ref: "Instructor" }],
 		enrolledTrainees: [
-			{ 
-				type: Schema.ObjectId, ref: "Trainee", 
-				default: []
-			}
+			{
+				type: Schema.ObjectId,
+				ref: "Trainee",
+				default: [],
+			},
 		],
 		subtitles: [subtitleSchema],
 		exam: exerciseSchema,
@@ -88,21 +85,27 @@ const courseSchema = new Schema(
 			required: true,
 			enum: ["Draft", "Published", "Closed"],
 		},
+		rank : {
+			type: Number,
+			default: 0
+		},
 	},
 	{ timestamps: true }
 );
 
 courseSchema.pre("save", function (next) {
-	this.price = this.originalPrice - (this.originalPrice * this.discount) / 100;
+	this.price =
+		this.originalPrice -
+		(this.originalPrice * this.promotion.discount) / 100;
 	this.popularity = this.enrolledTrainees.length;
-	this.totalHours = 0;
+	this.totalSeconds = 0;
 	let totalRatingsValue = 0;
 	this.reviews.forEach((review) => {
 		totalRatingsValue += review.rating;
 	});
 	this.rating = totalRatingsValue / this.reviews.length;
 	this.subtitles.forEach((subtitle) => {
-		this.totalHours += subtitle.hours;
+		this.totalSeconds += subtitle.seconds;
 	});
 	next();
 });
