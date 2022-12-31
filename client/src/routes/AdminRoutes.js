@@ -59,6 +59,7 @@ export function AdminRoutes() {
 						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 						<Route path="courses/:id" element={<CoursePage />} />
 						<Route path="courses" element={<Courses />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 					</Route>
 				</Routes>
 			</Protected>
