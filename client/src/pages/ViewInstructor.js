@@ -129,7 +129,17 @@ export default function ViewInstructor() {
 					</Col>
 				</Row>
 
-				<h5 className="text-muted">{InstructorInfo.email}</h5>
+				<h5 
+					className="text-muted">{InstructorInfo.email} {" "}
+					<Rating
+							allowFraction="true"
+							initialValue={InstructorInfo.rating}
+							readonly="true"
+							size={22}
+					/> 
+					{InstructorReviews.length > 0 && ( <small >({InstructorReviews.length})</small> ) }
+				</h5>
+				
 				<p className="lh-base">{InstructorInfo.biography}</p>
 				<Tabs
 					id="controlled-tab-example"
