@@ -7,6 +7,7 @@ import CourseListPromotion from "./CourseListPromotion";
 export default function Promotion() {
 	const [courses, setCourses] = useState([]);
 	const [checkedCourses, setCheckedCourses] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
 	const userType = useSelector((state) => state.userReducer.type);
 
 	function handleCheck(event) {
@@ -22,11 +23,9 @@ export default function Promotion() {
 	return (
 		<div className="search-course-list">
 			<PromotionForm courses={checkedCourses} />
-			<SearchCourses
-				setCourses={setCourses}
-				searchInInstructorCourses={userType === "Instructor"}
-			/>
-			<CourseListPromotion courses={courses} handleCheck={handleCheck} />
+			<SearchCourses setCourses={setCourses} searchInInstructorCourses={userType == "instructor"} setCurrentPage={setCurrentPage} />
+			<CourseListPromotion courses={courses} currentPage={currentPage} setCurrentPage={setCurrentPage} handleCheck={handleCheck} />
+
 		</div>
 	);
 }

@@ -8,6 +8,7 @@ import { Rating } from "react-simple-star-rating";
 export default function CourseCardCheckbox({ course, handleCheck }) {
 	const [show, setShow] = useState(false);
 	const userType = useSelector((state) => state.userReducer.type);
+	const user = useSelector((state) => state.userReducer.user);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleOpen = () => {
@@ -46,7 +47,7 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
 						<Col sm={1} className="priceContainer d-flex justify-content-end">
-							<Card.Text className="priceLabel">{course.originalPrice}$</Card.Text>
+							<Card.Text className="priceLabel">{course.originalPrice}{user.currency}</Card.Text>
 						</Col>
 					</CardGroup>
 
