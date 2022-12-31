@@ -33,10 +33,7 @@ const createCourseInstructor = async (req, res) => {
 		const course = await Course.create(req.body);
 
 		// update instructors in db
-		await Instructor.updateMany(
-			{ _id: instructors },
-			{ $push: { courses: course._id } }
-		);
+		await Instructor.updateMany({ _id: instructors }, { $push: { courses: course._id } });
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -177,7 +174,7 @@ const getCourses = async (req, res) => {
 			course.rank = rankedCourses.indexOf(course) + 1;
 			course.save();
 		});
-		
+
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -202,6 +199,19 @@ const updateCourse = async (req, res) => {
 	res.status(200).json(updatedCourse);
 };
 
+// Delete a Course
+const deleteCourse = async (req, res) => {
+	const instructorId = req.params.id;
+	const courseId = req.body.courseId;
+	await Instructor.updateOne({ _id: instructorId }, { $pull: { courses: courseId } });
+	let course = await Course.deleteOne({ _id: courseId });
+	if (!course) {
+		return res.status(400).json({ error: "No such course (updateCourse)" });
+	}
+
+	res.status(200).json(course);
+};
+
 // Report a Course
 const reportCourse = async (req, res) => {
 	try {
@@ -221,9 +231,7 @@ const reportCourse = async (req, res) => {
 const populateReports = async (req, res) => {
 	// find results
 	try {
-		const course = await Course.findById(req.params.id).populate(
-			"reports.author"
-		);
+		const course = await Course.findById(req.params.id).populate("reports.author");
 		res.status(200).json(course);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -438,6 +446,7 @@ module.exports = {
 	createCourseInstructor,
 	getCoursesInstructor,
 	updateCourse,
+	deleteCourse,
 	reportCourse,
 	populateReports,
 	getReports,
