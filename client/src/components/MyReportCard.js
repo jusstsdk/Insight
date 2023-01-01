@@ -81,7 +81,7 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 						{comments.map((comment, i) => (
 							<ListGroup.Item key={i}>
 								<Row>
-									<Col sm={2}>
+									<Col sm={3}>
 										<h6 className="text-muted my-auto me-2">{comment.username}</h6>
 										{/* <h6>{comment.username}:</h6> */}
 									</Col>
