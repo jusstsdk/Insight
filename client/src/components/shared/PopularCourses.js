@@ -26,6 +26,7 @@ const PopularCourses = () => {
 
 	async function getCourses() {
 		const response = await api.get("courses");
+		response.data = response.data.filter((course) => course.status === "Published");
 		response.data.forEach((course) => {
 			course.originalPrice = (course.originalPrice * user.exchangeRate).toFixed(
 				2
@@ -40,7 +41,7 @@ const PopularCourses = () => {
 	}
 	useEffect(() => {
 		getCourses();
-	}, []);
+	}, [user.currency]);	
 
 	return (
 		<div className="course-list">
