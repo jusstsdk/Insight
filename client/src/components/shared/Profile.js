@@ -19,7 +19,7 @@ export default function Profile() {
 	const user = useSelector((state) => state.userReducer.user);
 	const navigate = useNavigate();
 
-	if (userType == "Guest")
+	if (userType === "Guest")
 		return (
 			<>
 				<OverlayTrigger
@@ -77,7 +77,7 @@ export default function Profile() {
 								)}
 								{userType === "Instructor" && (
 									<h6>
-										month's pay :{" "}
+										Monthly Wage:{" "}
 										{Math.trunc(
 											user.monthlyPay.amount * user.exchangeRate * 100
 										) / 100}{" "}

@@ -3,16 +3,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../../components/shared/CountryDropdown";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function CreateInstructor() {
 	const token = useSelector((state) => state.userReducer.token);
 	const Username = useRef();
 	const Password = useRef();
-	const Email = useRef();
-	const Biography = useRef();
-	const [Country, setCountry] = useState("");
-	const handleCreateInstructor = async () => {
+	const dispatch = useDispatch();
+
+	async function handleCreateInstructor(e) {
+		e.preventDefault();
 		const config = {
 			method: "POST",
 			url: "http://localhost:4000/api/instructors/",
@@ -20,21 +21,28 @@ function CreateInstructor() {
 			data: {
 				username: Username.current.value,
 				password: Password.current.value,
-				email: Email.current.value,
-				biography: Biography.current.value,
-				country: Country,
 			},
 		};
 		try {
 			let response = await axios(config);
+			addNotification({
+				title: "Instructor Created Success Fully",
+				info: "Send the entered username and password to them to login",
+				color: "success",
+			});
 		} catch (err) {
 			console.log(err);
+			addNotification({
+				title: "Something Went Wrong",
+				info: "Try again another time please",
+				color: "error",
+			});
 		}
-	};
+	}
 	return (
 		<div>
 			<h1> create an instructor </h1>
-			<Form>
+			<Form onSubmit={handleCreateInstructor}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label> Username </Form.Label>
 					<Form.Control
@@ -45,30 +53,13 @@ function CreateInstructor() {
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control ref={Password} type="password" placeholder="Password" />
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="formBasicEmail">
-					<Form.Label> Email </Form.Label>
-					<Form.Control ref={Email} type="email" placeholder="Enter Email" />
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="ControlTextareaBiography">
-					<Form.Label> Biography </Form.Label>
 					<Form.Control
-						ref={Biography}
-						placeholder="Enter Biography"
-						as="textarea"
-						rows={3}
+						ref={Password}
+						type="password"
+						placeholder="Password"
 					/>
 				</Form.Group>
-				<CountryDropdown Country={Country} setCountry={setCountry} />
-				<Button
-					onClick={(e) => {
-						e.preventDefault();
-						handleCreateInstructor();
-					}}
-					variant="primary"
-					type="submit"
-				>
+				<Button variant="primary" type="submit">
 					Add Instructor
 				</Button>
 			</Form>

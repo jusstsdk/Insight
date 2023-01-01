@@ -120,8 +120,14 @@ html {
 	overflow-y: overlay;
 }
 
+
 .breadcrumbItem > a,.breadcrumbItem > a:hover       
 {
 text-decoration: none;
 cursor: auto;
+}
+
+.clearRatingButton {
+	background-color: rgba(0, 0, 0, 0) !important;
+	border-color: #dc3545 !important;
 }

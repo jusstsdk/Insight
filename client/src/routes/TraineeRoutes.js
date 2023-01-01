@@ -9,6 +9,7 @@ import ChangePassword from "../components/shared/ChangePassword";
 import ContinueCourse from "../pages/ContinueCourse";
 import ViewInstructor from "../pages/ViewInstructor";
 import MyReports from "../pages/MyReports";
+import NotFound from "../pages/NotFound";
 
 export function TraineeRoutes() {
 	return (
@@ -19,11 +20,24 @@ export function TraineeRoutes() {
 						<Route path="" element={<TraineeView />} />
 						<Route path="courses" element={<Courses />} />
 						<Route path="courses/:id" element={<CoursePage />} />
-						<Route path="courses/:id/payment/*" element={<Payment />} />
-						<Route path="courses/:id/continueCourse" element={<ContinueCourse />} />
-						<Route path="changePassword" element={<ChangePassword />} />
-						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
+						<Route
+							path="courses/:id/payment/*"
+							element={<Payment />}
+						/>
+						<Route
+							path="courses/:id/continueCourse"
+							element={<ContinueCourse />}
+						/>
+						<Route
+							path="changePassword"
+							element={<ChangePassword />}
+						/>
+						<Route
+							path="viewInstructor/:id"
+							element={<ViewInstructor />}
+						/>
 						<Route path="myReports" element={<MyReports />} />
+						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
 			</Protected>

@@ -1,12 +1,13 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Rating } from "react-simple-star-rating";
 import ReactStars from "react-rating-stars-component";
+import { addNotification } from "../../redux/notificationsSlice";
 
 function ReviewCourseModal(props) {
 	const course = props.course;
@@ -15,6 +16,8 @@ function ReviewCourseModal(props) {
 	const setReviews = props.setReviews;
 	const setCourse = props.setCourse;
 	const getCourseFromDB = props.getCourseFromDB;
+
+	const dispatch = useDispatch();
 
 	const courseID = course._id;
 
@@ -50,6 +53,13 @@ function ReviewCourseModal(props) {
 			const response = await axios(config);
 			setCourse(response.data);
 			setReviews(response.data.reviews);
+			dispatch(
+				addNotification({
+					title: "Review Added",
+					info: "Your review has been added.",
+					color: "success",
+				})
+			);
 		} catch (err) {
 			console.log("omgggggg");
 			console.log(err);
@@ -65,13 +75,9 @@ function ReviewCourseModal(props) {
 				<Modal.Body>
 					<Form>
 						<Form.Group className="mb-3" controlId="rateCourse">
-							<Rating
-								allowFraction="true"
-								onClick={handleCourseRating}
-								/* Available Props */
-							/>
+							<Rating allowFraction="true" onClick={handleCourseRating} />
 						</Form.Group>
-						<Form.Group className="mb-3" controlId="ratingDescription">
+						<Form.Group className="" controlId="ratingDescription">
 							<Form.Label>Description</Form.Label>
 							<Form.Control
 								as="textarea"

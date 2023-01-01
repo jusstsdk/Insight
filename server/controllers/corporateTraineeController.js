@@ -1,6 +1,7 @@
 const CorporateTrainee = require("../models/corporateTraineeModel");
 const mongoose = require("mongoose");
 const Course = require("../models/courseModel");
+const bcrypt = require("bcrypt");
 
 // get all CorporateTrainees
 const getCorporateTrainees = async (req, res) => {
@@ -31,12 +32,17 @@ const createCorporateTrainee = async (req, res) => {
 	// add to the database
 	try {
 		let corporateTraineeInfo = req.body;
-		corporateTraineeInfo.password = await bcrypt.hash(corporateTraineeInfo.password, 10);
+		corporateTraineeInfo.password = await bcrypt.hash(
+			corporateTraineeInfo.password,
+			10
+		);
 		let corporateTrainee = await CorporateTrainee.create(req.body);
-		corporateTrainee["_doc"]["x-auth-token"] = corporateTrainee.generateAuthToken();
+		corporateTrainee["_doc"]["x-auth-token"] =
+			corporateTrainee.generateAuthToken();
 		corporateTrainee["_doc"].userType = "CorporateTrainee";
 		res.status(200).json(corporateTrainee);
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({ error: error.message });
 	}
 };
@@ -68,9 +74,13 @@ const updateCorporateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
-	const corporateTrainee = await CorporateTrainee.findOneAndUpdate({ _id: traineeId }, req.body, {
-		new: true,
-	});
+	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
+		{ _id: traineeId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!corporateTrainee) {
 		return res.status(400).json({ error: "No such corporate trainee" });

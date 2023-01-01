@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../functions/api";
 import { addNotification } from "../redux/notificationsSlice";
@@ -17,8 +17,8 @@ export default function PromotionForm({ courses }) {
 		if (endDate.current.value < startDate.current.value) {
 			dispatch(
 				addNotification({
-					title: "You entered wrong information",
-					info: "Start date must be before end date",
+					title: "You entered wrong information.",
+					info: "Start date must be before end date.",
 					color: "error",
 				})
 			);
@@ -32,7 +32,7 @@ export default function PromotionForm({ courses }) {
 			discount: discount.current.value,
 			offeredBy: userType,
 		});
-		
+
 		dispatch(
 			addNotification({
 				title: "Success",
@@ -44,38 +44,44 @@ export default function PromotionForm({ courses }) {
 
 	return (
 		<>
-			<Form onSubmit={setPromotion}>
-				<Form.Group className="mb-3" controlId="formBasicUsername">
-					<Form.Label>Start Date of the promotion</Form.Label>
-					<Form.Control
-						type="date"
-						ref={startDate}
-						min={new Date().toISOString().slice(0, 10)}
-					/>
-				</Form.Group>
-
-				<Form.Group className="mb-3" controlId="formBasicUsername">
-					<Form.Label>End Date of the promotion</Form.Label>
-					<Form.Control
-						type="date"
-						ref={endDate}
-						min={new Date().toISOString().slice(0, 10)}
-					/>
-				</Form.Group>
-
-				<Form.Group className="mb-3" controlId="formBasicUsername">
-					<Form.Label>Discount Amount</Form.Label>
-					<Form.Control
-						type="number"
-						ref={discount}
-						min="0"
-						max="100"
-					/>
-				</Form.Group>
-
-				<Button variant="primary" type="submit">
-					Set Promotion
-				</Button>
+			<Form onSubmit={setPromotion} className="mb-3 row">
+				<Col sm={3}>
+					<Form.Group className="" controlId="form1">
+						<Form.Label>Start Date of the promotion</Form.Label>
+						<Form.Control
+							type="date"
+							ref={startDate}
+							min={new Date().toISOString().slice(0, 10)}
+						/>
+					</Form.Group>
+				</Col>
+				<Col sm={3}>
+					<Form.Group className="" controlId="form12">
+						<Form.Label>End Date of the promotion</Form.Label>
+						<Form.Control
+							type="date"
+							ref={endDate}
+							min={new Date().toISOString().slice(0, 10)}
+						/>
+					</Form.Group>
+				</Col>
+				<Col sm={3}>
+					<Form.Group className="" controlId="form13">
+						<Form.Label>Discount Amount</Form.Label>
+						<Form.Control
+							placeholder="Amount"
+							type="number"
+							ref={discount}
+							min="0"
+							max="100"
+						/>
+					</Form.Group>
+				</Col>
+				<Col className="d-flex" sm={3}>
+					<Button className="mt-auto" variant="primary" type="submit">
+						Set Promotion
+					</Button>
+				</Col>
 			</Form>
 		</>
 	);

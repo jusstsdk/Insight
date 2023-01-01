@@ -11,6 +11,7 @@ import { setContent } from "../../../redux/continueCourseSlice";
 import { addNotification } from "../../../redux/notificationsSlice";
 import API from "../../../functions/api";
 import YoutubeEmbed from "../../YoutubeEmbed";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 export default function WatchVideo(props) {
 	// Setup
 	const dispatch = useDispatch();
@@ -23,53 +24,12 @@ export default function WatchVideo(props) {
 		(state) => state.continueCourseReducer.subtitleIndex
 	);
 	const CourseIndex = useSelector(
-		(state) => state.userReducer.user.courses
-	).findIndex((course) => course._id === props.CourseId);
+		(state) => state.userReducer.user.courses).findIndex((course) => course.course === props.CourseId);
 	const VideoIndex = User.courses[CourseIndex].subtitles[
 		SubtitleIndex
 	].videos.findIndex((video) => video._id === Content._id);
 	const NoteRef = useRef();
 	const [Note, setNote] = useState("");
-
-	// Updates the status of the Video in Database, User and current Content.
-	const handleMarkAsWatched = async () => {
-		// Updates Video status in Database.
-		let response = await API.put(`/courses/${User._id}/watchVideo`, {
-			courseIndex: CourseIndex,
-			subtitleIndex: SubtitleIndex,
-			videoIndex: VideoIndex,
-			userType: UserType,
-		});
-
-		// Send the Certificate in a mail if the User completed the Course.
-		let progress = response.data.courses[CourseIndex].progress;
-		if (progress === 1) {
-			await API.post(`/courses/sendCertificate`, {
-				courseTitle: props.CourseTitle,
-				email: User.email,
-			});
-			dispatch(
-				addNotification({
-					title: "Continue Course",
-					info: "You have completed the Course! We have sent to you your Certificate.",
-					color: "success",
-				})
-			);
-		}
-
-		// Updates Video status in UserReducer.
-		dispatch(
-			watchVideo({
-				courseIndex: CourseIndex,
-				subtitleIndex: SubtitleIndex,
-				videoIndex: VideoIndex,
-				progress: progress,
-			})
-		);
-
-		// Updates Current Content
-		dispatch(setContent({ ...Content, isWatched: true }));
-	};
 
 	// Adds a Note to the Video in Database, User and current Content.
 	const handleAddNote = async () => {
@@ -154,9 +114,17 @@ export default function WatchVideo(props) {
 		<>
 			{/* Page Info */}
 			<Col>
-				<h4>{Content.title}</h4>
-				<h6>{Content.description}</h6>
-				<YoutubeEmbed src={Content.url} />
+				<Row>
+					<Col sm={10}>
+						<h4 className="fitWidth">{Content.title}</h4>
+					</Col>
+					<Col className="ms-auto d-flex justify-content-end" sm={2}>
+						{Content.isWatched ? <AiFillEye size={32} /> : <AiFillEyeInvisible size={32} />}
+					</Col>
+				</Row>
+				<h6 className="fitWidth">{Content.description}</h6>
+
+				<YoutubeEmbed src={Content.url} CourseId={props.CourseId} CourseTitle={props.CourseTitle} />
 			</Col>
 			{/* Page Control Buttons */}
 			<Col>
@@ -211,19 +179,6 @@ export default function WatchVideo(props) {
 						<Button className="w-auto" onClick={handleDownloadNotes}>
 							Download Notes
 						</Button>
-					</Col>
-					{/* Video Control */}
-					<Col className="me-auto d-flex justify-content-end">
-						{!Content.isWatched && (
-							<Button className="ms-3 w-auto" onClick={handleMarkAsWatched}>
-								Mark Video as Watched
-							</Button>
-						)}
-						{Content.isWatched && (
-							<Button className="ms-3 w-auto" disabled>
-								Marked as Watched
-							</Button>
-						)}
 					</Col>
 				</Row>
 			</Col>

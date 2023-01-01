@@ -9,6 +9,7 @@ export const userSlice = createSlice({
 		user: {
 			country: "USA",
 			currency: "USD",
+			exchangeRate: 1,
 		},
 	},
 	reducers: {
@@ -31,6 +32,16 @@ export const userSlice = createSlice({
 		setCourses: (state, action) => {
 			state.user.courses = action.payload;
 		},
+		setCourseRefund: (state, action) => {
+			console.log(action);
+			state.user.courses = state.user.courses.map((course) => {
+				if (course.course === action.payload) {
+					course.requestedRefund = true;
+				}
+				//console.log(course);
+				return course;
+			});
+		},
 		setRequests: (state, action) => {
 			state.user.requests = action.payload;
 		},
@@ -38,35 +49,31 @@ export const userSlice = createSlice({
 			state.user.wallet -= action.payload;
 		},
 		watchVideo: (state, action) => {
-			state.user.courses[action.payload.courseIndex].subtitles[
-				action.payload.subtitleIndex
-			].videos[action.payload.videoIndex].isWatched = true;
-			state.user.courses[action.payload.courseIndex].progress =
-				action.payload.progress;
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].isWatched = true;
+			state.user.courses[action.payload.courseIndex].progress = action.payload.progress;
 		},
 		updateInstructorCourses: (state, action) => {
 			state.user.courses = [...state.user.courses, action.payload];
 		},
 		addNoteToVideoNotes: (state, action) => {
-			state.user.courses[action.payload.courseIndex].subtitles[
-				action.payload.subtitleIndex
-			].videos[action.payload.videoIndex].notes = [
-				...state.user.courses[action.payload.courseIndex].subtitles[
-					action.payload.subtitleIndex
-				].videos[action.payload.videoIndex].notes,
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = [
+				...state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex]
+					.videos[action.payload.videoIndex].notes,
 				action.payload.note,
 			];
 		},
 		deleteNoteFromVideoNotes: (state, action) => {
 			let newNotes = state.user.courses[action.payload.courseIndex].subtitles[
 				action.payload.subtitleIndex
-			].videos[action.payload.videoIndex].notes.filter(
-				(_, i) => i !== action.payload.noteIndex
-			);
+			].videos[action.payload.videoIndex].notes.filter((_, i) => i !== action.payload.noteIndex);
 
-			state.user.courses[action.payload.courseIndex].subtitles[
-				action.payload.subtitleIndex
-			].videos[action.payload.videoIndex].notes = newNotes;
+			state.user.courses[action.payload.courseIndex].subtitles[action.payload.subtitleIndex].videos[
+				action.payload.videoIndex
+			].notes = newNotes;
 			// state.notifications = state.notifications.filter((notification, i) => i !== action.payload);
 		},
 		solveExercise: (state, action) => {
@@ -75,17 +82,14 @@ export const userSlice = createSlice({
 			].exercises[action.payload.exerciseIndex].isSolved = true;
 			state.user.courses[action.payload.courseIndex].subtitles[
 				action.payload.subtitleIndex
-			].exercises[action.payload.exerciseIndex].questions =
-				action.payload.questions;
+			].exercises[action.payload.exerciseIndex].questions = action.payload.questions;
 			state.user.courses[action.payload.courseIndex].subtitles[
 				action.payload.subtitleIndex
-			].exercises[action.payload.exerciseIndex].receivedGrade =
-				action.payload.receivedGrade;
+			].exercises[action.payload.exerciseIndex].receivedGrade = action.payload.receivedGrade;
 		},
 		solveExam: (state, action) => {
 			state.user.courses[action.payload.courseIndex].exam.isSolved = true;
-			state.user.courses[action.payload.courseIndex].exam.questions =
-				action.payload.questions;
+			state.user.courses[action.payload.courseIndex].exam.questions = action.payload.questions;
 			state.user.courses[action.payload.courseIndex].exam.receivedGrade =
 				action.payload.receivedGrade;
 		},
@@ -104,7 +108,13 @@ export const userSlice = createSlice({
 			state.user = {
 				country: "USA",
 				currency: "USD",
+				exchangeRate: 1,
 			};
+		},
+		deleteCourseInstructor: (state, action) => {
+			state.user.courses = state.user.courses.filter(
+				(courseId) => courseId !== action.payload.courseId
+			);
 		},
 	},
 });
@@ -127,6 +137,8 @@ export const {
 	solveExercise,
 	updateInstructorCourses,
 	solveExam,
+	deleteCourseInstructor,
+	setCourseRefund
 } = userSlice.actions;
 
 export default userSlice.reducer;

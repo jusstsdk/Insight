@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
+import { MdOutlineError } from "react-icons/md";
 
 import { addExerciseToSubtitle, editExerciseOfSubtitle } from "../../../redux/createCourseSlice";
 
@@ -11,8 +12,17 @@ export default function AddExercise(props) {
 		(state) => state.createCourseReducer.subtitlesIndices[SubtitleKey]
 	);
 	const [Title, setTitle] = useState(props.case === "Add" ? "" : props.exercise.title);
+	const [MissingTitle, setMissingTitle] = useState(false);
 
 	const handleAddExercise = () => {
+		if (Title === "") {
+			setMissingTitle(true);
+		} else {
+			setMissingTitle(false);
+		}
+		if (Title === "") {
+			return;
+		}
 		if (props.case === "Add") {
 			let newExercise = { title: Title, questions: [], index: exerciseIndex };
 			dispatch(addExerciseToSubtitle({ subtitleKey: SubtitleKey, exercise: newExercise }));
@@ -58,6 +68,7 @@ export default function AddExercise(props) {
 								setTitle(e.target.value);
 							}}
 						/>
+						{MissingTitle && <h6 className="error">Missing Title <MdOutlineError/></h6>}
 					</Col>
 				</Form.Group>
 			</Modal.Body>

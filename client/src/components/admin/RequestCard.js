@@ -1,19 +1,12 @@
-import {
-	Button,
-	Badge,
-	Card,
-	CardGroup,
-	Col,
-	Row,
-	ListGroup,
-} from "react-bootstrap";
+import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
 import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
-function RequestCard({ request, course, username }) {
+import { Rating } from "react-simple-star-rating";
+function RequestCard({ request, course, username, DetectChange, setDetectChange  }) {
 	const [handled, setHandled] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState("");
@@ -42,6 +35,7 @@ function RequestCard({ request, course, username }) {
 				color: "success",
 			})
 		);
+		setDetectChange(!DetectChange);
 	}
 	async function denyAccess() {
 		await api.put(
@@ -64,6 +58,7 @@ function RequestCard({ request, course, username }) {
 				color: "danger",
 			})
 		);
+		setDetectChange(!DetectChange);
 	}
 	useEffect(() => {
 		if (request.status.toLowerCase() !== "pending") {
@@ -71,7 +66,7 @@ function RequestCard({ request, course, username }) {
 		}
 	}, []);
 	return (
-		show && (
+		show && !handled && (
 			<Card bg="light" className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}
@@ -79,17 +74,20 @@ function RequestCard({ request, course, username }) {
 						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge
-									bg="dark"
-									key={"subject_badge_" + i}
-									className="p-2 mx-1 "
-								>
+								<Badge bg="dark" key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}
 						</Col>
-						<Col className="starsContainer" sm={4} md={4} lg={2}>
-							<Stars stars={course.rating ? course.rating : 0} />
+						<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+							<Rating
+								key={"stars_" + course._id}
+								id={course._id}
+								allowFraction="true"
+								initialValue={course.rating ? course.rating : 0}
+								readonly="true"
+								size={20}
+							/>
 						</Col>
 					</CardGroup>
 
@@ -103,41 +101,27 @@ function RequestCard({ request, course, username }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted textFit courseCardLabel my-1">
-							Instructors
-						</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
 									<Button
 										className="p-0 me-2"
 										variant="link"
-										onClick={() =>
-											navigate("/admin/viewInstructor/" + instructor._id)
-										}
-										key={"instructor_" + i}
-									>
+										onClick={() => navigate("/admin/viewInstructor/" + instructor._id)}
+										key={"instructor_" + i}>
 										{instructor.username}
 									</Button>
 								))}
 							</ListGroup>
 						</Col>
-						<Col
-							className="viewCourseButton d-flex  justify-content-end"
-							sm={2}
-							md={2}
-							lg={2}
-						>
+						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							{!handled && (
 								<>
 									<Button variant="outline-primary" onClick={denyAccess}>
 										Deny access
 									</Button>
-									<Button
-										className="ms-1	"
-										variant="outline-primary"
-										onClick={grantAccess}
-									>
+									<Button className="ms-1	variant="outline-primary" onClick={grantAccess}>
 										Grant access
 									</Button>
 								</>

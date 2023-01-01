@@ -18,7 +18,12 @@ function Payment() {
 	async function setup() {
 		let response = await API.get(`courses/${courseId}`);
 		const course = response.data;
-		let amount = course.price - wallet;
+		let amount;
+		if(course.promotion.endDate > new Date().toISOString() && course.promotion.discount > 0){
+			amount = course.price - wallet;
+		}else{
+			amount = course.originalPrice - wallet;
+		}
 		if (amount < 0) {
 			amount = 0;
 		}

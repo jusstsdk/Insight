@@ -18,6 +18,7 @@ import { useState } from "react";
 import AddQuestion from "./AddQuestion";
 
 import AddVideo from "./AddVideo";
+import API from "../../../functions/api";
 export default function ViewBoth(props) {
 	const dispatch = useDispatch();
 
@@ -52,14 +53,14 @@ export default function ViewBoth(props) {
 
 	const handleDeleteExercise = (exercise_key) => {
 		let exerciseIndex = props.SubtitleExercises[exercise_key].index;
-		let newExercises = props.SubtitleExercises.filter(
-			(_, i) => i !== exercise_key
-		);
+		let numberOfQuestions = props.SubtitleExercises[exercise_key].questions.length;
+		let newExercises = props.SubtitleExercises.filter((_, i) => i !== exercise_key);
 		dispatch(
 			removeExerciseFromSubtitle({
 				subtitleKey: props.subtitleKey,
 				newExercises: newExercises,
 				exerciseIndex: exerciseIndex,
+				numberOfQuestions: numberOfQuestions,
 			})
 		);
 	};
@@ -84,14 +85,14 @@ export default function ViewBoth(props) {
 		);
 	};
 
-	const handleDeleteQuestion = (question_key) => {
-		let newQuestions = props.SubtitleExercises[ExerciseKey].questions.filter(
+	const handleDeleteQuestion = (question_key, exercise_key) => {
+		let newQuestions = props.SubtitleExercises[exercise_key].questions.filter(
 			(question, i) => i !== question_key
 		);
 		dispatch(
 			removeQuestionFromExercise({
 				subtitleKey: props.subtitleKey,
-				exerciseKey: ExerciseKey,
+				exerciseKey: exercise_key,
 				newQuestions: newQuestions,
 			})
 		);
@@ -115,7 +116,37 @@ export default function ViewBoth(props) {
 		setVideoKey(video_key);
 		setShowEditVideoModal(true);
 	};
-	const handleDeleteVideo = (video_key) => {
+	const getVideoDuration = async (url) => {
+		let videoId;
+		if (url.includes("watch?v=")) {
+			videoId = url.split("watch?v=")[1];
+		} else {
+			videoId = url.split("/")[url.split("/").length - 1];
+		}
+		// videoId = videoId[videoId.length - 1].split("watch?v=")[1];
+		let response = await API.get(
+			`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
+		);
+
+		let videoDuration = response.data.items[0].contentDetails.duration;
+		var reptms = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
+		var hours = 0,
+			minutes = 0,
+			seconds = 0,
+			totalseconds;
+
+		if (reptms.test(videoDuration)) {
+			var matches = reptms.exec(videoDuration);
+			if (matches[1]) hours = Number(matches[1]);
+			if (matches[2]) minutes = Number(matches[2]);
+			if (matches[3]) seconds = Number(matches[3]);
+			totalseconds = hours * 3600 + minutes * 60 + seconds;
+		}
+		return totalseconds;
+	};
+	const handleDeleteVideo = async (video_key) => {
+		let oldTotalSeconds = await getVideoDuration(props.SubtitleVideos[video_key].url);
+
 		let newVideos = props.SubtitleVideos.filter((_, i) => i !== video_key);
 		let videoIndex = props.SubtitleVideos[video_key].index;
 		dispatch(
@@ -123,6 +154,7 @@ export default function ViewBoth(props) {
 				subtitleKey: props.subtitleKey,
 				newVideos: newVideos,
 				videoIndex: videoIndex,
+				oldSeconds: oldTotalSeconds,
 			})
 		);
 	};
@@ -265,15 +297,11 @@ export default function ViewBoth(props) {
 											className="accordionTrash accordionLikeDeleteButton"
 											variant="secondary2"
 											key={`video_trash_button_${getContentIndex(content)}`}
-											onClick={() =>
-												handleDeleteVideo(
-													getContentIndex(content, content_index)
-												)
-											}
-										>
-											<BsTrash
-												key={"video_trash_" + getContentIndex(content)}
-											/>
+
+											onClick={async () =>
+												await handleDeleteVideo(getContentIndex(content, content_index))
+											}>
+											<BsTrash key={"video_trash_" + getContentIndex(content)} />
 										</Button>
 									</Col>
 								</div>

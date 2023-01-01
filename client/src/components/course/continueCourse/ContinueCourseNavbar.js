@@ -19,8 +19,8 @@ export default function ContinueCourseNavbar({
 	const UserType = useSelector((state) => state.userReducer.type);
 
 	const CourseIndex = useSelector(
-		(state) => state.userReducer.user.courses
-	).findIndex((course) => course._id === Course._id);
+		(state) => state.userReducer.user.courses).findIndex((course) => course.course === Course._id);
+    
 	const Subtitles = useSelector(
 		(state) => state.userReducer.user.courses[CourseIndex].subtitles
 	);
@@ -55,10 +55,10 @@ export default function ContinueCourseNavbar({
 					{/* Subtitles */}
 					{Subtitles[SubtitleIndex] && (
 						<Breadcrumb className="my-auto">
-							<Breadcrumb.Item className="cut-text breadcrumbItem">
+							<Breadcrumb.Item className="cut-text">
 								{Course.title}
 							</Breadcrumb.Item>
-							<Breadcrumb.Item className="cut-text breadcrumbItem">
+							<Breadcrumb.Item className="cut-text">
 								{Subtitles[SubtitleIndex].title}
 							</Breadcrumb.Item>
 							<Breadcrumb.Item className="breadcrumbItem">

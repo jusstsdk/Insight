@@ -31,6 +31,8 @@ export default function CoursePage() {
 	//trainee data
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
 	const [traineeVersionOfCourse, setTraineeVersionOfCourse] = useState();
+	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
+		useState(false);
 
 	//corp trainee data
 	const [corpTraineeOwnsCourse, setCorpTraineeOwnsCourse] = useState(false);
@@ -60,10 +62,10 @@ export default function CoursePage() {
 
 		//accomodate country into price
 		if (response.data.price) {
-			response.data.price *= user.exchangeRate;
+			response.data.price *= user.exchangeRate ? user.exchangeRate : 1;
 			response.data.price = Math.trunc(response.data.price * 100) / 100;
 		}
-		response.data.originalPrice *= user.exchangeRate;
+		response.data.originalPrice *= user.exchangeRate ? user.exchangeRate : 1;
 		response.data.originalPrice =
 			Math.trunc(response.data.originalPrice * 100) / 100;
 
@@ -76,21 +78,24 @@ export default function CoursePage() {
 	//SHOW INSTRUCTORS DATA IN COURSE PAGE
 	async function loadData() {
 		await getCourseFromDB();
-		
+
 		if (userType === "CorporateTrainee") {
-			user.courses.forEach((course) => {
-				if (course._id === courseID) {
+			user.courses.forEach((userCourse) => {
+				if (userCourse.course === courseID) {
 					setCorpTraineeOwnsCourse(true);
-					setCorpTraineeVersionOfCourse(course);
+					setCorpTraineeVersionOfCourse(userCourse);
 				}
 			});
 		}
 
 		if (userType === "Trainee") {
-			user.courses.forEach((course) => {
-				if (course._id === courseID) {
+			user.courses.forEach((userCourse) => {
+				if (userCourse.course === courseID) {
 					setTraineeOwnsCourse(true);
-					setTraineeVersionOfCourse(course);
+					setTraineeVersionOfCourse(userCourse);
+					if (userCourse.requestedRefund) {
+						setTraineeAlreadyRequestedRefund(true);
+					}
 				}
 			});
 		}
@@ -116,7 +121,6 @@ export default function CoursePage() {
 		course &&
 		loaded && (
 			<Container>
-				
 				<CourseTitle
 					course={course}
 					id="title"
@@ -127,6 +131,7 @@ export default function CoursePage() {
 							? corpTraineeOwnsCourse
 							: instructorTeachesCourse
 					}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 				></CourseTitle>
 				<hr />
 				<CourseBasicInfo
@@ -134,6 +139,7 @@ export default function CoursePage() {
 					instructors={instructors}
 					traineeOwnsCourse={traineeOwnsCourse}
 					traineeVersionOfCourse={traineeVersionOfCourse}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 					corpTraineeOwnsCourse={corpTraineeOwnsCourse}
 					corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
 					id="basicInfo"
@@ -152,6 +158,10 @@ export default function CoursePage() {
 						userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
 					}
 					id="reviews"
+					traineeOwnsCourse={traineeOwnsCourse}
+					traineeVersionOfCourse={traineeVersionOfCourse}
+					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
+					setTraineeAlreadyRequestedRefund={setTraineeAlreadyRequestedRefund}
 				></CourseReviews>
 			</Container>
 		)

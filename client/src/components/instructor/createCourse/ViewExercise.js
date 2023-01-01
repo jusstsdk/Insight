@@ -47,8 +47,7 @@ export default function ViewExercise(props) {
 									className="accordionTrash accordionLikeDeleteButton"
 									variant="secondary2"
 									key={`exercise_trash_button_${question_key}`}
-									onClick={() => props.handleDeleteQuestion(question_key)}
-								>
+									onClick={() => props.handleDeleteQuestion(question_key, props.exerciseKey)}>
 									<BsTrash key={"exercise_trash_" + question_key} />
 								</Button>
 							</Col>

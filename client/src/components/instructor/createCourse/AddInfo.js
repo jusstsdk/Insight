@@ -1,76 +1,135 @@
-import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button } from "react-bootstrap";
-
+import { MdOutlineError } from "react-icons/md";
 import {
 	setTitle,
 	setSummary,
 	setOriginalPrice,
 	setPreviewVideo,
-	setInstructors,
 	setSubjects,
 } from "../../../redux/courseInfoSlice";
 import { SUBJECTS } from "../../../functions/subjects";
 import DropDownMenu from "../../DropDownMenu";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { addNotification } from "../../../redux/notificationsSlice";
+import API from "../../../functions/api";
 
 export default function AddInfo(props) {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userReducer.user);
-	const [AllInstructors, setAllInstructors] = useState([]);
-	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
-	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
-	const InfoInstructors = useSelector((state) => state.courseInfoReducer.instructors).filter(
-		(instructor) => {
-			return instructor._id !== instructorId;
-		}
+	const InfoOriginalPrice = useSelector(
+		(state) => state.courseInfoReducer.originalPrice
 	);
+	const InfoPreviewVideo = useSelector(
+		(state) => state.courseInfoReducer.previewVideo
+	);
+	
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
-	const getData = async () => {
-		const config = {
-			method: "GET",
-			url: `http://localhost:4000/api/instructors`,
-			headers: {},
-		};
+	const [MissingTitle, setMissingTitle] = useState(false);
+	const [InvalidPrice, setInvalidPrice] = useState(false);
+	const [MissingSummary, setMissingSummary] = useState(false);
+	const [MissingPreviewVideo, setMissingPreviewVideo] = useState(false);
+	const [BadUrl, setBadUrl] = useState(false);
+	const [MissingSubjects, setMissingSubjects] = useState(false);
 
-		try {
-			let response = await axios(config);
-			let filteredInstructors = response.data.filter((instructor) => {
-				return instructor._id !== instructorId;
-			});
-			setAllInstructors(filteredInstructors);
-		} catch (err) {
-			console.log(err);
-		}
-	};
 	const resizeTextArea = () => {
 		SummaryRef.current.style.height = "auto";
 		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
-	useEffect(resizeTextArea, [InfoSummary]);
 
-	useEffect(() => {
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const handleNext = async () => {
+		if (InfoTitle === "") {
+			setMissingTitle(true);
+		} else {
+			setMissingTitle(false);
+		}
+		if (InfoOriginalPrice<0){
+			setInvalidPrice(true);
+		} else {
+			setInvalidPrice(false);
+		}
+		if (InfoSummary === "") {
+			setMissingSummary(true);
+		} else {
+			setMissingSummary(false);
+		}
+		let invalidUrl = false;
+		if (InfoPreviewVideo === "") {
+			setMissingPreviewVideo(true);
+			setBadUrl(false);
+		} else {
+			setMissingPreviewVideo(false);
+			let videoId;
+			if (InfoPreviewVideo.includes("watch?v=")) {
+				videoId = InfoPreviewVideo.split("watch?v=")[1];
+			} else {
+				videoId = InfoPreviewVideo.split("/")[InfoPreviewVideo.split("/").length - 1];
+			}
+			let response = await API.get(
+				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
+			);
+
+			if (response.data.items.length === 0) {
+				invalidUrl = true;
+				setBadUrl(true);
+			} else {
+				invalidUrl = false;
+				setBadUrl(false);
+			}
+		}
+		if (InfoSubjects.length === 0) {
+			setMissingSubjects(true);
+		} else {
+			setMissingSubjects(false);
+		}
+		if (
+			InfoTitle === "" ||
+			InfoSummary === "" ||
+			InfoPreviewVideo === "" || invalidUrl ||
+			InfoSubjects.length === 0 || InfoOriginalPrice<0
+		) {
+			dispatch(
+				addNotification({
+					title: "Create Course",
+					info: `Please fill in all fields in the Info tab with valid info!`,
+					color: "error",
+				})
+			);
+			return;
+		} else {
+			console.log(InfoTitle);
+			props.setCurrentTab("addSubtitle");
+		}
+	};
+
+	useEffect(resizeTextArea, [InfoSummary]);
 
 	return (
 		<>
-			<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+			<Col className="d-flex justify-content-center">
+				<Col sm={9}>
+					<h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+				</Col>
+			</Col>
 			{/* Title and Price */}
 			<Form.Group
 				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-start"
+				className="mb-3 d-flex align-items-center justify-content-center"
 				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
-					Title
+					Title{" "}
+					{MissingTitle && (
+						<span className="error">
+							missing
+							<MdOutlineError />
+						</span>
+					)}
 				</Form.Label>
-				<Col sm={3}>
+				<Col sm={5}>
 					<Form.Control
 						type="text"
 						placeholder="Title"
@@ -81,8 +140,8 @@ export default function AddInfo(props) {
 					/>
 				</Col>
 
-				<Form.Label className="textFit" column sm={1}>
-					Price in {user.currency}
+				<Form.Label className="" column sm={1}>
+					Price
 				</Form.Label>
 				<Col sm={2}>
 					<Form.Control
@@ -93,14 +152,20 @@ export default function AddInfo(props) {
 							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
-					
+					{InvalidPrice && <h6 className="error">Invalid Price <MdOutlineError/></h6>}
 				</Col>
 			</Form.Group>
 
 			{/* Subjects */}
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
-					Subjects
+					Subjects{" "}
+					{MissingSubjects && (
+						<span className="error">
+							missing
+							<MdOutlineError />
+						</span>
+					)}
 				</Form.Label>
 				<Col sm={8}>
 					<DropDownMenu
@@ -118,11 +183,17 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Summary */}
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
-					Summary
+					Summary{" "}
+					{MissingSummary && (
+						<span className="error">
+							missing
+							<MdOutlineError />
+						</span>
+					)}
 				</Form.Label>
-				<Col sm={10}>
+				<Col sm={8}>
 					<Form.Control
 						ref={SummaryRef}
 						as="textarea"
@@ -138,32 +209,25 @@ export default function AddInfo(props) {
 			</Form.Group>
 
 			{/* Instructors */}
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
-				<Form.Label column sm={1}>
-					Instructors
-				</Form.Label>
-				<Col sm={8}>
-					<DropDownMenu
-						id="multiselectInstructors"
-						state={AllInstructors}
-						selectedState={InfoInstructors}
-						onChange={(selectedList, selectedItem) => {
-							dispatch(setInstructors(selectedList));
-						}}
-						isObject={true}
-						displayValue="email"
-						placeholder="Select Course Instructors"
-						emptyRecordMsg="You can't add more Instructors."
-					/>
-				</Col>
-			</Form.Group>
 
 			{/* Preview Video */}
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
-					Preview Video
+					Preview Video{" "}
+					{MissingPreviewVideo && (
+						<span className="error">
+							missing
+							<MdOutlineError />
+						</span>
+					)}
+					{BadUrl && (
+						<span className="error">
+							Invalid URL
+							<MdOutlineError />
+						</span>
+					)}
 				</Form.Label>
-				<Col sm={5}>
+				<Col sm={8}>
 					<Form.Control
 						type="text"
 						placeholder="Preview Video"
@@ -177,7 +241,7 @@ export default function AddInfo(props) {
 
 			{/* Navigation */}
 			<Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
-				<Button onClick={() => props.setCurrentTab("addSubtitle")}>
+				<Button onClick={() => handleNext()}>
 					<AiOutlineArrowRight />
 				</Button>
 			</Col>

@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
 import API from "../../functions/api";
 import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 
@@ -18,13 +19,17 @@ import {
 } from "../../redux/createCourseSlice";
 
 import { addNotification } from "../../redux/notificationsSlice";
+import { deleteCourseInstructor } from "../../redux/userSlice";
 
 import Stars from "../Stars";
+import UniversalCourseCard from "../UniversalCourseCard";
 function CourseCard(props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const currency = useSelector((state) => state.userReducer.user.currency);
+	const instructorId = useSelector((state) => state.userReducer.user._id);
 
+	const universal = true;
 	const handleEditCourse = () => {
 		dispatch(setInfo(props.course));
 		dispatch(setExamsAndSubtitles(props.course));
@@ -61,11 +66,32 @@ function CourseCard(props) {
 		props.setDetectChange(!props.DetectChange);
 	};
 
+	const handleDeleteDraft = async () => {
+		await API.delete(`/courses/${instructorId}`, {
+			data: { courseId: props.course._id },
+		});
+
+		dispatch(clearInfo());
+		dispatch(clearCreateCourse());
+		dispatch(deleteCourseInstructor({ courseId: props.course._id }));
+		dispatch(
+			addNotification({
+				title: "Delete Course",
+				info: "Draft Deleted Successfully!",
+				color: "success",
+			})
+		);
+		props.setDetectChange(!props.DetectChange);
+	};
+
 	const displayButtons = () => {
 		switch (props.course.status) {
 			case "Draft": {
 				return (
 					<>
+						<Button className="me-3" onClick={handleDeleteDraft}>
+							Delete Course
+						</Button>
 						<Button className="me-3" onClick={handleEditCourse}>
 							Edit Course
 						</Button>
@@ -84,10 +110,15 @@ function CourseCard(props) {
 					</>
 				);
 			}
+			default: {
+				return <></>;
+			}
 		}
 	};
 
-	return (
+	return universal ? (
+		<></>
+	) : (
 		<Card className="my-3">
 			<Card.Body>
 				{/* Title and Stars */}
@@ -96,7 +127,7 @@ function CourseCard(props) {
 						{props.course.title}
 					</Card.Title>
 					<p className="textFit my-auto text-muted">
-						{props.course.totalHours} Hours
+						{Math.ceil(props.course.totalSeconds / 3600)} Hours
 					</p>
 					<Col sm={6} className="ms-3">
 						{props.course.subjects.map((subject, i) => (
@@ -105,8 +136,13 @@ function CourseCard(props) {
 							</Badge>
 						))}
 					</Col>
-					<Col className="starsContainer" sm={4} md={4} lg={2}>
-						<Stars stars={props.course.rating ? props.course.rating : 0} />
+					<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+						<Rating
+							allowFraction="true"
+							initialValue={props.course.rating ? props.course.rating : 0}
+							readonly="true"
+							size={20}
+						/>
 					</Col>
 				</CardGroup>
 
