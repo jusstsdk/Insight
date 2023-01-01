@@ -29,40 +29,60 @@ export default function AddInfo(props) {
 	
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
-	const [MissingTitle, setMissingTitle] = useState(false);
-	const [InvalidPrice, setInvalidPrice] = useState(false);
-	const [MissingSummary, setMissingSummary] = useState(false);
-	const [MissingPreviewVideo, setMissingPreviewVideo] = useState(false);
-	const [BadUrl, setBadUrl] = useState(false);
-	const [MissingSubjects, setMissingSubjects] = useState(false);
 
 	const resizeTextArea = () => {
 		SummaryRef.current.style.height = "auto";
 		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
+	const validatePreviewUrl = async (url) => {
+		let invalidUrl = false;
+		if (url === "") {
+			props.setMissingPreviewVideo(true);
+			props.setBadPreviewUrl(false);
+		} else {
+			props.setMissingPreviewVideo(false);
+			let videoId;
+			if (url.includes("watch?v=")) {
+				videoId = url.split("watch?v=")[1];
+			} else {
+				videoId = url.split("/")[url.split("/").length - 1];
+			}
+			let response = await API.get(
+				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
+			);
+
+			if (response.data.items.length === 0) {
+				invalidUrl = true;
+				props.setBadPreviewUrl(true);
+			} else {
+				invalidUrl = false;
+				props.setBadPreviewUrl(false);
+			}
+		}
+	}
 
 	const handleNext = async () => {
 		if (InfoTitle === "") {
-			setMissingTitle(true);
+			props.setMissingCourseTitle(true);
 		} else {
-			setMissingTitle(false);
+			props.setMissingCourseTitle(false);
 		}
 		if (InfoOriginalPrice<0){
-			setInvalidPrice(true);
+			props.setInvalidPrice(true);
 		} else {
-			setInvalidPrice(false);
+			props.setInvalidPrice(false);
 		}
 		if (InfoSummary === "") {
-			setMissingSummary(true);
+			props.setMissingSummary(true);
 		} else {
-			setMissingSummary(false);
+			props.setMissingSummary(false);
 		}
 		let invalidUrl = false;
 		if (InfoPreviewVideo === "") {
-			setMissingPreviewVideo(true);
-			setBadUrl(false);
+			props.setMissingPreviewVideo(true);
+			props.setBadPreviewUrl(false);
 		} else {
-			setMissingPreviewVideo(false);
+			props.setMissingPreviewVideo(false);
 			let videoId;
 			if (InfoPreviewVideo.includes("watch?v=")) {
 				videoId = InfoPreviewVideo.split("watch?v=")[1];
@@ -75,16 +95,16 @@ export default function AddInfo(props) {
 
 			if (response.data.items.length === 0) {
 				invalidUrl = true;
-				setBadUrl(true);
+				props.setBadPreviewUrl(true);
 			} else {
 				invalidUrl = false;
-				setBadUrl(false);
+				props.setBadPreviewUrl(false);
 			}
 		}
 		if (InfoSubjects.length === 0) {
-			setMissingSubjects(true);
+			props.setMissingSubjects(true);
 		} else {
-			setMissingSubjects(false);
+			props.setMissingSubjects(false);
 		}
 		if (
 			InfoTitle === "" ||
@@ -99,11 +119,12 @@ export default function AddInfo(props) {
 					color: "error",
 				})
 			);
-			return;
+			
 		} else {
 			console.log(InfoTitle);
-			props.setCurrentTab("addSubtitle");
+			
 		}
+		props.setCurrentTab("addSubtitle");
 	};
 
 	useEffect(resizeTextArea, [InfoSummary]);
@@ -122,7 +143,7 @@ export default function AddInfo(props) {
 				controlId="formHorizontalEmail">
 				<Form.Label column sm={1}>
 					Title{" "}
-					{MissingTitle && (
+					{props.displayErrors && props.MissingCourseTitle && (
 						<span className="error">
 							missing
 							<MdOutlineError />
@@ -152,7 +173,7 @@ export default function AddInfo(props) {
 							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
-					{InvalidPrice && <h6 className="error">Invalid Price <MdOutlineError/></h6>}
+					{props.displayErrors && props.InvalidPrice && <h6 className="error">Invalid Price <MdOutlineError/></h6>}
 				</Col>
 			</Form.Group>
 
@@ -160,7 +181,7 @@ export default function AddInfo(props) {
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Subjects{" "}
-					{MissingSubjects && (
+					{props.displayErrors && props.MissingSubjects && (
 						<span className="error">
 							missing
 							<MdOutlineError />
@@ -186,7 +207,7 @@ export default function AddInfo(props) {
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Summary{" "}
-					{MissingSummary && (
+					{props.displayErrors && props.MissingSummary && (
 						<span className="error">
 							missing
 							<MdOutlineError />
@@ -214,13 +235,13 @@ export default function AddInfo(props) {
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Preview Video{" "}
-					{MissingPreviewVideo && (
+					{props.displayErrors && props.MissingPreviewVideo && (
 						<span className="error">
 							missing
 							<MdOutlineError />
 						</span>
 					)}
-					{BadUrl && (
+					{props.displayErrors && props.BadPreviewUrl && (
 						<span className="error">
 							Invalid URL
 							<MdOutlineError />
@@ -234,6 +255,7 @@ export default function AddInfo(props) {
 						value={InfoPreviewVideo}
 						onChange={(e) => {
 							dispatch(setPreviewVideo(e.target.value));
+							validatePreviewUrl(e.target.value);
 						}}
 					/>
 				</Col>
