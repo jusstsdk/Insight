@@ -1,35 +1,26 @@
 import { useEffect, useState, useRef } from "react";
-import {
-	Container,
-	Tabs,
-	Tab,
-	Row,
-	Col,
-	Modal,
-	Form,
-	Button,
-} from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
-import CourseCard from "../components/CourseCard";
+import { Container, Tabs, Tab, Row, Col, Modal, Form } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
 import API from "../functions/api";
+import { Button } from "react-bootstrap";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
 import UniversalCourseCard from "../components/UniversalCourseCard";
 import { IoIosPin } from "react-icons/io";
+import RatingStats from "../components/RatingStats";
 
-export default function ViewInstructor() {
-	const location = useLocation();
+export default function ViewInstructor({ isInstructor }) {
+
 	const { id } = useParams();
 
 	// const instructorId = location.state.instructorId;
-	const instructorId = id;
-	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
+	const instructorId = !isInstructor ? id : userID;
+	const user = useSelector((state) => state.userReducer.user);
 	const userType = useSelector((state) => state.userReducer.type);
-	const [instructorTeachesTrainee, setInstructorTeachesTrainee] =
-		useState(false);
+	const [instructorTeachesTrainee, setInstructorTeachesTrainee] = useState(false);
 
 	const [InstructorInfo, setInstructorInfo] = useState([]);
 	const [InstructorCourses, setInstructorCourses] = useState([]);
@@ -38,21 +29,16 @@ export default function ViewInstructor() {
 	const [loaded, setLoaded] = useState(true);
 
 	//modal
-	const [showReviewInstructorModal, setShowReviewInstructorModal] =
-		useState(false);
-	const handleCloseReviewInstructorModal = () =>
-		setShowReviewInstructorModal(false);
-	const handleShowReviewInstructorModal = () =>
-		setShowReviewInstructorModal(true);
+	const [showReviewInstructorModal, setShowReviewInstructorModal] = useState(false);
+	const handleCloseReviewInstructorModal = () => setShowReviewInstructorModal(false);
+	const handleShowReviewInstructorModal = () => setShowReviewInstructorModal(true);
 	const reviewInstructorDescription = useRef();
 
 	const getInstructorCourses = async () => {
 		try {
 			const response = await API.get(`/instructors/${instructorId}/courses`);
 			response.data.courses.forEach((course) => {
-				course.originalPrice = (
-					course.originalPrice * user.exchangeRate
-				).toFixed(2);
+				course.originalPrice = (course.originalPrice * user.exchangeRate).toFixed(2);
 				course.price = (course.price * user.exchangeRate).toFixed(2);
 			});
 			response.data.courses = response.data.courses.filter(
@@ -103,10 +89,7 @@ export default function ViewInstructor() {
 
 		handleCloseReviewInstructorModal();
 		try {
-			const response = await API.post(
-				`/instructors/${instructorId}/review`,
-				data
-			);
+			await API.post(`/instructors/${instructorId}/review`, data);
 
 			getInstructorReviews();
 		} catch (err) {
@@ -169,41 +152,49 @@ export default function ViewInstructor() {
 				</Row>
 				<p className="lh-base text-muted">{InstructorInfo.biography}</p>
 
-				<Tabs
-					id="controlled-tab-example"
-					defaultActiveKey="Courses"
-					className="mb-3"
-				>
+				<Row className="mb-2">
+					<h5 className="text-muted fitWidth mb-0">{InstructorInfo.email}</h5>
+					<div className="fitWidth px-0">
+						<Rating
+							allowFraction="true"
+							initialValue={InstructorInfo.rating}
+							readonly="true"
+							size={22}
+						/>
+					</div>
+					{InstructorReviews.length > 0 && (
+						<small className="text-muted fitWidth mt-auto ps-0">
+							({InstructorReviews.length} Ratings)
+						</small>
+					)}
+				</Row>
+
+				<p className="lh-base">{InstructorInfo.biography}</p>
+				<Tabs id="controlled-tab-example" defaultActiveKey="Courses" className="mb-3">
 					<Tab eventKey="Courses" title="Courses">
 						{InstructorCourses.map((course, i) => (
-							<UniversalCourseCard course={course} cardType={"Basic"} />
+							<UniversalCourseCard
+								key={`course_${course}_${i}`}
+								course={course}
+								cardType={"Basic"}
+							/>
 						))}
 					</Tab>
 					<Tab eventKey="Reviews" title="Reviews">
-						{InstructorReviews.slice()
-							.reverse()
-							.map((review) => (
-								<InstructorReviewCard
-									key={"review_" + review.trainee.username}
-									review={review}
-								/>
-							))}
+						<Row>
+							{/* Stats */}
+							<RatingStats rating={InstructorInfo.rating} reviews={InstructorReviews} />
+							{/* Reviews */}
+							<Col sm={8}>
+								{InstructorReviews.slice().reverse().map((review) => (
+									<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
+								))}
+							</Col>
+						</Row>
 					</Tab>
 				</Tabs>
-				{/* <Col lg={8} className="d-flex flex-column justify-content-center m-auto">
-				{Reviews.map((review) => (
-					<InstructorReviewCard
-						key={"review_" + review.trainee.email}
-						traineeEmail={review.trainee.email}
-						review={review.review}
-						rating={review.rating}
-					/>
-				))}
-			</Col> */}
-				<Modal
-					show={showReviewInstructorModal}
-					onHide={handleCloseReviewInstructorModal}
-				>
+
+				<Modal show={showReviewInstructorModal} onHide={handleCloseReviewInstructorModal}>
 					<Modal.Header closeButton>
 						<Modal.Title>Rate Instructor</Modal.Title>
 					</Modal.Header>
@@ -229,10 +220,7 @@ export default function ViewInstructor() {
 						</Form>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button
-							variant="secondary"
-							onClick={handleCloseReviewInstructorModal}
-						>
+						<Button variant="secondary" onClick={handleCloseReviewInstructorModal}>
 							Cancel
 						</Button>
 						<Button variant="primary" onClick={reviewInstructor}>
