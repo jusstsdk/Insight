@@ -32,6 +32,10 @@ code {
 	width: fit-content !important;
 }
 
+.fitHeight {
+	height: fit-content !important;
+}
+
 .success {
 	color: #4bb543;
 }
@@ -130,4 +134,24 @@ cursor: auto;
 .clearRatingButton {
 	background-color: rgba(0, 0, 0, 0) !important;
 	border-color: #dc3545 !important;
+}
+
+.ratingColor {
+	color: rgb(255, 188, 11);
+}
+
+.progress-bar {
+	background-color: #ffc057 !important;
+	border-radius: 0 !important;
+}
+.reviewDate {
+	margin-bottom: 0.05rem;
+}
+.specialRating {
+	color: #373a3c !important;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
+		sans-serif;
+}
+.h7 {
+	font-size: 0.85rem;
 }

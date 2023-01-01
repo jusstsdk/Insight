@@ -73,7 +73,6 @@ const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 		const intervalId = setInterval(() => {
 			if (Player) {
 				if (Player.target.getCurrentTime() / Player.target.getDuration() >= 0.75) {
-					console.log(Content);
 					handleMarkAsWatched();
 					clearInterval(intervalId);
 				}
