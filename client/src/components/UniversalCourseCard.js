@@ -248,13 +248,15 @@ function UniversalCourseCard(props) {
 						</Badge>
 					)
 				)}
-				{course.rank < 6 && (
-					<Badge pill bg="danger" className=" mx-1 ">
-						<span style={{ color: "#ffffff" }}>
-							#{course.rank} in Popularity
-						</span>
-					</Badge>
-				)}
+				{course.status === "Published" &&
+					course.rank > 0 &&
+					course.rank < 6 && (
+						<Badge pill bg="danger" className=" mx-1 ">
+							<span style={{ color: "#ffffff" }}>
+								#{course.rank} in Popularity
+							</span>
+						</Badge>
+					)}
 			</Card.Header>
 			<Card.Body>
 				<Row>
