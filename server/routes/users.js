@@ -115,9 +115,8 @@ router.post("/forgotPassword", async (req, res) => {
 	const token = user.generateAuthToken();
 
 	let mailDetails = {
-		from: "reset password",
 		to: `${user.email}`,
-		subject: "Test mail",
+		subject: "Reset Password",
 		text: `${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token}`,
 	};
 

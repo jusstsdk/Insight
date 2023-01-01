@@ -29,7 +29,6 @@ const getCorporateTrainee = async (req, res) => {
 
 // create a new corporate trainee
 const createCorporateTrainee = async (req, res) => {
-	console.log(req.body);
 	// add to the database
 	try {
 		let corporateTraineeInfo = req.body;

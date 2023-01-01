@@ -6,6 +6,7 @@ import { Col, Tab, Tabs, Container, Button, Card, Row } from "react-bootstrap";
 import MyReportCard from "../components/MyReportCard";
 const MyReports = () => {
 	const [myCoursesReports, setMyCoursesReports] = useState([]);
+	const [detectChange, setDetectChange] = useState(false);
 	const user = useSelector((state) => state.userReducer.user);
 
 	async function getMyReports() {
@@ -14,7 +15,7 @@ const MyReports = () => {
 	}
 	useEffect(() => {
 		getMyReports();
-	}, []);
+	}, [detectChange]);
 
 	return (
 		<>
@@ -31,7 +32,7 @@ const MyReports = () => {
 					<Card.Body className="d-flex flex-wrap">
 						{courseReports.reports.map((report) => (
 							<Col sm={5} className="me-3  mb-3">
-								<MyReportCard key={report._id} report={report} />
+								<MyReportCard key={report._id} report={report} detectChange={detectChange} setDetectChange={setDetectChange} />
 							</Col>
 						))}
 					</Card.Body>

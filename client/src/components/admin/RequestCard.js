@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
-function RequestCard({ request, course, username }) {
+function RequestCard({ request, course, username, DetectChange, setDetectChange  }) {
 	const [handled, setHandled] = useState(false);
 	const [message, setMessage] = useState("");
 	const [variant, setVariant] = useState("");
@@ -35,6 +35,7 @@ function RequestCard({ request, course, username }) {
 				color: "success",
 			})
 		);
+		setDetectChange(!DetectChange);
 	}
 	async function denyAccess() {
 		await api.put(
@@ -57,6 +58,7 @@ function RequestCard({ request, course, username }) {
 				color: "danger",
 			})
 		);
+		setDetectChange(!DetectChange);
 	}
 	useEffect(() => {
 		if (request.status.toLowerCase() !== "pending") {
@@ -64,7 +66,7 @@ function RequestCard({ request, course, username }) {
 		}
 	}, []);
 	return (
-		show && (
+		show && !handled && (
 			<Card className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}

@@ -93,17 +93,17 @@ export default function CompleteSignUp() {
 						required
 					/>
 				</Form.Group>
-				{userType == "Instructor" && (
-					<Form.Group>
-						<Form.Label> Biography </Form.Label>
-						<Form.Control
-							ref={biography}
-							placeholder="Enter Biography"
-							as="textarea"
-							rows={3}
-						/>
-					</Form.Group>
-				)}
+				<Form.Group
+					className={userType == "CorporateTrainee" ? "d-none" : ""}
+				>
+					<Form.Label> Biography </Form.Label>
+					<Form.Control
+						ref={biography}
+						placeholder="Enter Biography"
+						as="textarea"
+						rows={3}
+					/>
+				</Form.Group>
 				<Form.Select
 					onChange={(e) => {
 						setGender(e.target.value);
