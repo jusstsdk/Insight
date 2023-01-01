@@ -105,21 +105,18 @@ const updateInstructor = async (req, res) => {
 
 const reviewInstructor = async (req, res) => {
 	let instructorId = req.params.id;
-
-	const instructor = await Instructor.findById(instructorId).then(
-		(instructor) => {
+	let instructor = await Instructor.findById(instructorId).then(
+		async (instructor) => {
 			if (!instructor) {
 				return res.status(400).json({ error: "No such Instructor" });
 			}
-			const found = instructor.reviews.some((review, i) => {
+			instructor.reviews.some((review, i) => {
 				if (review.trainee.toString() === req.body.trainee) {
-					instructor.reviews[i].rating = req.body.rating;
-					instructor.reviews[i].review = req.body.review;
+					instructor.reviews.splice(i, 1);
 				}
-				return review.trainee.toString() === req.body.trainee;
 			});
-			if (!found) instructor.reviews.push(req.body);
-			instructor.save();
+			instructor.reviews.push(req.body);
+			await instructor.save();
 			return instructor;
 		}
 	);

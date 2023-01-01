@@ -19,8 +19,9 @@ export default function ContinueCourseNavbar({
 	const UserType = useSelector((state) => state.userReducer.type);
 
 	const CourseIndex = useSelector(
-		(state) => state.userReducer.user.courses).findIndex((course) => course.course === Course._id);
-    
+		(state) => state.userReducer.user.courses
+	).findIndex((course) => course.course === Course._id);
+
 	const Subtitles = useSelector(
 		(state) => state.userReducer.user.courses[CourseIndex].subtitles
 	);
@@ -79,11 +80,11 @@ export default function ContinueCourseNavbar({
 					)}
 				</Col>
 				{/* Page Naviagtion */}
+
 				<Col sm={5}>
 					<div className="ms-auto d-flex">
 						{/* Progress and Get Certificate */}
 						<div className="d-flex ms-auto my-auto">
-							<p className="fitWidth m-auto">Progress: {Progress * 100}%</p>
 							{/* Get Certificate */}
 							{Progress === 1 && (
 								<Button
@@ -129,18 +130,17 @@ export default function ContinueCourseNavbar({
 								<AiOutlineArrowRight />
 							</Button>
 						)}
-						{/* View Course */}
-						{ContentType === "Exam" && (
-							<Button
-								variant="link"
-								className="ms-1 blackText linkDecor"
-								onClick={() =>
-									navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)
-								}
-							>
-								View Course
-							</Button>
-						)}
+						{/* View Course */}(
+						<Button
+							variant="danger"
+							className="ms-1 blackText linkDecor"
+							onClick={() =>
+								navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)
+							}
+						>
+							Back to Course
+						</Button>
+						)
 					</div>
 				</Col>
 			</Toolbar>
