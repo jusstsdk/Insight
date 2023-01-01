@@ -36,7 +36,7 @@ export default function CourseCardCheckbox({
 			course={course}
 			handleCheck={handleCheck}
 			defaultChecked={defaultChecked}
-			cardColor={bg}
+			bg={bg}
 			cardType={"Discount"}
 		></UniversalCourseCard>
 	) : (

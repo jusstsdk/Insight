@@ -37,7 +37,7 @@ function UniversalCourseCard(props) {
 	//DISCOUNT EDITION STUFF
 	const handleCheck = props.handleCheck;
 	const defaultChecked = props.defaultChecked;
-	const cardColor = props.cardColor;
+	const cardColor = props.bg;
 
 	const user = useSelector((state) => state.userReducer.user);
 	const userType = useSelector((state) => state.userReducer.type);
