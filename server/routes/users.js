@@ -132,7 +132,7 @@ router.post("/forgotPassword", async (req, res) => {
 router.post("/resetPassword", async (req, res) => {
 	//get the token from the header if present
 	let token = req.headers["x-access-token"] || req.headers["authorization"];
-	//if no token found, return response (without going to the next middelware)
+	//if no token found, return response (without going to the next middleware)
 	if (!token)
 		return res.status(401).send("Access denied. No token provided.");
 
