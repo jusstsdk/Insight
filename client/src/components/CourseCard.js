@@ -1,44 +1,89 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup, Modal } from "react-bootstrap";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+	Modal,
+} from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
+import UniversalCourseCard from "./UniversalCourseCard";
+
 function CourseCard({ course }) {
-	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
+	const userType = useSelector((state) => state.userReducer.type);
 	const currency = useSelector((state) => state.userReducer.user.currency);
+
 	const navigate = useNavigate();
-	const handleOpen = () => {
+
+	const [loaded, setLoaded] = useState(false);
+
+	const handleViewCourse = () => {
 		if (userType === "Administrator") {
 			navigate("/admin/courses/" + course._id);
 		} else {
 			navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 		}
 	};
-	const [showContinue, setShowContinue] = useState(false);
+
+	const [ownsCourse, setOwnsCourse] = useState(false);
+	const [traineeRequestedRefund, setTraineeRequestedrefund] = useState(false);
 
 	function continueCourse() {
-		navigate("/" + userType.toLowerCase() + "/courses/" + course._id + "/continueCourse", {
-			state: {
-				course: { _id: course._id, title: course.title },
-			},
-		});
-	}
-	useEffect(() => {
-		if (!(userType === "Administrator" || userType === "Instructor" || userType === "Guest")) {
-			if (user.courses.findIndex((c) => c._id === course._id) !== -1) {
-				setShowContinue(true);
+		navigate(
+			"/" +
+				userType.toLowerCase() +
+				"/courses/" +
+				course._id +
+				"/continueCourse",
+			{
+				state: {
+					course: { _id: course._id, title: course.title },
+				},
 			}
+		);
+	}
+
+	useEffect(() => {
+		if (
+			!(
+				userType === "Administrator" ||
+				userType === "Instructor" ||
+				userType === "Guest"
+			)
+		) {
+			user.courses.forEach((userCourse) => {
+				if (userCourse.course === course._id) {
+					if (userType === "Trainee") {
+						if (userCourse.requestedRefund === true) {
+							setTraineeRequestedrefund(true);
+						} else {
+							setOwnsCourse(true);
+						}
+					}
+					if (userType === "CorporateTrainee") {
+						setOwnsCourse(true);
+					}
+				}
+			});
 		}
 	}, []);
-	return (
+
+	return false ? (
 		<>
 			<Card className="my-3">
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle pe-0">{course.title}</Card.Title>
+						<Card.Title className="courseCardTitle pe-0">
+							{course.title}
+						</Card.Title>
 
 						<p className="textFit my-auto text-muted">
 							{Math.ceil(course.totalSeconds / 3600)} Hours
@@ -70,7 +115,9 @@ function CourseCard({ course }) {
 
 					{/* Summary and Price */}
 					<Row as={Row} className="my-2">
-						<h6 className="text-muted textFit courseCardLabel my-1">Instructor</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">
+							Instructor
+						</h6>
 
 						{course.instructors.map((instructor, i) => (
 							<Button
@@ -80,12 +127,15 @@ function CourseCard({ course }) {
 									if (userType === "Trainee") {
 										navigate("/trainee/viewInstructor/" + instructor._id);
 									} else if (userType === "CorporateTrainee") {
-										navigate("/corporateTrainee/viewInstructor/" + instructor._id);
+										navigate(
+											"/corporateTrainee/viewInstructor/" + instructor._id
+										);
 									} else if (userType === "Instructor") {
 										navigate("/instructor/viewInstructor/" + instructor._id);
 									}
 								}}
-								key={"instructor_" + i}>
+								key={"instructor_" + i}
+							>
 								{instructor.username}
 							</Button>
 						))}
@@ -97,30 +147,61 @@ function CourseCard({ course }) {
 					<CardGroup as={Row} className="my-2">
 						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
 						<Col sm={8}>
-							<Card.Text>{course.summary}</Card.Text>
+							<Card.Text>
+								{course.summary.length < 200
+									? course.summary
+									: course.summary.substring(0, 200) + "..."}
+							</Card.Text>
 						</Col>
-						<Col sm={1} className="priceContainer textFit d-flex justify-content-end">
+						<Col
+							sm={1}
+							className="priceContainer textFit d-flex justify-content-end"
+						>
 							<Card.Text className="priceLabel">
-								{course.originalPrice} {currency}
+								{ownsCourse ? (
+									<h5>Owned</h5>
+								) : traineeRequestedRefund ? (
+									<h5>Refund Requesed</h5>
+								) : userType !== "CorporateTrainee" ? (
+									course.promotion.discount &&
+									course.promotion.discount !== 0 &&
+									course.promotion.endDate >= new Date().toISOString() ? (
+										<>
+											<h5>
+												{"" +
+													(course.price === 0.0 ? "FREE" : course.price) +
+													" " +
+													currency}
+											</h5>
+											<del>{course.originalPrice}</del>{" "}
+											<span style={{ color: "red" }}>
+												{"" + course.promotion.discount + "% OFF"}
+											</span>
+										</>
+									) : (
+										<h5 style={{ display: "inline-block" }}>
+											{course.originalPrice === 0.0
+												? "FREE"
+												: course.originalPrice + " " + currency}
+										</h5>
+									)
+								) : (
+									<></>
+								)}
 							</Card.Text>
 						</Col>
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<Col sm={1} className="priceContainer textFit  d-flex justify-content-end">
-							<strong>
-								{course.promotion.discount > 0 &&
-									course.promotion.endDate > new Date().toISOString() && (
-										<Card.Text className="priceLabel  discountLabel">
-											{course.promotion.discount}% off
-										</Card.Text>
-									)}
-							</strong>
-						</Col>
-						<Col className="ms-auto fitWidth d-flex  justify-content-end" sm={2} md={2} lg={2}>
-							<Button onClick={handleOpen}>View Course</Button>
-							{showContinue && (
+						<Col
+							className="ms-auto fitWidth d-flex  justify-content-end"
+							sm={2}
+							md={2}
+							lg={2}
+						>
+							<Button onClick={handleViewCourse}>View Course</Button>
+							{ownsCourse && (
 								<Button variant="success" className="" onClick={continueCourse}>
 									Continue Course
 								</Button>
@@ -130,6 +211,8 @@ function CourseCard({ course }) {
 				</Card.Body>
 			</Card>
 		</>
+	) : (
+		<></>
 	);
 }
 export default CourseCard;

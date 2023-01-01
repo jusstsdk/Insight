@@ -14,32 +14,16 @@ const monthlyPaySchema = new Schema(
 
 const instructorSchema = new Schema(
 	{
-		username: {
-			type: String,
-			required: true,
-		},
-		password: {
-			type: String,
-			required: true,
-		},
-		email: {
-			type: String,
-			required: true,
-		},
-		biography: {
-			type: String,
-			required: false,
-		},
-		country: {
-			type: String,
-			required: false,
-		},
-		currency: String,
+		username: String,
+		password: String,
+		email: String,
+		firstName: String,
+		lastName: String,
+		gender: String,
+		country:String,
+		biography: String,
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
-		reviews: {
-			type: [reviewSchema],
-			required: false,
-		},
+		reviews: [reviewSchema],
 		monthlyPay: {
 			type: monthlyPaySchema,
 			default: {

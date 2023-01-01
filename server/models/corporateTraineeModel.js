@@ -5,38 +5,14 @@ const { subtitleSchema, exerciseSchema } = require("./schemas/subtitleSchema");
 
 const corporateTraineeSchema = new Schema(
 	{
-		username: {
-			type: String,
-			required: true,
-		},
-		password: {
-			type: String,
-			required: true,
-		},
-		email: {
-			type: String,
-			required: true,
-		},
-		firstName: {
-			type: String,
-			required: true,
-		},
-		lastName: {
-			type: String,
-			required: true,
-		},
-		gender: {
-			type: String,
-			required: true,
-		},
-		country: {
-			type: String,
-			required: false,
-		},
-		corporate: {
-			type: String, //references corporate,
-			required: false,
-		},
+		username: String,
+		password: String,
+		email: String,
+		firstName: String,
+		lastName: String,
+		gender: String,
+		country:String,
+		corporate: String,
 		courses: [
 			{
 				course: { type: Schema.ObjectId, ref: "Course" },
