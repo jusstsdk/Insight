@@ -84,7 +84,7 @@ function ReviewCourseModal(props) {
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleCloseReviewCourseModal}>
+					<Button variant="light" onClick={handleCloseReviewCourseModal}>
 						Cancel
 					</Button>
 					<Button variant="primary" onClick={reviewCourse}>

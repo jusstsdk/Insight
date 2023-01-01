@@ -190,7 +190,7 @@ export default function ViewBoth(props) {
 										</Button>
 										<Button
 											className="accordionTrash accordionLikeDeleteButton"
-											variant="primary"
+											variant="secondary2"
 											key={`exercise_trash_button_${getContentIndex(content)}`}
 											onClick={() =>
 												handleDeleteExercise(getContentIndex(content))
@@ -247,7 +247,7 @@ export default function ViewBoth(props) {
 									</Col>
 									<Col sm={1} className="d-flex justify-content-end">
 										<Button
-											variant="light"
+											variant="dark"
 											className="accordionTrash accordionLikeEditButton"
 											key={`video_edit_button_${getContentIndex(content)}`}
 											onClick={() =>
@@ -263,7 +263,7 @@ export default function ViewBoth(props) {
 										</Button>
 										<Button
 											className="accordionTrash accordionLikeDeleteButton"
-											variant="primary"
+											variant="secondary2"
 											key={`video_trash_button_${getContentIndex(content)}`}
 											onClick={() =>
 												handleDeleteVideo(

@@ -112,7 +112,7 @@ function ViewCourseReports() {
 			>
 				<Tab eventKey="All-Reports" title="All Reports">
 					<DropdownButton
-						variant="dark"
+						variant="pinkish"
 						id="courseReportsFilter"
 						title={selectedItem}
 					>
@@ -164,7 +164,8 @@ function ViewCourseReports() {
 				</Tab>
 				<Tab eventKey="Pending" title="Pending">
 					<DropdownButton
-						variant="dark"
+						variant="pinkish"
+						className="reportFilterButton"
 						id="dropdown-item-button"
 						title={selectedItem}
 					>

@@ -9,14 +9,16 @@ export default function SelectCountryPopover() {
 	const userType = useSelector((state) => state.userReducer.type);
 
 	async function changeCountry(payload) {
-		const responseCountryApi = await axios.get(`https://restcountries.com/v3.1/name/${payload}`);
+		const responseCountryApi = await axios.get(
+			`https://restcountries.com/v3.1/name/${payload}`
+		);
 		const localCurrency = Object.keys(responseCountryApi.data[0].currencies)[0];
 
 		const responseExchangeRate = await axios.get(
 			"https://api.apilayer.com/exchangerates_data/latest",
 			{
 				headers: {
-					apikey: "2eW6i0302nCBBM4KsBQKB22NwqWiDTAq",
+					apikey: "BIml6HkjypLn5Rsv7bDh3uc95QctlHuS",
 				},
 				params: {
 					base: "USD",

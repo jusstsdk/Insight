@@ -56,7 +56,7 @@ export default function ViewSubtitles() {
 									</Button>
 									<Button
 										className="accordionTrash accordionLikeDeleteButton"
-										variant="primary"
+										variant="secondary2"
 										key={`subtitle_trash_button_${subtitle_key}`}
 										onClick={() => dispatch(removeSubtitle(subtitle_key))}
 									>

@@ -68,7 +68,11 @@ function RefundCard({ request, course }) {
 						lg={2}
 					>
 						{!handled && (
-							<Button variant="primary" onClick={handleRefund}>
+							<Button
+								variant="pinkish"
+								className="secondaryText"
+								onClick={handleRefund}
+							>
 								Refund
 							</Button>
 						)}

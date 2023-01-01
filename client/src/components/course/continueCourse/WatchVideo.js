@@ -166,7 +166,7 @@ export default function WatchVideo(props) {
 						<>
 							<ListGroup.Item
 								key={`subtitle_${Content._id}_note_${note_index}_container`}
-								variant="dark"
+								variant="secondary"
 							>
 								<Row className="justify-content-between">
 									<Col sm={11}>
@@ -175,7 +175,7 @@ export default function WatchVideo(props) {
 									<Col sm={1}>
 										<Button
 											className=" w-auto"
-											variant="primary"
+											variant="secondary2"
 											key={`video_${Content._id}_notes_trash_button_${note_index}`}
 											onClick={() => handleDeleteNote(note_index)}
 										>

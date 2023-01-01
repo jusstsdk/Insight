@@ -1,29 +1,3 @@
-/* .Coursetags {
-	background-color:#707070 !important ;
-} */
-
-/* .PrimaryOne {
-	background-color:#a00407 !important ;
-} */
-
-/* .PrimaryTwoBackground{
-    background-color:#FEFEFE !important;
-}
-
-.PrimaryTwo{
-    color: #FEFEFE!important;
-
-} */
-
-/* .CardBackground{
-    background-color:#F8F8F8 !important;
-
-} */
-
-/* .outline{
-    background-color:#000 !important ;
-} */
-
 .medium 
 {
     background-color: #C8C8C8!important;
@@ -33,7 +7,7 @@
     text-decoration: none !important;
 }
 
-.secondaryText{
+.secondaryText, .reportFilterButton>button{
     color: #FEFEFE!important;
 }
 

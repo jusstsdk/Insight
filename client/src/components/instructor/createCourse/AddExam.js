@@ -20,7 +20,9 @@ export default function AddExam(props) {
 	const status = location.state.status;
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const handleAddModalClose = () => setShowAddModal(false);
 	const handleAddModalShow = () => setShowAddModal(true);
@@ -39,7 +41,10 @@ export default function AddExam(props) {
 					<Button onClick={handleAddModalShow}>Add a Question</Button>
 				</Col>
 			</Row>
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+			<Form.Group
+				as={Row}
+				className="mb-3 d-flex align-items-center justify-content-start"
+			>
 				<Form.Label column sm={2}>
 					Exam title
 				</Form.Label>
@@ -73,7 +78,8 @@ export default function AddExam(props) {
 					className="me-3"
 					onClick={() => {
 						props.setCurrentTab("addSubtitle");
-					}}>
+					}}
+				>
 					<AiOutlineArrowLeft />
 				</Button>
 				{/* Save Course */}
@@ -82,7 +88,8 @@ export default function AddExam(props) {
 					onClick={() => {
 						if (status === "New") props.handleCreateCourse("Draft");
 						else props.handleEditCourse("Draft");
-					}}>
+					}}
+				>
 					Save Course
 				</Button>
 				{/* Publish Course */}
@@ -90,7 +97,8 @@ export default function AddExam(props) {
 					onClick={() => {
 						if (status === "New") props.handleCreateCourse("Published");
 						else props.handleEditCourse("Published");
-					}}>
+					}}
+				>
 					Publish Course
 				</Button>
 			</Col>
