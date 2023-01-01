@@ -12,9 +12,11 @@ export default function RatingStats({ rating, reviews }) {
 	return (
 		<Col sm={4}>
 			<Row>
-				<Col sm={2} className="justify-content-end pe-0 me-2">
-					<h1 className="fw-bold specialRating fitWidth ms-auto">{rating.toFixed(1)}</h1>
-				</Col>
+				{rating && (
+					<Col sm={2} className="justify-content-end pe-0 me-2">
+						<h1 className="fw-bold specialRating fitWidth ms-auto">{rating.toFixed(1)}</h1>
+					</Col>
+				)}
 				<Col className="justify-content-end" sm={4}>
 					<Col className="fitWidth mx-auto">
 						<Rating allowFraction="true" initialValue={rating} readonly="true" size={16} />
@@ -26,7 +28,7 @@ export default function RatingStats({ rating, reviews }) {
 			{countStars(reviews)
 				.reverse()
 				.map((bar, i) => (
-					<Row>
+					<Row key={`bar_${bar}_${i}`}>
 						<Col sm={2} className="pe-0 ">
 							<h6 className="fitWidth h7">{5 - i} stars</h6>
 						</Col>

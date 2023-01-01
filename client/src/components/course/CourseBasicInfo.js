@@ -1,38 +1,16 @@
-import {
-	Button,
-	Form,
-	Card,
-	Badge,
-	Alert,
-	ListGroup,
-	Tabs,
-	Tab,
-	Container,
-	Row,
-	Col,
-	Table,
-	Modal,
-	Overlay,
-	OverlayTrigger,
-	Tooltip,
-} from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
-import API from "../../functions/api";
+import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate, useParams } from "react-router-dom";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import { Rating } from "react-simple-star-rating";
 import CorpTraineeRequestCourseAlert from "../../components/course/CorpTraineeCourseRequestAlert";
 import TraineeCoursePriceAlert from "../../components/course/TraineeCoursePriceAlert";
 import CourseProgress from "./CourseProgress";
 import CourseData from "./CourseData";
-import CourseInstructorsList from "../../components/course/CourseInstructorsList";
 import InstructorPriceAlert from "./InstructorPriceAlert";
 
+import { AiFillClockCircle } from "react-icons/ai";
+import { HiUsers } from "react-icons/hi";
 function CourseBasicInfo(props) {
 	const course = props.course;
 	const instructors = props.instructors;
@@ -48,49 +26,38 @@ function CourseBasicInfo(props) {
 
 	return (
 		<>
-			{userType === "CorporateTrainee" ? (
-				!corpTraineeOwnsCourse && (
-					<Col>
-						<CorpTraineeRequestCourseAlert
-							course={course}
-						></CorpTraineeRequestCourseAlert>
-					</Col>
-				)
-			) : userType === "Trainee" ? (
-				!traineeOwnsCourse && (
-					<Col>
-						<TraineeCoursePriceAlert
-							course={course}
-							traineeOwnsCourse={traineeOwnsCourse}
-							traineeVersionOfCourse={traineeVersionOfCourse}
-						></TraineeCoursePriceAlert>
-					</Col>
-				)
-			) : (
-				<Col>
-					<InstructorPriceAlert course={course}></InstructorPriceAlert>
-				</Col>
-			)}
-
 			<CourseProgress
 				course={course}
-				ownsCourse={
-					userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
-				}
+				ownsCourse={userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse}
 				hisVersionOfCourse={
-					userType === "Trainee"
-						? traineeVersionOfCourse
-						: corpTraineeVersionOfCourse
+					userType === "Trainee" ? traineeVersionOfCourse : corpTraineeVersionOfCourse
 				}
-				traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
-			></CourseProgress>
+				traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}></CourseProgress>
 
-			<h3>Basic Info</h3>
 			<Row>
-				<CourseData course={course}></CourseData>
+				<h3 className="fst-italic fitWidth">Basic Info</h3>
+				{/* Stats */}
+				<Col className="d-flex justify-content-end mt-2 mb-3">
+					{/* Hours */}
+					<div className="fitWidth d-flex align-items-center me-2">
+						<AiFillClockCircle size={30} />
+						<h5 className="ms-2 my-auto fitWidth fw-light">
+							Approx. {Math.ceil(course.totalSeconds / 3600)} hours to complete
+						</h5>
+					</div>
+					{/* Students */}
+					<div className="d-flex align-items-center fitWidth">
+						<HiUsers size={30} />
+						<h5 className="ms-2 my-auto fitWidth fw-light">
+							{course.enrolledTrainees.length} Students
+						</h5>
+					</div>
+				</Col>
 			</Row>
-			<hr />
-			<CourseInstructorsList instructors={instructors}></CourseInstructorsList>
+
+			<Row>
+				<CourseData course={course} instructors={instructors}></CourseData>
+			</Row>
 		</>
 	);
 }

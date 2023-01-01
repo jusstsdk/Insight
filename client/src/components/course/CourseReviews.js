@@ -149,7 +149,7 @@ function CourseReviews(props) {
 		loaded && (
 			<>
 				{/* Header and Buttons */}
-				<Row id="courseReviews">
+				<Row id="courseReviews" className="mb-3">
 					{/* Header */}
 					<Col>
 						<h3 className="fst-italic fitWidth my-auto ps-0">Reviews</h3>
@@ -158,15 +158,15 @@ function CourseReviews(props) {
 					<Col>
 						{(userType === "Trainee" || userType === "CorporateTrainee") && ownsCourse && (
 							<>
-								<div style={{ float: "right" }}>
+								<div className="d-flex justify-content-end">
 									{!traineeAlreadyRequestedRefund && (
 										<>
-											<Button className="me-2" onClick={handleShowReviewCourseModal}>
+											<Button className="ms-2" onClick={handleShowReviewCourseModal}>
 												Review
 											</Button>
 
 											<Button
-												className="me-2"
+												className="ms-2"
 												variant="danger"
 												onClick={handleShowReportCourseModal}>
 												Report
@@ -175,7 +175,7 @@ function CourseReviews(props) {
 									)}
 									{userType === "Trainee" && !traineePastFiftyPercentOfCourse && (
 										<Button
-											style={{ float: "right" }}
+											className="ms-2"
 											variant={traineeCanRefund ? "warning" : "secondary"}
 											onClick={handleShowRefundCourseModal}
 											disabled={!traineeCanRefund}>
