@@ -22,10 +22,14 @@ function CourseInstructorsList(props) {
 									<Col>
 										<Button
 											style={{ float: "right" }}
-											onClick={() =>
-												navigate(`/${userType.toLowerCase()}/viewInstructor/${instructor._id}`, {
-													state: { instructorId: instructor._id },
-												})
+											onClick={() =>{
+												if(userType === "Administrator") {
+													navigate("/admin/viewInstructor/" + instructor._id);
+												} else {
+													navigate(`/${userType.toLowerCase()}/viewInstructor/${instructor._id}`, {
+														state: { instructorId: instructor._id },
+													})
+												}}
 											}
 										>
 											View

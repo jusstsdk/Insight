@@ -31,10 +31,11 @@ export default function Login() {
 			const response = await axios(config);
 			const responseToken = response.data["x-auth-token"];
 			const responseUserType = response.data["userType"];
+      
 			let responseUser = response.data["user"];
-
+      
 			responseUser = await updateCurrency(responseUser);
-			
+      
 			dispatch(
 				login({
 					type: responseUserType,

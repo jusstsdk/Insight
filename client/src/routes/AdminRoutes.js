@@ -60,6 +60,7 @@ export function AdminRoutes() {
 						/>
 						<Route path="courses/:id" element={<CoursePage />} />
 						<Route path="courses" element={<Courses />} />
+						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
 						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
