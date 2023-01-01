@@ -46,7 +46,7 @@ function ViewInstructorReviews() {
 				{/* Reviews */}
 				<Col sm={8}>
 					{Reviews.map((review) => (
-						<InstructorReviewCard key={"review_" + review.trainee.email} review={review} />
+						<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
 					))}
 				</Col>
 			</Row>

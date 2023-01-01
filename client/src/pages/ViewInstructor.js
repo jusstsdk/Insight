@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { Container, Tabs, Tab, Row, Col, Modal, Form } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
-import CourseCard from "../components/CourseCard";
+import { useParams } from "react-router-dom";
 import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
 import API from "../functions/api";
-import { Button } from "@mui/material";
+import { Button } from "react-bootstrap";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
@@ -87,7 +86,7 @@ export default function ViewInstructor({ isInstructor }) {
 
 		handleCloseReviewInstructorModal();
 		try {
-			const response = await API.post(`/instructors/${instructorId}/review`, data);
+			await API.post(`/instructors/${instructorId}/review`, data);
 
 			getInstructorReviews();
 		} catch (err) {
@@ -109,12 +108,11 @@ export default function ViewInstructor({ isInstructor }) {
 					<Col>
 						<h1 className="fw-bold">{InstructorInfo.username}</h1>
 					</Col>
-					<Col className="d-flex justify-content-end">
+					<Col className="d-flex justify-content-end align-self-end">
 						{userType !== "Instructor" && instructorTeachesTrainee && (
 							<Button
-								color="primary"
-								variant="contained"
-								endIcon={<RateReviewRoundedIcon />}
+								variant="primary"
+								className="fitWidth fitHeight"
 								onClick={handleShowReviewInstructorModal}>
 								Review instructor
 							</Button>
@@ -122,22 +120,32 @@ export default function ViewInstructor({ isInstructor }) {
 					</Col>
 				</Row>
 
-				<h5 className="text-muted">
-					{InstructorInfo.email}{" "}
-					<Rating
-						allowFraction="true"
-						initialValue={InstructorInfo.rating}
-						readonly="true"
-						size={22}
-					/>
-					{InstructorReviews.length > 0 && <small>({InstructorReviews.length})</small>}
-				</h5>
+				<Row className="mb-2">
+					<h5 className="text-muted fitWidth mb-0">{InstructorInfo.email}</h5>
+					<div className="fitWidth px-0">
+						<Rating
+							allowFraction="true"
+							initialValue={InstructorInfo.rating}
+							readonly="true"
+							size={22}
+						/>
+					</div>
+					{InstructorReviews.length > 0 && (
+						<small className="text-muted fitWidth mt-auto ps-0">
+							({InstructorReviews.length} Ratings)
+						</small>
+					)}
+				</Row>
 
 				<p className="lh-base">{InstructorInfo.biography}</p>
 				<Tabs id="controlled-tab-example" defaultActiveKey="Courses" className="mb-3">
 					<Tab eventKey="Courses" title="Courses">
 						{InstructorCourses.map((course, i) => (
-							<UniversalCourseCard course={course} cardType={"Basic"} />
+							<UniversalCourseCard
+								key={`course_${course}_${i}`}
+								course={course}
+								cardType={"Basic"}
+							/>
 						))}
 					</Tab>
 					<Tab eventKey="Reviews" title="Reviews">
@@ -147,8 +155,8 @@ export default function ViewInstructor({ isInstructor }) {
 							{/* Reviews */}
 							<Col sm={8}>
 								{InstructorReviews.map((review) => (
-									<InstructorReviewCard key={"review_" + review.trainee.email} review={review} />
-								))}{" "}
+									<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
+								))}
 							</Col>
 						</Row>
 					</Tab>
