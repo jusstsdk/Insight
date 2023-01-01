@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
+import UniversalCourseCard from "./UniversalCourseCard";
 
 export default function CourseCardCheckbox({
 	course,
@@ -21,6 +22,7 @@ export default function CourseCardCheckbox({
 	defaultChecked,
 	bg,
 }) {
+	const univesal = true;
 	const [show, setShow] = useState(false);
 	const userType = useSelector((state) => state.userReducer.type);
 	const user = useSelector((state) => state.userReducer.user);
@@ -29,7 +31,9 @@ export default function CourseCardCheckbox({
 	const handleOpen = () => {
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
-	return (
+	return univesal ? (
+		<></>
+	) : (
 		<>
 			<Card className="my-3" bg={bg}>
 				<Card.Body>

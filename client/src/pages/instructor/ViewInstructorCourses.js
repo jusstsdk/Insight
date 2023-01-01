@@ -6,6 +6,7 @@ import SearchCourses from "../../components/SearchCourses";
 import CourseCard from "../../components/instructor/CourseCard";
 import Pagination from "../../components/shared/pagination/Pagination";
 import "../../components/shared/pagination/style.scss";
+import UniversalCourseCard from "../../components/UniversalCourseCard";
 
 let pageSize = 2;
 
@@ -118,12 +119,13 @@ function ViewInstructorCourses() {
 			>
 				<Tab eventKey="AllCourses" title="All Courses">
 					{currentCourses.map((course, i) => (
-						<CourseCard
+						<UniversalCourseCard
 							key={"course_" + i}
+							cardType="Deulexe"
 							course={course}
+							instructorId={instructorId}
 							DetectChange={DetectChange}
 							setDetectChange={setDetectChange}
-							allCourses={true}
 						/>
 					))}
 					<Pagination
@@ -136,9 +138,11 @@ function ViewInstructorCourses() {
 				</Tab>
 				<Tab eventKey="Drafts" title="Drafts">
 					{currentDrafts.map((course, i) => (
-						<CourseCard
+						<UniversalCourseCard
 							key={"course_" + i}
+							cardType="Deulexe"
 							course={course}
+							instructorId={instructorId}
 							DetectChange={DetectChange}
 							setDetectChange={setDetectChange}
 						/>
@@ -153,9 +157,11 @@ function ViewInstructorCourses() {
 				</Tab>
 				<Tab eventKey="Published" title="Published">
 					{currentPublished.map((course, i) => (
-						<CourseCard
+						<UniversalCourseCard
 							key={"course_" + i}
+							cardType="Deulexe"
 							course={course}
+							instructorId={instructorId}
 							DetectChange={DetectChange}
 							setDetectChange={setDetectChange}
 						/>
@@ -170,9 +176,11 @@ function ViewInstructorCourses() {
 				</Tab>
 				<Tab eventKey="Closed" title="Closed">
 					{currentClosed.map((course, i) => (
-						<CourseCard
+						<UniversalCourseCard
 							key={"course_" + i}
+							cardType="Deulexe"
 							course={course}
+							instructorId={instructorId}
 							DetectChange={DetectChange}
 							setDetectChange={setDetectChange}
 						/>
