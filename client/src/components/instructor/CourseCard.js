@@ -1,22 +1,35 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import API from "../../functions/api";
 import { setInfo, clearInfo } from "../../redux/courseInfoSlice";
 
-import { setExamsAndSubtitles, clearCreateCourse } from "../../redux/createCourseSlice";
+import {
+	setExamsAndSubtitles,
+	clearCreateCourse,
+} from "../../redux/createCourseSlice";
 
 import { addNotification } from "../../redux/notificationsSlice";
 import { deleteCourseInstructor } from "../../redux/userSlice";
 
 import Stars from "../Stars";
+import UniversalCourseCard from "../UniversalCourseCard";
 function CourseCard(props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const currency = useSelector((state) => state.userReducer.user.currency);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 
+	const universal = true;
 	const handleEditCourse = () => {
 		dispatch(setInfo(props.course));
 		dispatch(setExamsAndSubtitles(props.course));
@@ -54,7 +67,9 @@ function CourseCard(props) {
 	};
 
 	const handleDeleteDraft = async () => {
-		await API.delete(`/courses/${instructorId}`, { data: { courseId: props.course._id } });
+		await API.delete(`/courses/${instructorId}`, {
+			data: { courseId: props.course._id },
+		});
 
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
@@ -95,15 +110,22 @@ function CourseCard(props) {
 					</>
 				);
 			}
+			default: {
+				return <></>;
+			}
 		}
 	};
 
-	return (
+	return universal ? (
+		<></>
+	) : (
 		<Card className="my-3">
 			<Card.Body>
 				{/* Title and Stars */}
 				<CardGroup as={Row} className=" align-items-center">
-					<Card.Title className="courseCardTitle">{props.course.title}</Card.Title>
+					<Card.Title className="courseCardTitle">
+						{props.course.title}
+					</Card.Title>
 					<p className="textFit my-auto text-muted">
 						{Math.ceil(props.course.totalSeconds / 3600)} Hours
 					</p>
@@ -146,17 +168,25 @@ function CourseCard(props) {
 								<Button
 									className="p-0 me-2"
 									variant="link"
-									onClick={() => navigate("/instructor/viewInstructor/" + instructor._id)}
-									key={"instructor_" + i}>
+									onClick={() =>
+										navigate("/instructor/viewInstructor/" + instructor._id)
+									}
+									key={"instructor_" + i}
+								>
 									{instructor.username}
 								</Button>
 							))}
 						</ListGroup>
 					</Col>
-					<Col className="viewCourseButton d-flex  justify-content-end align-items-center" sm={6}>
-						{props.allCourses && <h6 className="text-muted me-3">{props.course.status}</h6>}
+					<Col
+						className="viewCourseButton d-flex  justify-content-end align-items-center"
+						sm={6}
+					>
+						{props.allCourses && (
+							<h6 className="text-muted me-3">{props.course.status}</h6>
+						)}
 						{displayButtons()}
-						<Button>View Course</Button>
+						<Button variant="outline-primary">View Course</Button>
 					</Col>
 				</CardGroup>
 			</Card.Body>

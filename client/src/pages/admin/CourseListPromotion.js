@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import CourseCardCheckbox from "../../components/CourseCardCheckbox";
 import Pagination from "../../components/shared/pagination/Pagination";
+import UniversalCourseCard from "../../components/UniversalCourseCard";
 
 let pageSize = 2;
 export default function CourseListPromotion({
@@ -32,22 +33,24 @@ export default function CourseListPromotion({
 			{currentCourses.map(
 				(course) =>
 					!checkedCourses.includes(course._id) && (
-						<CourseCardCheckbox
+						<UniversalCourseCard
 							key={course._id}
 							course={course}
 							handleCheck={handleCheck}
 							defaultChecked={false}
 							bg="light"
+							cardType={"Discount"}
 						/>
 					)
 			)}
 			{completeCheckedCourses.map((course) => (
-				<CourseCardCheckbox
+				<UniversalCourseCard
 					key={course._id}
 					course={course}
 					handleCheck={handleCheck}
 					defaultChecked={true}
 					bg="warning"
+					cardType={"Discount"}
 				/>
 			))}
 			<Pagination

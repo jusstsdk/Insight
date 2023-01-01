@@ -37,7 +37,8 @@ export default function SearchCourses({
 
 	async function getCourses() {
 		let searchParams = {};
-		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
+		if (searchQuery.current.value)
+			searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
 		if (maxPriceFilter.current.value)
 			searchParams.maxPrice = (maxPriceFilter.current.value / user.exchangeRate).toFixed(2);
@@ -66,7 +67,7 @@ export default function SearchCourses({
 		if (!includeAll) {
 			courses = courses.filter((course) => course.status === "Published");
 		}
-
+    
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);

@@ -7,6 +7,7 @@ import { setCourses } from "../redux/userSlice";
 import CourseCard from "./CourseCard";
 import Pagination from "./shared/pagination/Pagination";
 import "./shared/pagination/style.scss";
+import UniversalCourseCard from "./UniversalCourseCard";
 let pageSize = 2;
 const MyCourses = () => {
 	const [myCourses, setMyCourses] = useState([]);
@@ -35,10 +36,10 @@ const MyCourses = () => {
 					...courseFromDb.data,
 					subtitles: course.subtitles,
 					exam: course.exam,
-					progress : course.progress,
-					paidPrice : course.paidPrice,
+					progress: course.progress,
+					paidPrice: course.paidPrice,
 				};
-        
+
 				fullCourse.originalPrice = (
 					fullCourse.originalPrice * user.exchangeRate
 				).toFixed(2);
@@ -59,7 +60,7 @@ const MyCourses = () => {
 			<div className="course-list">
 				{currentCourses.map((course) => (
 					<div className="course-preview" key={course._id}>
-						<CourseCard course={course} />
+						<UniversalCourseCard course={course} cardType={"Basic"} />
 					</div>
 				))}
 				<Pagination

@@ -6,7 +6,7 @@ import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useSelector } from "react-redux";
 
-function MyReportCard({ report }) {
+function MyReportCard({ report, detectChange, setDetectChange }) {
 	const username = useSelector((state) => state.userReducer.user.username);
 	const [comments, setComments] = useState(report.comments);
 	const [show, setShow] = useState(false);
@@ -24,11 +24,12 @@ function MyReportCard({ report }) {
 			comment: CommentRef.current.value,
 		});
 		setComments(report.comments);
+		setDetectChange(!detectChange);
 		CommentRef.current.value = "";
 	};
 	return (
 		<>
-			<Card className="h-100">
+			<Card bg="lightGrey" className="h-100">
 				<Card.Body className="d-flex flex-column justify-content-between">
 					<Row className="justify-content-between align-items-center">
 						<Card.Title className="fitWidth">{report.title}</Card.Title>
@@ -78,10 +79,9 @@ function MyReportCard({ report }) {
 				<Modal.Body>
 					<ListGroup>
 						{comments.map((comment, i) => (
-							<ListGroup.Item key={i}>
-								{console.log(comment)}
+							<ListGroup.Item className="reportComments" key={i}>
 								<Row>
-									<Col sm={2}>
+									<Col sm={3}>
 										<h6 className="text-muted my-auto me-2">{comment.username}</h6>
 										{/* <h6>{comment.username}:</h6> */}
 									</Col>

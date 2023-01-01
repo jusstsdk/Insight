@@ -7,6 +7,7 @@ import Courses from "../pages/sharedTrainee/Courses";
 import SignUp from "../pages/SignUp";
 import CoursePage from "../pages/sharedTrainee/CoursePage";
 import ViewInstructor from "../pages/ViewInstructor";
+import NotFound from "../pages/NotFound";
 
 export function GuestRoutes() {
 	return (
@@ -19,7 +20,11 @@ export function GuestRoutes() {
 					<Route path="forgotPassword" element={<ForgotPassword />} />
 					<Route path="resetPassword" element={<ResetPassword />} />
 					<Route path="courses/:id" element={<CoursePage />} />
-					<Route path="viewInstructor/:id" element={<ViewInstructor />} />
+					<Route
+						path="viewInstructor/:id"
+						element={<ViewInstructor />}
+					/>
+					<Route path="*" element={<NotFound />} />
 				</Route>
 			</Routes>
 		</>

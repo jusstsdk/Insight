@@ -31,7 +31,7 @@ function ReportCard(props) {
 	};
 	return (
 		<>
-			<Card>
+			<Card bg="lightGrey">
 				<Card.Body>
 					{!props.report.isSeen && <BsFillEyeSlashFill />}
 					{props.report.isSeen && <BsFillEyeFill />}
@@ -41,7 +41,7 @@ function ReportCard(props) {
 					</Card.Text>
 					<Card.Text>{props.report.author.username}</Card.Text>
 					<Button
-						variant="primary"
+						variant="outline-primary"
 						onClick={() => {
 							handleReport({ seen: true });
 							props.seenReport(props.report);
@@ -62,7 +62,7 @@ function ReportCard(props) {
 				<Modal.Body>
 					<ListGroup>
 						{props.report.comments.map((comment, i) => (
-							<ListGroup.Item>
+							<ListGroup.Item className="reportComments">
 								<Row>
 									<Col sm={2}>
 										<h6>{comment.username}:</h6>
@@ -81,12 +81,12 @@ function ReportCard(props) {
 					</Form.Group>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
+					<Button variant="primary" onClick={handleClose}>
 						Close
 					</Button>
 					{!props.report.isResolved && (
 						<Button
-							variant="secondary"
+							variant="primary"
 							onClick={() => {
 								handleReport({ resolved: true });
 								props.resolvingReport(props.report);

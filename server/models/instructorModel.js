@@ -14,32 +14,17 @@ const monthlyPaySchema = new Schema(
 
 const instructorSchema = new Schema(
 	{
-		username: {
-			type: String,
-			required: true,
-		},
-		password: {
-			type: String,
-			required: true,
-		},
-		email: {
-			type: String,
-			required: true,
-		},
-		biography: {
-			type: String,
-			required: false,
-		},
-		country: {
-			type: String,
-			required: false,
-		},
-		currency: String,
+		username: String,
+		password: String,
+		email: String,
+		firstName: String,
+		lastName: String,
+		gender: String,
+		country:String,
+		biography: String,
 		courses: [{ type: Schema.ObjectId, ref: "Course" }],
-		reviews: {
-			type: [reviewSchema],
-			required: false,
-		},
+		rating: Number,
+		reviews: [reviewSchema],
 		monthlyPay: {
 			type: monthlyPaySchema,
 			default: {
@@ -57,6 +42,14 @@ instructorSchema.methods.generateAuthToken = function () {
 	);
 	return token;
 };
+instructorSchema.pre("save", function (next) {
+	let totalRatingsValue = 0;
+	this.reviews.forEach((review) => {
+		totalRatingsValue += review.rating;
+	});
+	this.rating = totalRatingsValue / this.reviews.length;
+	next();
+});
 
 const Instructor = mongoose.model("Instructor", instructorSchema);
 module.exports = Instructor;

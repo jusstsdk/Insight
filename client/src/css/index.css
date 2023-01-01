@@ -123,9 +123,13 @@ code {
 html {
 	overflow-y: overlay;
 }
-/* .search-course-list {
-	margin-left: 22%;
-} */
+
+
+.breadcrumbItem > a,.breadcrumbItem > a:hover       
+{
+text-decoration: none;
+cursor: auto;
+}
 
 .clearRatingButton {
 	background-color: rgba(0, 0, 0, 0) !important;

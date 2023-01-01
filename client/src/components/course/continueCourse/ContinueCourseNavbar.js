@@ -19,8 +19,8 @@ export default function ContinueCourseNavbar({
 	const UserType = useSelector((state) => state.userReducer.type);
 
 	const CourseIndex = useSelector(
-		(state) => state.userReducer.user.courses
-	).findIndex((course) => course.course === Course._id);
+		(state) => state.userReducer.user.courses).findIndex((course) => course.course === Course._id);
+    
 	const Subtitles = useSelector(
 		(state) => state.userReducer.user.courses[CourseIndex].subtitles
 	);
@@ -39,7 +39,10 @@ export default function ContinueCourseNavbar({
 	);
 	const mainNavbar = document.getElementById("main-navbar");
 	return (
-		<AppBar position="fixed" style={{ zIndex: "3", backgroundColor: "grey" }}>
+		<AppBar
+			position="fixed"
+			style={{ zIndex: "3", backgroundColor: "#F8F8F8" }}
+		>
 			<Toolbar
 				id="continueCourseBreadcrumbs"
 				className="continueCourseBreadcrumbs"
@@ -58,14 +61,20 @@ export default function ContinueCourseNavbar({
 							<Breadcrumb.Item className="cut-text">
 								{Subtitles[SubtitleIndex].title}
 							</Breadcrumb.Item>
-							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
+							<Breadcrumb.Item className="breadcrumbItem">
+								{Content.title}
+							</Breadcrumb.Item>
 						</Breadcrumb>
 					)}
 					{/* Exam */}
 					{ContentType === "Exam" && (
 						<Breadcrumb>
-							<Breadcrumb.Item>{Course.title}</Breadcrumb.Item>
-							<Breadcrumb.Item>{Content.title}</Breadcrumb.Item>
+							<Breadcrumb.Item className="breadcrumbItem">
+								{Course.title}
+							</Breadcrumb.Item>
+							<Breadcrumb.Item className="breadcrumbItem">
+								{Content.title}
+							</Breadcrumb.Item>
 						</Breadcrumb>
 					)}
 				</Col>
@@ -79,7 +88,7 @@ export default function ContinueCourseNavbar({
 							{Progress === 1 && (
 								<Button
 									variant="link"
-									className="ms-3"
+									className="ms-3 blackText "
 									onClick={async () => {
 										dispatch(
 											addNotification({
@@ -100,14 +109,22 @@ export default function ContinueCourseNavbar({
 						</div>
 						{/* Previous */}
 						{(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (
-							<Button variant="link" className="" onClick={handlePrevious}>
+							<Button
+								variant="link"
+								className="blackText linkDecor"
+								onClick={handlePrevious}
+							>
 								<AiOutlineArrowLeft />
 								Previous
 							</Button>
 						)}
 						{/* Next */}
 						{ContentType !== "Exam" && (
-							<Button variant="link" className="" onClick={handleNext}>
+							<Button
+								variant="link"
+								className="blackText linkDecor"
+								onClick={handleNext}
+							>
 								Next
 								<AiOutlineArrowRight />
 							</Button>
@@ -116,7 +133,7 @@ export default function ContinueCourseNavbar({
 						{ContentType === "Exam" && (
 							<Button
 								variant="link"
-								className="ms-1"
+								className="ms-1 blackText linkDecor"
 								onClick={() =>
 									navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)
 								}

@@ -188,7 +188,7 @@ function CourseReviews(props) {
 						{userType === "Instructor" && (
 							<>
 								<div style={{ float: "right" }}>
-									<Button variant="danger" onClick={handleShowReportCourseModal}>
+									<Button variant="outline-secondary2" onClick={handleShowReportCourseModal}>
 										Report
 									</Button>
 								</div>

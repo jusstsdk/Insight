@@ -3,6 +3,7 @@ import CourseCard from "../CourseCard";
 import { useState, useMemo, useEffect } from "react";
 import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
+import UniversalCourseCard from "../UniversalCourseCard";
 
 let pageSize = 2;
 export default function CourseList({ courses, currentPage, setCurrentPage }) {
@@ -19,7 +20,7 @@ export default function CourseList({ courses, currentPage, setCurrentPage }) {
 	return (
 		<>
 			{currentCourses.map((course, i) => (
-				<CourseCard key={"course" + i} course={course} />
+				<UniversalCourseCard course={course} cardType={"Basic"} />
 			))}
 			<Pagination
 				className="pagination-bar"
