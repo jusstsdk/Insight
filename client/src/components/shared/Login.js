@@ -33,7 +33,6 @@ export default function Login() {
 			const responseUserType = response.data["userType"];
       
 			let responseUser = response.data["user"];
-      
 			responseUser = await updateCurrency(responseUser);
       
 			dispatch(
@@ -75,11 +74,7 @@ export default function Login() {
 			<Form onSubmit={!isLoggingIn ? loginFunction : null}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label>Username</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Enter username"
-						ref={username}
-					/>
+					<Form.Control type="text" placeholder="Enter username" ref={username} />
 					<Form.Text className="text-muted">
 						We'll never share your email with anyone else.
 					</Form.Text>
@@ -96,13 +91,7 @@ export default function Login() {
 
 				{isLoggingIn ? (
 					<Button variant="primary" disabled>
-						<Spinner
-							as="span"
-							animation="border"
-							size="sm"
-							role="status"
-							aria-hidden="true"
-						/>{" "}
+						<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
 						Logging in...
 					</Button>
 				) : (

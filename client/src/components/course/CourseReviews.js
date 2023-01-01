@@ -32,6 +32,7 @@ import { setCourseRefund, setCourses, setUser } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 import { payFromWallet } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
+import RatingStats from "../RatingStats";
 
 function CourseReviews(props) {
 	const course = props.course;
@@ -58,8 +59,7 @@ function CourseReviews(props) {
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
 	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
-	const setTraineeAlreadyRequestedRefund =
-		props.setTraineeAlreadyRequestedRefund;
+	const setTraineeAlreadyRequestedRefund = props.setTraineeAlreadyRequestedRefund;
 
 	const courseID = course._id;
 
@@ -71,8 +71,7 @@ function CourseReviews(props) {
 
 	//Trainee Data
 	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
-	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
-		useState(false);
+	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] = useState(false);
 
 	const [showRefundRequestModal, setShowRefundRequestModal] = useState(false);
 
@@ -119,56 +118,77 @@ function CourseReviews(props) {
 		}
 	}
 
+	const ReviewHeader = (review) => {
+		return (
+			<>
+				<h5 className="fitWidth">
+					{review.trainee && review.trainee._id === userID
+						? "You"
+						: review.trainee
+						? review.trainee.firstName + " " + review.trainee.lastName
+						: "redacted"}
+				</h5>
+				{review.updatedAt ? (
+					new Date(review.updatedAt).toUTCString() === "Invalid Date" ? (
+						""
+					) : (
+						<h6 className="fitWidth text-muted ps-0 fs-6 align-self-end ">
+							{new Date(review.updatedAt).toUTCString()}
+						</h6>
+					)
+				) : new Date(review.createdAt).toUTCString() === "Invalid Date" ? (
+					""
+				) : (
+					<h6 className="fitWidth">{new Date(review.createdAt).toUTCString()}</h6>
+				)}
+			</>
+		);
+	};
+
 	return (
 		loaded && (
 			<>
-				<Row>
+				{/* Header and Buttons */}
+				<Row id="courseReviews" className="mb-3">
+					{/* Header */}
 					<Col>
-						<h3>Reviews</h3>
+						<h3 className="fst-italic fitWidth my-auto ps-0">Reviews</h3>
 					</Col>
+					{/* Buttons */}
 					<Col>
-						{(userType === "Trainee" || userType === "CorporateTrainee") &&
-							ownsCourse && (
-								<>
-									<div style={{ float: "right" }}>
-										{!traineeAlreadyRequestedRefund && (
-											<>
-												<Button onClick={handleShowReviewCourseModal}>
-													Review
-												</Button>
-												&nbsp;
-												<Button
-													variant="danger"
-													onClick={handleShowReportCourseModal}
-												>
-													Report
-												</Button>
-												&nbsp;
-											</>
-										)}
-										{userType === "Trainee" &&
-											!traineePastFiftyPercentOfCourse && (
-												<Button
-													style={{ float: "right" }}
-													variant={traineeCanRefund ? "warning" : "secondary"}
-													onClick={handleShowRefundCourseModal}
-													disabled={!traineeCanRefund}
-												>
-													{traineeCanRefund
-														? "Request Refund"
-														: "Refund Request Sent"}
-												</Button>
-											)}
-									</div>
-								</>
-							)}
+						{(userType === "Trainee" || userType === "CorporateTrainee") && ownsCourse && (
+							<>
+								<div className="d-flex justify-content-end">
+									{!traineeAlreadyRequestedRefund && (
+										<>
+											<Button className="ms-2" onClick={handleShowReviewCourseModal}>
+												Review
+											</Button>
+
+											<Button
+												className="ms-2"
+												variant="danger"
+												onClick={handleShowReportCourseModal}>
+												Report
+											</Button>
+										</>
+									)}
+									{userType === "Trainee" && !traineePastFiftyPercentOfCourse && (
+										<Button
+											className="ms-2"
+											variant={traineeCanRefund ? "warning" : "secondary"}
+											onClick={handleShowRefundCourseModal}
+											disabled={!traineeCanRefund}>
+											{traineeCanRefund ? "Request Refund" : "Refund Request Sent"}
+										</Button>
+									)}
+								</div>
+							</>
+						)}
 						{userType === "Instructor" && (
 							<>
 								<div style={{ float: "right" }}>
-									<Button
-										variant="danger"
-										onClick={handleShowReportCourseModal}
-									>
+									<Button variant="outline-secondary2" onClick={handleShowReportCourseModal}>
 										Report
 									</Button>
 								</div>
@@ -176,71 +196,49 @@ function CourseReviews(props) {
 						)}
 					</Col>
 				</Row>
+				{/* Ratings */}
+				<Row>
+					{/* Stats */}
+					<RatingStats rating={course.rating} reviews={course.reviews} />
 
-				{reviews
-					.slice()
-					.reverse()
-					.map((review, index) => {
-						return (
-							<Card key={review._id} className="my-2">
-								<Card.Img />
-								<Card.Body>
-									<CardGroup
-										as={Row}
-										className="justify-content-between align-items-center"
-									>
-										<Card.Title>
-											<Row>
-												<Col lg={8} md={6} sm={8}>
-													<h4>
-														{review.trainee && review.trainee._id === userID
-															? "You"
-															: review.trainee
-															? review.trainee.firstName +
-															  " " +
-															  review.trainee.lastName
-															: "redacted"}
-													</h4>
-
-													{review.updatedAt ? (
-														new Date(review.updatedAt).toUTCString() ===
-														"Invalid Date" ? (
-															""
-														) : (
-															<h6>
-																{new Date(review.updatedAt).toUTCString()}
-															</h6>
-														)
-													) : new Date(review.createdAt).toUTCString() ===
-													  "Invalid Date" ? (
-														""
-													) : (
-														<h6>{new Date(review.createdAt).toUTCString()}</h6>
-													)}
-												</Col>
-												<Col sm={4} md={4} lg={2}>
-													<Rating
-														allowFraction="true"
-														initialValue={review.rating}
-														readonly="true"
-														size={20}
-														/* Available Props */
-													/>
-												</Col>
-											</Row>
-										</Card.Title>
-									</CardGroup>
-									{review.review && <hr />}
-									<Card.Text>{review.review}</Card.Text>
-								</Card.Body>
-							</Card>
-						);
-					})}
+					{/* Reviews */}
+					<Col sm={8}>
+						{reviews
+							.slice()
+							.reverse()
+							.map((review, index) => {
+								return (
+									<Card key={review._id} className="mb-2">
+										<Card.Body>
+											<CardGroup
+												as={Row}
+												className="justify-content-between align-items-center mb-2">
+												<Card.Title>
+													<Row sm={10}>
+														{ReviewHeader(review)}
+														<Col className="ms-auto justify-contend-end fitWidth" sm={2}>
+															<Rating
+																className="fitWidth starsContainer"
+																allowFraction="true"
+																initialValue={review.rating}
+																readonly="true"
+																size={20}
+															/>
+														</Col>
+													</Row>
+												</Card.Title>
+											</CardGroup>
+											<Card.Text>{review.review}</Card.Text>
+										</Card.Body>
+									</Card>
+								);
+							})}
+					</Col>
+				</Row>
 				<ReportCourseModal
 					course={course}
 					showReportCourseModal={showReportCourseModal}
-					setShowReportCourseModal={setShowReportCourseModal}
-				></ReportCourseModal>
+					setShowReportCourseModal={setShowReportCourseModal}></ReportCourseModal>
 				<ReviewCourseModal
 					course={course}
 					showReviewCourseModal={showReviewCourseModal}
@@ -248,12 +246,8 @@ function CourseReviews(props) {
 					reviews={reviews}
 					setReviews={setReviews}
 					setCourse={setCourse}
-					getCourseFromDB={getCourseFromDB}
-				></ReviewCourseModal>
-				<Modal
-					show={showRefundRequestModal}
-					onHide={handleCloseRefundCourseModal}
-				>
+					getCourseFromDB={getCourseFromDB}></ReviewCourseModal>
+				<Modal show={showRefundRequestModal} onHide={handleCloseRefundCourseModal}>
 					<Modal.Header closeButton>
 						<Modal.Title>Refund</Modal.Title>
 					</Modal.Header>

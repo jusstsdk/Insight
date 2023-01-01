@@ -7,7 +7,7 @@ function InstructorReviewCard(props) {
 	const userID = useSelector((state) => state.userReducer.user._id);
 	return (
 		<>
-			<Card key={review._id} className="my-2">
+			<Card className="my-2">
 				<Card.Img />
 				<Card.Body>
 					<CardGroup

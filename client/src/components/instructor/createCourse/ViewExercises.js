@@ -48,7 +48,9 @@ export default function ViewExercises(props) {
 	};
 
 	const handleDeleteExercise = (exercise_key) => {
-		let newExercises = props.SubtitleExercises.filter((_, i) => i !== exercise_key);
+		let newExercises = props.SubtitleExercises.filter(
+			(_, i) => i !== exercise_key
+		);
 		dispatch(
 			removeExerciseFromSubtitle({
 				subtitleKey: props.subtitleKey,
@@ -94,7 +96,8 @@ export default function ViewExercises(props) {
 			<Accordion>
 				<Accordion.Item
 					eventKey={`subtitle_${props.subtitleKey}_exercises`}
-					key={`subtitle_${props.subtitleKey}_exercises`}>
+					key={`subtitle_${props.subtitleKey}_exercises`}
+				>
 					<Accordion.Header className="accordionHeaderWidth">
 						<h6>Exercises</h6>
 						<Col className="d-flex justify-content-end me-3">
@@ -111,7 +114,8 @@ export default function ViewExercises(props) {
 								return (
 									<Accordion.Item
 										eventKey={`exercise_${exercise_key}`}
-										key={`exercise_${exercise_key}`}>
+										key={`exercise_${exercise_key}`}
+									>
 										<div className="d-flex">
 											<Col sm={11} className="me-auto">
 												<Accordion.Header className="accordionHeaderWidth">
@@ -128,14 +132,20 @@ export default function ViewExercises(props) {
 													variant="success"
 													className="accordionTrash accordionLikeEditButton"
 													key={`exercise_edit_button_${exercise_key}`}
-													onClick={() => handleEditExerciseModalShow(exercise, exercise_key)}>
-													<AiOutlineEdit key={"exercise_edit_" + exercise_key} />
+													onClick={() =>
+														handleEditExerciseModalShow(exercise, exercise_key)
+													}
+												>
+													<AiOutlineEdit
+														key={"exercise_edit_" + exercise_key}
+													/>
 												</Button>
 												<Button
 													className="accordionTrash accordionLikeDeleteButton"
 													variant="danger"
 													key={`exercise_trash_button_${exercise_key}`}
-													onClick={() => handleDeleteExercise(exercise_key)}>
+													onClick={() => handleDeleteExercise(exercise_key)}
+												>
 													<BsTrash key={"exercise_trash_" + exercise_key} />
 												</Button>
 											</Col>
@@ -154,8 +164,11 @@ export default function ViewExercises(props) {
 												</Col>
 												<Col className=" d-flex">
 													<Button
-														onClick={() => handleAddQuestionModalShow(exercise, exercise_key)}
-														className="me-1 m-auto">
+														onClick={() =>
+															handleAddQuestionModalShow(exercise, exercise_key)
+														}
+														className="me-1 m-auto"
+													>
 														Add Question
 													</Button>
 												</Col>
@@ -167,8 +180,11 @@ export default function ViewExercises(props) {
 						</Accordion>
 						<Col className="mt-2">
 							<Button
-								onClick={() => handleAddExerciseModalShow(props.subtitle, props.subtitle_key)}
-								className="me-3">
+								onClick={() =>
+									handleAddExerciseModalShow(props.subtitle, props.subtitle_key)
+								}
+								className="me-3"
+							>
 								Add Exercise
 							</Button>
 						</Col>

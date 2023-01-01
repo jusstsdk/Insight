@@ -14,7 +14,7 @@ function ChangePassword() {
 
 	const handleChangePassword = async () => {
 		try {
-			if(password.current.value !== confirmPassword.current.value) {
+			if (password.current.value !== confirmPassword.current.value) {
 				setError(true);
 				return;
 			}
@@ -53,9 +53,13 @@ function ChangePassword() {
 					<Form.Label>Enter new password</Form.Label>
 					<Form.Control type="password" ref={password} placeholder="password" />
 					<Form.Label>Confirm password</Form.Label>
-					<Form.Control type="password" ref={confirmPassword} placeholder="Confirm Password" />
+					<Form.Control
+						type="password"
+						ref={confirmPassword}
+						placeholder="Confirm Password"
+					/>
 				</Form.Group>
-				<Button variant="success" onClick={handleChangePassword}>
+				<Button variant="primary" onClick={handleChangePassword}>
 					Submit
 				</Button>
 				{error && <p className="text-danger">Passwords don't match!</p>}

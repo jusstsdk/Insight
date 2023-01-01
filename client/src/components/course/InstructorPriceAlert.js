@@ -1,40 +1,36 @@
-import { Alert, Button } from "react-bootstrap";
+import { Alert, Button, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function InstructorPriceAlert(props) {
 	const course = props.course;
 	const currency = useSelector((state) => state.userReducer.user.currency);
+	const exchangeRate = useSelector((state) => state.userReducer.user.exchangeRate);
 
 	return (
 		<>
-			<Alert variant="primary" className="lead">
-				{course.promotion.discount &&
-				course.promotion.discount !== 0 &&
-				course.promotion.endDate >= new Date().toISOString() ? (
-					<>
-						{Math.trunc(course.price * 100) === 0 ? (
-							<h5>FREE</h5>
-						) : (
-							<>
-								Price:
-								<h6>{course.price + currency}</h6>
-								<p>
-									<del>{course.originalPrice}</del>{" "}
-									<span style={{ color: "red" }}>
-										{course.promotion.discount + "% OFF"}
-									</span>
-								</p>
-							</>
-						)}
-					</>
-				) : (
-					<h6 style={{ display: "inline-block" }}>
-						{Math.trunc(course.originalPrice * 100) === 0.0
-							? "FREE"
-							: course.originalPrice + " " + currency}
-					</h6>
-				)}
-			</Alert>
+			{course.promotion.discount &&
+			course.promotion.discount !== 0 &&
+			course.promotion.endDate >= new Date().toISOString() ? (
+				<Col sm={7}>
+					<h4 className="fitWidth fw-bold ms-auto">
+						{(course.price === 0 ? "FREE" : (course.price * exchangeRate).toFixed(2)) +
+							" " +
+							currency}
+					</h4>
+					<h5 className="fitWidth ms-auto">
+						<del className="me-2 text-muted">
+							{(course.originalPrice * exchangeRate).toFixed(2)}
+						</del>
+						<span className="error">{course.promotion.discount}%</span> OFF
+					</h5>
+				</Col>
+			) : (
+				<h3>
+					{Math.trunc(course.originalPrice * 100) === 0.0
+						? "FREE"
+						: course.originalPrice * exchangeRate + " " + currency}
+				</h3>
+			)}
 		</>
 	);
 }

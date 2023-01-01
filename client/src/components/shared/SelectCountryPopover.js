@@ -11,7 +11,7 @@ export default function SelectCountryPopover() {
 	async function changeCountry(payload) {
 		let updatedUser = { ...user, country: payload };
 		updatedUser = await updateCurrency(updatedUser);
-    
+
 		dispatch(setUser(updatedUser));
 		dispatch(setCountry(payload));
 	}

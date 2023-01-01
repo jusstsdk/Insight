@@ -12,7 +12,9 @@ function EditProfile() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const User = useSelector((state) => state.userReducer.user);
-	const [Email, setEmail] = useState(useSelector((state) => state.userReducer.user.email));
+	const [Email, setEmail] = useState(
+		useSelector((state) => state.userReducer.user.email)
+	);
 	const [Biography, setBiography] = useState(
 		useSelector((state) => state.userReducer.user.biography)
 	);
@@ -49,7 +51,8 @@ function EditProfile() {
 	const resizeTextArea = () => {
 		try {
 			BiographyRef.current.style.height = "auto";
-			BiographyRef.current.style.height = BiographyRef.current.scrollHeight + "px";
+			BiographyRef.current.style.height =
+				BiographyRef.current.scrollHeight + "px";
 		} catch (err) {
 			// console.log(err);
 		}
@@ -92,7 +95,7 @@ function EditProfile() {
 						}}
 					/>
 				</Form.Group>
-				<Button variant="success" onClick={handleEditProfile}>
+				<Button variant="primary" onClick={handleEditProfile}>
 					Submit
 				</Button>
 			</Col>
