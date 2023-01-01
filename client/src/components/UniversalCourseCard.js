@@ -286,7 +286,9 @@ function UniversalCourseCard(props) {
 								}}
 								key={"instructor_" + i}
 							>
-								{instructor.username}
+								{instructor.firstName
+									? instructor.firstName + " " + instructor.lastName
+									: instructor.username}
 							</Button>
 						</>
 					))}

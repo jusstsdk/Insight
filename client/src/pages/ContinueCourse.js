@@ -50,6 +50,10 @@ export default function ContinueCourse() {
 	const Subtitles = useSelector(
 		(state) => state.userReducer.user.courses[CourseIndex].subtitles
 	);
+	const Progress = useSelector(
+		(state) => state.userReducer.user.courses[CourseIndex].progress
+	);
+
 	// Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
 	const ContentType = useSelector(
 		(state) => state.continueCourseReducer.contentType
@@ -320,6 +324,7 @@ export default function ContinueCourse() {
 	const drawer = (
 		<div className="mb-5">
 			{/* Filler to avoid Navbar */}
+
 			<Toolbar
 				sx={{
 					marginTop: {
@@ -327,6 +332,9 @@ export default function ContinueCourse() {
 					},
 				}}
 			/>
+			<p style={{ color: "black" }} className="fitWidth m-auto">
+				Progress: {Progress * 100}%
+			</p>
 			<List id="drawerList">
 				{/* Subtitles Items */}
 				{Subtitles.map((subtitle, subtitle_index) => (

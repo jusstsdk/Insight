@@ -1,14 +1,24 @@
 import { useEffect, useState, useRef } from "react";
-import { Container, Tabs, Tab, Row, Col, Modal, Form } from "react-bootstrap";
+import {
+	Container,
+	Tabs,
+	Tab,
+	Row,
+	Col,
+	Modal,
+	Form,
+	Button,
+} from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
 import CourseCard from "../components/CourseCard";
 import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
 import API from "../functions/api";
-import { Button } from "@mui/material";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
 import UniversalCourseCard from "../components/UniversalCourseCard";
+import { IoIosPin } from "react-icons/io";
+
 export default function ViewInstructor() {
 	const location = useLocation();
 	const { id } = useParams();
@@ -58,7 +68,6 @@ export default function ViewInstructor() {
 						// console.log("instructor: ");
 						// console.log(instructorCourse);
 						if (instructorCourse._id === traineeCourse.course) {
-							console.log(true);
 							setInstructorTeachesTrainee(true);
 						}
 					});
@@ -79,10 +88,11 @@ export default function ViewInstructor() {
 		}
 	};
 
-	const [instructorRating, setInstructorRating] = useState(0);
+	let instructorRating = 0;
 	const handleInstructorRating = (rating) => {
-		setInstructorRating(rating);
+		instructorRating = rating;
 	};
+
 	async function reviewInstructor() {
 		let data = {
 			rating: instructorRating,
@@ -109,41 +119,56 @@ export default function ViewInstructor() {
 		getInstructorReviews();
 		setLoaded(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [instructorId]);
+	}, [instructorId, user]);
 
 	return (
 		loaded && (
 			<Container className="my-3">
 				<Row>
+					<Col md="auto">
+						<h1 className="fw-bold">
+							{InstructorInfo.firstName
+								? InstructorInfo.firstName + " " + InstructorInfo.lastName
+								: InstructorInfo.username}
+						</h1>
+					</Col>
 					<Col>
-						<h1 className="fw-bold">{InstructorInfo.username}</h1>
-					</Col>
-					<Col className="d-flex justify-content-end">
-						{userType !== "Instructor" && instructorTeachesTrainee && (
-							<Button
-								color="primary"
-								variant="contained"
-								endIcon={<RateReviewRoundedIcon />}
-								onClick={handleShowReviewInstructorModal}
-							>
-								Review instructor
-							</Button>
-						)}
-					</Col>
-				</Row>
-
-				<h5 
-					className="text-muted">{InstructorInfo.email} {" "}
-					<Rating
+						<Rating
 							allowFraction="true"
 							initialValue={InstructorInfo.rating}
 							readonly="true"
 							size={22}
-					/> 
-					{InstructorReviews.length > 0 && ( <small >({InstructorReviews.length})</small> ) }
-				</h5>
-				
-				<p className="lh-base">{InstructorInfo.biography}</p>
+						/>
+						{InstructorReviews.length > 0 && (
+							<small>&nbsp;({InstructorReviews.length})</small>
+						)}
+					</Col>
+					<Col className="d-flex justify-content-end">
+						{(userType === "Trainee" || userType === "CorporateTrainee") &&
+							instructorTeachesTrainee && (
+								<Button
+									// endIcon={<RateReviewRoundedIcon />}
+									onClick={handleShowReviewInstructorModal}
+								>
+									Rate Instructor
+								</Button>
+							)}
+					</Col>
+				</Row>
+				<h5 className="text-muted">{InstructorInfo.email} </h5>
+				<hr />
+				<Row>
+					<Col>
+						<h5 className="fw">Biography</h5>
+					</Col>
+					<Col>
+						<h6 style={{ float: "right" }}>
+							<IoIosPin /> {InstructorInfo.country}
+						</h6>
+					</Col>
+				</Row>
+				<p className="lh-base text-muted">{InstructorInfo.biography}</p>
+
 				<Tabs
 					id="controlled-tab-example"
 					defaultActiveKey="Courses"
@@ -155,15 +180,16 @@ export default function ViewInstructor() {
 						))}
 					</Tab>
 					<Tab eventKey="Reviews" title="Reviews">
-						{InstructorReviews.map((review) => (
-							<InstructorReviewCard
-								key={"review_" + review.trainee.email}
-								review={review}
-							/>
-						))}
+						{InstructorReviews.slice()
+							.reverse()
+							.map((review) => (
+								<InstructorReviewCard
+									key={"review_" + review.trainee.username}
+									review={review}
+								/>
+							))}
 					</Tab>
 				</Tabs>
-
 				{/* <Col lg={8} className="d-flex flex-column justify-content-center m-auto">
 				{Reviews.map((review) => (
 					<InstructorReviewCard
@@ -174,13 +200,12 @@ export default function ViewInstructor() {
 					/>
 				))}
 			</Col> */}
-
 				<Modal
 					show={showReviewInstructorModal}
 					onHide={handleCloseReviewInstructorModal}
 				>
 					<Modal.Header closeButton>
-						<Modal.Title>Rate </Modal.Title>
+						<Modal.Title>Rate Instructor</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<Form>

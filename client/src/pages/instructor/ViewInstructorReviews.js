@@ -40,12 +40,11 @@ function ViewInstructorReviews() {
 			<Col lg={8} className="d-flex flex-column justify-content-center m-auto">
 				{Reviews.map((review) => (
 					<InstructorReviewCard
-						key={"review_" + review.trainee.email}
+						key={"bebo" + review.trainee.username}
 						review={review}
 					/>
 				))}
 			</Col>
-			
 		</Container>
 	);
 }
