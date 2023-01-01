@@ -17,6 +17,8 @@ import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
 import UniversalCourseCard from "../components/UniversalCourseCard";
+import { IoIosPin } from "react-icons/io";
+
 export default function ViewInstructor() {
 	const location = useLocation();
 	const { id } = useParams();
@@ -117,7 +119,7 @@ export default function ViewInstructor() {
 		getInstructorReviews();
 		setLoaded(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [instructorId]);
+	}, [instructorId, user]);
 
 	return (
 		loaded && (
@@ -153,11 +155,20 @@ export default function ViewInstructor() {
 							)}
 					</Col>
 				</Row>
-
 				<h5 className="text-muted">{InstructorInfo.email} </h5>
 				<hr />
-				<h5 className="fw">Biography</h5>
+				<Row>
+					<Col>
+						<h5 className="fw">Biography</h5>
+					</Col>
+					<Col>
+						<h6 style={{ float: "right" }}>
+							<IoIosPin /> {InstructorInfo.country}
+						</h6>
+					</Col>
+				</Row>
 				<p className="lh-base text-muted">{InstructorInfo.biography}</p>
+
 				<Tabs
 					id="controlled-tab-example"
 					defaultActiveKey="Courses"
@@ -179,7 +190,6 @@ export default function ViewInstructor() {
 							))}
 					</Tab>
 				</Tabs>
-
 				{/* <Col lg={8} className="d-flex flex-column justify-content-center m-auto">
 				{Reviews.map((review) => (
 					<InstructorReviewCard
@@ -190,7 +200,6 @@ export default function ViewInstructor() {
 					/>
 				))}
 			</Col> */}
-
 				<Modal
 					show={showReviewInstructorModal}
 					onHide={handleCloseReviewInstructorModal}
