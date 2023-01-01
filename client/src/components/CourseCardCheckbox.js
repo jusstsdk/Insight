@@ -32,13 +32,7 @@ export default function CourseCardCheckbox({
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
 	return univesal ? (
-		<UniversalCourseCard
-			course={course}
-			handleCheck={handleCheck}
-			defaultChecked={defaultChecked}
-			bg={bg}
-			cardType={"Discount"}
-		></UniversalCourseCard>
+		<></>
 	) : (
 		<>
 			<Card className="my-3" bg={bg}>

@@ -5,6 +5,7 @@ import CourseCard from "../CourseCard";
 import { useSelector } from "react-redux";
 import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
+import UniversalCourseCard from "../UniversalCourseCard";
 let pageSize = 1;
 let coursesNumber = 3;
 const PopularCourses = () => {
@@ -44,7 +45,11 @@ const PopularCourses = () => {
 	return (
 		<div className="course-list">
 			{currentCourses.slice(0, coursesNumber).map((course) => (
-				<CourseCard course={course} key={course._id} />
+				<UniversalCourseCard
+					key={course._id + "POP"}
+					course={course}
+					cardType={"Basic"}
+				/>
 			))}
 			<Pagination
 				className="pagination-bar"

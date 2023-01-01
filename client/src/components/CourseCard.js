@@ -75,7 +75,7 @@ function CourseCard({ course }) {
 		}
 	}, []);
 
-	return loaded ? (
+	return false ? (
 		<>
 			<Card className="my-3">
 				<Card.Body>
@@ -212,10 +212,7 @@ function CourseCard({ course }) {
 			</Card>
 		</>
 	) : (
-		<UniversalCourseCard
-			course={course}
-			cardType={"Basic"}
-		></UniversalCourseCard>
+		<></>
 	);
 }
 export default CourseCard;

@@ -117,12 +117,7 @@ function CourseCard(props) {
 	};
 
 	return universal ? (
-		<UniversalCourseCard
-			cardType="Deulexe"
-			course={props.course}
-			instructorId={instructorId}
-			setDetectChange={props.setDetectChange}
-		></UniversalCourseCard>
+		<></>
 	) : (
 		<Card className="my-3">
 			<Card.Body>
