@@ -38,12 +38,14 @@ function ViewInstructorReviews() {
 	return (
 		<Container className="my-3">
 			<Col lg={8} className="d-flex flex-column justify-content-center m-auto">
-				{Reviews.map((review) => (
-					<InstructorReviewCard
-						key={"bebo" + review.trainee.username}
-						review={review}
-					/>
-				))}
+				{Reviews.slice()
+					.reverse()
+					.map((review) => (
+						<InstructorReviewCard
+							key={"bebo" + review.trainee.username}
+							review={review}
+						/>
+					))}
 			</Col>
 			{/* <Pagination
 				className="pagination-bar"
