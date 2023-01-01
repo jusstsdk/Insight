@@ -37,7 +37,8 @@ export default function RatingStats({ rating, reviews }) {
 						</Col>
 						<Col sm={3}>
 							<h6 className="fitWidth h7 ">
-								{((bar / reviews.length) * 100).toFixed(2)} <span className="fw-light">%</span>
+								{reviews.length !== 0 ? ((bar / reviews.length) * 100).toFixed(2) : 0}
+								<span className="fw-light">%</span>
 							</h6>
 						</Col>
 					</Row>
