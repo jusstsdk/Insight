@@ -171,11 +171,11 @@ function UniversalCourseCard(props) {
 							Delete Course
 						</Button>
 						<Button className="me-1" onClick={handleEditCourse}>
-							Edit Course
+							Open Draft
 						</Button>
-						<Button className="me-1" onClick={handlePublishCourse}>
+						{/* <Button className="me-1" onClick={handlePublishCourse}>
 							Publish Course
-						</Button>
+						</Button> */}
 					</>
 				);
 			}
@@ -374,7 +374,7 @@ function UniversalCourseCard(props) {
 							lg={2}
 						>
 							{displayInstructorEditCourseButtons()}{" "}
-							<Button onClick={handleViewCourse}>View Course</Button>
+							{course.status != "Draft" &&<Button onClick={handleViewCourse}>View Course</Button>}
 						</Col>
 					) : (
 						<Col
