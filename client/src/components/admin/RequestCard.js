@@ -6,7 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
-function RequestCard({ request, course, username, DetectChange, setDetectChange }) {
+function RequestCard({ request, course, username, detectChange, setDetectChange  }) {
+	const [handled, setHandled] = useState(false);
+	const [message, setMessage] = useState("");
+	const [variant, setVariant] = useState("");
 	const [show, setShow] = useState(true);
 	const token = useSelector((state) => state.userReducer.token);
 	const dispatch = useDispatch();
@@ -22,6 +25,9 @@ function RequestCard({ request, course, username, DetectChange, setDetectChange 
 				headers: { authorization: "Bearer " + token },
 			}
 		);
+		setHandled(true);
+		setMessage("Access Granted");
+		setVariant("success");
 		dispatch(
 			addNotification({
 				title: "access granted",
@@ -29,7 +35,7 @@ function RequestCard({ request, course, username, DetectChange, setDetectChange 
 				color: "success",
 			})
 		);
-		setDetectChange(!DetectChange);
+		setDetectChange(!detectChange);
 	}
 	async function denyAccess() {
 		await api.put(
@@ -42,6 +48,9 @@ function RequestCard({ request, course, username, DetectChange, setDetectChange 
 				headers: { authorization: "Bearer " + token },
 			}
 		);
+		setHandled(true);
+		setMessage("Access Denied");
+		setVariant("danger");
 		dispatch(
 			addNotification({
 				title: "access granted",
@@ -49,7 +58,7 @@ function RequestCard({ request, course, username, DetectChange, setDetectChange 
 				color: "danger",
 			})
 		);
-		setDetectChange(!DetectChange);
+		setDetectChange(!detectChange);
 	}
 	useEffect(() => {
 		if (request.status.toLowerCase() !== "pending") {
@@ -107,13 +116,17 @@ function RequestCard({ request, course, username, DetectChange, setDetectChange 
 							</ListGroup>
 						</Col>
 						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
-
+							{!handled && (
+								<>
 									<Button variant="danger" onClick={denyAccess}>
 										Deny access
 									</Button>
 									<Button className="ms-1	" variant="success" onClick={grantAccess}>
 										Grant access
 									</Button>
+								</>
+							)}
+							{handled && <h6 className={variant}>{message}</h6>}
 						</Col>
 					</CardGroup>
 				</Card.Body>
