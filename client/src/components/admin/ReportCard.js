@@ -52,7 +52,7 @@ function ReportCard(props) {
 					</Button>
 				</Card.Body>
 			</Card>
-			<Modal show={show} onHide={handleClose}>
+			<Modal size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>{props.report.title}</Modal.Title>
 				</Modal.Header>

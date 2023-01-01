@@ -7,9 +7,10 @@ function CountryDropdown(props) {
 			onChange={(e) => {
 				props.setCountry(e.target.value);
 			}}
-			aria-label="Default select example"
-		>
-			<option value="">Select Country</option>
+			aria-label="Default select example">
+			<option value="" className="fst-italic">
+				Select Country
+			</option>
 			<option value="Afghanistan">Afghanistan</option>
 			<option value="Albania">Albania</option>
 			<option value="Algeria">Algeria</option>
@@ -36,15 +37,11 @@ function CountryDropdown(props) {
 			<option value="Bermuda">Bermuda</option>
 			<option value="Bhutan">Bhutan</option>
 			<option value="Bolivia">Bolivia</option>
-			<option value="Bosnia and Herzegowina">
-				Bosnia and Herzegowina
-			</option>
+			<option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
 			<option value="Botswana">Botswana</option>
 			<option value="Bouvet Island">Bouvet Island</option>
 			<option value="Brazil">Brazil</option>
-			<option value="British Indian Ocean Territory">
-				British Indian Ocean Territory
-			</option>
+			<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
 			<option value="Brunei Darussalam">Brunei Darussalam</option>
 			<option value="Bulgaria">Bulgaria</option>
 			<option value="Burkina Faso">Burkina Faso</option>
@@ -54,9 +51,7 @@ function CountryDropdown(props) {
 			<option value="Canada">Canada</option>
 			<option value="Cape Verde">Cape Verde</option>
 			<option value="Cayman Islands">Cayman Islands</option>
-			<option value="Central African Republic">
-				Central African Republic
-			</option>
+			<option value="Central African Republic">Central African Republic</option>
 			<option value="Chad">Chad</option>
 			<option value="Chile">Chile</option>
 			<option value="China">China</option>
@@ -85,9 +80,7 @@ function CountryDropdown(props) {
 			<option value="Eritrea">Eritrea</option>
 			<option value="Estonia">Estonia</option>
 			<option value="Ethiopia">Ethiopia</option>
-			<option value="Falkland Islands">
-				Falkland Islands (Malvinas)
-			</option>
+			<option value="Falkland Islands">Falkland Islands (Malvinas)</option>
 			<option value="Faroe Islands">Faroe Islands</option>
 			<option value="Fiji">Fiji</option>
 			<option value="Finland">Finland</option>
@@ -95,9 +88,7 @@ function CountryDropdown(props) {
 			<option value="France Metropolitan">France, Metropolitan</option>
 			<option value="French Guiana">French Guiana</option>
 			<option value="French Polynesia">French Polynesia</option>
-			<option value="French Southern Territories">
-				French Southern Territories
-			</option>
+			<option value="French Southern Territories">French Southern Territories</option>
 			<option value="Gabon">Gabon</option>
 			<option value="Gambia">Gambia</option>
 			<option value="Georgia">Georgia</option>
@@ -114,9 +105,7 @@ function CountryDropdown(props) {
 			<option value="Guinea-Bissau">Guinea-Bissau</option>
 			<option value="Guyana">Guyana</option>
 			<option value="Haiti">Haiti</option>
-			<option value="Heard and McDonald Islands">
-				Heard and Mc Donald Islands
-			</option>
+			<option value="Heard and McDonald Islands">Heard and Mc Donald Islands</option>
 			<option value="Holy See">Holy See (Vatican City State)</option>
 			<option value="Honduras">Honduras</option>
 			<option value="Hong Kong">Hong Kong</option>
@@ -146,16 +135,12 @@ function CountryDropdown(props) {
 			<option value="Lebanon">Lebanon</option>
 			<option value="Lesotho">Lesotho</option>
 			<option value="Liberia">Liberia</option>
-			<option value="Libyan Arab Jamahiriya">
-				Libyan Arab Jamahiriya
-			</option>
+			<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
 			<option value="Liechtenstein">Liechtenstein</option>
 			<option value="Lithuania">Lithuania</option>
 			<option value="Luxembourg">Luxembourg</option>
 			<option value="Macau">Macau</option>
-			<option value="Macedonia">
-				Macedonia, The Former Yugoslav Republic of
-			</option>
+			<option value="Macedonia">Macedonia, The Former Yugoslav Republic of</option>
 			<option value="Madagascar">Madagascar</option>
 			<option value="Malawi">Malawi</option>
 			<option value="Malaysia">Malaysia</option>
@@ -188,9 +173,7 @@ function CountryDropdown(props) {
 			<option value="Nigeria">Nigeria</option>
 			<option value="Niue">Niue</option>
 			<option value="Norfolk Island">Norfolk Island</option>
-			<option value="Northern Mariana Islands">
-				Northern Mariana Islands
-			</option>
+			<option value="Northern Mariana Islands">Northern Mariana Islands</option>
 			<option value="Norway">Norway</option>
 			<option value="Oman">Oman</option>
 			<option value="Pakistan">Pakistan</option>
@@ -211,9 +194,7 @@ function CountryDropdown(props) {
 			<option value="Rwanda">Rwanda</option>
 			<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
 			<option value="Saint LUCIA">Saint LUCIA</option>
-			<option value="Saint Vincent">
-				Saint Vincent and the Grenadines
-			</option>
+			<option value="Saint Vincent">Saint Vincent and the Grenadines</option>
 			<option value="Samoa">Samoa</option>
 			<option value="San Marino">San Marino</option>
 			<option value="Sao Tome and Principe">Sao Tome and Principe</option>
@@ -227,15 +208,11 @@ function CountryDropdown(props) {
 			<option value="Solomon Islands">Solomon Islands</option>
 			<option value="Somalia">Somalia</option>
 			<option value="South Africa">South Africa</option>
-			<option value="South Georgia">
-				South Georgia and the South Sandwich Islands
-			</option>
+			<option value="South Georgia">South Georgia and the South Sandwich Islands</option>
 			<option value="Span">Spain</option>
 			<option value="SriLanka">Sri Lanka</option>
 			<option value="St. Helena">St. Helena</option>
-			<option value="St. Pierre and Miguelon">
-				St. Pierre and Miquelon
-			</option>
+			<option value="St. Pierre and Miguelon">St. Pierre and Miquelon</option>
 			<option value="Sudan">Sudan</option>
 			<option value="Suriname">Suriname</option>
 			<option value="Svalbard">Svalbard and Jan Mayen Islands</option>
@@ -269,13 +246,9 @@ function CountryDropdown(props) {
 			<option value="Vanuatu">Vanuatu</option>
 			<option value="Venezuela">Venezuela</option>
 			<option value="Vietnam">Viet Nam</option>
-			<option value="Virgin Islands (British)">
-				Virgin Islands (British)
-			</option>
+			<option value="Virgin Islands (British)">Virgin Islands (British)</option>
 			<option value="Virgin Islands (U.S)">Virgin Islands (U.S.)</option>
-			<option value="Wallis and Futana Islands">
-				Wallis and Futuna Islands
-			</option>
+			<option value="Wallis and Futana Islands">Wallis and Futuna Islands</option>
 			<option value="Western Sahara">Western Sahara</option>
 			<option value="Yemen">Yemen</option>
 			<option value="Serbia">Serbia</option>

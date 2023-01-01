@@ -9,12 +9,11 @@ export default function ProfilePopover() {
 	return (
 		<>
 			<Button
-				variant="outline-secondary2"
+				variant="outline-secondary2 fitWidth"
 				onClick={() => {
 					dispatch(logout());
 					navigate("/guest");
-				}}
-			>
+				}}>
 				Logout
 			</Button>
 		</>
