@@ -12,7 +12,6 @@ import { IoIosPin } from "react-icons/io";
 import RatingStats from "../components/RatingStats";
 
 export default function ViewInstructor({ isInstructor }) {
-
 	const { id } = useParams();
 
 	// const instructorId = location.state.instructorId;
@@ -115,15 +114,19 @@ export default function ViewInstructor({ isInstructor }) {
 								: InstructorInfo.username}
 						</h1>
 					</Col>
-					<Col>
-						<Rating
-							allowFraction="true"
-							initialValue={InstructorInfo.rating}
-							readonly="true"
-							size={22}
-						/>
+					<Col className="d-flex align-items-center">
+						<div className="fitWidth fitHeight pe-1 ">
+							<Rating
+								allowFraction="true"
+								initialValue={InstructorInfo.rating}
+								readonly="true"
+								size={22}
+							/>
+						</div>
 						{InstructorReviews.length > 0 && (
-							<small>&nbsp;({InstructorReviews.length})</small>
+							<small className="text-muted fitWidth my-auto ps-0">
+								({InstructorReviews.length} Ratings)
+							</small>
 						)}
 					</Col>
 					<Col className="d-flex justify-content-end">
@@ -131,8 +134,7 @@ export default function ViewInstructor({ isInstructor }) {
 							instructorTeachesTrainee && (
 								<Button
 									// endIcon={<RateReviewRoundedIcon />}
-									onClick={handleShowReviewInstructorModal}
-								>
+									onClick={handleShowReviewInstructorModal}>
 									Rate Instructor
 								</Button>
 							)}
@@ -152,24 +154,7 @@ export default function ViewInstructor({ isInstructor }) {
 				</Row>
 				<p className="lh-base text-muted">{InstructorInfo.biography}</p>
 
-				<Row className="mb-2">
-					<h5 className="text-muted fitWidth mb-0">{InstructorInfo.email}</h5>
-					<div className="fitWidth px-0">
-						<Rating
-							allowFraction="true"
-							initialValue={InstructorInfo.rating}
-							readonly="true"
-							size={22}
-						/>
-					</div>
-					{InstructorReviews.length > 0 && (
-						<small className="text-muted fitWidth mt-auto ps-0">
-							({InstructorReviews.length} Ratings)
-						</small>
-					)}
-				</Row>
-
-				<p className="lh-base">{InstructorInfo.biography}</p>
+				<hr />
 				<Tabs id="controlled-tab-example" defaultActiveKey="Courses" className="mb-3">
 					<Tab eventKey="Courses" title="Courses">
 						{InstructorCourses.map((course, i) => (
@@ -186,9 +171,11 @@ export default function ViewInstructor({ isInstructor }) {
 							<RatingStats rating={InstructorInfo.rating} reviews={InstructorReviews} />
 							{/* Reviews */}
 							<Col sm={8}>
-								{InstructorReviews.slice().reverse().map((review) => (
-									<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
-								))}
+								{InstructorReviews.slice()
+									.reverse()
+									.map((review) => (
+										<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
+									))}
 							</Col>
 						</Row>
 					</Tab>
