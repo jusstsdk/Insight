@@ -60,15 +60,19 @@ export default function AddSubtitleInfo(props) {
 			size="xl"
 			dialogClassName="modal-90w"
 			aria-labelledby="example-custom-modal-styling-title"
-			centered>
+			centered
+		>
 			<Modal.Header closeButton>
-				<Modal.Title id="example-custom-modal-styling-title">Adding a Subtitle</Modal.Title>
+				<Modal.Title id="example-custom-modal-styling-title">
+					Adding a Subtitle
+				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group
 					as={Row}
 					className="mb-3 d-flex align-items-center justify-content-start"
-					controlId="formHorizontalEmail">
+					controlId="formHorizontalEmail"
+				>
 					<Form.Label column sm={2}>
 						<span>Subtitle title</span>
 						<br />

@@ -41,19 +41,17 @@ function ViewInstructorReviews() {
 				{currentReviews.map((review) => (
 					<InstructorReviewCard
 						key={"review_" + review.trainee.email}
-						traineeEmail={review.trainee.email}
-						review={review.review}
-						rating={review.rating}
+						review={review}
 					/>
 				))}
 			</Col>
 			<Pagination
-						className="pagination-bar"
-						currentPage={currentPage}
-						totalCount={Reviews.length}
-						pageSize={pageSize}
-						onPageChange={(page) => setCurrentPage(page)}
-					/>
+				className="pagination-bar"
+				currentPage={currentPage}
+				totalCount={Reviews.length}
+				pageSize={pageSize}
+				onPageChange={(page) => setCurrentPage(page)}
+			/>
 		</Container>
 	);
 }

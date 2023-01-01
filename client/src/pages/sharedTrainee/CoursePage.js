@@ -31,13 +31,11 @@ export default function CoursePage() {
 	//trainee data
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
 	const [traineeVersionOfCourse, setTraineeVersionOfCourse] = useState();
-	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] =
-		useState(false);
+	const [traineeAlreadyRequestedRefund, setTraineeAlreadyRequestedRefund] = useState(false);
 
 	//corp trainee data
 	const [corpTraineeOwnsCourse, setCorpTraineeOwnsCourse] = useState(false);
-	const [corpTraineeVersionOfCourse, setCorpTraineeVersionOfCourse] =
-		useState();
+	const [corpTraineeVersionOfCourse, setCorpTraineeVersionOfCourse] = useState();
 
 	//instructor data
 	const [instructorTeachesCourse, setInstrcutorTeachesCourse] = useState(false);
@@ -59,15 +57,6 @@ export default function CoursePage() {
 				console.log(err);
 			}
 		});
-
-		//accomodate country into price
-		if (response.data.price) {
-			response.data.price *= user.exchangeRate ? user.exchangeRate : 1;
-			response.data.price = Math.trunc(response.data.price * 100) / 100;
-		}
-		response.data.originalPrice *= user.exchangeRate ? user.exchangeRate : 1;
-		response.data.originalPrice =
-			Math.trunc(response.data.originalPrice * 100) / 100;
 
 		await setCourse(response.data);
 		return true;
@@ -123,16 +112,11 @@ export default function CoursePage() {
 			<Container>
 				<CourseTitle
 					course={course}
-					id="title"
-					ownsCourse={
-						userType === "Trainee"
-							? traineeOwnsCourse
-							: userType === "CorporateTrainee"
-							? corpTraineeOwnsCourse
-							: instructorTeachesCourse
-					}
-					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
-				></CourseTitle>
+					traineeOwnsCourse={traineeOwnsCourse}
+					traineeVersionOfCourse={traineeVersionOfCourse}
+					corpTraineeOwnsCourse={corpTraineeOwnsCourse}
+					corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
+				/>
 				<hr />
 				<CourseBasicInfo
 					course={course}
@@ -142,27 +126,29 @@ export default function CoursePage() {
 					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 					corpTraineeOwnsCourse={corpTraineeOwnsCourse}
 					corpTraineeVersionOfCourse={corpTraineeVersionOfCourse}
+					ownsCourse={
+						userType === "Trainee"
+							? traineeOwnsCourse
+							: userType === "CorporateTrainee"
+							? corpTraineeOwnsCourse
+							: instructorTeachesCourse
+					}
 					id="basicInfo"
-				></CourseBasicInfo>
+				/>
 				<hr />
-				<CourseSubtitlesList
-					course={course}
-					id="subtitles"
-				></CourseSubtitlesList>
+				<CourseSubtitlesList course={course} id="subtitles" />
 				<hr />
 				<CourseReviews
 					course={course}
 					setCourse={setCourse}
 					getCourseFromDB={getCourseFromDB}
-					ownsCourse={
-						userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse
-					}
+					ownsCourse={userType === "Trainee" ? traineeOwnsCourse : corpTraineeOwnsCourse}
 					id="reviews"
 					traineeOwnsCourse={traineeOwnsCourse}
 					traineeVersionOfCourse={traineeVersionOfCourse}
 					traineeAlreadyRequestedRefund={traineeAlreadyRequestedRefund}
 					setTraineeAlreadyRequestedRefund={setTraineeAlreadyRequestedRefund}
-				></CourseReviews>
+				/>
 			</Container>
 		)
 	);

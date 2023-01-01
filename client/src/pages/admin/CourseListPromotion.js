@@ -30,9 +30,10 @@ export default function CourseListPromotion({
 
 	return (
 		<>
-			{currentCourses.map(
+			{filteredCourses.map(
 				(course) =>
-					!checkedCourses.includes(course._id) && (
+					!checkedCourses.includes(course._id) &&
+					Math.trunc(course.originalPrice * 100) !== 0 && (
 						<UniversalCourseCard
 							key={course._id}
 							course={course}
@@ -43,6 +44,13 @@ export default function CourseListPromotion({
 						/>
 					)
 			)}
+			{/* <Pagination
+				className="pagination-bar"
+				currentPage={currentPage}
+				totalCount={filteredCourses.length}
+				pageSize={pageSize}
+				onPageChange={(page) => setCurrentPage(page)}
+			/> */}
 			{completeCheckedCourses.map((course) => (
 				<UniversalCourseCard
 					key={course._id}
@@ -53,13 +61,6 @@ export default function CourseListPromotion({
 					cardType={"Discount"}
 				/>
 			))}
-			<Pagination
-				className="pagination-bar"
-				currentPage={currentPage}
-				totalCount={filteredCourses.length}
-				pageSize={pageSize}
-				onPageChange={(page) => setCurrentPage(page)}
-			/>
 		</>
 	);
 }

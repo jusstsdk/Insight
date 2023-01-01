@@ -248,13 +248,15 @@ function UniversalCourseCard(props) {
 						</Badge>
 					)
 				)}
-				{course.rank < 6 && (
-					<Badge pill bg="danger" className=" mx-1 ">
-						<span style={{ color: "#ffffff" }}>
-							#{course.rank} in Popularity
-						</span>
-					</Badge>
-				)}
+				{course.status === "Published" &&
+					course.rank > 0 &&
+					course.rank < 6 && (
+						<Badge pill bg="danger" className=" mx-1 ">
+							<span style={{ color: "#ffffff" }}>
+								#{course.rank} in Popularity
+							</span>
+						</Badge>
+					)}
 			</Card.Header>
 			<Card.Body>
 				<Row>
@@ -311,7 +313,7 @@ function UniversalCourseCard(props) {
 							course.promotion.discount !== 0 &&
 							course.promotion.endDate >= new Date().toISOString() ? (
 								<>
-									{Math.trunc(course.price) === 0 ? (
+									{Math.trunc(course.price * 100) === 0 ? (
 										<h5>FREE</h5>
 									) : (
 										<>
@@ -328,7 +330,7 @@ function UniversalCourseCard(props) {
 								</>
 							) : (
 								<h6 style={{ display: "inline-block" }}>
-									{Math.trunc(course.originalPrice) === 0.0
+									{Math.trunc(course.originalPrice * 100) === 0
 										? "FREE"
 										: course.originalPrice + " " + currency}
 								</h6>

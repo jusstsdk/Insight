@@ -8,7 +8,7 @@ export default function ChangePasswordPopOver() {
 
 	return (
 		<Button
-			className="me-auto"
+			className="fitWidth me-2"
 			onClick={() => {
 				if (type === "Instructor") {
 					navigate("/instructor/changePassword");
@@ -19,8 +19,7 @@ export default function ChangePasswordPopOver() {
 				} else if (type === "CorporateTrainee") {
 					navigate("/corporateTrainee/changePassword");
 				}
-			}}
-		>
+			}}>
 			Change password
 		</Button>
 	);

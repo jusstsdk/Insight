@@ -1,37 +1,13 @@
-import {
-	Button,
-	Form,
-	Card,
-	Badge,
-	Alert,
-	ListGroup,
-	Tabs,
-	Tab,
-	Container,
-	Row,
-	Col,
-	Table,
-	Modal,
-	Overlay,
-	OverlayTrigger,
-	Tooltip,
-} from "react-bootstrap";
-import { useRef } from "react";
-import axios from "axios";
+import { Button, Row, Col } from "react-bootstrap";
 import API from "../../functions/api";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import CourseTitle from "./CourseTitle";
-import CourseSubtitlesList from "./CourseSubtitlesList";
-import CourseReviews from "./CourseReviews";
-import CorpTraineeRequestCourseAlert from "./CorpTraineeCourseRequestAlert";
-import TraineeCoursePriceAlert from "./TraineeCoursePriceAlert";
 import { useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 
 function CourseProgress(props) {
+	const navigate = useNavigate();
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
@@ -42,7 +18,13 @@ function CourseProgress(props) {
 	const userType = useSelector((state) => state.userReducer.type);
 
 	const dispatch = useDispatch();
-
+	function continueCourse() {
+		navigate("continueCourse", {
+			state: {
+				course: { _id: props.course._id, title: props.course.title },
+			},
+		});
+	}
 	return (
 		<>
 			{!(userType === "Instructor" || userType === "Administrator") &&
@@ -50,45 +32,52 @@ function CourseProgress(props) {
 				hisVersionOfCourse &&
 				!traineeAlreadyRequestedRefund && (
 					<>
-						<Row>
-							<Col>
-								<h5>Progress</h5>
-								<ProgressBar
-									variant={
-										hisVersionOfCourse && hisVersionOfCourse.progress === 1
-											? "success"
-											: "info"
-									}
-									now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
-									label={`${hisVersionOfCourse.progress * 100}%`}
-								/>
+						<Row className="d-flex justify-content-between align-items-center">
+							<Col sm={8} className="d-flex">
+								<Col sm={3} className="fitWidth me-4">
+									<h5 className="fitWidth">Progress</h5>
+								</Col>
+								<Col sm={8} className="my-auto">
+									<ProgressBar
+										className="my-auto"
+										variant={
+											hisVersionOfCourse && hisVersionOfCourse.progress === 1 ? "success" : "info"
+										}
+										now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
+										label={`${hisVersionOfCourse.progress * 100}%`}
+									/>
+								</Col>
 							</Col>
-
-							{hisVersionOfCourse.progress === 1 && (
-								<>
-									<Col md="auto">
-										<Button
-											style={{ float: "right" }}
-											variant="warning"
-											onClick={async () => {
-												dispatch(
-													addNotification({
-														title: "Congrats BABE",
-														info: "We have sent your Certificate to you email.",
-														color: "success",
-													})
-												);
-												await API.post(`/courses/sendCertificate`, {
-													courseTitle: course.title,
-													email: User.email,
-												});
-											}}
-										>
-											Get Certificate
-										</Button>
-									</Col>
-								</>
-							)}
+							<Col sm={4} className="d-flex">
+								{hisVersionOfCourse.progress === 1 && (
+									<Button
+										className="fitWidth ms-auto"
+										variant="warning"
+										onClick={async () => {
+											dispatch(
+												addNotification({
+													title: "Congrats BABE",
+													info: "We have sent your Certificate to you email.",
+													color: "success",
+												})
+											);
+											await API.post(`/courses/sendCertificate`, {
+												courseTitle: course.title,
+												email: User.email,
+											});
+										}}>
+										Get Certificate
+									</Button>
+								)}
+								{ownsCourse && !traineeAlreadyRequestedRefund && (
+									<Button
+										className={`fitWidth ${hisVersionOfCourse.progress === 1 ? "ms-2" : "ms-auto"}`}
+										style={{ float: "right" }}
+										onClick={continueCourse}>
+										Continue Course
+									</Button>
+								)}
+							</Col>
 						</Row>
 						<hr />
 					</>

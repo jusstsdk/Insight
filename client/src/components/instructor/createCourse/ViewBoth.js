@@ -54,7 +54,6 @@ export default function ViewBoth(props) {
 	const handleDeleteExercise = (exercise_key) => {
 		let exerciseIndex = props.SubtitleExercises[exercise_key].index;
 		let numberOfQuestions = props.SubtitleExercises[exercise_key].questions.length;
-
 		let newExercises = props.SubtitleExercises.filter((_, i) => i !== exercise_key);
 		dispatch(
 			removeExerciseFromSubtitle({
@@ -163,15 +162,25 @@ export default function ViewBoth(props) {
 	const getContentIndex = (content) => {
 		let index;
 		if (content.type === "Video") {
-			index = props.SubtitleVideos.findIndex((video) => video.index === content.index);
+			index = props.SubtitleVideos.findIndex(
+				(video) => video.index === content.index
+			);
 		} else {
-			index = props.SubtitleExercises.findIndex((exercise) => exercise.index === content.index);
+			index = props.SubtitleExercises.findIndex(
+				(exercise) => exercise.index === content.index
+			);
 		}
 		return index;
 	};
 	const combineContent = () => {
-		let videos = props.SubtitleVideos.map((video) => ({ ...video, type: "Video" }));
-		let exercises = props.SubtitleExercises.map((exercise) => ({ ...exercise, type: "Exercise" }));
+		let videos = props.SubtitleVideos.map((video) => ({
+			...video,
+			type: "Video",
+		}));
+		let exercises = props.SubtitleExercises.map((exercise) => ({
+			...exercise,
+			type: "Exercise",
+		}));
 		let content = [...videos, ...exercises].sort((a, b) =>
 			a.index > b.index ? 1 : b.index > a.index ? -1 : 0
 		);
@@ -186,7 +195,8 @@ export default function ViewBoth(props) {
 						{content.type === "Exercise" && (
 							<Accordion.Item
 								eventKey={`exercise_${getContentIndex(content)}`}
-								key={`exercise_${getContentIndex(content)}`}>
+								key={`exercise_${getContentIndex(content)}`}
+							>
 								<div className="d-flex">
 									<Col sm={11} className="me-auto">
 										<Accordion.Header className="accordionHeaderWidth">
@@ -196,20 +206,31 @@ export default function ViewBoth(props) {
 									</Col>
 									<Col sm={1} className="d-flex justify-content-end">
 										<Button
-											variant="success"
+											variant="dark"
 											className="accordionTrash accordionLikeEditButton"
 											key={`exercise_edit_button_${getContentIndex(content)}`}
 											onClick={() =>
-												handleEditExerciseModalShow(content, getContentIndex(content))
-											}>
-											<AiOutlineEdit key={"exercise_edit_" + getContentIndex(content)} />
+												handleEditExerciseModalShow(
+													content,
+													getContentIndex(content)
+												)
+											}
+										>
+											<AiOutlineEdit
+												key={"exercise_edit_" + getContentIndex(content)}
+											/>
 										</Button>
 										<Button
 											className="accordionTrash accordionLikeDeleteButton"
-											variant="danger"
+											variant="secondary2"
 											key={`exercise_trash_button_${getContentIndex(content)}`}
-											onClick={() => handleDeleteExercise(getContentIndex(content))}>
-											<BsTrash key={"exercise_trash_" + getContentIndex(content)} />
+											onClick={() =>
+												handleDeleteExercise(getContentIndex(content))
+											}
+										>
+											<BsTrash
+												key={"exercise_trash_" + getContentIndex(content)}
+											/>
 										</Button>
 									</Col>
 								</div>
@@ -218,7 +239,9 @@ export default function ViewBoth(props) {
 										<Col>
 											<ViewExercise
 												case="Exercise"
-												key={`view_exercise_questions_${getContentIndex(content)}`}
+												key={`view_exercise_questions_${getContentIndex(
+													content
+												)}`}
 												Questions={content.questions}
 												handleAddQuestion={handleEditQuestion}
 												exerciseKey={getContentIndex(content)}
@@ -228,9 +251,13 @@ export default function ViewBoth(props) {
 										<Col className=" d-flex">
 											<Button
 												onClick={() =>
-													handleAddQuestionModalShow(content, getContentIndex(content))
+													handleAddQuestionModalShow(
+														content,
+														getContentIndex(content)
+													)
 												}
-												className="me-1 m-auto">
+												className="me-1 m-auto"
+											>
 												Add Question
 											</Button>
 										</Col>
@@ -241,7 +268,8 @@ export default function ViewBoth(props) {
 						{content.type === "Video" && (
 							<Accordion.Item
 								eventKey={`video_${getContentIndex(content)}`}
-								key={`video_${getContentIndex(content)}`}>
+								key={`video_${getContentIndex(content)}`}
+							>
 								<div className="d-flex">
 									<Col sm={11} className="me-auto">
 										<Accordion.Header className="accordionHeaderWidth">
@@ -251,16 +279,25 @@ export default function ViewBoth(props) {
 									</Col>
 									<Col sm={1} className="d-flex justify-content-end">
 										<Button
-											variant="success"
+											variant="dark"
 											className="accordionTrash accordionLikeEditButton"
 											key={`video_edit_button_${getContentIndex(content)}`}
-											onClick={() => handleEditVideoModalShow(content, getContentIndex(content))}>
-											<AiOutlineEdit key={`video_edit_${getContentIndex(content)}`} />
+											onClick={() =>
+												handleEditVideoModalShow(
+													content,
+													getContentIndex(content)
+												)
+											}
+										>
+											<AiOutlineEdit
+												key={`video_edit_${getContentIndex(content)}`}
+											/>
 										</Button>
 										<Button
 											className="accordionTrash accordionLikeDeleteButton"
-											variant="danger"
+											variant="secondary2"
 											key={`video_trash_button_${getContentIndex(content)}`}
+
 											onClick={async () =>
 												await handleDeleteVideo(getContentIndex(content, content_index))
 											}>
@@ -281,13 +318,19 @@ export default function ViewBoth(props) {
 
 			<Row className="mt-3 me-auto justify-content-end">
 				<Button
-					onClick={() => handleAddExerciseModalShow(props.subtitle, props.subtitle_key)}
-					className="me-3 w-auto">
+					onClick={() =>
+						handleAddExerciseModalShow(props.subtitle, props.subtitle_key)
+					}
+					className="me-3 w-auto"
+				>
 					Add Exercise
 				</Button>
 				<Button
-					onClick={() => handleAddVideoModalShow(props.subtitle, props.subtitleKey)}
-					className=" w-auto">
+					onClick={() =>
+						handleAddVideoModalShow(props.subtitle, props.subtitleKey)
+					}
+					className=" w-auto"
+				>
 					Add Video
 				</Button>
 			</Row>

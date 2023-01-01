@@ -1,4 +1,12 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
@@ -32,7 +40,7 @@ function RequestHistoryCard({ request, course }) {
 						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
+								<Badge bg="dark" key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}

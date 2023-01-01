@@ -19,9 +19,12 @@ function Payment() {
 		let response = await API.get(`courses/${courseId}`);
 		const course = response.data;
 		let amount;
-		if(course.promotion.endDate > new Date().toISOString() && course.promotion.discount > 0){
+		if  (
+			course.promotion.endDate > new Date().toISOString() &&
+			course.promotion.discount > 0
+		)  {
 			amount = course.price - wallet;
-		}else{
+		} else {
 			amount = course.originalPrice - wallet;
 		}
 		if (amount < 0) {
@@ -34,13 +37,12 @@ function Payment() {
 		response = await axios(config);
 		const { publishableKey } = response.data;
 		setStripePromise(loadStripe(publishableKey));
-
 		config = {
 			method: "POST",
 			url: "http://localhost:4000/create-payment-intent",
 			data: {
 				currency: "usd",
-				amount: amount.toFixed(0),
+				amount: amount * 100,
 				automatic_payment_methods: { enabled: true },
 			},
 		};

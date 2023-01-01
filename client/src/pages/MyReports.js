@@ -31,8 +31,13 @@ const MyReports = () => {
 					</Card.Header>
 					<Card.Body className="d-flex flex-wrap">
 						{courseReports.reports.map((report) => (
-							<Col sm={5} className="me-3  mb-3">
-								<MyReportCard key={report._id} report={report} detectChange={detectChange} setDetectChange={setDetectChange} />
+							<Col sm={4} className=" p-1 ">
+								<MyReportCard
+									key={report._id}
+									report={report}
+									detectChange={detectChange}
+									setDetectChange={setDetectChange}
+								/>
 							</Col>
 						))}
 					</Card.Body>

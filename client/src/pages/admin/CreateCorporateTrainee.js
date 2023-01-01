@@ -30,15 +30,11 @@ function CreateCorporateTrainee() {
 	}
 	return (
 		<div>
-			<h1> create a Corporate Trainee </h1>
+			<h1> Create Corporate Trainee </h1>
 			<Form onSubmit={handleCreateCorporateTrainee}>
 				<Form.Group className="mb-3">
 					<Form.Label> Username </Form.Label>
-					<Form.Control
-						ref={Username}
-						placeholder="Enter Username"
-						required
-					/>
+					<Form.Control ref={Username} placeholder="Enter Username" required />
 				</Form.Group>
 				<Form.Group className="mb-3">
 					<Form.Label>Password</Form.Label>
@@ -51,11 +47,7 @@ function CreateCorporateTrainee() {
 				</Form.Group>
 				<Form.Group className="mb-3">
 					<Form.Label>Corporate Name</Form.Label>
-					<Form.Control
-						ref={corporate}
-						placeholder="Corporate Name"
-						required
-					/>
+					<Form.Control ref={corporate} placeholder="Corporate Name" required />
 				</Form.Group>
 
 				<Button variant="primary" type="submit">

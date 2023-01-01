@@ -41,7 +41,7 @@ function CreateInstructor() {
 	}
 	return (
 		<div>
-			<h1> create an instructor </h1>
+			<h1> Create Instructor </h1>
 			<Form onSubmit={handleCreateInstructor}>
 				<Form.Group className="mb-3" controlId="formBasicUsername">
 					<Form.Label> Username </Form.Label>
@@ -53,11 +53,7 @@ function CreateInstructor() {
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control
-						ref={Password}
-						type="password"
-						placeholder="Password"
-					/>
+					<Form.Control ref={Password} type="password" placeholder="Password" />
 				</Form.Group>
 				<Button variant="primary" type="submit">
 					Add Instructor

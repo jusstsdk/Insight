@@ -115,10 +115,9 @@ router.post("/forgotPassword", async (req, res) => {
 	const token = user.generateAuthToken();
 
 	let mailDetails = {
-		from: "reset password",
 		to: `${user.email}`,
-		subject: "Test mail",
-		text: `${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token}`,
+		subject: "Reset Password",
+		text: `if you requested a password reset please click this line${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token} but if you did not then contact the website admins to resolve this issue`,
 	};
 
 	mailTransporter.sendMail(mailDetails, function (err, data) {
@@ -133,7 +132,7 @@ router.post("/forgotPassword", async (req, res) => {
 router.post("/resetPassword", async (req, res) => {
 	//get the token from the header if present
 	let token = req.headers["x-access-token"] || req.headers["authorization"];
-	//if no token found, return response (without going to the next middelware)
+	//if no token found, return response (without going to the next middleware)
 	if (!token)
 		return res.status(401).send("Access denied. No token provided.");
 

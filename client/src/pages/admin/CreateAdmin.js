@@ -26,11 +26,15 @@ function CreateAdmin() {
 	};
 	return (
 		<div>
-			<h1> create an admin </h1>
+			<h1> Create Admin </h1>
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label> Username </Form.Label>
-					<Form.Control ref={Username} type="Username" placeholder="Enter Username" />
+					<Form.Control
+						ref={Username}
+						type="Username"
+						placeholder="Enter Username"
+					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
@@ -42,7 +46,8 @@ function CreateAdmin() {
 						handleCreateAdmin();
 					}}
 					variant="primary"
-					type="submit">
+					type="submit"
+				>
 					Add Administrator
 				</Button>
 			</Form>

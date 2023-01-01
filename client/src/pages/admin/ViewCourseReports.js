@@ -12,19 +12,28 @@ function ViewCourseReports() {
 	const [reportsCurrentPage, setReportsCurrentPage] = useState(1);
 	let reportsFirstPageIndex = (reportsCurrentPage - 1) * pageSize;
 	let reportsLastPageIndex = reportsFirstPageIndex + pageSize;
-	let currentReports = Reports.slice(reportsFirstPageIndex, reportsLastPageIndex);
+	let currentReports = Reports.slice(
+		reportsFirstPageIndex,
+		reportsLastPageIndex
+	);
 
 	const [Resolved, setResolved] = useState([]);
 	const [resolvedCurrentPage, setResolvedCurrentPage] = useState(1);
-	let resolvedFirstPageIndex = (resolvedCurrentPage - 1) * pageSize;		 		
+	let resolvedFirstPageIndex = (resolvedCurrentPage - 1) * pageSize;
 	let resolvedLastPageIndex = resolvedFirstPageIndex + pageSize;
-	let currentResolved = Resolved.slice(resolvedFirstPageIndex, resolvedLastPageIndex);
+	let currentResolved = Resolved.slice(
+		resolvedFirstPageIndex,
+		resolvedLastPageIndex
+	);
 
 	const [Pending, setPending] = useState([]);
 	const [pendingCurrentPage, setPendingCurrentPage] = useState(1);
 	let pendingFirstPageIndex = (pendingCurrentPage - 1) * pageSize;
 	let pendingLastPageIndex = pendingFirstPageIndex + pageSize;
-	let currentPending = Pending.slice(pendingFirstPageIndex, pendingLastPageIndex);
+	let currentPending = Pending.slice(
+		pendingFirstPageIndex,
+		pendingLastPageIndex
+	);
 
 	const [selectedItem, setSelectedItem] = useState("No-Filter");
 	const location = useLocation();
@@ -123,73 +132,15 @@ function ViewCourseReports() {
 		<>
 			<Tabs
 				id="controlled-tab-example"
-				defaultActiveKey="All-Reports"
+				defaultActiveKey="Pending"
 				className="d-flex justify-content-start reportTabs"
 			>
-				<Tab eventKey="All-Reports" title="All Reports">
-					<DropdownButton id="dropdown-item-button" title={selectedItem}>
-						<Dropdown.Item
-							as="button"
-							onClick={() => setSelectedItem("No-Filter")}
-						>
-							No Filter
-						</Dropdown.Item>
-						<Dropdown.Item
-							className="ms-auto"
-							as="button"
-							onClick={() => setSelectedItem("Seen")}
-						>
-							Seen
-						</Dropdown.Item>
-						<Dropdown.Item
-							as="button"
-							onClick={() => setSelectedItem("Unseen")}
-						>
-							Unseen
-						</Dropdown.Item>
-					</DropdownButton>
-					<Container className="my-2 d-flex flex-wrap">
-						{currentReports.map((report, i) => (
-							<Col sm={3} className="mb-2 me-2">
-								<ReportCard
-									report={report}
-									resolvingReport={ResolvingReport}
-									seenReport={SeenReport}
-									AddComment={AddComment}
-								/>
-							</Col>
-						))}
-						<Pagination
-							className="pagination-bar"
-							currentPage={reportsCurrentPage}
-							totalCount={Reports.length}
-							pageSize={pageSize}
-							onPageChange={(page) => setReportsCurrentPage(page)}
-						/>
-					</Container>
-				</Tab>
-				<Tab eventKey="Resolved" title="Resolved">
-					<Container className="my-2 d-flex flex-wrap">
-						{currentResolved.map((report, i) => (
-							<Col sm={3} className="mb-2 me-2">
-								<ReportCard
-									report={report}
-									seenReport={SeenReport}
-									AddComment={AddComment}
-								/>
-							</Col>
-						))}
-						<Pagination
-							className="pagination-bar"
-							currentPage={resolvedCurrentPage}
-							totalCount={Resolved.length}
-							pageSize={pageSize}
-							onPageChange={(page) => setResolvedCurrentPage(page)}
-						/>
-					</Container>
-				</Tab>
 				<Tab eventKey="Pending" title="Pending">
-					<DropdownButton id="dropdown-item-button" title={selectedItem}>
+					<DropdownButton
+						variant="pinkish"
+						id="courseReportsFilter"
+						title={selectedItem}
+					>
 						<Dropdown.Item
 							as="button"
 							onClick={() => setSelectedItem("No-Filter")}
@@ -227,6 +178,75 @@ function ViewCourseReports() {
 							totalCount={Pending.length}
 							pageSize={pageSize}
 							onPageChange={(page) => setPendingCurrentPage(page)}
+						/>
+					</Container>
+				</Tab>
+
+				<Tab eventKey="Resolved" title="Resolved">
+					<Container className="my-2 d-flex flex-wrap">
+						{currentResolved.map((report, i) => (
+							<Col sm={3} className="mb-2 me-2">
+								<ReportCard
+									report={report}
+									seenReport={SeenReport}
+									AddComment={AddComment}
+								/>
+							</Col>
+						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={resolvedCurrentPage}
+							totalCount={Resolved.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setResolvedCurrentPage(page)}
+						/>
+					</Container>
+				</Tab>
+
+				<Tab eventKey="All-Reports" title="All Reports">
+					<DropdownButton
+						variant="pinkish"
+						className="reportFilterButton"
+						id="dropdown-item-button"
+						title={selectedItem}
+					>
+						<Dropdown.Item
+							as="button"
+							onClick={() => setSelectedItem("No-Filter")}
+						>
+							No Filter
+						</Dropdown.Item>
+						<Dropdown.Item
+							className="ms-auto"
+							as="button"
+							onClick={() => setSelectedItem("Seen")}
+						>
+							Seen
+						</Dropdown.Item>
+						<Dropdown.Item
+							as="button"
+							onClick={() => setSelectedItem("Unseen")}
+						>
+							Unseen
+						</Dropdown.Item>
+					</DropdownButton>
+					<Container className="my-2 d-flex flex-wrap">
+						{currentReports.map((report, i) => (
+							<Col sm={3} className="mb-2 me-2">
+								<ReportCard
+									report={report}
+									resolvingReport={ResolvingReport}
+									seenReport={SeenReport}
+									AddComment={AddComment}
+								/>
+							</Col>
+						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={reportsCurrentPage}
+							totalCount={Reports.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setReportsCurrentPage(page)}
 						/>
 					</Container>
 				</Tab>
