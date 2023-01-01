@@ -22,12 +22,13 @@ function CourseInstructorsList(props) {
 								sm={4}
 								className="mb-auto d-flex justify-content-start fst-italic fitWidth fitHeight  "
 							>
-								<h5>Instructor</h5>
+								<h5 className="my-auto">Instructor</h5>
 							</Col>
 							<Col sm={8}>
 								{/* View Instructor */}
 								<Row>
-									<a
+									<Button
+										variant="link"
 										className="fitWidth"
 										onClick={() =>
 											navigate(
@@ -35,29 +36,24 @@ function CourseInstructorsList(props) {
 													userType === "Administrator"
 														? "admin"
 														: userType.toLowerCase()
-												}/viewInstructor/${
-													instructor._id
-												}`,
+												}/viewInstructor/${instructor._id}`,
 												{
 													state: {
-														instructorId:
-															instructor._id,
+														instructorId: instructor._id,
 													},
 												}
 											)
 										}
 									>
 										<h6 className="lead fitWidth my-auto">
-											{instructor.username}{" "}
-											{instructor.username}
+											{instructor.firstName
+												? instructor.firstName + " " + instructor.lastName
+												: instructor.username}
 										</h6>
-									</a>
+									</Button>
 									{/* Courses */}
 									<div className="d-flex align-items-center fitWidth">
-										<BsBook
-											key={"book_" + instructor._id}
-											size={22}
-										/>
+										<BsBook key={"book_" + instructor._id} size={22} />
 										<h6 className="ms-2 my-auto fitWidth text-muted">
 											{instructor.courses.length} Courses
 										</h6>
@@ -77,10 +73,7 @@ function CourseInstructorsList(props) {
 									<h5 className="fitWidth my-auto ms-2 fw-bold ratingColor">
 										{instructor.rating}
 									</h5>
-									<h6
-										href="#courseReviews"
-										className="ms-2 text-muted my-auto"
-									>
+									<h6 href="#courseReviews" className="ms-2 text-muted my-auto">
 										({instructor.reviews.length} Ratings)
 									</h6>
 								</div>

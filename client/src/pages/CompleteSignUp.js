@@ -6,7 +6,8 @@ import CountryDropdown from "../components/shared/CountryDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import updateCurrency from "../functions/updateCurrency";
-import { setUser } from "../redux/userSlice";
+import { login, setUser } from "../redux/userSlice";
+import { Spinner } from "react-bootstrap";
 
 export default function CompleteSignUp() {
 	const dispatch = useDispatch();
@@ -27,9 +28,11 @@ export default function CompleteSignUp() {
 	const biography = useRef();
 	const [gender, setGender] = useState("");
 	const [country, setCountry] = useState("");
+	const [isLoggingIn, setIsLoggingIn] = useState(false);
 
 	async function handleFinishSignUp(e) {
 		e.preventDefault();
+		setIsLoggingIn(true);
 		const config = {
 			method: "PUT",
 			url: `http://localhost:4000/api/${userType}s/${user._id}`,
@@ -44,12 +47,25 @@ export default function CompleteSignUp() {
 			},
 		};
 		try {
-			let response = await axios(config);
-			let user = response.data;
-			user = await updateCurrency(user);
-			dispatch(setUser(user));
+			const response = await axios(config);
+			const responseToken = response.data["x-auth-token"];
+			const responseUserType = response.data["userType"];
+
+			let responseUser = response.data["user"];
+			console.log(response);
+			responseUser = await updateCurrency(responseUser);
+
+			dispatch(
+				login({
+					type: responseUserType,
+					token: responseToken,
+					user: responseUser,
+				})
+			);
+
 			navigate("/");
 		} catch (err) {
+			setIsLoggingIn(false);
 			console.log(err);
 		}
 	}
@@ -105,17 +121,24 @@ export default function CompleteSignUp() {
 					/>
 				</Form.Group>
 				<Form.Select
+					value={gender}
 					onChange={(e) => {
 						setGender(e.target.value);
 					}}
 					aria-label="Default select example"
-					required
+					required="true"
 				>
-					<option>Select Gender</option>
+					<option value="" className="fst-italic">
+						Select Gender
+					</option>
 					<option value="male">Male</option>
 					<option value="female">Female</option>
 				</Form.Select>
-				<CountryDropdown Country={country} setCountry={setCountry} />
+				<CountryDropdown
+					Country={country}
+					setCountry={setCountry}
+					required={true}
+				/>
 				<Form.Group>
 					<Form.Check
 						type="checkbox"
@@ -123,9 +146,28 @@ export default function CompleteSignUp() {
 						required
 					/>
 				</Form.Group>
-				<Button variant="primary" type="submit">
-					Finish sign Up
-				</Button>
+				{isLoggingIn ? (
+					<Button variant="primary" disabled>
+						<Spinner
+							as="span"
+							animation="border"
+							size="sm"
+							role="status"
+							aria-hidden="true"
+							className="me-1"
+						/>
+						Sign Up...
+					</Button>
+				) : (
+					<Button
+						className=""
+						variant="primary"
+						type="submit"
+						disabled={isLoggingIn}
+					>
+						Sign Up
+					</Button>
+				)}
 			</Form>
 		</div>
 	);

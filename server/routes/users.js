@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 router.post("/login", async (req, res) => {
 	//find an existing admin
 	let user = await Administrator.findOne({
-		username: req.body.username,
+		username: { $regex: req.body.username, $options: "i" },
 	});
 	if (user) {
 		if (await bcrypt.compare(req.body.password, user.password)) {
@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
 	}
 	// find instructor
 	user = await Instructor.findOne({
-		username: req.body.username,
+		username: { $regex: req.body.username, $options: "i" },
 	});
 	if (user) {
 		if (await bcrypt.compare(req.body.password, user.password)) {
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
 	}
 	// find Trainee
 	user = await Trainee.findOne({
-		username: req.body.username,
+		username: { $regex: req.body.username, $options: "i" },
 	});
 	if (user) {
 		if (await bcrypt.compare(req.body.password, user.password)) {
@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
 	}
 	// find CorporateTrainee
 	user = await CorporateTrainee.findOne({
-		username: req.body.username,
+		username: { $regex: req.body.username, $options: "i" },
 	});
 	if (user) {
 		if (await bcrypt.compare(req.body.password, user.password)) {
