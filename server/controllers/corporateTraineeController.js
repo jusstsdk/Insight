@@ -1,6 +1,7 @@
 const CorporateTrainee = require("../models/corporateTraineeModel");
 const mongoose = require("mongoose");
 const Course = require("../models/courseModel");
+const bcrypt = require("bcrypt");
 
 // get all CorporateTrainees
 const getCorporateTrainees = async (req, res) => {
@@ -28,6 +29,7 @@ const getCorporateTrainee = async (req, res) => {
 
 // create a new corporate trainee
 const createCorporateTrainee = async (req, res) => {
+	console.log(req.body);
 	// add to the database
 	try {
 		let corporateTraineeInfo = req.body;
@@ -41,6 +43,7 @@ const createCorporateTrainee = async (req, res) => {
 		corporateTrainee["_doc"].userType = "CorporateTrainee";
 		res.status(200).json(corporateTrainee);
 	} catch (error) {
+		console.log(error);
 		res.status(400).json({ error: error.message });
 	}
 };

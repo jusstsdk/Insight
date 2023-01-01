@@ -15,6 +15,7 @@ import Refunds from "../pages/admin/Refunds";
 import ViewInstructor from "../pages/ViewInstructor";
 import CoursePage from "../pages/sharedTrainee/CoursePage";
 import Courses from "../pages/sharedTrainee/Courses";
+import NotFound from "../pages/NotFound";
 
 export function AdminRoutes() {
 	return (
@@ -23,7 +24,7 @@ export function AdminRoutes() {
 				<Routes>
 					<Route path="" element={<Layout />}>
 						<Route path="" element={<AdminView />} />
-						
+
 						<Route path="createAdmin" element={<CreateAdmin />} />
 						<Route
 							path="createCorporateTrainee"
@@ -46,19 +47,20 @@ export function AdminRoutes() {
 							path="requestsHistory"
 							element={<RequestsHistory />}
 						/>
-						<Route
-							path="refunds"
-							element={<Refunds />}
-						/>
+						<Route path="refunds" element={<Refunds />} />
 						<Route path="viewReports" element={<ViewReports />} />
 						<Route
 							path="viewCourseReports"
 							element={<ViewCourseReports />}
 						/>
 						<Route path="promotion" element={<Promotion />} />
-						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
+						<Route
+							path="viewInstructor/:id"
+							element={<ViewInstructor />}
+						/>
 						<Route path="courses/:id" element={<CoursePage />} />
 						<Route path="courses" element={<Courses />} />
+						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
 			</Protected>
