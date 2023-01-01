@@ -117,7 +117,7 @@ router.post("/forgotPassword", async (req, res) => {
 	let mailDetails = {
 		to: `${user.email}`,
 		subject: "Reset Password",
-		text: `${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token}`,
+		text: `if you requested a password reset please click this line${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token} but if you did not then contact the website admins to resolve this issue`,
 	};
 
 	mailTransporter.sendMail(mailDetails, function (err, data) {
