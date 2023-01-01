@@ -31,10 +31,10 @@ export default function Login() {
 			const response = await axios(config);
 			const responseToken = response.data["x-auth-token"];
 			const responseUserType = response.data["userType"];
-      
+
 			let responseUser = response.data["user"];
 			responseUser = await updateCurrency(responseUser);
-      
+
 			dispatch(
 				login({
 					type: responseUserType,
@@ -70,40 +70,27 @@ export default function Login() {
 	}
 
 	return (
-		<>
-			<Form onSubmit={!isLoggingIn ? loginFunction : null}>
-				<Form.Group className="mb-3" controlId="formBasicUsername">
-					<Form.Label>Username</Form.Label>
-					<Form.Control type="text" placeholder="Enter username" ref={username} />
-					<Form.Text className="text-muted">
-						We'll never share your email with anyone else.
-					</Form.Text>
-				</Form.Group>
+		<Form className="d-flex flex-column mb-2" onSubmit={!isLoggingIn ? loginFunction : null}>
+			<Form.Group className="mb-2" controlId="formBasicUsername">
+				<Form.Label className="fs-6">Username</Form.Label>
+				<Form.Control type="text" placeholder="Enter username" ref={username} />
+			</Form.Group>
 
-				<Form.Group className="mb-3" controlId="formBasicPassword">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Password"
-						ref={password}
-					/>
-				</Form.Group>
+			<Form.Group className="mb-2" controlId="formBasicPassword">
+				<Form.Label className="fs-6">Password</Form.Label>
+				<Form.Control type="password" placeholder="Password" ref={password} />
+			</Form.Group>
 
-				{isLoggingIn ? (
-					<Button variant="primary" disabled>
-						<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
-						Logging in...
-					</Button>
-				) : (
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={isLoggingIn}
-					>
-						Login
-					</Button>
-				)}
-			</Form>
-		</>
+			{isLoggingIn ? (
+				<Button variant="primary" disabled>
+					<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
+					Logging in...
+				</Button>
+			) : (
+				<Button className="" variant="primary" type="submit" disabled={isLoggingIn}>
+					Login
+				</Button>
+			)}
+		</Form>
 	);
 }

@@ -1,11 +1,4 @@
-import {
-	Button,
-	Col,
-	Nav,
-	NavLink,
-	OverlayTrigger,
-	Popover,
-} from "react-bootstrap";
+import { Button, Col, Nav, NavLink, OverlayTrigger, Popover, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChangePasswordPopOver from "./ChangePasswordPopOver";
@@ -32,27 +25,28 @@ export default function Profile() {
 							<Popover.Body>
 								<Login />
 								<SelectCountryPopover />
-								<Button
-									variant="Link"
-									onClick={() => {
-										navigate("/guest/signUp");
-									}}
-								>
-									Sign Up
-								</Button>
-								<Button
-									variant="Link"
-									onClick={() => {
-										navigate("/guest/forgotPassword");
-									}}
-								>
-									Forgot password?
-								</Button>
+								<Col className="d-flex justify-content-between">
+									<Button
+										className="fitWidth"
+										variant="Link"
+										onClick={() => {
+											navigate("/guest/signUp");
+										}}>
+										Sign Up
+									</Button>
+									<Button
+										className="fitWidth"
+										variant="Link"
+										onClick={() => {
+											navigate("/guest/forgotPassword");
+										}}>
+										Forgot password?
+									</Button>
+								</Col>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose
-				>
+					rootClose>
 					<Button>Profile</Button>
 				</OverlayTrigger>
 			</>
@@ -70,32 +64,32 @@ export default function Profile() {
 							<Popover.Body>
 								{userType === "Trainee" && (
 									<h6>
-										balance :{" "}
-										{Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
+										Balance: {Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
 								{userType === "Instructor" && (
 									<h6>
 										Monthly Wage:{" "}
-										{Math.trunc(
-											user.monthlyPay.amount * user.exchangeRate * 100
-										) / 100}{" "}
+										{Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
 
 								<SelectCountryPopover />
-								<div className="d-flex mt-2">
-									{userType === "Instructor" && <EditProfilePopover />}
+								{userType === "Instructor" && (
+									<div className="d-flex justify-content-start mt-2">
+										<EditProfilePopover />
+									</div>
+								)}
+								<Col className="d-flex mt-2 justify-content-between">
 									<ChangePasswordPopOver />
 									<ProfilePopover />
-								</div>
+								</Col>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose
-				>
+					rootClose>
 					<NavLink id="profileButton" className="secondaryText linkDecor">
 						Profile
 					</NavLink>

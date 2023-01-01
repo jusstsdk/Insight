@@ -5,7 +5,7 @@ export default function EditProfilePopover() {
 	const navigate = useNavigate();
 	return (
 		<Button
-			className="me-auto"
+			className="fitWidth"
 			onClick={() => {
 				navigate("/instructor/editProfile");
 			}}>
