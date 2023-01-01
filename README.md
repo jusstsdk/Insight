@@ -1,13 +1,13 @@
 # Educational platform using MERN stack
 # Outline
-- [Description](https://github.com/Advanced-Computer-Lab-2022/Newcomers/new/main?readme=1#description)
-- [Motivation](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#motivation)
-- [Build Status](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#build-status)
-- [Code Style](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#code-style)
-- [Demo](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#demo) //gifs
-- [Technologies](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#technologies)
-- [Architecture](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#architecture)
-- [Extra Features](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#extra-features)
+- [Description](#description)
+- [Motivation](#motivation)
+- [Build Status](#build-status)
+- [Code Style](#code-style)
+- [Demo](#demo) //gifs
+- [Technologies](#technologies)
+- [Architecture](#architecture)
+- [Extra Features](#extra-features)
 - [Installation](#installation)
 
 ## Description
