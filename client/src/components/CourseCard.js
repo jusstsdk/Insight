@@ -33,7 +33,7 @@ function CourseCard({ course }) {
 	};
 
 	const [ownsCourse, setOwnsCourse] = useState(false);
-	const [traineeRequestedRefund, setTraineeRequestedrefund] = useState(false);
+	const [traineeRequestedRefund, setTraineeRequestedRefund] = useState(false);
 
 	function continueCourse() {
 		navigate(
@@ -62,7 +62,7 @@ function CourseCard({ course }) {
 				if (userCourse.course === course._id) {
 					if (userType === "Trainee") {
 						if (userCourse.requestedRefund === true) {
-							setTraineeRequestedrefund(true);
+							setTraineeRequestedRefund(true);
 						} else {
 							setOwnsCourse(true);
 						}
@@ -183,7 +183,7 @@ function CourseCard({ course }) {
 								{ownsCourse ? (
 									<h5>Owned</h5>
 								) : traineeRequestedRefund ? (
-									<h5>Refund Requesed</h5>
+									<h5>Refund Requested</h5>
 								) : userType !== "CorporateTrainee" ? (
 									course.promotion.discount &&
 									course.promotion.discount !== 0 &&
