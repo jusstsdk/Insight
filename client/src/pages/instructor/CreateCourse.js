@@ -61,7 +61,7 @@ export default function CreateCourse() {
 			let subtitleHadErrors = false;
 			let examHadErrors = false;
 			if(status === "Published"){
-				if(InfoTitle === "" || InfoSummary === "" || InfoOriginalPrice === "" || InfoPreviewVideo === "" || InfoSubjects.length === 0
+				if(InfoTitle === "" || InfoSummary === "" || InfoOriginalPrice === "" || InfoPreviewVideo === "" || BadPreviewUrl || InfoSubjects.length === 0
 				){
 					setDisplayErrors(true);
 					setInfoHasErrors(true);
