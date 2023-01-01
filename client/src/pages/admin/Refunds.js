@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
 import API from "../../functions/api";
-import { Container, Badge, CardGroup, Row } from "react-bootstrap";
+import {
+	Container,
+	Badge,
+	CardGroup,
+	Row,
+	Card,
+	Col,
+	Button,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import RefundCard from "../../components/admin/RefundCard";
+import { Rating } from "react-simple-star-rating";
+import { useNavigate } from "react-router-dom";
 
 const Refunds = () => {
+	const user = useSelector((state) => state.userReducer.user);
+	const userType = useSelector((state) => state.userReducer.type);
+	const navigate = useNavigate();
+
 	const [refundCourses, setRefundCourses] = useState([]);
 	const token = useSelector((state) => state.userReducer.token);
 
@@ -23,19 +37,75 @@ const Refunds = () => {
 		<>
 			<h1>Refund Requests</h1>
 			{refundCourses.map((course) => (
-				<Container key={course._id}>
-					<h4>{course.title}</h4>
-					{course.subjects.map((subject, i) => (
-						<Badge bg="dark" key={"subject_badge_" + i} className="p-2 mx-1 ">
-							{subject}
-						</Badge>
-					))}
-					<Row xs={1} md={2} lg={3} className="g-2">
-						{course.refundRequests.map((request) => (
-							<RefundCard key={request._id} request={request} course={course} />
-						))}
-					</Row>
-				</Container>
+				<Card key={course._id}>
+					<Card.Header>
+						<Row>
+							<Card.Title className="courseCardTitle pe-0">
+								{course.title}
+							</Card.Title>
+							<Col sm={4}>
+								{course.subjects.map((subject, i) =>
+									i <= 1 ? (
+										<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
+											{subject}
+										</Badge>
+									) : (
+										""
+									)
+								)}
+								{course.subjects.length >= 2 && <span>...</span>}
+							</Col>
+							<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+								<Rating
+									key={"stars_" + course._id}
+									id={course._id}
+									allowFraction="true"
+									initialValue={course.rating ? course.rating : 0}
+									readonly="true"
+									size={20}
+								/>
+							</Col>
+						</Row>
+						{course.status === "Closed" ? (
+							<Badge pill bg="dark" className="mx-1 ">
+								{course.status}
+							</Badge>
+						) : (
+							((userType === "Instructor" &&
+								course.instructors.some((courseInstructor) => {
+									return courseInstructor._id === user._id;
+								})) ||
+								userType === "Administrator") && (
+								<Badge
+									pill
+									bg={course.status === "Draft" ? "secondary" : "success"}
+								>
+									{course.status}
+								</Badge>
+							)
+						)}
+						{course.status === "Published" &&
+							course.rank > 0 &&
+							course.rank < 6 && (
+								<Badge pill bg="danger" className=" mx-1 ">
+									<span style={{ color: "#ffffff" }}>
+										#{course.rank} in Popularity
+									</span>
+								</Badge>
+							)}
+					</Card.Header>
+					<Card.Body>
+						<Row>
+							{course.refundRequests.map((request) => (
+								<RefundCard
+									key={request._id}
+									request={request}
+									course={course}
+								/>
+							))}
+						</Row>
+					</Card.Body>
+				</Card>
 			))}
 		</>
 	);
