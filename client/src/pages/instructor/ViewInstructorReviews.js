@@ -38,20 +38,20 @@ function ViewInstructorReviews() {
 	return (
 		<Container className="my-3">
 			<Col lg={8} className="d-flex flex-column justify-content-center m-auto">
-				{currentReviews.map((review) => (
+				{Reviews.map((review) => (
 					<InstructorReviewCard
-						key={"review_" + review.trainee.email}
+						key={"bebo" + review.trainee.username}
 						review={review}
 					/>
 				))}
 			</Col>
-			<Pagination
+			{/* <Pagination
 				className="pagination-bar"
 				currentPage={currentPage}
 				totalCount={Reviews.length}
 				pageSize={pageSize}
 				onPageChange={(page) => setCurrentPage(page)}
-			/>
+			/> */}
 		</Container>
 	);
 }

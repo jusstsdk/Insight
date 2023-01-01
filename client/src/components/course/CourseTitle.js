@@ -28,7 +28,7 @@ function CourseTitle({
 								bg="warning"
 								className="lead m-auto fitWidth fitHeight fs-6"
 							>
-								#{course.rank} Popularity
+								#{course.rank} in Popularity
 							</Badge>
 						</Col>
 					) : (
