@@ -12,6 +12,7 @@ import ViewInstructor from "../pages/ViewInstructor";
 import ChangePassword from "../components/shared/ChangePassword";
 import MyReports from "../pages/MyReports";
 import CoursePage from "../pages/sharedTrainee/CoursePage";
+import NotFound from "../pages/NotFound";
 
 export function InstructorRoutes() {
 	return (
@@ -23,11 +24,16 @@ export function InstructorRoutes() {
 						<Route path="" element={<InstructorHome />} />
 						<Route
 							path="courses"
-							element={<Courses searchInInstructorCourses={false} />}
+							element={
+								<Courses searchInInstructorCourses={false} />
+							}
 						/>
 						<Route path="createCourse" element={<CreateCourse />} />
 						<Route path="editProfile" element={<EditProfile />} />
-						<Route path="changePassword" element={<ChangePassword />} />
+						<Route
+							path="changePassword"
+							element={<ChangePassword />}
+						/>
 						<Route
 							path="viewInstructorReviews"
 							element={<ViewInstructorReviews />}
@@ -36,9 +42,13 @@ export function InstructorRoutes() {
 							path="viewInstructorCourses"
 							element={<ViewInstructorCourses />}
 						/>
-						<Route path="viewInstructor/:id" element={<ViewInstructor />} />
+						<Route
+							path="viewInstructor/:id"
+							element={<ViewInstructor />}
+						/>
 						<Route path="promotion" element={<Promotion />} />
 						<Route path="myReports" element={<MyReports />} />
+						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
 			</Protected>
