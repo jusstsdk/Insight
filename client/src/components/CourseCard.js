@@ -81,7 +81,6 @@ function CourseCard({ course }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-
 						<Card.Title className="courseCardTitle pe-0">
 							{course.title}
 						</Card.Title>
@@ -89,11 +88,15 @@ function CourseCard({ course }) {
 						<p className="textFit my-auto text-muted">
 							{Math.ceil(course.totalSeconds / 3600)} Hours
 						</p>
-            
+
 						<Col sm={5}>
 							{course.subjects.map((subject, i) =>
 								i <= 1 ? (
-									<Badge key={"subject_badge_" + i} className="p-2 mx-1 bg="dark"">
+									<Badge
+										key={"subject_badge_" + i}
+										className="p-2 mx-1"
+										bg="dark"
+									>
 										{subject}
 									</Badge>
 								) : (
@@ -102,8 +105,13 @@ function CourseCard({ course }) {
 							)}
 							{course.subjects.length >= 2 && <span>...</span>}
 						</Col>
-            
-						<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+
+						<Col
+							className="starsContainer fitWidth"
+							sm={4}
+							md={4}
+							lg={2}
+						>
 							<Rating
 								key={"stars_" + course._id}
 								id={course._id}
@@ -128,13 +136,22 @@ function CourseCard({ course }) {
 								variant="link"
 								onClick={() => {
 									if (userType === "Trainee") {
-										navigate("/trainee/viewInstructor/" + instructor._id);
-									} else if (userType === "CorporateTrainee") {
 										navigate(
-											"/corporateTrainee/viewInstructor/" + instructor._id
+											"/trainee/viewInstructor/" +
+												instructor._id
+										);
+									} else if (
+										userType === "CorporateTrainee"
+									) {
+										navigate(
+											"/corporateTrainee/viewInstructor/" +
+												instructor._id
 										);
 									} else if (userType === "Instructor") {
-										navigate("/instructor/viewInstructor/" + instructor._id);
+										navigate(
+											"/instructor/viewInstructor/" +
+												instructor._id
+										);
 									}
 								}}
 								key={"instructor_" + i}
@@ -145,11 +162,12 @@ function CourseCard({ course }) {
 						<h6 className=" fitWidth my-auto">
 							<span className="text-muted">Students: </span>
 							{course.enrolledTrainees.length}
-
 						</h6>
 					</Row>
 					<CardGroup as={Row} className="my-2">
-						<h6 className="text-muted textFit courseCardLabel">Summary</h6>
+						<h6 className="text-muted textFit courseCardLabel">
+							Summary
+						</h6>
 						<Col sm={8}>
 							<Card.Text>
 								{course.summary.length < 200
@@ -169,24 +187,31 @@ function CourseCard({ course }) {
 								) : userType !== "CorporateTrainee" ? (
 									course.promotion.discount &&
 									course.promotion.discount !== 0 &&
-									course.promotion.endDate >= new Date().toISOString() ? (
+									course.promotion.endDate >=
+										new Date().toISOString() ? (
 										<>
 											<h5>
 												{"" +
-													(course.price === 0.0 ? "FREE" : course.price) +
+													(course.price === 0.0
+														? "FREE"
+														: course.price) +
 													" " +
 													currency}
 											</h5>
 											<del>{course.originalPrice}</del>{" "}
 											<span style={{ color: "red" }}>
-												{"" + course.promotion.discount + "% OFF"}
+												{"" +
+													course.promotion.discount +
+													"% OFF"}
 											</span>
 										</>
 									) : (
 										<h5 style={{ display: "inline-block" }}>
 											{course.originalPrice === 0.0
 												? "FREE"
-												: course.originalPrice + " " + currency}
+												: course.originalPrice +
+												  " " +
+												  currency}
 										</h5>
 									)
 								) : (
@@ -198,16 +223,21 @@ function CourseCard({ course }) {
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-
 						<Col
 							className="ms-auto fitWidth d-flex  justify-content-end"
 							sm={2}
 							md={2}
 							lg={2}
 						>
-							<Button onClick={handleViewCourse}>View Course</Button>
+							<Button onClick={handleViewCourse}>
+								View Course
+							</Button>
 							{ownsCourse && (
-								<Button variant="outline-primary" className="" onClick={continueCourse}>
+								<Button
+									variant="outline-primary"
+									className=""
+									onClick={continueCourse}
+								>
 									Continue Course
 								</Button>
 							)}
