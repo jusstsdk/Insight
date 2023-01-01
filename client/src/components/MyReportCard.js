@@ -28,7 +28,7 @@ function MyReportCard({ report }) {
 	};
 	return (
 		<>
-			<Card>
+			<Card bg="lightGrey">
 				<Card.Body>
 					<Card.Title>{report.title}</Card.Title>
 					<Card.Text className="mb-1">Type : {report.type}</Card.Text>

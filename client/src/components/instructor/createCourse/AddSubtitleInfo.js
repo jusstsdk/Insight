@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
-import { addSubtitle, editSubtitleInfo } from "../../../redux/createCourseSlice";
+import {
+	addSubtitle,
+	editSubtitleInfo,
+} from "../../../redux/createCourseSlice";
 
 export default function AddSubtitleInfo(props) {
 	const dispatch = useDispatch();
@@ -54,15 +57,19 @@ export default function AddSubtitleInfo(props) {
 			size="xl"
 			dialogClassName="modal-90w"
 			aria-labelledby="example-custom-modal-styling-title"
-			centered>
+			centered
+		>
 			<Modal.Header closeButton>
-				<Modal.Title id="example-custom-modal-styling-title">Adding a Subtitle</Modal.Title>
+				<Modal.Title id="example-custom-modal-styling-title">
+					Adding a Subtitle
+				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Group
 					as={Row}
 					className="mb-3 d-flex align-items-center justify-content-start"
-					controlId="formHorizontalEmail">
+					controlId="formHorizontalEmail"
+				>
 					<Form.Label column sm={2}>
 						Subtitle Title
 					</Form.Label>

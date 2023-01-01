@@ -62,7 +62,7 @@ function CourseReviews(props) {
 									<Button onClick={handleShowReviewCourseModal}>Review</Button>
 									&nbsp;
 									<Button
-										variant="primary"
+										variant="outline-secondary2"
 										onClick={handleShowReportCourseModal}
 									>
 										Report

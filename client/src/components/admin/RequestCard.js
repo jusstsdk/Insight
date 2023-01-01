@@ -130,12 +130,12 @@ function RequestCard({ request, course, username }) {
 						>
 							{!handled && (
 								<>
-									<Button variant="primary" onClick={denyAccess}>
+									<Button variant="outline-primary" onClick={denyAccess}>
 										Deny access
 									</Button>
 									<Button
 										className="ms-1	"
-										variant="primary"
+										variant="outline-primary"
 										onClick={grantAccess}
 									>
 										Grant access

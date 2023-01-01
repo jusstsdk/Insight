@@ -123,11 +123,7 @@ function CourseCard({ course }) {
 							md={2}
 							lg={2}
 						>
-							<Button
-								variant="primary"
-								onClick={handleOpen}
-								className=" border-0"
-							>
+							<Button variant="outline-primary" onClick={handleOpen}>
 								View Course
 							</Button>
 						</Col>

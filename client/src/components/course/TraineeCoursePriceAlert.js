@@ -182,7 +182,7 @@ function TraineeCoursePriceAlert(props) {
 						) : (
 							<h1>{course.originalPrice + " " + currency}</h1>
 						)}{" "}
-						<Button variant="primary" onClick={handleTraineeBuyCourse}>
+						<Button variant="outline-pinkish" onClick={handleTraineeBuyCourse}>
 							Purchase
 						</Button>
 					</Alert>

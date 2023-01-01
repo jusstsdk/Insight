@@ -45,7 +45,7 @@ function RefundCard({ request, course }) {
 	}
 
 	return (
-		<Card className="my-3">
+		<Card bg="lightGrey" className="my-3">
 			<Card.Body>
 				{/* Title and Stars */}
 				<CardGroup className=" align-items-center">
@@ -68,11 +68,7 @@ function RefundCard({ request, course }) {
 						lg={2}
 					>
 						{!handled && (
-							<Button
-								variant="pinkish"
-								className="secondaryText"
-								onClick={handleRefund}
-							>
+							<Button variant="outline-pinkish" onClick={handleRefund}>
 								Refund
 							</Button>
 						)}
