@@ -17,7 +17,7 @@ export default async function updateCurrency(user) {
 				"https://api.apilayer.com/exchangerates_data/latest",
 				{
 					headers: {
-						apikey: "BIml6HkjypLn5Rsv7bDh3uc95QctlHuS",
+						apikey: "XTIzFlOQ4PrtkEONKNHVZ3ztZFOzhLhA",
 					},
 					params: {
 						base: "USD",

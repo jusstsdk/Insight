@@ -11,9 +11,12 @@ const createTrainee = async (req, res) => {
 		let traineeInfo = req.body;
 		traineeInfo.password = await bcrypt.hash(traineeInfo.password, 10);
 		const trainee = await Trainee.create(traineeInfo);
-		trainee["_doc"]["x-auth-token"] = trainee.generateAuthToken();
-		trainee["_doc"].userType = "Trainee";
-		res.status(200).json(trainee);
+		let token = trainee.generateAuthToken();
+		res.status(200).json({
+			"x-auth-token": token,
+			userType: "Trainee",
+			user: trainee._doc,
+		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -62,7 +65,12 @@ const updateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such trainee" });
 	}
 
-	res.status(200).json(trainee);
+	let token = trainee.generateAuthToken();
+	res.status(200).json({
+		"x-auth-token": token,
+		userType: "Trainee",
+		user: trainee._doc,
+	});
 };
 
 //delete a trainee

@@ -37,10 +37,12 @@ const createCorporateTrainee = async (req, res) => {
 			10
 		);
 		let corporateTrainee = await CorporateTrainee.create(req.body);
-		corporateTrainee["_doc"]["x-auth-token"] =
-			corporateTrainee.generateAuthToken();
-		corporateTrainee["_doc"].userType = "CorporateTrainee";
-		res.status(200).json(corporateTrainee);
+		let token = corporateTrainee.generateAuthToken();
+		res.status(200).json({
+			"x-auth-token": token,
+			userType: "CorporateTrainee",
+			user: corporateTrainee._doc,
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(400).json({ error: error.message });
@@ -86,7 +88,12 @@ const updateCorporateTrainee = async (req, res) => {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
 
-	res.status(200).json(corporateTrainee);
+	let token = corporateTrainee.generateAuthToken();
+	res.status(200).json({
+		"x-auth-token": token,
+		userType: "CorporateTrainee",
+		user: corporateTrainee._doc,
+	});
 };
 // request access to a course
 const requestCourseAccess = async (req, res) => {

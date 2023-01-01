@@ -55,9 +55,12 @@ const createInstructor = async (req, res) => {
 		let instructorInfo = req.body;
 		instructorInfo.password = await bcrypt.hash(instructorInfo.password, 10);
 		let instructor = await Instructor.create(instructorInfo);
-		instructor["_doc"]["x-auth-token"] = instructor.generateAuthToken();
-		instructor["_doc"].userType = "Instructor";
-		res.status(200).json(instructor);
+		let token = instructor.generateAuthToken();
+		res.status(200).json({
+			"x-auth-token": token,
+			userType: "Instructor",
+			user: instructor._doc,
+		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -100,7 +103,12 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	res.status(200).json(instructor);
+	let token = instructor.generateAuthToken();
+	res.status(200).json({
+		"x-auth-token": token,
+		userType: "Instructor",
+		user: instructor._doc,
+	});
 };
 
 const reviewInstructor = async (req, res) => {
