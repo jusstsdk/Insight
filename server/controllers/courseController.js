@@ -168,11 +168,15 @@ const getCourses = async (req, res) => {
 	// find results
 	try {
 		const course = await Course.find(query).populate("instructors");
-		let rankedCourses = course;
+		let rankedCourses = [...course];
+		rankedCourses = rankedCourses.filter((course) => course.status === "Published");
 		rankedCourses.sort(comparePopularity);
 		course.forEach((course) => {
-			course.rank = rankedCourses.indexOf(course) + 1;
-			course.save();
+			if(course.status === "Published"){
+				course.rank = rankedCourses.indexOf(course) + 1;
+				course.save();
+			}
+			
 		});
 
 		res.status(200).json(course);

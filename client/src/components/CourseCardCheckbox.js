@@ -1,21 +1,41 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup, Modal, Form } from "react-bootstrap";
+import {
+	Button,
+	Badge,
+	Card,
+	CardGroup,
+	Col,
+	Row,
+	ListGroup,
+	Modal,
+	Form,
+} from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Stars from "./Stars";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
+import UniversalCourseCard from "./UniversalCourseCard";
 
-export default function CourseCardCheckbox({ course, handleCheck }) {
+export default function CourseCardCheckbox({
+	course,
+	handleCheck,
+	defaultChecked,
+	bg,
+}) {
+	const univesal = true;
 	const [show, setShow] = useState(false);
 	const userType = useSelector((state) => state.userReducer.type);
+	const user = useSelector((state) => state.userReducer.user);
 	const navigate = useNavigate();
 	const handleClose = () => setShow(false);
 	const handleOpen = () => {
 		navigate("/" + userType.toLowerCase() + "/courses/" + course._id);
 	};
-	return (
+	return univesal ? (
+		<></>
+	) : (
 		<>
-			<Card className="my-3">
+			<Card className="my-3" bg={bg}>
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
@@ -46,13 +66,18 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
 						<Col sm={1} className="priceContainer d-flex justify-content-end">
-							<Card.Text className="priceLabel">{course.originalPrice}$</Card.Text>
+							<Card.Text className="priceLabel">
+								{course.originalPrice}
+								{user.currency}
+							</Card.Text>
 						</Col>
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">Instructor</h6>
+						<h6 className="text-muted courseCardLabel my-1 fitWidth p-0">
+							Instructor
+						</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
@@ -62,8 +87,14 @@ export default function CourseCardCheckbox({ course, handleCheck }) {
 								))}
 							</ListGroup>
 						</Col>
-						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
+						<Col
+							className="viewCourseButton d-flex  justify-content-end"
+							sm={2}
+							md={2}
+							lg={2}
+						>
 							<Form.Check
+								defaultChecked={defaultChecked}
 								value={course._id}
 								type="checkbox"
 								label="Select For Promotion"

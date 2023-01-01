@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addNotification } from "../../redux/notificationsSlice";
+import updateCurrency from "../../functions/updateCurrency";
 
 export default function Login() {
 	const username = useRef();
@@ -30,35 +31,11 @@ export default function Login() {
 			const response = await axios(config);
 			const responseToken = response.data["x-auth-token"];
 			const responseUserType = response.data["userType"];
+      
 			let responseUser = response.data["user"];
-
-			if (!responseUser.country) responseUser.country = "USA";
-
-			const responseCountryApi = await axios.get(
-				`https://restcountries.com/v3.1/name/${responseUser.country}`
-			);
-
-			const localCurrency = Object.keys(
-				responseCountryApi.data[0].currencies
-			)[0];
-
-			responseUser.currency = localCurrency;
-
-			const responseExchangeRate = await axios.get(
-				"https://api.apilayer.com/exchangerates_data/latest",
-				{
-					headers: {
-						apikey: "nFxMhs9GikDyg9MytoM3bJ1wHEZboaxu",
-					},
-					params: {
-						base: "USD",
-					},
-				}
-			);
-			const exchangeRate = responseExchangeRate.data.rates[localCurrency];
-
-			responseUser.exchangeRate = exchangeRate;
-
+      
+			responseUser = await updateCurrency(responseUser);
+      
 			dispatch(
 				login({
 					type: responseUserType,
@@ -110,7 +87,11 @@ export default function Login() {
 
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control type="password" placeholder="Password" ref={password} />
+					<Form.Control
+						type="password"
+						placeholder="Password"
+						ref={password}
+					/>
 				</Form.Group>
 
 				{isLoggingIn ? (
@@ -125,7 +106,11 @@ export default function Login() {
 						Logging in...
 					</Button>
 				) : (
-					<Button variant="primary" type="submit" disabled={isLoggingIn}>
+					<Button
+						variant="primary"
+						type="submit"
+						disabled={isLoggingIn}
+					>
 						Login
 					</Button>
 				)}

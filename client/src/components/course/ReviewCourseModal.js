@@ -75,13 +75,9 @@ function ReviewCourseModal(props) {
 				<Modal.Body>
 					<Form>
 						<Form.Group className="mb-3" controlId="rateCourse">
-							<Rating
-								allowFraction="true"
-								onClick={handleCourseRating}
-								/* Available Props */
-							/>
+							<Rating allowFraction="true" onClick={handleCourseRating} />
 						</Form.Group>
-						<Form.Group className="mb-3" controlId="ratingDescription">
+						<Form.Group className="" controlId="ratingDescription">
 							<Form.Label>Description</Form.Label>
 							<Form.Control
 								as="textarea"

@@ -1,20 +1,21 @@
-import { Button, Col, Container, Form, Row, Collapse } from "react-bootstrap";
+import { Button, Col, Form, Row, Collapse } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import API from "../functions/api";
 import { useSelector } from "react-redux";
 import { SUBJECTS } from "../functions/subjects";
 import { Multiselect } from "multiselect-react-dropdown";
-import { Drawer, List, Toolbar } from "@mui/material";
-import { Box } from "@mui/system";
 import { Rating } from "react-simple-star-rating";
-import { BsFilter, BsSearch } from "react-icons/bs";
+import { BsFilter } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
-const drawerWidth = "25%";
 
-
-export default function SearchCourses({ setCourses, searchInInstructorCourses, hideSearch,setCurrentPage }) {
+export default function SearchCourses({
+	setCourses,
+	searchInInstructorCourses,
+	hideSearch,
+	setCurrentPage,
+	includeAll,
+}) {
 	const searchQuery = useRef("");
-	// const subjectFilter = useRef("");
 	const maxPriceFilter = useRef("");
 	const minPriceFilter = useRef("");
 	const [ratingFilter, setRatingFilter] = useState(0);
@@ -38,8 +39,10 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 		let searchParams = {};
 		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
-		if (maxPriceFilter.current.value) searchParams.maxPrice = maxPriceFilter.current.value/user.exchangeRate;
-		if (minPriceFilter.current.value) searchParams.minPrice = minPriceFilter.current.value/user.exchangeRate;
+		if (maxPriceFilter.current.value)
+			searchParams.maxPrice = (maxPriceFilter.current.value / user.exchangeRate).toFixed(2);
+		if (minPriceFilter.current.value)
+			searchParams.minPrice = (minPriceFilter.current.value / user.exchangeRate).toFixed(2);
 		if (ratingFilter) searchParams.rating = ratingFilter;
 
 		let courses;
@@ -60,12 +63,24 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 			course.originalPrice = Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
 		});
+		if (!includeAll) {
+			courses = courses.filter((course) => course.status === "Published");
+		}
+
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);
 	}
 
-	// Displays the Drawer Content based on props.subtitles
+	const clearFilters = async () => {
+		minPriceFilter.current.value = "";
+		maxPriceFilter.current.value = "";
+		setSubjectFilter("");
+		setRatingFilter(0);
+		await getCourses();
+	};
+
+	// Displays the Filter Bar
 	const filterBar = (
 		<>
 			{!hideSearch && (
@@ -128,7 +143,7 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 									initialValue={ratingFilter}
 								/>
 							</div>
-							<Button onClick={() => setRatingFilter(0)} className="clearRatingButton">
+							<Button onClick={async () => await clearFilters()} className="clearRatingButton">
 								<AiOutlineClose color={"#dc3545"} />
 							</Button>
 						</Col>
@@ -141,17 +156,13 @@ export default function SearchCourses({ setCourses, searchInInstructorCourses, h
 	return (
 		<>
 			<Row className="mb-3 align-items-center">
-				<Col sm={8}>
+				<Col sm={9}>
 					<Form.Control
 						ref={searchQuery}
 						type="search"
+						onChange={async () => await getCourses()}
 						placeholder="Search for a course by name, subject or instructors"
 					/>
-				</Col>
-				<Col sm={1} className="me-auto">
-					<Button onClick={async () => await getCourses()}>
-						<BsSearch />
-					</Button>
 				</Col>
 
 				<Col sm={2}>

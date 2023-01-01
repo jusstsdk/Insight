@@ -46,11 +46,13 @@ function TraineeCoursePriceAlert(props) {
 	const currency = useSelector((state) => state.userReducer.user.currency);
 
 	async function handleTraineeBuyCourse() {
-		
 		let cost;
-		if(course.promotion.endDate > new Date().toISOString() && course.promotion.discount > 0){
+		if (
+			course.promotion.endDate > new Date().toISOString() &&
+			course.promotion.discount > 0
+		) {
 			cost = course.price;
-		}else{
+		} else {
 			cost = course.originalPrice;
 		}
 		if (cost === 0 || cost <= user.wallet * user.exchangeRate) {
@@ -82,7 +84,6 @@ function TraineeCoursePriceAlert(props) {
 					course.promotion.discount !== 0 &&
 					course.promotion.endDate >= new Date().toISOString() ? (
 						<>
-							Price:
 							<h1 style={{ display: "inline-block" }}>
 								{"" +
 									(course.price === 0 ? "FREE" : course.price) +
