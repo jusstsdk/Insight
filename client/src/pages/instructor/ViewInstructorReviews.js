@@ -47,13 +47,6 @@ function ViewInstructorReviews() {
 						/>
 					))}
 			</Col>
-			{/* <Pagination
-				className="pagination-bar"
-				currentPage={currentPage}
-				totalCount={Reviews.length}
-				pageSize={pageSize}
-				onPageChange={(page) => setCurrentPage(page)}
-			/> */}
 		</Container>
 	);
 }
