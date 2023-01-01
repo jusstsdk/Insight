@@ -311,7 +311,7 @@ function UniversalCourseCard(props) {
 							course.promotion.discount !== 0 &&
 							course.promotion.endDate >= new Date().toISOString() ? (
 								<>
-									{Math.trunc(course.price) === 0 ? (
+									{Math.trunc(course.price * 100) === 0 ? (
 										<h5>FREE</h5>
 									) : (
 										<>
@@ -328,7 +328,7 @@ function UniversalCourseCard(props) {
 								</>
 							) : (
 								<h6 style={{ display: "inline-block" }}>
-									{Math.trunc(course.originalPrice) === 0.0
+									{Math.trunc(course.originalPrice * 100) === 0.0
 										? "FREE"
 										: course.originalPrice + " " + currency}
 								</h6>
