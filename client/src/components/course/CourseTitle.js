@@ -10,7 +10,7 @@ function CourseTitle(props) {
 
 	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
 
-	const userType = useSelector((state) => state.userReducer.type);
+	const ExchangeRate = useSelector((state) => state.userReducer.user.exchangeRate);
 
 	function continueCourse() {
 		navigate("continueCourse", {
@@ -21,60 +21,42 @@ function CourseTitle(props) {
 	}
 
 	return (
-		<Container>
-			<Row>
-				<Col md="auto">
-					<Row>
-						<h1 style={{ display: "inline-block" }} key="titleHeader">
-							{course.title + " "}
-						</h1>
-					</Row>
-					<Row>
-						<Col>
-							{course.subjects.map((eachSubject, i) => {
-								return (
-									<Badge
-										bg="info"
-										key={"Badge of Subject: " + i + eachSubject}
-										className="lead me-1"
-									>
-										{eachSubject}
-									</Badge>
-								);
-							})}
-						</Col>
-					</Row>
-				</Col>
+		<Row>
+			<Col sm={8}>
+				<Row>
+					<h1 className="fitWidth">{course.title}</h1>
+					<Col sm={1} className="d-flex">
+						<Badge bg="warning" className="lead m-auto fitWidth fitHeight fs-6">
+							#{course.rank}
+						</Badge>
+					</Col>
+				</Row>
+				<Row>
+					<Col sm={8} className="d-flex flex-wrap">
+						{course.subjects.map((eachSubject, i) => {
+							return (
+								<Badge
+									bg="info"
+									key={"Badge of Subject: " + i + eachSubject}
+									className="lead me-1 fs-6 mb-2 fitWidth">
+									{eachSubject}
+								</Badge>
+							);
+						})}
+					</Col>
+				</Row>
+			</Col>
+			{/* <Col>
+				<Rating allowFraction="true" initialValue={course.rating} readonly="true" size={22} />
+			</Col> */}
+			{ownsCourse && !traineeAlreadyRequestedRefund && (
 				<Col>
-					<Badge bg="warning" className="lead me-1">
-						#{course.rank}
-						{/* {course.rank % 10 === 1
-							? "st"
-							: course.rank % 10 === 2
-							? "nd"
-							: course.rank % 10 === 3
-							? "rd"
-							: "th"} */}
-					</Badge>
+					<Button style={{ float: "right" }} onClick={continueCourse}>
+						Continue Course
+					</Button>
 				</Col>
-				<Col>
-					<Rating
-						allowFraction="true"
-						initialValue={course.rating}
-						readonly="true"
-						size={22}
-						/* Available Props */
-					/>
-				</Col>
-				<Col>
-					{ownsCourse && !traineeAlreadyRequestedRefund && (
-						<Button style={{ float: "right" }} onClick={continueCourse}>
-							Continue Course
-						</Button>
-					)}
-				</Col>
-			</Row>
-		</Container>
+			)}
+		</Row>
 	);
 }
 
