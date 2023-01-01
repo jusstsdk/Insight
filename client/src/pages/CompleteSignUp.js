@@ -94,7 +94,7 @@ export default function CompleteSignUp() {
 					/>
 				</Form.Group>
 				<Form.Group
-					className={userType == "Instructor" ? "d-none" : ""}
+					className={userType == "CorporateTrainee" ? "d-none" : ""}
 				>
 					<Form.Label> Biography </Form.Label>
 					<Form.Control
