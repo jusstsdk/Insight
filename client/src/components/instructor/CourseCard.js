@@ -186,7 +186,7 @@ function CourseCard(props) {
 							<h6 className="text-muted me-3">{props.course.status}</h6>
 						)}
 						{displayButtons()}
-						<Button>View Course</Button>
+						<Button variant="outline-primary">View Course</Button>
 					</Col>
 				</CardGroup>
 			</Card.Body>

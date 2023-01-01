@@ -3,9 +3,12 @@ import { Rating } from "react-simple-star-rating";
 import Stars from "../Stars";
 function InstructorReviewCard(props) {
 	return (
-		<Card className="my-2">
+		<Card bg="light" className="my-2">
 			<Card.Body>
-				<CardGroup as={Row} className="justify-content-between align-items-center">
+				<CardGroup
+					as={Row}
+					className="justify-content-between align-items-center"
+				>
 					<Col lg={8} md={6} sm={8}>
 						<Card.Title className="textFit">{props.traineeEmail}</Card.Title>
 					</Col>

@@ -33,16 +33,18 @@ export default function CustomNavbar() {
 			<Navbar
 				id="main-navbar"
 				fixed="top"
-				bg="dark"
+				bg="primary"
 				variant="dark"
 				expand="lg"
-				className="navbarZ-index">
+				className="navbarZ-index"
+			>
 				<Container>
 					<Navbar.Brand
 						href="#"
 						onClick={() => {
 							navigate("/");
-						}}>
+						}}
+					>
 						Home
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />

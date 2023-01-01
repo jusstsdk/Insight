@@ -29,7 +29,7 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 	};
 	return (
 		<>
-			<Card className="h-100">
+			<Card bg="lightGrey" className="h-100">
 				<Card.Body className="d-flex flex-column justify-content-between">
 					<Row className="justify-content-between align-items-center">
 						<Card.Title className="fitWidth">{report.title}</Card.Title>
@@ -79,7 +79,7 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 				<Modal.Body>
 					<ListGroup>
 						{comments.map((comment, i) => (
-							<ListGroup.Item key={i}>
+							<ListGroup.Item className="reportComments" key={i}>
 								<Row>
 									<Col sm={3}>
 										<h6 className="text-muted my-auto me-2">{comment.username}</h6>

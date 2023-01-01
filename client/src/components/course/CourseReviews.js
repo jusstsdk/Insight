@@ -166,7 +166,7 @@ function CourseReviews(props) {
 							<>
 								<div style={{ float: "right" }}>
 									<Button
-										variant="danger"
+										variant="outline-secondary2"
 										onClick={handleShowReportCourseModal}
 									>
 										Report

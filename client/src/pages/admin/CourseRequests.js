@@ -21,14 +21,19 @@ const CourseRequests = () => {
 	let currentRequests = traineeRequests.slice(firstPageIndex, lastPageIndex);
 
 	function filterPendingRequests(requests) {
-		return requests.filter((request) => request.status.toLowerCase() === "pending").length>0;
+		return (
+			requests.filter((request) => request.status.toLowerCase() === "pending")
+				.length > 0
+		);
 	}
 	
 	async function getPendingTrainees() {	
 		const response = await api.get("/administrators/requests",{
 			headers: { authorization: "Bearer " + token }
 		});
-		const pending = response.data.filter((trainee) => filterPendingRequests(trainee.requests));
+		const pending = response.data.filter((trainee) =>
+			filterPendingRequests(trainee.requests)
+		);
 		setTraineeRequests(pending);
 		
 	}
