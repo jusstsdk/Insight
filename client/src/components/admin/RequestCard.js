@@ -1,18 +1,11 @@
-import {
-	Button,
-	Badge,
-	Card,
-	CardGroup,
-	Col,
-	Row,
-	ListGroup,
-} from "react-bootstrap";
+import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
 function RequestCard({ request, course, username }) {
 	const [handled, setHandled] = useState(false);
 	const [message, setMessage] = useState("");
@@ -37,9 +30,9 @@ function RequestCard({ request, course, username }) {
 		setVariant("success");
 		dispatch(
 			addNotification({
-			  title: "access granted",
-			  info: "access to course '" + course.title + "' granted to " + username,
-			  color: "success",
+				title: "access granted",
+				info: "access to course '" + course.title + "' granted to " + username,
+				color: "success",
 			})
 		);
 	}
@@ -59,9 +52,9 @@ function RequestCard({ request, course, username }) {
 		setVariant("danger");
 		dispatch(
 			addNotification({
-			  title: "access granted",
-			  info: "access to course '" + course.title + "' denied to " + username,
-			  color: "danger",
+				title: "access granted",
+				info: "access to course '" + course.title + "' denied to " + username,
+				color: "danger",
 			})
 		);
 	}
@@ -76,21 +69,23 @@ function RequestCard({ request, course, username }) {
 				<Card.Body>
 					{/* Title and Stars */}
 					<CardGroup as={Row} className=" align-items-center">
-						<Card.Title className="courseCardTitle">
-							{course.title}
-						</Card.Title>
+						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge
-									key={"subject_badge_" + i}
-									className="p-2 mx-1 "
-								>
+								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}
 						</Col>
-						<Col className="starsContainer" sm={4} md={4} lg={2}>
-							<Stars stars={course.rating ? course.rating : 0} />
+						<Col className="starsContainer fitWidth" sm={4} md={4} lg={2}>
+							<Rating
+								key={"stars_" + course._id}
+								id={course._id}
+								allowFraction="true"
+								initialValue={course.rating ? course.rating : 0}
+								readonly="true"
+								size={20}
+							/>
 						</Col>
 					</CardGroup>
 
@@ -100,14 +95,11 @@ function RequestCard({ request, course, username }) {
 						<Col sm={8}>
 							<Card.Text>{course.summary}</Card.Text>
 						</Col>
-						
 					</CardGroup>
 
 					{/* Instructors and View Course*/}
 					<CardGroup as={Row} className="mt-2 align-items-center">
-						<h6 className="text-muted textFit courseCardLabel my-1">
-							Instructors
-						</h6>
+						<h6 className="text-muted textFit courseCardLabel my-1">Instructors</h6>
 						<Col sm={2}>
 							<ListGroup horizontal>
 								{course.instructors.map((instructor, i) => (
@@ -115,32 +107,19 @@ function RequestCard({ request, course, username }) {
 										className="p-0 me-2"
 										variant="link"
 										onClick={() => navigate("/admin/viewInstructor/" + instructor._id)}
-										key={"instructor_" + i}
-									>
+										key={"instructor_" + i}>
 										{instructor.username}
 									</Button>
 								))}
 							</ListGroup>
 						</Col>
-						<Col
-							className="viewCourseButton d-flex  justify-content-end"
-							sm={2}
-							md={2}
-							lg={2}
-						>
+						<Col className="viewCourseButton d-flex  justify-content-end" sm={2} md={2} lg={2}>
 							{!handled && (
 								<>
-									<Button
-										variant="danger"
-										onClick={denyAccess}
-									>
+									<Button variant="danger" onClick={denyAccess}>
 										Deny access
 									</Button>
-									<Button
-										className="ms-1	"
-										variant="success"
-										onClick={grantAccess}
-									>
+									<Button className="ms-1	" variant="success" onClick={grantAccess}>
 										Grant access
 									</Button>
 								</>

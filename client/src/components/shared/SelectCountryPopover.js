@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import updateCurrency from "../../functions/updateCurrency";
 import { setCountry, setUser } from "../../redux/userSlice";

@@ -4,20 +4,18 @@ import { Col, Button, Row } from "react-bootstrap";
 import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../../redux/notificationsSlice";
 import { MdOutlineError } from "react-icons/md";
 
 export default function AddSubtitle(props) {
 	const [AddSubtitleModalShow, setAddSubtitleModalShow] = useState(false);
 	const [NoSubtitles, setNoSubtitles] = useState(false);
-	const [MissingVideos, setMissingVideos] = useState(false);
-	const [MissingExcersises, setMissingExcersises] = useState(false);
-	const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
+	// const [MissingVideos, setMissingVideos] = useState(false);
+	// const [MissingExcersises, setMissingExcersises] = useState(false);
+	// const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
 	const dispatch = useDispatch();
-	const Subtitles = useSelector(
-		(state) => state.createCourseReducer.subtitles
-	);
+	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
 	const showErrorMessage = () => {
 		dispatch(
 			addNotification({
@@ -30,15 +28,17 @@ export default function AddSubtitle(props) {
 	const handleNext = () => {
 		if (Subtitles.length === 0) {
 			setNoSubtitles(true);
-			setMissingExcersises(false);
-			setMissingVideos(false);
-			setExcersisesMissingQuestions(false);
+			// setMissingExcersises(false);
+			// setMissingVideos(false);
+			// setExcersisesMissingQuestions(false);
 			showErrorMessage();
-		}else{
+		} else {
 			setNoSubtitles(false);
-			console.log(Subtitles);
+			let MissingVideosTemp = false;
+			let MissingQuestionsTemp = false;
 			if(Subtitles.some((subtitle) => subtitle.videos.length === 0)){
-				setMissingVideos(true);
+				// setMissingVideos(true);
+				MissingVideosTemp = true;
 				dispatch(
 					addNotification({
 						title: "Create Course",
@@ -47,19 +47,10 @@ export default function AddSubtitle(props) {
 					})
 				);
 			}  
-			if(Subtitles.some((subtitle) => subtitle.exercises.length === 0)){
-				setMissingExcersises(true);
-				dispatch(
-					addNotification({
-						title: "Create Course",
-						info: `Please add at least one exercise to each subtitle!`,
-						color: "error",
-					})
-				);
-			} 
-			else if(Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
-				setExcersisesMissingQuestions(true);
-				setMissingExcersises(false);
+			if(Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
+				// setExcersisesMissingQuestions(true);
+				// setMissingExcersises(false);
+				MissingQuestionsTemp = true;
 				dispatch(
 					addNotification({
 						title: "Create Course",
@@ -68,32 +59,30 @@ export default function AddSubtitle(props) {
 					})
 				);
 			}
-			else{
+			if(!(MissingQuestionsTemp || MissingVideosTemp)){
 				setNoSubtitles(false);
-				setMissingVideos(false);
-				setMissingExcersises(false);
-				setExcersisesMissingQuestions(false);
+				// setMissingVideos(false);
+				// setMissingExcersises(false);
+				// setExcersisesMissingQuestions(false);
 				props.setCurrentTab("addExam");
 			}
 		}
-
-
-		
 	};
 
 	return (
-		<>	
+		<>
 			<Row>
 				<Col>
 					<h1 className="fs-3 fw-semibold text-muted">Adding Course Subtitles</h1>
 				</Col>
-				<Col className="d-flex justify-content-end">{NoSubtitles && (
-						<span className="error">
-							You need add at least one subtitle <MdOutlineError />	
-						</span>
-					)}</Col>
 				<Col className="d-flex justify-content-end">
-					
+					{NoSubtitles && (
+						<span className="error">
+							You need add at least one subtitle <MdOutlineError />
+						</span>
+					)}
+				</Col>
+				<Col className="d-flex justify-content-end">
 					<Button onClick={() => setAddSubtitleModalShow(true)}>Add a Subtitle</Button>
 				</Col>
 			</Row>
@@ -112,7 +101,6 @@ export default function AddSubtitle(props) {
 				<Button
 					onClick={() => {
 						handleNext();
-						
 					}}>
 					<AiOutlineArrowRight />
 				</Button>

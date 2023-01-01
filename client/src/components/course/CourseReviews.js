@@ -258,17 +258,19 @@ function CourseReviews(props) {
 						<Modal.Title>Refund</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						{`You will be refunded ${
-							traineeOwnsCourse &&
-							Math.trunc(
-								traineeVersionOfCourse.paidPrice *
-									(user.exchangeRate ? user.exchangeRate : 1) *
-									100
-							) /
-								100 +
-								" " +
-								(currency ? currency : "USD")
-						}, but will no longer have access to the course.`}
+						{traineeOwnsCourse && traineeVersionOfCourse.paidPrice > 0
+							? `You will be refunded ${
+									traineeOwnsCourse &&
+									Math.trunc(
+										traineeVersionOfCourse.paidPrice *
+											(user.exchangeRate ? user.exchangeRate : 1) *
+											100
+									) /
+										100 +
+										" " +
+										(currency ? currency : "USD")
+							  }, but will no longer have access to the course.`
+							: "You will no longer have access to the course."}
 					</Modal.Body>
 					<Modal.Footer>
 						<Button variant="secondary" onClick={handleCloseRefundCourseModal}>

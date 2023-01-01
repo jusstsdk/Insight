@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 import { useSelector } from "react-redux";
 import { Rating } from "react-simple-star-rating";
+import UniversalCourseCard from "../components/UniversalCourseCard";
 export default function ViewInstructor() {
 	const location = useLocation();
 	const { id } = useParams();
@@ -44,6 +45,9 @@ export default function ViewInstructor() {
 				).toFixed(2);
 				course.price = (course.price * user.exchangeRate).toFixed(2);
 			});
+			response.data.courses = response.data.courses.filter(
+				(course) => course.status === "Published"
+			);
 			setInstructorCourses(response.data.courses);
 
 			if (userType === "Trainee" || userType === "CorporateTrainee") {
@@ -137,7 +141,7 @@ export default function ViewInstructor() {
 				>
 					<Tab eventKey="Courses" title="Courses">
 						{InstructorCourses.map((course, i) => (
-							<CourseCard key={"course_" + i} course={course} />
+							<UniversalCourseCard course={course} cardType={"Basic"} />
 						))}
 					</Tab>
 					<Tab eventKey="Reviews" title="Reviews">

@@ -4,6 +4,7 @@ const {
 	getCourse,
 	getCourses,
 	updateCourse,
+	deleteCourse,
 	reportCourse,
 	populateReports,
 	getReports,
@@ -55,6 +56,9 @@ router.get("/:id", getCourse);
 
 // PUT a Course
 router.put("/:id", updateCourse);
+
+// DELETE a Course
+router.delete("/:id", deleteCourse);
 
 // GET all Courses
 router.get("/", getCourses);
