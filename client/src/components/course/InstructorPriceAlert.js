@@ -26,7 +26,7 @@ function InstructorPriceAlert(props) {
 				</Col>
 			) : (
 				<h3>
-					{course.originalPrice === 0
+					{Math.trunc(course.originalPrice * 100) === 0.0
 						? "FREE"
 						: course.originalPrice * exchangeRate + " " + currency}
 				</h3>

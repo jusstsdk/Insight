@@ -64,7 +64,7 @@ function ReportCard(props) {
 						{props.report.comments.map((comment, i) => (
 							<ListGroup.Item className="reportComments">
 								<Row>
-									<Col sm={2}>
+									<Col md="auto">
 										<h6>{comment.username}:</h6>
 									</Col>
 									<Col>
@@ -74,11 +74,13 @@ function ReportCard(props) {
 							</ListGroup.Item>
 						))}
 					</ListGroup>
-					<Form.Group className="mb-3" controlId="Add comment">
-						<Form.Label>Type new comment:</Form.Label>
-						<Form.Control as="textarea" rows={3} ref={CommentRef} />
-						<Button onClick={handleAddComment}>Add comment</Button>
-					</Form.Group>
+					{!props.report.isResolved && (
+						<Form.Group className="mb-3" controlId="Add comment">
+							<Form.Label>Type new comment:</Form.Label>
+							<Form.Control as="textarea" rows={3} ref={CommentRef} />
+							<Button onClick={handleAddComment}>Add comment</Button>
+						</Form.Group>
+					)}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="primary" onClick={handleClose}>

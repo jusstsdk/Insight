@@ -26,7 +26,7 @@ function CreateAdmin() {
 	};
 	return (
 		<div>
-			<h1> create an admin </h1>
+			<h1> Create Admin </h1>
 			<Form>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label> Username </Form.Label>
