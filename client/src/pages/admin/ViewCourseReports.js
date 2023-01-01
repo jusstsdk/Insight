@@ -4,12 +4,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ReportCard from "../../components/admin/ReportCard";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-
+import Pagination from "../../components/shared/pagination/Pagination";
+let pageSize = 12;
 function ViewCourseReports() {
 	const navigate = useNavigate();
 	const [Reports, setReports] = useState([]);
+	const [reportsCurrentPage, setReportsCurrentPage] = useState(1);
+	let reportsFirstPageIndex = (reportsCurrentPage - 1) * pageSize;
+	let reportsLastPageIndex = reportsFirstPageIndex + pageSize;
+	let currentReports = Reports.slice(reportsFirstPageIndex, reportsLastPageIndex);
+
 	const [Resolved, setResolved] = useState([]);
+	const [resolvedCurrentPage, setResolvedCurrentPage] = useState(1);
+	let resolvedFirstPageIndex = (resolvedCurrentPage - 1) * pageSize;		 		
+	let resolvedLastPageIndex = resolvedFirstPageIndex + pageSize;
+	let currentResolved = Resolved.slice(resolvedFirstPageIndex, resolvedLastPageIndex);
+
 	const [Pending, setPending] = useState([]);
+	const [pendingCurrentPage, setPendingCurrentPage] = useState(1);
+	let pendingFirstPageIndex = (pendingCurrentPage - 1) * pageSize;
+	let pendingLastPageIndex = pendingFirstPageIndex + pageSize;
+	let currentPending = Pending.slice(pendingFirstPageIndex, pendingLastPageIndex);
+
 	const [selectedItem, setSelectedItem] = useState("No-Filter");
 	const location = useLocation();
 	const ResolvingReport = (report) => {
@@ -133,7 +149,7 @@ function ViewCourseReports() {
 						</Dropdown.Item>
 					</DropdownButton>
 					<Container className="my-2 d-flex flex-wrap">
-						{Reports.map((report, i) => (
+						{currentReports.map((report, i) => (
 							<Col sm={3} className="mb-2 me-2">
 								<ReportCard
 									report={report}
@@ -143,11 +159,18 @@ function ViewCourseReports() {
 								/>
 							</Col>
 						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={reportsCurrentPage}
+							totalCount={Reports.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setReportsCurrentPage(page)}
+						/>
 					</Container>
 				</Tab>
 				<Tab eventKey="Resolved" title="Resolved">
 					<Container className="my-2 d-flex flex-wrap">
-						{Resolved.map((report, i) => (
+						{currentResolved.map((report, i) => (
 							<Col sm={3} className="mb-2 me-2">
 								<ReportCard
 									report={report}
@@ -156,6 +179,13 @@ function ViewCourseReports() {
 								/>
 							</Col>
 						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={resolvedCurrentPage}
+							totalCount={Resolved.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setResolvedCurrentPage(page)}
+						/>
 					</Container>
 				</Tab>
 				<Tab eventKey="Pending" title="Pending">
@@ -181,7 +211,7 @@ function ViewCourseReports() {
 						</Dropdown.Item>
 					</DropdownButton>
 					<Container className="my-2 d-flex flex-wrap">
-						{Pending.map((report, i) => (
+						{currentPending.map((report, i) => (
 							<Col sm={3} className="mb-2 me-2">
 								<ReportCard
 									report={report}
@@ -191,6 +221,13 @@ function ViewCourseReports() {
 								/>
 							</Col>
 						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={pendingCurrentPage}
+							totalCount={Pending.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setPendingCurrentPage(page)}
+						/>
 					</Container>
 				</Tab>
 			</Tabs>
