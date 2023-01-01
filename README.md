@@ -8,7 +8,7 @@
 - [Technologies](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#technologies)
 - [Architecture](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#architecture)
 - [Extra Features](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#extra-features)
-- [Installation](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#installation)
+- [Installation](#installation)
 
 ## Description
 This is a university project that we worked on during the semester to train on coding a website from scratch (backend and frontend).
