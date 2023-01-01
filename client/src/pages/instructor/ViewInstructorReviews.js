@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Col, Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import InstructorReviewCard from "../../components/instructor/InstructorReviewCard";
+import RatingStats from "../../components/RatingStats";
 import Pagination from "../../components/shared/pagination/Pagination";
 import "../../components/shared/pagination/style.scss";
 
 let pageSize = 2;
 function ViewInstructorReviews() {
 	const instructorId = useSelector((state) => state.userReducer.user._id);
+	const rating = useSelector((state) => state.userReducer.user.rating);
+
 	const [Reviews, setReviews] = useState([]);
 
 	//pagination
@@ -37,23 +40,21 @@ function ViewInstructorReviews() {
 
 	return (
 		<Container className="my-3">
-			<Col lg={8} className="d-flex flex-column justify-content-center m-auto">
-				{currentReviews.map((review) => (
-					<InstructorReviewCard
-						key={"review_" + review.trainee.email}
-						traineeEmail={review.trainee.email}
-						review={review.review}
-						rating={review.rating}
-					/>
-				))}
-			</Col>
-			<Pagination
-						className="pagination-bar"
-						currentPage={currentPage}
-						totalCount={Reviews.length}
-						pageSize={pageSize}
-						onPageChange={(page) => setCurrentPage(page)}
-					/>
+			<Row>
+				{/* Stats */}
+				<RatingStats rating={rating} reviews={Reviews} />
+				{/* Reviews */}
+				<Col sm={8}>
+					{Reviews.map((review) => (
+						<InstructorReviewCard
+							key={"review_" + review.trainee.email}
+							traineeEmail={review.trainee.email}
+							review={review.review}
+							rating={review.rating}
+						/>
+					))}
+				</Col>
+			</Row>
 		</Container>
 	);
 }
