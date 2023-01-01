@@ -148,9 +148,7 @@ export default function ViewInstructor() {
 						{InstructorReviews.map((review) => (
 							<InstructorReviewCard
 								key={"review_" + review.trainee.email}
-								traineeEmail={review.trainee.email}
-								review={review.review}
-								rating={review.rating}
+								review={review}
 							/>
 						))}
 					</Tab>

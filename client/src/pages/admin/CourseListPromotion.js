@@ -32,7 +32,8 @@ export default function CourseListPromotion({
 		<>
 			{filteredCourses.map(
 				(course) =>
-					!checkedCourses.includes(course._id) && (
+					!checkedCourses.includes(course._id) &&
+					Math.trunc(course.originalPrice * 100) !== 0 && (
 						<UniversalCourseCard
 							key={course._id}
 							course={course}

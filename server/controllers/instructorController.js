@@ -36,13 +36,14 @@ const getInstructorReviews = async (req, res) => {
 	}
 
 	const instructor = await Instructor.findById(instructorId).populate(
-		"reviews.trainee",
-		"_id email"
+		"reviews.trainee"
 	);
 	if (!instructor) {
 		return res.status(404).json({ error: "No such instructor" });
 	}
-	instructor.reviews = instructor.reviews.filter((review) => review.trainee !== null);
+	instructor.reviews = instructor.reviews.filter(
+		(review) => review.trainee !== null
+	);
 	instructor.save();
 	res.status(200).json(instructor);
 };
@@ -87,9 +88,13 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 
-	const instructor = await Instructor.findOneAndUpdate({ _id: instructorId }, req.body, {
-		new: true,
-	});
+	const instructor = await Instructor.findOneAndUpdate(
+		{ _id: instructorId },
+		req.body,
+		{
+			new: true,
+		}
+	);
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such instructor" });
@@ -101,21 +106,23 @@ const updateInstructor = async (req, res) => {
 const reviewInstructor = async (req, res) => {
 	let instructorId = req.params.id;
 
-	const instructor = await Instructor.findById(instructorId).then((instructor) => {
-		if (!instructor) {
-			return res.status(400).json({ error: "No such Instructor" });
-		}
-		const found = instructor.reviews.some((review, i) => {
-			if (review.trainee.toString() === req.body.trainee) {
-				instructor.reviews[i].rating = req.body.rating;
-				instructor.reviews[i].review = req.body.review;
+	const instructor = await Instructor.findById(instructorId).then(
+		(instructor) => {
+			if (!instructor) {
+				return res.status(400).json({ error: "No such Instructor" });
 			}
-			return review.trainee.toString() === req.body.trainee;
-		});
-		if (!found) instructor.reviews.push(req.body);
-		instructor.save();
-		return instructor;
-	});
+			const found = instructor.reviews.some((review, i) => {
+				if (review.trainee.toString() === req.body.trainee) {
+					instructor.reviews[i].rating = req.body.rating;
+					instructor.reviews[i].review = req.body.review;
+				}
+				return review.trainee.toString() === req.body.trainee;
+			});
+			if (!found) instructor.reviews.push(req.body);
+			instructor.save();
+			return instructor;
+		}
+	);
 
 	if (!instructor) {
 		return res.status(400).json({ error: "No such Instructor" });
@@ -124,21 +131,19 @@ const reviewInstructor = async (req, res) => {
 	res.status(200).json(instructor);
 };
 
-const getMonthlyIncome = async (req,res) => {
+const getMonthlyIncome = async (req, res) => {
 	let instructorId = req.params.id;
 	const instructor = await Instructor.findById(instructorId);
 	if (!instructor) {
 		return res.status(400).json({ error: "No such Instructor" });
 	}
-	if(instructor.monthlyPay.updatedAt.getMonth() < new Date().getMonth()){
+	if (instructor.monthlyPay.updatedAt.getMonth() < new Date().getMonth()) {
 		instructor.monthlyPay.amount = 0;
 	}
 
 	instructor.save();
 	res.status(200).json(instructor.monthlyPay.amount);
 };
-
-
 
 module.exports = {
 	getInstructors,

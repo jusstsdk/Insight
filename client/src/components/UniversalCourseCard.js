@@ -328,7 +328,7 @@ function UniversalCourseCard(props) {
 								</>
 							) : (
 								<h6 style={{ display: "inline-block" }}>
-									{Math.trunc(course.originalPrice * 100) === 0.0
+									{Math.trunc(course.originalPrice * 100) === 0
 										? "FREE"
 										: course.originalPrice + " " + currency}
 								</h6>
