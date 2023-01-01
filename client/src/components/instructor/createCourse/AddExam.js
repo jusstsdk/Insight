@@ -23,8 +23,6 @@ export default function AddExam(props) {
 
 	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
 	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
-	const [MissingTitle , setMissingTitle] = useState(false);
-	const [NoQuestions , setNoQuestions] = useState(false);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const handleAddModalClose = () => setShowAddModal(false);
 	const handleAddModalShow = () => setShowAddModal(true);
@@ -34,25 +32,15 @@ export default function AddExam(props) {
 	};
 	const handleButtons = (action) => {
 		if (ExamTitle === "") {
-			setMissingTitle(true);
+			props.setMissingExamTitle(true);
 		} else {
-			setMissingTitle(false);
+			props.setMissingExamTitle(false);
 		}
 		if (ExamQuestions.length === 0) {
-			setNoQuestions(true);
+			props.setNoExamQuestions(true);
 		} else {
-			setNoQuestions(false);
+			props.setNoExamQuestions(false);
 		}
-		if (ExamTitle === "" || ExamQuestions.length === 0) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Make sure your exam has a title and at least one question!`,
-					color: "error",
-				})
-			);
-			return;
-		} else {
 			if(action === "save"){
 				if (status === "New") props.handleCreateCourse("Draft");
 						else props.handleEditCourse("Draft");
@@ -61,7 +49,7 @@ export default function AddExam(props) {
 						else props.handleEditCourse("Published");
 			}
 			
-		}
+		
 
 
 	};
@@ -76,10 +64,10 @@ export default function AddExam(props) {
 					<Button onClick={handleAddModalShow}>Add a Question</Button>
 				</Col>
 			</Row>
-			<Row >{NoQuestions && <span className="error">"you must add atleast one question<MdOutlineError/>"</span>}</Row>
+			<Row >{props.displayErrors && props.NoExamQuestions && <span className="error">"you must add atleast one question<MdOutlineError/>"</span>}</Row>
 			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
 				<Form.Label column sm={2}>
-					Exam title {MissingTitle && <span className="error">"missing<MdOutlineError/>"</span>}
+					Exam title {props.displayErrors && props.MissingExamTitle && <span className="error">"missing<MdOutlineError/>"</span>}
 				</Form.Label>
 				<Col sm={7}>
 					<Form.Control

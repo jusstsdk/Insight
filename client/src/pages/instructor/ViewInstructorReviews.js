@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import InstructorReviewCard from "../../components/instructor/InstructorReviewCard";
 import RatingStats from "../../components/RatingStats";
@@ -46,12 +46,7 @@ function ViewInstructorReviews() {
 				{/* Reviews */}
 				<Col sm={8}>
 					{Reviews.map((review) => (
-						<InstructorReviewCard
-							key={"review_" + review.trainee.email}
-							traineeEmail={review.trainee.email}
-							review={review.review}
-							rating={review.rating}
-						/>
+						<InstructorReviewCard key={"review_" + review.trainee.email} review={review} />
 					))}
 				</Col>
 			</Row>
