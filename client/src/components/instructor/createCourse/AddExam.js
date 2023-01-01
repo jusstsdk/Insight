@@ -41,16 +41,6 @@ export default function AddExam(props) {
 		} else {
 			props.setNoExamQuestions(false);
 		}
-		if (ExamTitle === "" || ExamQuestions.length === 0) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Make sure your exam has a title and at least one question!`,
-					color: "error",
-				})
-			);
-			
-		} else {
 			if(action === "save"){
 				if (status === "New") props.handleCreateCourse("Draft");
 						else props.handleEditCourse("Draft");
@@ -59,7 +49,7 @@ export default function AddExam(props) {
 						else props.handleEditCourse("Published");
 			}
 			
-		}
+		
 
 
 	};

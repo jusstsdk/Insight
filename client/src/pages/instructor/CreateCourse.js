@@ -56,7 +56,7 @@ export default function CreateCourse() {
 	const [MissingExamTitle , setMissingExamTitle] = useState(false);
 	const [NoExamQuestions , setNoExamQuestions] = useState(false);
 	const validatePublish = (status) => {
-		setDisplayErrors(false);
+			setDisplayErrors(false);
 			let infoHadErrors = false;
 			let subtitleHadErrors = false;
 			let examHadErrors = false;
@@ -66,18 +66,26 @@ export default function CreateCourse() {
 					setDisplayErrors(true);
 					setInfoHasErrors(true);
 					infoHadErrors = true;
+				} else {
+					setInfoHasErrors(false);
 				}
+
 				if(Subtitles.length === 0 || Subtitles.some((subtitle) => subtitle.videos.length === 0) || 
 				Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
 					setDisplayErrors(true);
 					setSubtitleHasErrors(true);
 					subtitleHadErrors = true;
+				} else {
+					setSubtitleHasErrors(false);
 				}
 				if(ExamTitle === "" || ExamQuestions.length === 0){
 					setDisplayErrors(true);
 					setExamHasErrors(true);
 					examHadErrors = true;
+				} else {
+					setExamHasErrors(false);
 				}
+				
 				if(infoHadErrors || subtitleHadErrors || examHadErrors){
 					return false;
 				} else {
@@ -222,25 +230,19 @@ export default function CreateCourse() {
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addInfo" ? true : false}
-						onClick={() => {
-							setCurrentTab("addInfo");
-						}}>
+						>
 						Info {InfoHasErrors && <MdOutlineError color="red"/>}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addSubtitle" ? true : false}
-						onClick={() => {
-							setCurrentTab("addSubtitle");
-						}}>
+						>
 						Subtitles {SubtitleHasErrors && <MdOutlineError color="red"/>}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addExam" ? true : false}
-						onClick={() => {
-							setCurrentTab("addExam");
-						}}>
+						>
 						Exam {ExamHasErrors && <MdOutlineError color="red"/>}
 					</Breadcrumb.Item>
 				</Breadcrumb>
