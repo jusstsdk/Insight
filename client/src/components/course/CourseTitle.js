@@ -13,18 +13,27 @@ function CourseTitle({
 	corpTraineeOwnsCourse,
 	corpTraineeVersionOfCourse,
 }) {
-	const ExchangeRate = useSelector((state) => state.userReducer.user.exchangeRate);
+	const ExchangeRate = useSelector(
+		(state) => state.userReducer.user.exchangeRate
+	);
 	const userType = useSelector((state) => state.userReducer.type);
 	return (
 		<Row>
 			<Col sm={8}>
 				<Row>
 					<h1 className="fitWidth">{course.title}</h1>
-					<Col sm={1} className="d-flex">
-						<Badge bg="warning" className="lead m-auto fitWidth fitHeight fs-6">
-							#{course.rank}
-						</Badge>
-					</Col>
+					{course.rank > 0 && course.status === "Published" ? (
+						<Col sm={1} className="d-flex">
+							<Badge
+								bg="warning"
+								className="lead m-auto fitWidth fitHeight fs-6"
+							>
+								#{course.rank} Popularity
+							</Badge>
+						</Col>
+					) : (
+						<></>
+					)}
 				</Row>
 				<Col className="d-flex flex-wrap">
 					{course.subjects.map((eachSubject, i) => {
@@ -32,7 +41,8 @@ function CourseTitle({
 							<Badge
 								bg="info"
 								key={"Badge of Subject: " + i + eachSubject}
-								className="lead me-1  mb-2 fitWidth">
+								className="lead me-1  mb-2 fitWidth"
+							>
 								{eachSubject}
 							</Badge>
 						);
@@ -45,7 +55,9 @@ function CourseTitle({
 					<a href="#courseReviews" className="ms-2 mb-0 text-muted my-auto">
 						({course.reviews.length} Ratings)
 					</a>
-					<h5 className="fitWidth  mb-0 mt-auto ms-2 fw-bold ratingColor">{course.rating}</h5>
+					<h5 className="fitWidth  mb-0 mt-auto ms-2 fw-bold ratingColor">
+						{course.rating}
+					</h5>
 					<Rating
 						key={`${course._id}_reviews`}
 						className="fitWidth"
@@ -57,14 +69,17 @@ function CourseTitle({
 				</div>
 				{userType === "CorporateTrainee" ? (
 					!corpTraineeOwnsCourse && (
-						<CorpTraineeRequestCourseAlert course={course}></CorpTraineeRequestCourseAlert>
+						<CorpTraineeRequestCourseAlert
+							course={course}
+						></CorpTraineeRequestCourseAlert>
 					)
 				) : userType === "Trainee" ? (
 					!traineeOwnsCourse && (
 						<TraineeCoursePriceAlert
 							course={course}
 							traineeOwnsCourse={traineeOwnsCourse}
-							traineeVersionOfCourse={traineeVersionOfCourse}></TraineeCoursePriceAlert>
+							traineeVersionOfCourse={traineeVersionOfCourse}
+						></TraineeCoursePriceAlert>
 					)
 				) : (
 					<InstructorPriceAlert course={course}></InstructorPriceAlert>
