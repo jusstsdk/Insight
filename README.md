@@ -1,14 +1,15 @@
 # Educational platform using MERN stack
 # Outline
 - [Description](https://github.com/Advanced-Computer-Lab-2022/Newcomers/new/main?readme=1#description)
-- [Motivation]()
-- [Build Status]()
-- [Code Style]()
-- [Demo]() //gifs
-- [Technologies]()
-- [Architecture]()
-- [Extra Features]()
-- [Installation]()
+- [Motivation](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#motivation)
+- [Build Status](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#build-status)
+- [Code Style](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#code-style)
+- [Demo](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#demo) //gifs
+- [Technologies](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#technologies)
+- [Architecture](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#architecture)
+- [Extra Features](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#extra-features)
+- [Installation](https://github.com/Advanced-Computer-Lab-2022/Newcomers/edit/main/README.md#installation)
+
 ## Description
 This is a university project that we worked on during the semester to train on coding a website from scratch (backend and frontend).
 The premise of the project is to make a web app that serves as an educational platfrom much like other platforms (ex. Udemy, Coursera, etc...).
@@ -22,6 +23,8 @@ the project is a work on progress but mostly finished. it is a rough proof of co
 
 ## Code Style
 we followed these [conventions](https://google.github.io/styleguide/jsguide.html) when writing out code and stuck mostly to camelCase.
+
+## Demo
 
 ## Technologies
 ### Client Side:
