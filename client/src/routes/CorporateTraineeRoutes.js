@@ -9,6 +9,7 @@ import ContinueCourse from "../pages/ContinueCourse";
 import ViewInstructor from "../pages/ViewInstructor";
 import MyReports from "../pages/MyReports";
 import NotFound from "../pages/NotFound";
+import MyCoursesPage from "../pages/sharedTrainee/MyCoursesPage";
 export function CorporateTraineeRoutes() {
 	return (
 		<>
@@ -17,6 +18,7 @@ export function CorporateTraineeRoutes() {
 					<Route path="" element={<Layout />}>
 						<Route path="" element={<CorporateTraineeHome />} />
 						<Route path="courses" element={<Courses />} />
+						<Route path="myCourses" element={<MyCoursesPage />} />
 						<Route
 							path="changePassword"
 							element={<ChangePassword />}

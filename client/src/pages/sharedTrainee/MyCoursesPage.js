@@ -3,13 +3,13 @@ import MyCourses from "../../components/MyCourses";
 import PopularCourses from "../../components/shared/PopularCourses";
 
 
-function TraineeView() {
+function MyCoursesPage() {
 	return (
 		<>
-			<h2>Popular Courses</h2>
-			<PopularCourses />
+			<h2>My Courses</h2>
+			<MyCourses />
 		</>
 	);
 }
 
-export default TraineeView;
+export default MyCoursesPage;
