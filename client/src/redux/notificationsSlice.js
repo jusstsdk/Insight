@@ -11,17 +11,7 @@ export const notificationsSlice = createSlice({
 	},
 	reducers: {
 		addNotification: (state, action) => {
-			MySwal.fire({
-				toast: true,
-				position: 'bottom-end',
-				showConfirmButton: false,
-				timer: 4000,
-				title: <strong>{action.payload.title}</strong>,
-				html: <i>{action.payload.info}</i>,
-				icon: action.payload.color,
-				timerProgressBar: true,
-				grow:'row'
-			});
+			
 		},
 	},
 });

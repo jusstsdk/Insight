@@ -15,6 +15,8 @@ import {
 	setUser,
 } from "../../../redux/userSlice";
 import { addNotification } from "../../../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function CheckoutForm() {
 	const stripe = useStripe();
@@ -22,6 +24,7 @@ export default function CheckoutForm() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 	let courseId = params.id;
 	const userID = useSelector((state) => state.userReducer.user._id);
 	let user = useSelector((state) => state.userReducer.user);
@@ -61,13 +64,18 @@ export default function CheckoutForm() {
 			dispatch(payFromWallet(course.price));
 		}
 
-		dispatch(
-			addNotification({
-				title: "purchase successful",
-				info: "course successfully purchased,you can now access all the content!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>purchase successful</strong>,
+			html: <i>course successfully purchased,you can now access all the content!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		navigate("/");
 
 		// if (error.type === "card_error" || error.type === "validation_error") {

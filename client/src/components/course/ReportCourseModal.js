@@ -7,6 +7,8 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { addNotification } from "../../redux/notificationsSlice";
 import Multiselect from "multiselect-react-dropdown";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function ReportCourseModal(props) {
 	const course = props.course;
@@ -16,6 +18,7 @@ function ReportCourseModal(props) {
 	const courseID = course._id;
 
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING
 	const userID = useSelector((state) => state.userReducer.user._id);
@@ -43,21 +46,31 @@ function ReportCourseModal(props) {
 		handleCloseReportCourseModal();
 		try {
 			let response = await axios(config);
-			dispatch(
-				addNotification({
-					title: "Issue Reported",
-					info: "Report has been sent.",
-					color: "success",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Issue Reported</strong>,
+				html: <i>Report has been sent.</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Error",
-					info: err.data,
-					color: "error",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Error</strong>,
+				html: <i>{err.data}</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
 	}
 

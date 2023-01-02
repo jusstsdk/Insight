@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function CourseProgress(props) {
 	const navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 	const course = props.course;
 	const ownsCourse = props.ownsCourse;
 	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
@@ -54,13 +56,17 @@ function CourseProgress(props) {
 										className="fitWidth ms-auto"
 										variant="warning"
 										onClick={async () => {
-											dispatch(
-												addNotification({
-													title: "Congrats BABE",
-													info: "We have sent your Certificate to you email.",
-													color: "success",
-												})
-											);
+											MySwal.fire({
+												toast: true,
+												position: 'bottom-end',
+												showConfirmButton: false,
+												timer: 4000,
+												title: <strong>Congrats</strong>,
+												html: <i>We have sent your Certificate to you email.</i>,
+												icon: "success",
+												timerProgressBar: true,
+												grow:'row'
+											});
 											await API.post(`/courses/sendCertificate`, {
 												courseTitle: course.title,
 												email: User.email,

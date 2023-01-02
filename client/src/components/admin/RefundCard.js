@@ -12,12 +12,15 @@ import Stars from "../Stars";
 import api from "../../functions/api";
 import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function RefundCard({ request, course }) {
 	const [handled, setHandled] = useState(false);
 	const [show, setShow] = useState(true);
 	const trainee = request.trainee;
 	const token = useSelector((state) => state.userReducer.token);
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	async function handleRefund() {
 		const response = await api.put(
@@ -28,20 +31,23 @@ function RefundCard({ request, course }) {
 			}
 		);
 		setHandled(true);
-		dispatch(
-			addNotification({
-				title: "Course Refunded",
-				info:
-					"Course '" +
-					course.title +
-					"' refunded to " +
-					trainee.username +
-					".\n Amount refunded : " +
-					request.paidPrice +
-					"$",
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: "bottom-end",
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Course Refunded</strong>,
+			html: (
+				<i>
+					{"Course '" + course.title + "' refunded to " +
+					trainee.username + ".\n Amount refunded : " +
+					request.paidPrice + "$"}
+				</i>
+			),
+			icon: "success",
+			timerProgressBar: true,
+			grow: "row",
+		});
 	}
 
 	return (
@@ -69,7 +75,10 @@ function RefundCard({ request, course }) {
 						lg={2}
 					>
 						{!handled && (
-							<Button variant="outline-pinkish" onClick={handleRefund}>
+							<Button
+								variant="outline-pinkish"
+								onClick={handleRefund}
+							>
 								Refund
 							</Button>
 						)}

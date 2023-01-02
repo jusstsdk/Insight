@@ -7,8 +7,11 @@ import { setContent, setContentWatched } from "../redux/continueCourseSlice";
 import { addNotification } from "../redux/notificationsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../functions/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 	let videoUrl = src.split("/");
 	let videoId = videoUrl[videoUrl.length - 1];
 	const User = useSelector((state) => state.userReducer.user);
@@ -39,21 +42,30 @@ const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 				courseTitle: CourseTitle,
 				email: User.email,
 			});
-			dispatch(
-				addNotification({
-					title: "Continue Course",
-					info: "You have completed the Course! We have sent to you your Certificate.",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Continue Course</strong>,
+				html: <i>You have completed the Course! We have sent to you your Certificate.</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
-		dispatch(
-			addNotification({
-				title: "Continue Course",
-				info: "You have watched this video!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Continue Course</strong>,
+			html: <i>You have watched this video!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 
 		// Updates Video status in UserReducer.
 		dispatch(
