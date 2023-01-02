@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API from "../../../functions/api";
 import { Elements } from "@stripe/react-stripe-js";
@@ -7,10 +7,12 @@ import CheckoutForm from "./CheckoutForm";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
+
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);
 	const [clientSecret, setClientSecret] = useState("");
 	const params = useParams();
+	const navigate = useNavigate();
 	let courseId = params.id;
 
 	const wallet = useSelector((state) => state.userReducer.user.wallet);

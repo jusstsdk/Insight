@@ -10,8 +10,6 @@ export default function CorporateTraineeHome() {
 		<>
 			<h2>Popular Courses</h2>
 			<PopularCourses />
-			<h2>My Courses</h2>
-			<MyCourses />
 		</>
 	);
 }
