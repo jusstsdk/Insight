@@ -319,7 +319,7 @@ function UniversalCourseCard(props) {
 										<h5>FREE</h5>
 									) : (
 										<>
-											<h6>{course.price + currency}</h6>
+											<h6>{course.price + " " + currency}</h6>
 
 											<p>
 												<del>{course.originalPrice}</del>{" "}
@@ -378,7 +378,9 @@ function UniversalCourseCard(props) {
 							lg={2}
 						>
 							{displayInstructorEditCourseButtons()}{" "}
-							{course.status != "Draft" &&<Button onClick={handleViewCourse}>View Course</Button>}
+							{course.status != "Draft" && (
+								<Button onClick={handleViewCourse}>View Course</Button>
+							)}
 						</Col>
 					) : (
 						<Col
