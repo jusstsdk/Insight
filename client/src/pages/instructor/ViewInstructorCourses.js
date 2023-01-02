@@ -121,7 +121,7 @@ function ViewInstructorCourses() {
 					{currentCourses.map((course, i) => (
 						<UniversalCourseCard
 							key={"course_" + i}
-							cardType="Deulexe"
+							cardType="Deluxe"
 							course={course}
 							instructorId={instructorId}
 							DetectChange={DetectChange}
@@ -140,7 +140,7 @@ function ViewInstructorCourses() {
 					{currentDrafts.map((course, i) => (
 						<UniversalCourseCard
 							key={"course_" + i}
-							cardType="Deulexe"
+							cardType="Deluxe"
 							course={course}
 							instructorId={instructorId}
 							DetectChange={DetectChange}
@@ -159,7 +159,7 @@ function ViewInstructorCourses() {
 					{currentPublished.map((course, i) => (
 						<UniversalCourseCard
 							key={"course_" + i}
-							cardType="Deulexe"
+							cardType="Deluxe"
 							course={course}
 							instructorId={instructorId}
 							DetectChange={DetectChange}
@@ -178,7 +178,7 @@ function ViewInstructorCourses() {
 					{currentClosed.map((course, i) => (
 						<UniversalCourseCard
 							key={"course_" + i}
-							cardType="Deulexe"
+							cardType="Deluxe"
 							course={course}
 							instructorId={instructorId}
 							DetectChange={DetectChange}

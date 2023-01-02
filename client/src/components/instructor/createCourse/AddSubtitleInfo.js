@@ -59,7 +59,6 @@ export default function AddSubtitleInfo(props) {
 			keyboard={false}
 			size="xl"
 			dialogClassName="modal-90w"
-			aria-labelledby="example-custom-modal-styling-title"
 			centered
 		>
 			<Modal.Header closeButton>
