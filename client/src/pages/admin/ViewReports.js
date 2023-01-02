@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container } from "react-bootstrap";
+import { Card, Col, Container } from "react-bootstrap";
 import axios from "axios";
 import CourseReportsCard from "../../components/admin/CourseReportsCard";
 import Pagination from "../../components/shared/pagination/Pagination";
@@ -28,12 +28,13 @@ function ViewReports() {
 	}, []);
 	return (
 		<Container className="my-2 d-flex flex-wrap">
-			<h1>Reported Courses</h1>
-			{currentCourses.map((course, i) => (
-				<Col sm={3} className="mb-2 me-2">
-					<CourseReportsCard course={course} />
-				</Col>
-			))}
+			<Card.Body className="d-flex flex-wrap">
+				{currentCourses.map((course) => (
+					<Col sm={4} className=" p-1 ">
+						<CourseReportsCard course={course} />
+					</Col>
+				))}
+			</Card.Body>
 			<Pagination
 				className="pagination-bar"
 				currentPage={currentPage}
