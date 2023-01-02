@@ -43,9 +43,13 @@ function CourseProgress(props) {
 									<ProgressBar
 										className="my-auto"
 										variant={
-											hisVersionOfCourse && hisVersionOfCourse.progress === 1 ? "success" : "info"
+											hisVersionOfCourse && hisVersionOfCourse.progress === 1
+												? "success"
+												: "info"
 										}
-										now={hisVersionOfCourse && hisVersionOfCourse.progress * 100}
+										now={
+											hisVersionOfCourse && hisVersionOfCourse.progress * 100
+										}
 										label={`${hisVersionOfCourse.progress * 100}%`}
 									/>
 								</Col>
@@ -58,28 +62,41 @@ function CourseProgress(props) {
 										onClick={async () => {
 											MySwal.fire({
 												toast: true,
-												position: 'bottom-end',
+												position: "bottom-end",
 												showConfirmButton: false,
 												timer: 4000,
 												title: <strong>Congrats</strong>,
-												html: <i>We have sent your Certificate to you email.</i>,
+												html: (
+													<i>We have sent your Certificate to you email.</i>
+												),
 												icon: "success",
 												timerProgressBar: true,
-												grow:'row'
+												grow: "row",
 											});
 											await API.post(`/courses/sendCertificate`, {
 												courseTitle: course.title,
 												email: User.email,
 											});
-										}}>
+											let certif = "Congrats you finished the course.";
+											const blob = new Blob([certif], { type: "text/plain" });
+											const url = URL.createObjectURL(blob);
+											const link = document.createElement("a");
+											link.download = `Certificate.txt`;
+											link.href = url;
+											link.click();
+										}}
+									>
 										Get Certificate
 									</Button>
 								)}
 								{ownsCourse && !traineeAlreadyRequestedRefund && (
 									<Button
-										className={`fitWidth ${hisVersionOfCourse.progress === 1 ? "ms-2" : "ms-auto"}`}
+										className={`fitWidth ${
+											hisVersionOfCourse.progress === 1 ? "ms-2" : "ms-auto"
+										}`}
 										style={{ float: "right" }}
-										onClick={continueCourse}>
+										onClick={continueCourse}
+									>
 										Continue Course
 									</Button>
 								)}

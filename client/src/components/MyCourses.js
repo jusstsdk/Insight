@@ -37,9 +37,7 @@ const MyCourses = () => {
 		CompletedLastPageIndex
 	);
 
-	const coursesWithId = useSelector(
-		(state) => state.userReducer.user.courses
-	);
+	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 
 	async function getCourses() {
 		let newCourses = [];
@@ -64,19 +62,13 @@ const MyCourses = () => {
 				fullCourse.originalPrice = (
 					fullCourse.originalPrice * user.exchangeRate
 				).toFixed(2);
-				fullCourse.price = (
-					fullCourse.price * user.exchangeRate
-				).toFixed(2);
+				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
 
 				newCourses.push(fullCourse);
 			})
 		);
-		setCompletedCourses(
-			newCourses.filter((course) => course.progress === 1)
-		);
-		setInProgressCourses(
-			newCourses.filter((course) => course.progress < 1)
-		);
+		setCompletedCourses(newCourses.filter((course) => course.progress === 1));
+		setInProgressCourses(newCourses.filter((course) => course.progress < 1));
 		setMyCourses(newCourses);
 	}
 
@@ -87,9 +79,7 @@ const MyCourses = () => {
 	return (
 		myCourses && (
 			<div className="course-list">
-				{myCourses.length > 0 ? (
-					<>
-						<Tabs
+				<Tabs
 					defaultActiveKey="InProgress"
 					id="justify-tab-example"
 					className="mb-3"
@@ -107,14 +97,14 @@ const MyCourses = () => {
 								pageSize={pageSize}
 								onPageChange={(page) => setInProgressCurrentPage(page)}
 							/>
-						</div>								
+						</div>
 					</Tab>
 					<Tab eventKey="Completed" title="Completed courses">
 						<div className="course-list">
 							{CompletedCurrentCourses.map((course) => (
 								<UniversalCourseCard course={course} cardType={"Basic"} />
 							))}
-							<Pagination 
+							<Pagination
 								className="pagination-bar"
 								currentPage={CompletedCurrentPage}
 								totalCount={CompletedCourses.length}
@@ -124,10 +114,6 @@ const MyCourses = () => {
 						</div>
 					</Tab>
 				</Tabs>
-					</>
-				) : (
-					<h5 className="text-muted">You don't own any courses</h5>
-				)}
 			</div>
 		)
 	);
