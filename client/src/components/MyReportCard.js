@@ -94,8 +94,7 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 					</ListGroup>
 					{!report.isResolved && (
 						<Form.Group
-							className={`${comments.length === 0 ? "" : "mt-3"} d-flex flex-column`}
-							controlId="Add comment">
+							className={`${comments.length === 0 ? "" : "mt-3"} d-flex flex-column`}>
 							<Form.Label className="text-muted my-auto">Type new comment:</Form.Label>
 							<Form.Control
 								className="my-2"

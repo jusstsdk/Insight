@@ -70,9 +70,7 @@ export default function AddSubtitleInfo(props) {
 			<Modal.Body>
 				<Form.Group
 					as={Row}
-					className="mb-3 d-flex align-items-center justify-content-start"
-					controlId="formHorizontalEmail"
-				>
+					className="mb-3 d-flex align-items-center justify-content-start">
 					<Form.Label column sm={2}>
 						<span>Subtitle title</span>
 						<br />

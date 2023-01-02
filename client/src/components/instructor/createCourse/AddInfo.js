@@ -139,8 +139,7 @@ export default function AddInfo(props) {
 			{/* Title and Price */}
 			<Form.Group
 				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-center"
-				controlId="formHorizontalEmail">
+				className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Title{" "}
 					{props.displayErrors && props.MissingCourseTitle && (

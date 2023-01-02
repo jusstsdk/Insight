@@ -53,7 +53,7 @@ function CreateInstructor() {
 			<Form className="d-flex flex-column justify-content-center" onSubmit={handleCreateInstructor}>
 				<Row className=" justify-content-center">
 					<Col sm={4}>
-						<Form.Group className="mb-3" controlId="formBasicUsername">
+						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic"> Username </Form.Label>
 							<Form.Control ref={Username} type="Username" placeholder="Enter Username" required />
 						</Form.Group>
@@ -61,7 +61,7 @@ function CreateInstructor() {
 				</Row>
 				<Row className=" justify-content-center">
 					<Col sm={4}>
-						<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic">Password</Form.Label>
 							<Form.Control ref={Password} type="password" placeholder="Password" required />
 						</Form.Group>

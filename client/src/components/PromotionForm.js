@@ -46,7 +46,7 @@ export default function PromotionForm({ courses }) {
 		<>
 			<Form onSubmit={setPromotion} className="mb-3 row">
 				<Col sm={3}>
-					<Form.Group className="" controlId="form1">
+					<Form.Group className="" >
 						<Form.Label>Start Date of the promotion</Form.Label>
 						<Form.Control
 							type="date"
@@ -56,7 +56,7 @@ export default function PromotionForm({ courses }) {
 					</Form.Group>
 				</Col>
 				<Col sm={3}>
-					<Form.Group className="" controlId="form12">
+					<Form.Group className="">
 						<Form.Label>End Date of the promotion</Form.Label>
 						<Form.Control
 							type="date"
@@ -66,7 +66,7 @@ export default function PromotionForm({ courses }) {
 					</Form.Group>
 				</Col>
 				<Col sm={3}>
-					<Form.Group className="" controlId="form13">
+					<Form.Group className="">
 						<Form.Label>Discount Amount</Form.Label>
 						<Form.Control
 							placeholder="Amount"

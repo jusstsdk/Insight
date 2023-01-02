@@ -83,9 +83,7 @@ export default function SignUp() {
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
 						<Form.Group
-							className="mb-3"
-							controlId="formBasicFirstName"
-						>
+							className="mb-3">
 							<Form.Label className="fst-italic">
 								First name
 							</Form.Label>
@@ -99,9 +97,7 @@ export default function SignUp() {
 					</Col>
 					<Col sm={4}>
 						<Form.Group
-							className="mb-3"
-							controlId="formBasicLastName"
-						>
+							className="mb-3">
 							<Form.Label className="fst-italic">
 								{" "}
 								Last name{" "}
@@ -118,9 +114,7 @@ export default function SignUp() {
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
 						<Form.Group
-							className="mb-3"
-							controlId="formBasicUsername"
-						>
+							className="mb-3">
 							<Form.Label className="fst-italic">
 								Username
 							</Form.Label>
@@ -134,9 +128,7 @@ export default function SignUp() {
 					</Col>
 					<Col sm={4}>
 						<Form.Group
-							className="mb-3"
-							controlId="formBasicPassword"
-						>
+							className="mb-3">
 							<Form.Label className="fst-italic">
 								Password
 							</Form.Label>
@@ -151,7 +143,7 @@ export default function SignUp() {
 				</Row>
 				<Row sm={8} className="justify-content-center">
 					<Col sm={8}>
-						<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic">
 								Email
 							</Form.Label>
