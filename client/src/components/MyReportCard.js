@@ -30,21 +30,15 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 	return (
 		<>
 			<Card bg="lightGrey" className="h-100">
-				<Card.Header>
-					<Card.Title className="fitWidth">
-						<Row>
-							<Col xs>{report.title}</Col>
-							<Col md="auto">
-								<div style={{ float: "right" }}>
-									{report.isSeen ? (
-										<BsFillEyeFill className="fitWidth" />
-									) : (
-										<BsFillEyeSlashFill className="fitWidth" />
-									)}
-								</div>
-							</Col>
-						</Row>
-					</Card.Title>
+				<Card.Header className="d-flex justify-content-between">
+					<h5>{report.title}</h5>
+					<div style={{ float: "right" }}>
+						{report.isSeen ? (
+							<BsFillEyeFill className="fitWidth" size={20} />
+						) : (
+							<BsFillEyeSlashFill className="fitWidth" size={20} />
+						)}
+					</div>
 				</Card.Header>
 				<Card.Body className="d-flex flex-column justify-content-between">
 					<Row>
@@ -76,8 +70,7 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 						variant="primary"
 						onClick={() => {
 							handleShow();
-						}}
-					>
+						}}>
 						View comments
 					</Button>
 				</Card.Body>
@@ -87,14 +80,36 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 					<Modal.Title>Comments</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<ListGroup>
+					<Row>
+						<Col sm={4}>
+							<h6 className="fitWidth">Title:</h6>
+						</Col>
+						<Col sm={8}>
+							<h6 className="fitWidth">{report.title}</h6>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={4}>
+							<h6 className="fitWidth">Type:</h6>
+						</Col>
+						<Col sm={8}>
+							<h6 className="fitWidth">{report.type}</h6>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={4}>
+							<h6 className="fitWidth">Description:</h6>
+						</Col>
+						<Col sm={8}>
+							<h6 className="fitWidth">{report.description}</h6>
+						</Col>
+					</Row>
+					<ListGroup className="mt-3">
 						{comments.map((comment, i) => (
 							<ListGroup.Item className="reportComments" key={i}>
 								<Row>
 									<Col sm={3}>
-										<h6 className="text-muted my-auto me-2">
-											{comment.username}
-										</h6>
+										<h6 className="text-muted my-auto me-2">{comment.username}</h6>
 										{/* <h6>{comment.username}:</h6> */}
 									</Col>
 									<Col>
@@ -106,14 +121,9 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 					</ListGroup>
 					{!report.isResolved && (
 						<Form.Group
-							className={`${
-								comments.length === 0 ? "" : "mt-3"
-							} d-flex flex-column`}
-							controlId="Add comment"
-						>
-							<Form.Label className="text-muted my-auto">
-								Type new comment:
-							</Form.Label>
+							className={`${comments.length === 0 ? "" : "mt-3"} d-flex flex-column`}
+							controlId="Add comment">
+							<Form.Label className="text-muted my-auto">Type new comment:</Form.Label>
 							<Form.Control
 								className="my-2"
 								as="textarea"
@@ -127,23 +137,6 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 						</Form.Group>
 					)}
 				</Modal.Body>
-				{/* <Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
-					{!report.isResolved && (
-						<Button
-							variant="secondary"
-							onClick={() => {
-								handleReport({ resolved: true });
-								resolvingReport(report);
-								handleClose();
-							}}
-						>
-							Resolve
-						</Button>
-					)}
-				</Modal.Footer> */}
 			</Modal>
 		</>
 	);
