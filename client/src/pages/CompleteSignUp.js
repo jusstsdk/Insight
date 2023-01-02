@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import updateCurrency from "../functions/updateCurrency";
 import { login, setUser } from "../redux/userSlice";
-import {Col, Container, Modal, Row, Spinner } from "react-bootstrap";
-
+import { Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 
 export default function CompleteSignUp() {
 	const dispatch = useDispatch();
@@ -37,6 +36,7 @@ export default function CompleteSignUp() {
 
 	async function handleFinishSignUp(e) {
 		e.preventDefault();
+		console.log(email);
 		setIsLoggingIn(true);
 		const config = {
 			method: "PUT",
@@ -48,7 +48,7 @@ export default function CompleteSignUp() {
 				lastName: lastName.current.value,
 				gender: gender,
 				country: country,
-				biography: biography.current.value,
+				biography: "",
 			},
 		};
 		try {
@@ -111,75 +111,6 @@ export default function CompleteSignUp() {
 						</Form.Group>
 					</Col>
 				</Row>
-				<Form.Group className={userType == "CorporateTrainee" ? "d-none" : ""}>
-					<Form.Label className="fst-italic"> Biography </Form.Label>
-					<Form.Control ref={biography} placeholder="Enter Biography" as="textarea" rows={3} />
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						ref={email}
-						type="email"
-						placeholder="Enter Email"
-						required
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>First name</Form.Label>
-					<Form.Control
-						ref={firstName}
-						type="firstName"
-						placeholder="Enter firstName"
-						required
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Last name</Form.Label>
-					<Form.Control
-						ref={lastName}
-						type="lastName"
-						placeholder="Enter lastName"
-						required
-					/>
-				</Form.Group>
-				<Form.Group className={userType == "CorporateTrainee" ? "d-none" : ""}>
-					<Form.Label> Biography </Form.Label>
-					<Form.Control
-						ref={biography}
-						placeholder="Enter Biography"
-						as="textarea"
-						rows={3}
-					/>
-				</Form.Group>
-				<Form.Select
-					value={gender}
-					onChange={(e) => {
-						setGender(e.target.value);
-					}}
-					aria-label="Default select example"
-					required="true"
-				>
-					<option value="" className="fst-italic">
-						Select Gender
-					</option>
-					<option value="male">Male</option>
-					<option value="female">Female</option>
-				</Form.Select>
-				<CountryDropdown
-					Country={country}
-					setCountry={setCountry}
-					required={true}
-				/>
-				
-				{isLoggingIn ? (
-					<Button variant="primary" disabled>
-						<Spinner
-							as="span"
-							animation="border"
-							size="sm"
-							role="status"
-							aria-hidden="true"
-							className="me-1"
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
 						<Form.Label className="fst-italic"> Gender </Form.Label>
@@ -204,18 +135,13 @@ export default function CompleteSignUp() {
 				</Row>
 				<Row sm={8} className="mt-3">
 					<Form.Group>
-					<Container className="d-flex">
-						<Form.Check
-							className="my-auto"
-							type="checkbox"
-							label="I agree to the"
-							required
-						/>
-						<Button variant="link" onClick={handleShowTermsModal}>
-							terms and conditions
-						</Button>
-					</Container>
-				</Form.Group>
+						<Container className="d-flex">
+							<Form.Check className="my-auto" type="checkbox" label="I agree to the" required />
+							<Button variant="link" onClick={handleShowTermsModal}>
+								terms and conditions
+							</Button>
+						</Container>
+					</Form.Group>
 				</Row>
 				<Col sm={2} className="d-flex flex-column mx-auto mt-2">
 					{isLoggingIn ? (
@@ -244,18 +170,17 @@ export default function CompleteSignUp() {
 				<Modal.Body>
 					<h5>As an Instructor:</h5>
 					<p className="text-muted">
-						You give up all rights to all content, videos, exercises, emails,
-						ads. Money wise we will take 90% of all money paid on our platform.
+						You give up all rights to all content, videos, exercises, emails, ads. Money wise we
+						will take 90% of all money paid on our platform.
 					</p>
 					<h5>As an Coporate Trainee:</h5>
 					<p className="text-muted">
-						You will be beholden to your companies policies and what they allow
-						you to subscribe to.
+						You will be beholden to your companies policies and what they allow you to subscribe to.
 					</p>
 					<h5>As a Trainee:</h5>
 					<p className="text-muted">
-						You allow us to take collect and sell data about you, including your
-						name,email,credit card number.
+						You allow us to take collect and sell data about you, including your name,email,credit
+						card number.
 					</p>
 				</Modal.Body>
 				<Modal.Footer>
