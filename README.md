@@ -25,6 +25,8 @@ the project is a work on progress but mostly finished. it is a rough proof of co
 we followed these [conventions](https://google.github.io/styleguide/jsguide.html) when writing out code and stuck mostly to camelCase.
 
 ## Demo
+![clideo_editor_ce1eaeb2f689453e9277bcde138596fc](https://user-images.githubusercontent.com/74183135/210194252-f7aa9905-8e7b-4ca3-904a-98d61ca292b1.gif)
+![clideo_editor_b496bcba169147528d13f286c57c6dc5-_1_](https://user-images.githubusercontent.com/74183135/210194288-4b366091-41a4-437e-875c-c8684008b4a2.gif)
 
 ## Technologies
 ### Client Side:
