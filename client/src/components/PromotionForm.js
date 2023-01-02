@@ -56,7 +56,7 @@ export default function PromotionForm({ courses }) {
 		dispatch(
 			addNotification({
 				title: "Success",
-				info: response.data,
+				info: "Discount has been set successfully.",
 				color: "success",
 			})
 		);
