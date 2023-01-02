@@ -11,9 +11,16 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 	const dispatch = useDispatch();
+	const getYouTubeVideoIdFromUrl = (url) => {
+		// Our regex pattern to look for a youTube ID
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+		//Match the url with the regex
+		const match = url.match(regExp);
+		//Return the result
+		return match && match[2].length === 11 ? match[2] : undefined;
+	};
+	let videoId = getYouTubeVideoIdFromUrl(src);
 	const MySwal = withReactContent(Swal);
-	let videoUrl = src.split("/");
-	let videoId = videoUrl[videoUrl.length - 1];
 	const User = useSelector((state) => state.userReducer.user);
 	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);

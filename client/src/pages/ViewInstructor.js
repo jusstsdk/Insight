@@ -66,7 +66,7 @@ export default function ViewInstructor({ isInstructor }) {
 				});
 			}
 		} catch (err) {
-			navigate("/notFound");
+			//navigate("/notFound");
 			console.log(err);
 		}
 	};

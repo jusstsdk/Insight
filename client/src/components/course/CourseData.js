@@ -2,10 +2,15 @@ import { Card, Col, Row } from "react-bootstrap";
 import YouTube from "react-youtube";
 import CourseInstructorsList from "./CourseInstructorsList";
 function CourseData({ course, instructors }) {
-	let videoId;
-	if (course.previewVideo.includes("watch?v=")) videoId = course.previewVideo.split("watch?v=")[1];
-	else videoId = course.previewVideo.split("/")[course.previewVideo.split("/").length - 1];
-	videoId = videoId.split("&")[0];
+	const getYouTubeVideoIdFromUrl = (url) => {
+		// Our regex pattern to look for a youTube ID
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+		//Match the url with the regex
+		const match = url.match(regExp);
+		//Return the result
+		return match && match[2].length === 11 ? match[2] : undefined;
+	};
+	let videoId = getYouTubeVideoIdFromUrl(course.previewVideo);
 	return (
 		<Row>
 			{/* Summary */}

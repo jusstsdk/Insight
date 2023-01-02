@@ -53,7 +53,12 @@ const createInstructor = async (req, res) => {
 	// add to the database
 	try {
 		let instructorInfo = req.body;
-		instructorInfo.password = await bcrypt.hash(instructorInfo.password, 10);
+		if (instructorInfo.password) {
+			instructorInfo.password = await bcrypt.hash(
+				instructorInfo.password,
+				10
+			);
+		}
 		let instructor = await Instructor.create(instructorInfo);
 		let token = instructor.generateAuthToken();
 		res.status(200).json({
@@ -91,10 +96,12 @@ const updateInstructor = async (req, res) => {
 		return res.status(400).json({ error: "No such instructor" });
 	}
 	let instructorInfo = req.body;
-	instructorInfo.password = await bcrypt.hash(
-		instructorInfo.password,
-		10
-	);
+	if (instructorInfo.password) {
+		instructorInfo.password = await bcrypt.hash(
+			instructorInfo.password,
+			10
+		);
+	}
 	const instructor = await Instructor.findOneAndUpdate(
 		{ _id: instructorId },
 		instructorInfo,
