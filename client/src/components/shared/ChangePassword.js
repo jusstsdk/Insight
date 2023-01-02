@@ -4,13 +4,15 @@ import { Form, Col, Button } from "react-bootstrap";
 
 import { addNotification } from "../../redux/notificationsSlice";
 import axios from "axios";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function ChangePassword() {
 	const dispatch = useDispatch();
 	const password = useRef();
 	const confirmPassword = useRef();
 	const token = useSelector((state) => state.userReducer.token);
 	const [error, setError] = useState(false);
+	const MySwal = withReactContent(Swal);
 
 	const handleChangePassword = async () => {
 		try {
@@ -27,22 +29,30 @@ function ChangePassword() {
 
 			await axios(config);
 
-			dispatch(
-				addNotification({
-					title: "Change password",
-					info: "Changed password Successfully!",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Change password</strong>,
+				html: <i>Changed password Successfully!</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			setError(false);
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Change password",
-					info: "Changing password Failed!",
-					color: "error",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Change password</strong>,
+				html: <i>Changing password Failed!</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
 	};
 	return (

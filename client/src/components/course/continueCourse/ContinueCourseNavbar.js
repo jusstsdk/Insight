@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import API from "../../../functions/api";
 import { addNotification } from "../../../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export default function ContinueCourseNavbar({ Course, handleNext, handlePrevious }) {
 	// Setup
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 
 	// Page Control
 	const User = useSelector((state) => state.userReducer.user);
@@ -67,13 +70,18 @@ export default function ContinueCourseNavbar({ Course, handleNext, handlePreviou
 									variant="link"
 									className="ms-3 blackText "
 									onClick={async () => {
-										dispatch(
-											addNotification({
-												title: "Continue Course",
-												info: "We have sent to you your Certificate.",
-												color: "success",
-											})
-										);
+						
+										MySwal.fire({
+											toast: true,
+											position: 'bottom-end',
+											showConfirmButton: false,
+											timer: 4000,
+											title: <strong>Continue Course</strong>,
+											html: <i>We have sent to you your Certificate.</i>,
+											icon: "success",
+											timerProgressBar: true,
+											grow:'row'
+										});
 										await API.post(`/courses/sendCertificate`, {
 											courseTitle: Course.title,
 											email: User.email,

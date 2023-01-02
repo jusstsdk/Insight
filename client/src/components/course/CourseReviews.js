@@ -33,12 +33,15 @@ import { addNotification } from "../../redux/notificationsSlice";
 import { payFromWallet } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import RatingStats from "../RatingStats";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function CourseReviews(props) {
 	const course = props.course;
 	const setCourse = props.setCourse;
 	const getCourseFromDB = props.getCourseFromDB;
 	const ownsCourse = props.ownsCourse;
+	const MySwal = withReactContent(Swal);
 
 	const userType = useSelector((state) => state.userReducer.type);
 	const userID = useSelector((state) => state.userReducer.user._id);
@@ -108,13 +111,17 @@ function CourseReviews(props) {
 
 			dispatch(setCourseRefund(courseID));
 
-			dispatch(
-				addNotification({
-					title: "Refund Requested",
-					info: "We've recieved your refund request. You can no longer view the course.",
-					color: "error",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Refund Requested</strong>,
+				html: <i>We've recieved your refund request. You can no longer view the course.</i>,
+				icon: "info",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		} catch (err) {
 			console.log(err);
 		}
@@ -168,6 +175,7 @@ function CourseReviews(props) {
 											<>
 												<Button
 													className="ms-2"
+													variant="outline-primary"
 													onClick={handleShowReviewCourseModal}
 												>
 													Review
@@ -178,7 +186,7 @@ function CourseReviews(props) {
 											!traineePastFiftyPercentOfCourse && (
 												<Button
 													className="ms-2"
-													variant={traineeCanRefund ? "warning" : "secondary"}
+													variant={traineeCanRefund ? "outline-warning" : "outline-secondary"}
 													onClick={handleShowRefundCourseModal}
 													disabled={!traineeCanRefund}
 												>
@@ -192,7 +200,7 @@ function CourseReviews(props) {
 							{userType !== "Administrator" && (
 								<Button
 									className="ms-2"
-									variant="outline-secondary2"
+									variant="outline-danger"
 									onClick={handleShowReportCourseModal}
 								>
 									Report

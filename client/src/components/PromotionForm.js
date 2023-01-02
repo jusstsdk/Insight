@@ -3,6 +3,8 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../functions/api";
 import { addNotification } from "../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function PromotionForm({ courses }) {
 	const startDate = useRef();
@@ -10,6 +12,7 @@ export default function PromotionForm({ courses }) {
 	const discount = useRef();
 	const userType = useSelector((state) => state.userReducer.type);
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	async function setPromotion(e) {
 		e.preventDefault();
@@ -35,13 +38,17 @@ export default function PromotionForm({ courses }) {
 		}
 
 		if (endDate.current.value < startDate.current.value) {
-			dispatch(
-				addNotification({
-					title: "You entered wrong information.",
-					info: "Start date must be before end date.",
-					color: "error",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>You entered wrong information.</strong>,
+				html: <i>Start date must be before end date.</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			return;
 		}
 
@@ -53,14 +60,18 @@ export default function PromotionForm({ courses }) {
 			offeredBy: userType,
 		});
 
-		dispatch(
-			addNotification({
-				title: "Success",
-				info: "Discount has been set successfully.",
-				color: "success",
-			})
-		);
-	}	
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Success</strong>,
+			html: <i>Promotion set successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
+	}
 
 	return (
 		<>

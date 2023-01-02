@@ -40,7 +40,7 @@ function RequestHistoryCard({ request, course }) {
 						<Card.Title className="courseCardTitle">{course.title}</Card.Title>
 						<Col sm={6}>
 							{course.subjects.map((subject, i) => (
-								<Badge bg="dark" key={"subject_badge_" + i} className="p-2 mx-1 ">
+								<Badge key={"subject_badge_" + i} className="p-2 mx-1 ">
 									{subject}
 								</Badge>
 							))}

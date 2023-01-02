@@ -7,10 +7,13 @@ import API from "../../functions/api";
 import { setUser } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function EditProfile() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 	const User = useSelector((state) => state.userReducer.user);
 	const [Email, setEmail] = useState(
 		useSelector((state) => state.userReducer.user.email)
@@ -29,21 +32,31 @@ function EditProfile() {
 			updatedUser.email = Email;
 			updatedUser.biography = Biography;
 			dispatch(setUser(updatedUser));
-			dispatch(
-				addNotification({
-					title: "Edit Profile",
-					info: "Updated Profile Successfully!",
-					color: "success",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Edit Profile</strong>,
+				html: <i>Updated Profile Successfully!</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Edit Profile",
-					info: "Updating Profile Failed!",
-					color: "error",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Edit Profile</strong>,
+				html: <i>Updating Profile Failed!</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
 		navigate("/instructor");
 	};

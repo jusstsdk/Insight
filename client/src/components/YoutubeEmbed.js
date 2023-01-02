@@ -7,10 +7,20 @@ import { setContent, setContentWatched } from "../redux/continueCourseSlice";
 import { addNotification } from "../redux/notificationsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import API from "../functions/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 	const dispatch = useDispatch();
-	let videoUrl = src.split("/");
-	let videoId = videoUrl[videoUrl.length - 1];
+	const getYouTubeVideoIdFromUrl = (url) => {
+		// Our regex pattern to look for a youTube ID
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+		//Match the url with the regex
+		const match = url.match(regExp);
+		//Return the result
+		return match && match[2].length === 11 ? match[2] : undefined;
+	};
+	let videoId = getYouTubeVideoIdFromUrl(src);
+	const MySwal = withReactContent(Swal);
 	const User = useSelector((state) => state.userReducer.user);
 	const UserType = useSelector((state) => state.userReducer.type);
 	const Content = useSelector((state) => state.continueCourseReducer.content);
@@ -39,21 +49,30 @@ const YoutubeEmbed = ({ src, CourseId, CourseTitle }) => {
 				courseTitle: CourseTitle,
 				email: User.email,
 			});
-			dispatch(
-				addNotification({
-					title: "Continue Course",
-					info: "You have completed the Course! We have sent to you your Certificate.",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Continue Course</strong>,
+				html: <i>You have completed the Course! We have sent to you your Certificate.</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
-		dispatch(
-			addNotification({
-				title: "Continue Course",
-				info: "You have watched this video!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Continue Course</strong>,
+			html: <i>You have watched this video!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 
 		// Updates Video status in UserReducer.
 		dispatch(

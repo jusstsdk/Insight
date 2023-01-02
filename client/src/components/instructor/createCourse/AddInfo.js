@@ -20,13 +20,9 @@ export default function AddInfo(props) {
 	const user = useSelector((state) => state.userReducer.user);
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
-	const InfoOriginalPrice = useSelector(
-		(state) => state.courseInfoReducer.originalPrice
-	);
-	const InfoPreviewVideo = useSelector(
-		(state) => state.courseInfoReducer.previewVideo
-	);
-	
+	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
+	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+
 	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
 	const SummaryRef = useRef();
 
@@ -34,6 +30,15 @@ export default function AddInfo(props) {
 		SummaryRef.current.style.height = "auto";
 		SummaryRef.current.style.height = SummaryRef.current.scrollHeight + "px";
 	};
+	const getYouTubeVideoIdFromUrl = (url) => {
+		// Our regex pattern to look for a youTube ID
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+		//Match the url with the regex
+		const match = url.match(regExp);
+		//Return the result
+		return match && match[2].length === 11 ? match[2] : undefined;
+	};
+
 	const validatePreviewUrl = async (url) => {
 		let invalidUrl = false;
 		if (url === "") {
@@ -41,12 +46,8 @@ export default function AddInfo(props) {
 			props.setBadPreviewUrl(false);
 		} else {
 			props.setMissingPreviewVideo(false);
-			let videoId;
-			if (url.includes("watch?v=")) {
-				videoId = url.split("watch?v=")[1];
-			} else {
-				videoId = url.split("/")[url.split("/").length - 1];
-			}
+
+			let videoId = getYouTubeVideoIdFromUrl(url);
 			let response = await API.get(
 				`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=AIzaSyBEiJPdUdU5tpzqmYs7h-RPt6J8VoXeyyY`
 			);
@@ -59,7 +60,7 @@ export default function AddInfo(props) {
 				props.setBadPreviewUrl(false);
 			}
 		}
-	}
+	};
 
 	const handleNext = async () => {
 		if (InfoTitle === "") {
@@ -67,7 +68,7 @@ export default function AddInfo(props) {
 		} else {
 			props.setMissingCourseTitle(false);
 		}
-		if (InfoOriginalPrice<0){
+		if (InfoOriginalPrice < 0) {
 			props.setInvalidPrice(true);
 		} else {
 			props.setInvalidPrice(false);
@@ -106,24 +107,6 @@ export default function AddInfo(props) {
 		} else {
 			props.setMissingSubjects(false);
 		}
-		if (
-			InfoTitle === "" ||
-			InfoSummary === "" ||
-			InfoPreviewVideo === "" || invalidUrl ||
-			InfoSubjects.length === 0 || InfoOriginalPrice<0
-		) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Please fill in all fields in the Info tab with valid info!`,
-					color: "error",
-				})
-			);
-			
-		} else {
-			console.log(InfoTitle);
-			
-		}
 		props.setCurrentTab("addSubtitle");
 	};
 
@@ -137,9 +120,7 @@ export default function AddInfo(props) {
 				</Col>
 			</Col>
 			{/* Title and Price */}
-			<Form.Group
-				as={Row}
-				className="mb-3 d-flex align-items-center justify-content-center">
+			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-center">
 				<Form.Label column sm={1}>
 					Title{" "}
 					{props.displayErrors && props.MissingCourseTitle && (
@@ -172,7 +153,11 @@ export default function AddInfo(props) {
 							dispatch(setOriginalPrice(e.target.value));
 						}}
 					/>
-					{props.displayErrors && props.InvalidPrice && <h6 className="error">Invalid Price <MdOutlineError/></h6>}
+					{props.displayErrors && props.InvalidPrice && (
+						<h6 className="error">
+							Invalid Price <MdOutlineError />
+						</h6>
+					)}
 				</Col>
 			</Form.Group>
 

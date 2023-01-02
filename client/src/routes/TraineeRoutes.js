@@ -10,6 +10,7 @@ import ContinueCourse from "../pages/ContinueCourse";
 import ViewInstructor from "../pages/ViewInstructor";
 import MyReports from "../pages/MyReports";
 import NotFound from "../pages/NotFound";
+import MyCoursesPage from "../pages/sharedTrainee/MyCoursesPage";
 
 export function TraineeRoutes() {
 	return (
@@ -19,6 +20,7 @@ export function TraineeRoutes() {
 					<Route path="" element={<Layout />}>
 						<Route path="" element={<TraineeView />} />
 						<Route path="courses" element={<Courses />} />
+						<Route path="myCourses" element={<MyCoursesPage />} />
 						<Route path="courses/:id" element={<CoursePage />} />
 						<Route
 							path="courses/:id/payment"

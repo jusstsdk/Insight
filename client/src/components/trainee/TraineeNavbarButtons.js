@@ -15,6 +15,13 @@ export default function TraineeNavbarButtons() {
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
+					navigate("myCourses");
+				}}
+			>
+				My Courses
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
 					navigate("myReports");
 				}}
 			>

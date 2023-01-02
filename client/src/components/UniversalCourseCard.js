@@ -24,14 +24,17 @@ import {
 
 import { addNotification } from "../redux/notificationsSlice";
 import { deleteCourseInstructor } from "../redux/userSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function UniversalCourseCard(props) {
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	const course = props.course;
 	const cardType = props.cardType;
 
-	//DEULEXE EDITION STUFF
+	//deluxe EDITION STUFF
 	const instructorId = props.instructorId;
 
 	//DISCOUNT EDITION STUFF
@@ -45,7 +48,7 @@ function UniversalCourseCard(props) {
 
 	//price data (owned/refunded/price etc)
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
-	const [traineeRequestedRefund, setTraineeRequestedrefund] = useState(false);
+	const [traineeRequestedRefund, setTraineeRequestedRefund] = useState(false);
 
 	const [
 		corpTraineeAlreadyRequestedAccess,
@@ -57,12 +60,12 @@ function UniversalCourseCard(props) {
 
 	useEffect(() => {
 		setTraineeOwnsCourse(false);
-		setTraineeRequestedrefund(false);
+		setTraineeRequestedRefund(false);
 		if (userType === "Trainee" || userType === "CorporateTrainee") {
 			user.courses.forEach((userCourse) => {
 				if (userCourse.course === course._id) {
 					if (userCourse.requestedRefund) {
-						setTraineeRequestedrefund(true);
+						setTraineeRequestedRefund(true);
 					} else {
 						setTraineeOwnsCourse(true);
 					}
@@ -107,7 +110,7 @@ function UniversalCourseCard(props) {
 		);
 	}
 
-	//DEULEXE EDITION STUFF : EDIT COURSE fOR INSTRUCOTR TO EDIT SHIT
+	//deluxe EDITION STUFF : EDIT COURSE fOR instructor TO EDIT SHIT
 	const handleEditCourse = () => {
 		dispatch(setInfo(course));
 		dispatch(setExamsAndSubtitles(course));
@@ -120,13 +123,18 @@ function UniversalCourseCard(props) {
 		await API.put(`/courses/${course._id}`, { status: "Published" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Published Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Published Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -134,13 +142,17 @@ function UniversalCourseCard(props) {
 		await API.put(`/courses/${course._id}`, { status: "Closed" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Closed Successfully!",
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Closed Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -152,13 +164,18 @@ function UniversalCourseCard(props) {
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
 		dispatch(deleteCourseInstructor({ courseId: props.course._id }));
-		dispatch(
-			addNotification({
-				title: "Delete Course",
-				info: "Draft Deleted Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Delete Course</strong>,
+			html: <i>Draft Deleted Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -239,7 +256,7 @@ function UniversalCourseCard(props) {
 							return courseInstructor._id === user._id;
 						})) ||
 						userType === "Administrator") &&
-					cardType === "Deulexe" && (
+					cardType === "Deluxe" && (
 						<Badge
 							pill
 							bg={course.status === "Draft" ? "secondary" : "success"}
@@ -370,7 +387,7 @@ function UniversalCourseCard(props) {
 								</>
 							)}
 						</Col>
-					) : cardType === "Deulexe" ? (
+					) : cardType === "Deluxe" ? (
 						<Col
 							className="ms-auto fitWidth d-flex  justify-content-end"
 							sm={2}

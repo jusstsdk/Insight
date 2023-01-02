@@ -17,30 +17,43 @@ import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles"
 import API from "../../functions/api";
 import subjects from "../../functions/subjects";
 import { MdOutlineError } from "react-icons/md";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
+	const MySwal = withReactContent(Swal);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
 
-	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
+	const ExamTitle = useSelector(
+		(state) => state.createCourseReducer.examTitle
+	);
 	const ExamQuestions = useSelector(
 		(state) => state.createCourseReducer.examQuestions
 	);
-	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
+	const Subtitles = useSelector(
+		(state) => state.createCourseReducer.subtitles
+	);
 
 	const InfoTitle = useSelector((state) => state.courseInfoReducer.title);
 	const InfoSummary = useSelector((state) => state.courseInfoReducer.summary);
 
-	const InfoOriginalPrice = useSelector((state) => state.courseInfoReducer.originalPrice);
-	const InfoPreviewVideo = useSelector((state) => state.courseInfoReducer.previewVideo);
+	const InfoOriginalPrice = useSelector(
+		(state) => state.courseInfoReducer.originalPrice
+	);
+	const InfoPreviewVideo = useSelector(
+		(state) => state.courseInfoReducer.previewVideo
+	);
 	const [BadPreviewUrl, setBadPreviewUrl] = useState(false);
 
-	const InfoSubjects = useSelector((state) => state.courseInfoReducer.subjects);
+	const InfoSubjects = useSelector(
+		(state) => state.courseInfoReducer.subjects
+	);
 	//breadcrumb errors
 	const [displayErrors, setDisplayErrors] = useState(false);
 	const [InfoHasErrors, setInfoHasErrors] = useState(false);
@@ -55,57 +68,125 @@ export default function CreateCourse() {
 	//addSubtitles errors
 	const [NoSubtitles, setNoSubtitles] = useState(false);
 	const [MissingVideos, setMissingVideos] = useState(false);
-	const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] = useState(false);
+	const [ExcersisesMissingQuestions, setExcersisesMissingQuestions] =
+		useState(false);
 	//addExam errors
-	const [MissingExamTitle , setMissingExamTitle] = useState(false);
-	const [NoExamQuestions , setNoExamQuestions] = useState(false);
+	const [MissingExamTitle, setMissingExamTitle] = useState(false);
+	const [NoExamQuestions, setNoExamQuestions] = useState(false);
 	const validatePublish = (status) => {
-			setDisplayErrors(false);
-			let infoHadErrors = false;
-			let subtitleHadErrors = false;
-			let examHadErrors = false;
-			if(status === "Published"){
-				if(InfoTitle === "" || InfoSummary === "" || InfoOriginalPrice === "" || InfoPreviewVideo === "" || BadPreviewUrl || InfoSubjects.length === 0
-				){
-					setDisplayErrors(true);
-					setInfoHasErrors(true);
-					infoHadErrors = true;
-				} else {
-					setInfoHasErrors(false);
-				}
+		setDisplayErrors(false);
+		let infoHadErrors = false;
+		let subtitleHadErrors = false;
+		let examHadErrors = false;
+		if (status === "Published") {
+			if (
+				InfoTitle === "" ||
+				InfoSummary === "" ||
+				InfoOriginalPrice === "" ||
+				InfoPreviewVideo === "" ||
+				BadPreviewUrl ||
+				InfoSubjects.length === 0
+			) {
+				setDisplayErrors(true);
+				setInfoHasErrors(true);
+				infoHadErrors = true;
+			} else {
+				setInfoHasErrors(false);
+			}
 
-				if(Subtitles.length === 0 || Subtitles.some((subtitle) => subtitle.videos.length === 0) || 
-				Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
-					setDisplayErrors(true);
-					setSubtitleHasErrors(true);
-					subtitleHadErrors = true;
-				} else {
-					setSubtitleHasErrors(false);
-				}
-				if(ExamTitle === "" || ExamQuestions.length === 0){
-					setDisplayErrors(true);
-					setExamHasErrors(true);
-					examHadErrors = true;
-				} else {
-					setExamHasErrors(false);
-				}
-				
-				if(infoHadErrors || subtitleHadErrors || examHadErrors){
-					return false;
-				} else {
-					return true;
-				}
+			if (
+				Subtitles.length === 0 ||
+				Subtitles.some((subtitle) => subtitle.videos.length === 0) ||
+				Subtitles.some((subtitle) =>
+					subtitle.exercises.some(
+						(exercise) => exercise.questions.length === 0
+					)
+				)
+			) {
+				setDisplayErrors(true);
+				setSubtitleHasErrors(true);
+				subtitleHadErrors = true;
+			} else {
+				setSubtitleHasErrors(false);
+			}
+			if (ExamTitle === "" || ExamQuestions.length === 0) {
+				setDisplayErrors(true);
+				setExamHasErrors(true);
+				examHadErrors = true;
+			} else {
+				setExamHasErrors(false);
+			}
 
+			if (infoHadErrors || subtitleHadErrors || examHadErrors) {
+				if (infoHadErrors) {
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Info tab error</strong>,
+						html: (
+							<i>
+								Please fill out all the fields in the info tab
+								with valid data
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
+				}
+				if (subtitleHadErrors) {
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Subtitles tab error</strong>,
+						html: (
+							<i>
+								Make sure you have at least one subtitle and
+								that each subtitle has at least one video and
+								that each exercise has at least one question
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
+				}
+				if (examHadErrors) {
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Exam tab error</strong>,
+						html: (
+							<i>
+								Make sure you have an exam title and at least
+								one question
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
+				}
+				return false;
 			} else {
 				return true;
 			}
-	}
+		} else {
+			return true;
+		}
+	};
 
 	const handleCreateCourse = async (status) => {
 		let valid = validatePublish(status);
-			if(!valid){
-				return;
-			}
+		if (!valid) {
+			return;
+		}
 		const config = {
 			method: "POST",
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
@@ -113,7 +194,9 @@ export default function CreateCourse() {
 			data: {
 				title: InfoTitle,
 				summary: InfoSummary,
-				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(2),
+				originalPrice: (InfoOriginalPrice / user.exchangeRate).toFixed(
+					2
+				),
 				previewVideo: InfoPreviewVideo,
 				instructors: [user._id],
 				subjects: InfoSubjects,
@@ -129,33 +212,45 @@ export default function CreateCourse() {
 
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Course ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Course ${
 						status === "Draft" ? "saved" : "published"
-					} successfully`,
-					color: "success",
-				})
-			);
+					} successfully`}</i>
+				),
+				icon: "success",
+				timerProgressBar: true,
+				grow: "row",
+			});
 			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Error while ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Error while ${
 						status === "Draft" ? "saving" : "publishing"
-					} course!`,
-					color: "error",
-				})
-			);
+					} course!`}</i>
+				),
+				icon: "error",
+				timerProgressBar: true,
+				grow: "row",
+			});
 		}
 	};
 
 	const handleEditCourse = async (status) => {
 		try {
 			let valid = validatePublish(status);
-			if(!valid){
+			if (!valid) {
 				return;
 			}
 
@@ -172,57 +267,86 @@ export default function CreateCourse() {
 			});
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Course ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Course ${
 						status === "Draft" ? "saved" : "published"
-					} successfully`,
-					color: "success",
-				})
-			);
+					} successfully`}</i>
+				),
+				icon: "success",
+				timerProgressBar: true,
+				grow: "row",
+			});
 			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Error while ${
+			
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Error while ${
 						status === "Draft" ? "saving" : "publishing"
-					} course!`,
-					color: "error",
-				})
-			);
+					} course!`}</i>
+				),
+				icon: "error",
+				timerProgressBar: true,
+				grow: "row",
+			});
 		}
 	};
-	
+
 	const displayView = () => {
 		switch (CurrentTab) {
 			case "addInfo":
-				return <AddInfo
-						 setCurrentTab={setCurrentTab} 
-						 MissingCourseTitle={MissingCourseTitle} setMissingCourseTitle={setMissingCourseTitle}
-						 MissingSummary={MissingSummary} setMissingSummary={setMissingSummary}
-						 MissingSubjects={MissingSubjects}  setMissingSubjects={setMissingSubjects}
-						 InvalidPrice={InvalidPrice}  setInvalidPrice={setInvalidPrice}
-						 MissingPreviewVideo={MissingPreviewVideo} setMissingPreviewVideo={setMissingPreviewVideo}
-						 BadPreviewUrl={BadPreviewUrl} setBadPreviewUrl={setBadPreviewUrl} 
-						 displayErrors={displayErrors}
-					/>;
+				return (
+					<AddInfo
+						setCurrentTab={setCurrentTab}
+						MissingCourseTitle={MissingCourseTitle}
+						setMissingCourseTitle={setMissingCourseTitle}
+						MissingSummary={MissingSummary}
+						setMissingSummary={setMissingSummary}
+						MissingSubjects={MissingSubjects}
+						setMissingSubjects={setMissingSubjects}
+						InvalidPrice={InvalidPrice}
+						setInvalidPrice={setInvalidPrice}
+						MissingPreviewVideo={MissingPreviewVideo}
+						setMissingPreviewVideo={setMissingPreviewVideo}
+						BadPreviewUrl={BadPreviewUrl}
+						setBadPreviewUrl={setBadPreviewUrl}
+						displayErrors={displayErrors}
+					/>
+				);
 			case "addSubtitle":
-				return <AddSubtitles
-						 setCurrentTab={setCurrentTab}
-						 NoSubtitles={NoSubtitles} setNoSubtitles={setNoSubtitles}
-						 MissingVideos={MissingVideos} setMissingVideos={setMissingVideos}
-						 ExcersisesMissingQuestions={ExcersisesMissingQuestions} 
-						 setExcersisesMissingQuestions={setExcersisesMissingQuestions}
-						 displayErrors={displayErrors} 
-						/>;
+				return (
+					<AddSubtitles
+						setCurrentTab={setCurrentTab}
+						NoSubtitles={NoSubtitles}
+						setNoSubtitles={setNoSubtitles}
+						MissingVideos={MissingVideos}
+						setMissingVideos={setMissingVideos}
+						ExcersisesMissingQuestions={ExcersisesMissingQuestions}
+						setExcersisesMissingQuestions={
+							setExcersisesMissingQuestions
+						}
+						displayErrors={displayErrors}
+					/>
+				);
 			case "addExam":
 				return (
 					<AddExam
 						setCurrentTab={setCurrentTab}
-						MissingExamTitle={MissingExamTitle} setMissingExamTitle={setMissingExamTitle}
-						NoExamQuestions={NoExamQuestions} setNoExamQuestions={setNoExamQuestions}
+						MissingExamTitle={MissingExamTitle}
+						setMissingExamTitle={setMissingExamTitle}
+						NoExamQuestions={NoExamQuestions}
+						setNoExamQuestions={setNoExamQuestions}
 						handleCreateCourse={handleCreateCourse}
 						handleEditCourse={handleEditCourse}
 						displayErrors={displayErrors}
@@ -242,20 +366,21 @@ export default function CreateCourse() {
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addInfo" ? true : false}
-						>
-						Info {InfoHasErrors && <MdOutlineError color="red"/>}
+					>
+						Info {InfoHasErrors && <MdOutlineError color="red" />}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addSubtitle" ? true : false}
-						>
-						Subtitles {SubtitleHasErrors && <MdOutlineError color="red"/>}
+					>
+						Subtitles{" "}
+						{SubtitleHasErrors && <MdOutlineError color="red" />}
 					</Breadcrumb.Item>
 					<Breadcrumb.Item
 						className="fw-semibold"
 						active={CurrentTab === "addExam" ? true : false}
-						>
-						Exam {ExamHasErrors && <MdOutlineError color="red"/>}
+					>
+						Exam {ExamHasErrors && <MdOutlineError color="red" />}
 					</Breadcrumb.Item>
 				</Breadcrumb>
 				{/* </Col> */}

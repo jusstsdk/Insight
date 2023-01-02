@@ -34,7 +34,7 @@ export default function CustomNavbar() {
 			<Navbar
 				id="main-navbar"
 				fixed="top"
-				bg="primary"
+				bg="dark"
 				variant="dark"
 				expand="lg"
 				className="navbarZ-index"

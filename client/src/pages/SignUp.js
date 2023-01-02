@@ -9,10 +9,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../redux/userSlice";
 import updateCurrency from "../functions/updateCurrency";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	const username = useRef();
 	const password = useRef();
@@ -57,23 +60,31 @@ export default function SignUp() {
 
 			navigate("/");
 
-			dispatch(
-				addNotification({
-					title: "Signed up SuccessFully",
-					info: "Account Created SuccessFully, Have fun!",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Signed up SuccessFully</strong>,
+				html: <i>Account Created SuccessFully, Have fun!</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		} catch (err) {
 			console.log(err);
 			setIsLoggingIn(false);
-			dispatch(
-				addNotification({
-					title: "Something Went Wrong",
-					info: "Try again another time please",
-					color: "error",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Something Went Wrong</strong>,
+				html: <i>Try again another time please</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
 	}
 	return (

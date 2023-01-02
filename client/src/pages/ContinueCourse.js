@@ -390,7 +390,7 @@ export default function ContinueCourse() {
 						open>
 						{drawer}
 						<Button
-							variant="secondary2"
+							variant="secondary"
 							className="mt-auto mx-auto mb-3 fitWidth"
 							onClick={() => {
 								setShowReportCourseModal(true);

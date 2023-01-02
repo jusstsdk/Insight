@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Rating } from "react-simple-star-rating";
 import ReactStars from "react-rating-stars-component";
 import { addNotification } from "../../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function ReviewCourseModal(props) {
 	const course = props.course;
@@ -18,7 +20,7 @@ function ReviewCourseModal(props) {
 	const getCourseFromDB = props.getCourseFromDB;
 
 	const dispatch = useDispatch();
-
+	const MySwal = withReactContent(Swal);
 	const courseID = course._id;
 
 	//GET USER ID AND TYPE FOR WHEN REPORTING
@@ -53,15 +55,19 @@ function ReviewCourseModal(props) {
 			const response = await axios(config);
 			setCourse(response.data);
 			setReviews(response.data.reviews);
-			dispatch(
-				addNotification({
-					title: "Review Added",
-					info: "Your review has been added.",
-					color: "success",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Review Added</strong>,
+				html: <i>Your review has been added.</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		} catch (err) {
-			console.log("omgggggg");
 			console.log(err);
 		}
 	}
