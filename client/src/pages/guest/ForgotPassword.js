@@ -14,7 +14,7 @@ export default function ForgotPassword() {
 	return (
 		<>
 			<Form onSubmit={requestForgotPassword}>
-				<Form.Group className="mb-3" controlId="formBasicUsername">
+				<Form.Group className="mb-3">
 					<Form.Label>Username</Form.Label>
 					<Form.Control
 						type="text"

@@ -209,14 +209,14 @@ export default function ViewInstructor({ isInstructor }) {
 					</Modal.Header>
 					<Modal.Body>
 						<Form>
-							<Form.Group className="mb-3" controlId="rateCourse">
+							<Form.Group className="mb-3">
 								<Rating
 									allowFraction="true"
 									onClick={handleInstructorRating}
 									/* Available Props */
 								/>
 							</Form.Group>
-							<Form.Group className="mb-3" controlId="ratingDescription">
+							<Form.Group className="mb-3">
 								<Form.Label>Description</Form.Label>
 								<Form.Control
 									as="textarea"

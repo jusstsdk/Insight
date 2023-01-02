@@ -66,7 +66,7 @@ function EditProfile() {
 			<Col sm={6}>
 				<h1 className="display-5">Edit Profile</h1>
 				<Col sm={6}>
-					<Form.Group className="mb-3" controlId="formBasicEmail">
+					<Form.Group className="mb-3">
 						<Form.Label>Email address</Form.Label>
 						<Form.Control
 							type="email"
@@ -82,7 +82,7 @@ function EditProfile() {
 					</Form.Group>
 				</Col>
 
-				<Form.Group className="mb-3" controlId="formBasicPassword">
+				<Form.Group className="mb-3">
 					<Form.Label>Biography</Form.Label>
 					<Form.Control
 						as="textarea"

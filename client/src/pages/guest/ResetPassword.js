@@ -30,7 +30,7 @@ export default function ResetPassword() {
 	return (
 		<>
 			<Form onSubmit={requestPasswordReset}>
-				<Form.Group className="mb-3" controlId="formBasicPassword">
+				<Form.Group className="mb-3">
 					<Form.Label>New Password</Form.Label>
 					<Form.Control
 						type="password"

@@ -49,7 +49,7 @@ function ChangePassword() {
 		<Form className="d-flex flex-row justify-content-center mt-3">
 			<Col sm={6}>
 				<h1 className="display-5">Edit Profile</h1>
-				<Form.Group className="mb-3" controlId="formBasicPassword">
+				<Form.Group className="mb-3">
 					<Form.Label>Enter new password</Form.Label>
 					<Form.Control type="password" ref={password} placeholder="password" />
 					<Form.Label>Confirm password</Form.Label>

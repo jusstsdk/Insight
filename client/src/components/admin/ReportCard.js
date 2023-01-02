@@ -75,7 +75,7 @@ function ReportCard(props) {
 						))}
 					</ListGroup>
 					{!props.report.isResolved && (
-						<Form.Group className="mb-3" controlId="Add comment">
+						<Form.Group className="mb-3">
 							<Form.Label>Type new comment:</Form.Label>
 							<Form.Control as="textarea" rows={3} ref={CommentRef} />
 							<Button onClick={handleAddComment}>Add comment</Button>

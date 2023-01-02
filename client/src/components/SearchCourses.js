@@ -133,8 +133,7 @@ export default function SearchCourses({
 					{!searchInInstructorCourses && (
 						<Col
 							sm={3}
-							className="d-flex  justify-content-between align-items-center "
-							controlId="formRatingFilter">
+							className="d-flex  justify-content-between align-items-center ">
 							<Form.Label className="fitWidth my-auto">Min Rating</Form.Label>
 							<div className="fitWidth me-2">
 								<Rating
