@@ -58,18 +58,24 @@ const MyCourses = () => {
 	return (
 		myCourses && (
 			<div className="course-list">
-				{currentCourses.map((course) => (
-					<div className="course-preview" key={course._id}>
-						<UniversalCourseCard course={course} cardType={"Basic"} />
-					</div>
-				))}
-				<Pagination
-					className="pagination-bar"
-					currentPage={currentPage}
-					totalCount={myCourses.length}
-					pageSize={pageSize}
-					onPageChange={(page) => setCurrentPage(page)}
-				/>
+				{myCourses.length > 0 ? (
+					<>
+						{currentCourses.map((course) => (
+							<div className="course-preview" key={course._id}>
+								<UniversalCourseCard course={course} cardType={"Basic"} />
+							</div>
+						))}
+						<Pagination
+							className="pagination-bar"
+							currentPage={currentPage}
+							totalCount={myCourses.length}
+							pageSize={pageSize}
+							onPageChange={(page) => setCurrentPage(page)}
+						/>
+					</>
+				) : (
+					<h5 className="text-muted">You don't own any courses</h5>
+				)}
 			</div>
 		)
 	);

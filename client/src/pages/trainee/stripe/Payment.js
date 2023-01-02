@@ -30,6 +30,7 @@ function Payment() {
 		let amount;
 		if (
 			course.promotion.endDate > new Date().toISOString() &&
+			course.promotion.startDate <= new Date().toISOString() &&
 			course.promotion.discount > 0
 		) {
 			amount = course.price - wallet;

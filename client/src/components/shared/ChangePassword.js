@@ -4,9 +4,12 @@ import { Form, Col, Button } from "react-bootstrap";
 
 import { addNotification } from "../../redux/notificationsSlice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ChangePassword() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const password = useRef();
 	const confirmPassword = useRef();
 	const token = useSelector((state) => state.userReducer.token);
@@ -35,6 +38,7 @@ function ChangePassword() {
 				})
 			);
 			setError(false);
+			navigate("../..");
 		} catch (err) {
 			dispatch(
 				addNotification({

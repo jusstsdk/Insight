@@ -1,4 +1,12 @@
-import { Button, Col, Nav, NavLink, OverlayTrigger, Popover, Row } from "react-bootstrap";
+import {
+	Button,
+	Col,
+	Nav,
+	NavLink,
+	OverlayTrigger,
+	Popover,
+	Row,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChangePasswordPopOver from "./ChangePasswordPopOver";
@@ -31,7 +39,8 @@ export default function Profile() {
 										variant="Link"
 										onClick={() => {
 											navigate("/guest/signUp");
-										}}>
+										}}
+									>
 										Sign Up
 									</Button>
 									<Button
@@ -39,14 +48,16 @@ export default function Profile() {
 										variant="Link"
 										onClick={() => {
 											navigate("/guest/forgotPassword");
-										}}>
+										}}
+									>
 										Forgot password?
 									</Button>
 								</Col>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose>
+					rootClose
+				>
 					<Button>Profile</Button>
 				</OverlayTrigger>
 			</>
@@ -64,14 +75,17 @@ export default function Profile() {
 							<Popover.Body>
 								{userType === "Trainee" && (
 									<h6>
-										Balance: {Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
+										Balance:{" "}
+										{Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
 								{userType === "Instructor" && (
 									<h6>
-										Monthly Wage:{" "}
-										{Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100) / 100}{" "}
+										Month's Pay:{" "}
+										{Math.trunc(
+											user.monthlyPay.amount * user.exchangeRate * 100
+										) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
@@ -89,7 +103,8 @@ export default function Profile() {
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose>
+					rootClose
+				>
 					<NavLink id="profileButton" className="secondaryText linkDecor">
 						Profile
 					</NavLink>

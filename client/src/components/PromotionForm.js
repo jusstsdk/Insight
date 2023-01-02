@@ -3,8 +3,11 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../functions/api";
 import { addNotification } from "../redux/notificationsSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function PromotionForm({ courses }) {
+	const navigate = useNavigate();
+
 	const startDate = useRef();
 	const endDate = useRef();
 	const discount = useRef();
@@ -40,13 +43,18 @@ export default function PromotionForm({ courses }) {
 				color: "success",
 			})
 		);
+		if (userType === "Instructor") {
+			navigate("../viewInstructorCourses");
+		} else {
+			navigate("../courses");
+		}
 	}
 
 	return (
 		<>
 			<Form onSubmit={setPromotion} className="mb-3 row">
 				<Col sm={3}>
-					<Form.Group className="" >
+					<Form.Group className="">
 						<Form.Label>Start Date of the promotion</Form.Label>
 						<Form.Control
 							type="date"

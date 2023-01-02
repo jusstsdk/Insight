@@ -313,7 +313,8 @@ function UniversalCourseCard(props) {
 							course.status === "Published" &&
 							(course.promotion.discount &&
 							course.promotion.discount !== 0 &&
-							course.promotion.endDate >= new Date().toISOString() ? (
+							course.promotion.endDate >= new Date().toISOString() &&
+							course.promotion.startDate <= new Date().toISOString() ? (
 								<>
 									{Math.trunc(course.price * 100) === 0 ? (
 										<h5>FREE</h5>
@@ -378,7 +379,7 @@ function UniversalCourseCard(props) {
 							lg={2}
 						>
 							{displayInstructorEditCourseButtons()}{" "}
-							{course.status != "Draft" && (
+							{course.status !== "Draft" && (
 								<Button onClick={handleViewCourse}>View Course</Button>
 							)}
 						</Col>
