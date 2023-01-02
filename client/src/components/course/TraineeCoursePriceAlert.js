@@ -6,13 +6,15 @@ import { useDispatch } from "react-redux";
 import { setCourses } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
 import { payFromWallet } from "../../redux/userSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function TraineeCoursePriceAlert(props) {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const course = props.course;
 	const courseID = course._id;
-
+	const MySwal = withReactContent(Swal);
 	//GET USER ID AND TYPE FOR WHEN REPORTING ETC
 	const user = useSelector((state) => state.userReducer.user);
 	const userID = useSelector((state) => state.userReducer.user._id);
@@ -39,13 +41,17 @@ function TraineeCoursePriceAlert(props) {
 			dispatch(payFromWallet(cost));
 
 			dispatch(setCourses(response.data.courses));
-			dispatch(
-				addNotification({
-					title: "Sucesss",
-					info: "You purchased the Course. You can now view all content!",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Sucesss</strong>,
+				html: <i>You purchased the Course. You can now view all content!</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			navigate("/");
 		} else {
 			navigate("payment");

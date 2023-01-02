@@ -6,10 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addNotification } from "../../redux/notificationsSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function CreateCorporateTrainee() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	const token = useSelector((state) => state.userReducer.token);
 	const Username = useRef();
@@ -30,23 +33,32 @@ function CreateCorporateTrainee() {
 		};
 		try {
 			await axios(config);
-			dispatch(
-				addNotification({
-					title: "Corporate Trainee Created SuccessFully",
-					info: "Send the entered Username and Password to them to Login",
-					color: "success",
-				})
-			);
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Corporate Trainee Created SuccessFully</strong>,
+				html: <i>Send the entered Username and Password to them to Login</i>,
+				icon: "success",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			navigate("/");
 		} catch (err) {
 			console.log(err);
-			dispatch(
-				addNotification({
-					title: "Something Went Wrong",
-					info: "Try again another time please",
-					color: "error",
-				})
-			);
+		
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Something Went Wrong</strong>,
+				html: <i>Try again another time please</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 		}
 	}
 	return (

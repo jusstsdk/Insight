@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setRequests } from "../../redux/userSlice";
 import { addNotification } from "../../redux/notificationsSlice";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function CorpTraineeRequestCourseAlert(props) {
 	const course = props.course;
 	const courseID = course._id;
@@ -14,7 +15,7 @@ function CorpTraineeRequestCourseAlert(props) {
 	const userID = useSelector((state) => state.userReducer.user._id);
 
 	const dispatch = useDispatch();
-
+	const MySwal = withReactContent(Swal);
 	const [loaded, setLoaded] = useState(false);
 
 	//CorpTrainee Data
@@ -38,14 +39,17 @@ function CorpTraineeRequestCourseAlert(props) {
 			console.log(err);
 		}
 
-		dispatch(
-			addNotification({
-				title: "Request Sent",
-				info:
-					"Access request to " + course.title + " was sent successfully,waiting for admin approval",
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Request Sent</strong>,
+			html: <i>{"Access request to " + course.title + " was sent successfully,waiting for admin approval"}</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 	}
 
 	useEffect(() => {

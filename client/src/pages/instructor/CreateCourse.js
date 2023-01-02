@@ -17,12 +17,15 @@ import AddSubtitles from "../../components/instructor/createCourse/AddSubtitles"
 import API from "../../functions/api";
 import subjects from "../../functions/subjects";
 import { MdOutlineError } from "react-icons/md";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function CreateCourse() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [CurrentTab, setCurrentTab] = useState("addInfo");
+	const MySwal = withReactContent(Swal);
 
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 	const user = useSelector((state) => state.userReducer.user);
@@ -116,31 +119,59 @@ export default function CreateCourse() {
 
 			if (infoHadErrors || subtitleHadErrors || examHadErrors) {
 				if (infoHadErrors) {
-					dispatch(
-						addNotification({
-							title: "Info tab error",
-							info: "Please fill out all the fields in the info tab with valid data",
-							color: "error",
-						})
-					);
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Info tab error</strong>,
+						html: (
+							<i>
+								Please fill out all the fields in the info tab
+								with valid data
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
 				}
 				if (subtitleHadErrors) {
-					dispatch(
-						addNotification({
-							title: "Subtitles tab error",
-							info: "Make sure you have at least one subtitle and that each subtitle has at least one video and that each exercise has at least one question",
-							color: "error",
-						})
-					);
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Subtitles tab error</strong>,
+						html: (
+							<i>
+								Make sure you have at least one subtitle and
+								that each subtitle has at least one video and
+								that each exercise has at least one question
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
 				}
 				if (examHadErrors) {
-					dispatch(
-						addNotification({
-							title: "Exam tab error",
-							info: "Make sure you have an exam title and at least one question",
-							color: "error",
-						})
-					);
+					MySwal.fire({
+						toast: true,
+						position: "bottom-end",
+						showConfirmButton: false,
+						timer: 4000,
+						title: <strong>Exam tab error</strong>,
+						html: (
+							<i>
+								Make sure you have an exam title and at least
+								one question
+							</i>
+						),
+						icon: "error",
+						timerProgressBar: true,
+						grow: "row",
+					});
 				}
 				return false;
 			} else {
@@ -181,26 +212,38 @@ export default function CreateCourse() {
 
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Course ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Course ${
 						status === "Draft" ? "saved" : "published"
-					} successfully`,
-					color: "success",
-				})
-			);
+					} successfully`}</i>
+				),
+				icon: "success",
+				timerProgressBar: true,
+				grow: "row",
+			});
 			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Error while ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Error while ${
 						status === "Draft" ? "saving" : "publishing"
-					} course!`,
-					color: "error",
-				})
-			);
+					} course!`}</i>
+				),
+				icon: "error",
+				timerProgressBar: true,
+				grow: "row",
+			});
 		}
 	};
 
@@ -224,26 +267,39 @@ export default function CreateCourse() {
 			});
 			dispatch(clearInfo());
 			dispatch(clearCreateCourse());
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Course ${
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Course ${
 						status === "Draft" ? "saved" : "published"
-					} successfully`,
-					color: "success",
-				})
-			);
+					} successfully`}</i>
+				),
+				icon: "success",
+				timerProgressBar: true,
+				grow: "row",
+			});
 			navigate("/instructor/viewInstructorCourses");
 		} catch (err) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Error while ${
+			
+			MySwal.fire({
+				toast: true,
+				position: "bottom-end",
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Create Course</strong>,
+				html: (
+					<i>{`Error while ${
 						status === "Draft" ? "saving" : "publishing"
-					} course!`,
-					color: "error",
-				})
-			);
+					} course!`}</i>
+				),
+				icon: "error",
+				timerProgressBar: true,
+				grow: "row",
+			});
 		}
 	};
 

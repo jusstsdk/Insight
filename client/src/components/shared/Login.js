@@ -6,12 +6,15 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addNotification } from "../../redux/notificationsSlice";
 import updateCurrency from "../../functions/updateCurrency";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function Login() {
 	const username = useRef();
 	const password = useRef();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 	const [isLoggingIn, setIsLoggingIn] = useState(false);
 
 	async function loginFunction(e) {
@@ -46,13 +49,18 @@ export default function Login() {
 			navigate("/");
 		} catch (error) {
 			console.log(error);
-			dispatch(
-				addNotification({
-					title: "Wrong Credentials",
-					info: "Your password or username is wrong try again please",
-					color: "error",
-				})
-			);
+			
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>Wrong Credentials</strong>,
+				html: <i>Your password or username is wrong try again please</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			setIsLoggingIn(false);
 		}
 	}
