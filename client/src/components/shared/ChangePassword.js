@@ -4,10 +4,13 @@ import { Form, Col, Button } from "react-bootstrap";
 
 import { addNotification } from "../../redux/notificationsSlice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 function ChangePassword() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const password = useRef();
 	const confirmPassword = useRef();
 	const token = useSelector((state) => state.userReducer.token);
@@ -41,6 +44,7 @@ function ChangePassword() {
 				grow:'row'
 			});
 			setError(false);
+			navigate("../..");
 		} catch (err) {
 			MySwal.fire({
 				toast: true,

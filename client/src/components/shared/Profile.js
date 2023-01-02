@@ -74,29 +74,23 @@ export default function Profile() {
 					placement="bottom"
 					overlay={
 						<Popover id={`popover-positioned-bottom`}>
-							<Popover.Header as="h3">
-								Hello, {user.username}
-							</Popover.Header>
+							<Popover.Header as="h3">Hello, {user.username}</Popover.Header>
 							<Popover.Body>
 								{userType === "Trainee" && (
 									<h6>
 										Balance:{" "}
-										{Math.trunc(
-											user.wallet *
-												user.exchangeRate *
-												100
-										) / 100}{" "}
+										{Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
 								{userType === "Instructor" && (
 									<h6>
-										Monthly Wage:{" "}
-										{Math.trunc(
-											user.monthlyPay.amount *
-												user.exchangeRate *
-												100
-										) / 100}{" "}
+										Month's Pay:{" "}
+										{(Math.trunc(
+											user.monthlyPay.amount * user.exchangeRate * 100
+										) /
+											100) *
+											0.1}{" "}
 										{user.currency}
 									</h6>
 								)}
@@ -116,10 +110,7 @@ export default function Profile() {
 					}
 					rootClose
 				>
-					<NavLink
-						id="profileButton"
-						className="secondaryText linkDecor"
-					>
+					<NavLink id="profileButton" className="secondaryText linkDecor">
 						Profile
 					</NavLink>
 				</OverlayTrigger>

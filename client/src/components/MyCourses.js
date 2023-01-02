@@ -87,7 +87,9 @@ const MyCourses = () => {
 	return (
 		myCourses && (
 			<div className="course-list">
-				<Tabs
+				{myCourses.length > 0 ? (
+					<>
+						<Tabs
 					defaultActiveKey="InProgress"
 					id="justify-tab-example"
 					className="mb-3"
@@ -122,6 +124,10 @@ const MyCourses = () => {
 						</div>
 					</Tab>
 				</Tabs>
+					</>
+				) : (
+					<h5 className="text-muted">You don't own any courses</h5>
+				)}
 			</div>
 		)
 	);

@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../components/shared/CountryDropdown";
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import { addNotification } from "../redux/notificationsSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,10 @@ export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const MySwal = withReactContent(Swal);
+
+	const [showTermsModal, setShowTermsModal] = useState(false);
+	const handleCloseTermsModal = () => setShowTermsModal(false);
+	const handleShowTermsModal = () => setShowTermsModal(true);
 
 	const username = useRef();
 	const password = useRef();
@@ -93,11 +97,8 @@ export default function SignUp() {
 			<Form onSubmit={handleCreateTrainee}>
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
-						<Form.Group
-							className="mb-3">
-							<Form.Label className="fst-italic">
-								First name
-							</Form.Label>
+						<Form.Group className="mb-3">
+							<Form.Label className="fst-italic">First name</Form.Label>
 							<Form.Control
 								ref={firstName}
 								type="firstName"
@@ -107,12 +108,8 @@ export default function SignUp() {
 						</Form.Group>
 					</Col>
 					<Col sm={4}>
-						<Form.Group
-							className="mb-3">
-							<Form.Label className="fst-italic">
-								{" "}
-								Last name{" "}
-							</Form.Label>
+						<Form.Group className="mb-3">
+							<Form.Label className="fst-italic"> Last name </Form.Label>
 							<Form.Control
 								ref={lastName}
 								type="lastName"
@@ -124,11 +121,8 @@ export default function SignUp() {
 				</Row>
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
-						<Form.Group
-							className="mb-3">
-							<Form.Label className="fst-italic">
-								Username
-							</Form.Label>
+						<Form.Group className="mb-3">
+							<Form.Label className="fst-italic">Username</Form.Label>
 							<Form.Control
 								ref={username}
 								type="Username"
@@ -138,11 +132,8 @@ export default function SignUp() {
 						</Form.Group>
 					</Col>
 					<Col sm={4}>
-						<Form.Group
-							className="mb-3">
-							<Form.Label className="fst-italic">
-								Password
-							</Form.Label>
+						<Form.Group className="mb-3">
+							<Form.Label className="fst-italic">Password</Form.Label>
 							<Form.Control
 								ref={password}
 								type="password"
@@ -155,9 +146,7 @@ export default function SignUp() {
 				<Row sm={8} className="justify-content-center">
 					<Col sm={8}>
 						<Form.Group className="mb-3">
-							<Form.Label className="fst-italic">
-								Email
-							</Form.Label>
+							<Form.Label className="fst-italic">Email</Form.Label>
 							<Form.Control
 								ref={email}
 								type="email"
@@ -169,9 +158,7 @@ export default function SignUp() {
 				</Row>
 				<Row sm={8} className="justify-content-center">
 					<Col sm={4}>
-						<Form.Label className="fst-italic">
-							Select Country{" "}
-						</Form.Label>
+						<Form.Label className="fst-italic">Select Country </Form.Label>
 						<Form.Select
 							value={gender}
 							onChange={(e) => {
@@ -188,14 +175,29 @@ export default function SignUp() {
 						</Form.Select>
 					</Col>
 					<Col sm={4}>
-						<Form.Label className="fst-italic">
-							Select Country{" "}
-						</Form.Label>
+						<Form.Label className="fst-italic">Select Country </Form.Label>
 						<CountryDropdown
 							Country={country}
 							setCountry={setCountry}
 							required
 						/>
+					</Col>
+				</Row>
+				<Row className="justify-content-center mt-3">
+					<Col className="d-flex justify-content-center">
+						<Form.Group>
+							<Container className="d-flex">
+								<Form.Check
+									className="my-auto"
+									type="checkbox"
+									label="I agree to the"
+									required
+								/>
+								<Button variant="link" onClick={handleShowTermsModal}>
+									terms and conditions
+								</Button>
+							</Container>
+						</Form.Group>
 					</Col>
 				</Row>
 				<Row className="justify-content-center mt-3">
@@ -225,6 +227,33 @@ export default function SignUp() {
 					</Col>
 				</Row>
 			</Form>
+			<Modal show={showTermsModal} onHide={handleCloseTermsModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Terms And Conditions</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<h5>As an Instructor:</h5>
+					<p className="text-muted">
+						You give up all rights to all content, videos, exercises, emails,
+						ads. Money wise we will take 90% of all money paid on our platform.
+					</p>
+					<h5>As an Coporate Trainee:</h5>
+					<p className="text-muted">
+						You will be beholden to your companies policies and what they allow
+						you to subscribe to.
+					</p>
+					<h5>As a Trainee:</h5>
+					<p className="text-muted">
+						You allow us to take collect and sell data about you, including your
+						name,email,credit card number.
+					</p>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleCloseTermsModal}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 }

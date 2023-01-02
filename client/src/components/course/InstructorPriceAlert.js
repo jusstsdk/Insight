@@ -12,7 +12,8 @@ function InstructorPriceAlert(props) {
 		<>
 			{course.promotion.discount &&
 			course.promotion.discount !== 0 &&
-			course.promotion.endDate >= new Date().toISOString() ? (
+			course.promotion.endDate >= new Date().toISOString() &&
+			course.promotion.startDate <= new Date().toISOString() ? (
 				<Col sm={12} className="d-flex flex-column align-items-end">
 					<h4 className="fitWidth fw-bold">
 						{course.price === 0 ? (
