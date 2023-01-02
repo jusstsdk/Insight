@@ -92,9 +92,12 @@ const createAdministrator = async (req, res) => {
 		let adminInfo = req.body;
 		adminInfo.password = await bcrypt.hash(adminInfo.password, 10);
 		let administrator = await Administrator.create(adminInfo);
-		administrator["_doc"]["x-auth-token"] = administrator.generateAuthToken();
-		administrator["_doc"].userType = "Administrator";
-		res.status(200).json(administrator);
+		let token = administrator.generateAuthToken();
+		res.status(200).json({
+			"x-auth-token": token,
+			userType: "Administrator",
+			user: administrator._doc,
+		});
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -139,7 +142,12 @@ const updateAdministrator = async (req, res) => {
 		return res.status(400).json({ error: "No such administrator" });
 	}
 
-	res.status(200).json(administrator);
+	let token = administrator.generateAuthToken();
+	res.status(200).json({
+		"x-auth-token": token,
+		userType: "Administrator",
+		user: administrator._doc,
+	});
 };
 
 // Get all courses with Refunds and populate the TraineeId

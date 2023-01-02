@@ -8,8 +8,11 @@ function CountryDropdown(props) {
 				props.setCountry(e.target.value);
 			}}
 			aria-label="Default select example"
+			required={props.required ? true : false}
 		>
-			<option value="">Select Country</option>
+			<option value="" className="fst-italic">
+				Select Country
+			</option>
 			<option value="Afghanistan">Afghanistan</option>
 			<option value="Albania">Albania</option>
 			<option value="Algeria">Algeria</option>

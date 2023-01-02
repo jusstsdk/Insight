@@ -28,6 +28,7 @@ function ViewReports() {
 	}, []);
 	return (
 		<Container className="my-2 d-flex flex-wrap">
+			<h1>Reported Courses</h1>
 			{currentCourses.map((course, i) => (
 				<Col sm={3} className="mb-2 me-2">
 					<CourseReportsCard course={course} />

@@ -129,7 +129,7 @@ export default function ViewExercises(props) {
 											</Col>
 											<Col sm={1} className="d-flex justify-content-end">
 												<Button
-													variant="success"
+													variant="secondary"
 													className="accordionTrash accordionLikeEditButton"
 													key={`exercise_edit_button_${exercise_key}`}
 													onClick={() =>

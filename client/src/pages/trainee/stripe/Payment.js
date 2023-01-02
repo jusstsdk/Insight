@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API from "../../../functions/api";
 import { Elements } from "@stripe/react-stripe-js";
@@ -10,19 +10,28 @@ import { loadStripe } from "@stripe/stripe-js";
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);
 	const [clientSecret, setClientSecret] = useState("");
+	const navigate = useNavigate();
+
 	const params = useParams();
 	let courseId = params.id;
 
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
 
 	async function setup() {
-		let response = await API.get(`courses/${courseId}`);
+		let response;
+		try {
+			response = await API.get(`courses/${courseId}`);
+		} catch (error) {
+			navigate("/notFound");
+			console.log(error);
+			return;
+		}
 		const course = response.data;
 		let amount;
-		if  (
+		if (
 			course.promotion.endDate > new Date().toISOString() &&
 			course.promotion.discount > 0
-		)  {
+		) {
 			amount = course.price - wallet;
 		} else {
 			amount = course.originalPrice - wallet;

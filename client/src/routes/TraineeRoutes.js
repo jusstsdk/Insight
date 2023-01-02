@@ -21,7 +21,7 @@ export function TraineeRoutes() {
 						<Route path="courses" element={<Courses />} />
 						<Route path="courses/:id" element={<CoursePage />} />
 						<Route
-							path="courses/:id/payment/*"
+							path="courses/:id/payment"
 							element={<Payment />}
 						/>
 						<Route

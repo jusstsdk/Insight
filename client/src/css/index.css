@@ -107,7 +107,7 @@ code {
 }
 #continueCourseBreadcrumbs {
 	height: auto;
-	min-height: 2.5rem !important;
+	min-height: 3rem !important;
 }
 #continueCourseBreadcrumbs > div > nav > ol {
 	margin-bottom: 0 !important;
@@ -124,11 +124,10 @@ html {
 	overflow-y: overlay;
 }
 
-
-.breadcrumbItem > a,.breadcrumbItem > a:hover       
-{
-text-decoration: none;
-cursor: auto;
+.breadcrumbItem > a,
+.breadcrumbItem > a:hover {
+	text-decoration: none;
+	cursor: auto;
 }
 
 .clearRatingButton {
@@ -154,4 +153,8 @@ cursor: auto;
 }
 .h7 {
 	font-size: 0.85rem;
+}
+
+.signUps {
+	height: 100vh;
 }

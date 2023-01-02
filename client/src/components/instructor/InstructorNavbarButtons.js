@@ -7,40 +7,44 @@ export default function InstructorNavbarButtons() {
 		<>
 			<Nav.Link
 				onClick={() => {
-					navigate("courses");
-				}}>
-				Search
-			</Nav.Link>
-			<Nav.Link
-				onClick={() => {
 					navigate("createCourse", { state: { status: "New" } });
-				}}>
+				}}
+			>
 				Create Course
 			</Nav.Link>
-			<Nav.Link
+			{/* <Nav.Link
 				onClick={() => {
 					navigate("viewInstructorReviews");
 				}}>
 				My Reviews
-			</Nav.Link>
+			</Nav.Link> */}
 			<Nav.Link
 				onClick={() => {
 					navigate("viewInstructorCourses");
-				}}>
+				}}
+			>
 				My Courses
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
 					navigate("promotion");
-				}}>
-				Discounts
+				}}
+			>
+				Add Discounts
+			</Nav.Link>
+			<Nav.Link
+				onClick={() => {
+					navigate("courses");
+				}}
+			>
+				Search
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {
 					navigate("myReports");
 				}}
 			>
-				My Reports
+				Support
 			</Nav.Link>
 		</>
 	);

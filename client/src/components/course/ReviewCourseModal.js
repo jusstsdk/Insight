@@ -61,7 +61,6 @@ function ReviewCourseModal(props) {
 				})
 			);
 		} catch (err) {
-			console.log("omgggggg");
 			console.log(err);
 		}
 	}
@@ -74,10 +73,10 @@ function ReviewCourseModal(props) {
 				</Modal.Header>
 				<Modal.Body>
 					<Form>
-						<Form.Group className="mb-3" controlId="rateCourse">
+						<Form.Group className="mb-3">
 							<Rating allowFraction="true" onClick={handleCourseRating} />
 						</Form.Group>
-						<Form.Group className="" controlId="ratingDescription">
+						<Form.Group className="">
 							<Form.Label>Description</Form.Label>
 							<Form.Control
 								as="textarea"
