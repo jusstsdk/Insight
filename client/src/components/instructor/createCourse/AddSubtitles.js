@@ -5,22 +5,13 @@ import ViewSubtitles from "./ViewSubtitles";
 import AddSubtitleInfo from "./AddSubtitleInfo";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import { addNotification } from "../../../redux/notificationsSlice";
 import { MdOutlineError } from "react-icons/md";
 
 export default function AddSubtitle(props) {
 	const [AddSubtitleModalShow, setAddSubtitleModalShow] = useState(false);
 	const dispatch = useDispatch();
 	const Subtitles = useSelector((state) => state.createCourseReducer.subtitles);
-	const showErrorMessage = () => {
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: `Please add at least one subtitle!`,
-				color: "error",
-			})
-		);
-	};
+	
 	const handleNext = () => {
 		if (Subtitles.length === 0) {
 			props.setNoSubtitles(true);
@@ -35,25 +26,11 @@ export default function AddSubtitle(props) {
 			if(Subtitles.some((subtitle) => subtitle.videos.length === 0)){
 				props.setMissingVideos(true);
 				MissingVideosTemp = true;
-				dispatch(
-					addNotification({
-						title: "Create Course",
-						info: `Please add at least one video to each subtitle!`,
-						color: "error",
-					})
-				);
 			}  
 			if(Subtitles.some((subtitle) => subtitle.exercises.some((exercise) => exercise.questions.length === 0))){
 				props.setExcersisesMissingQuestions(true);
 				// setMissingExcersises(false);
 				MissingQuestionsTemp = true;
-				// dispatch(
-				// 	addNotification({
-				// 		title: "Create Course",
-				// 		info: `Please add at least one question to each exercise!`,
-				// 		color: "error",
-				// 	})
-				// );
 			}
 			if(!(MissingQuestionsTemp || MissingVideosTemp)){
 				props.setNoSubtitles(false);

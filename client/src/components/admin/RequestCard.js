@@ -44,9 +44,9 @@ function RequestCard({
 		setVariant("success");
 		dispatch(
 			addNotification({
-				title: "access granted",
+				title: "Access granted",
 				info:
-					"access to course '" +
+					"Access to course '" +
 					course.title +
 					"' granted to " +
 					username,
@@ -71,9 +71,9 @@ function RequestCard({
 		setVariant("danger");
 		dispatch(
 			addNotification({
-				title: "access granted",
+				title: "Access denied",
 				info:
-					"access to course '" +
+					"Access to course '" +
 					course.title +
 					"' denied to " +
 					username,
