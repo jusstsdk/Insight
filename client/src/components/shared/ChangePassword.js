@@ -34,44 +34,40 @@ function ChangePassword() {
 
 			MySwal.fire({
 				toast: true,
-				position: 'bottom-end',
+				position: "bottom-end",
 				showConfirmButton: false,
 				timer: 4000,
 				title: <strong>Change password</strong>,
 				html: <i>Changed password Successfully!</i>,
 				icon: "success",
 				timerProgressBar: true,
-				grow:'row'
+				grow: "row",
 			});
 			setError(false);
-			navigate("../..");
+			navigate("../");
 		} catch (err) {
 			MySwal.fire({
 				toast: true,
-				position: 'bottom-end',
+				position: "bottom-end",
 				showConfirmButton: false,
 				timer: 4000,
 				title: <strong>Change password</strong>,
 				html: <i>Changing password Failed!</i>,
 				icon: "error",
 				timerProgressBar: true,
-				grow:'row'
+				grow: "row",
 			});
 		}
 	};
 	return (
 		<Form className="d-flex flex-row justify-content-center mt-3">
 			<Col sm={6}>
-				<h1 className="display-5">Edit Profile</h1>
+				<h1 className="display-5">Change Password</h1>
 				<Form.Group className="mb-3">
 					<Form.Label>Enter new password</Form.Label>
 					<Form.Control type="password" ref={password} placeholder="password" />
 					<Form.Label>Confirm password</Form.Label>
-					<Form.Control
-						type="password"
-						ref={confirmPassword}
-						placeholder="Confirm Password"
-					/>
+					<Form.Control type="password" ref={confirmPassword} placeholder="Confirm Password" />
 				</Form.Group>
 				<Button variant="primary" onClick={handleChangePassword}>
 					Submit
