@@ -43,21 +43,9 @@ export default function Login() {
 				})
 			);
 
-			switch (responseUserType) {
-				case "Administrator":
-					navigate("/admin");
-					break;
-				case "Instructor":
-					navigate("/instructor");
-					break;
-				case "Trainee":
-					navigate("/trainee");
-					break;
-				case "CorporateTrainee":
-					navigate("/corporateTrainee");
-					break;
-			}
+			navigate("/");
 		} catch (error) {
+			console.log(error);
 			dispatch(
 				addNotification({
 					title: "Wrong Credentials",
@@ -70,24 +58,47 @@ export default function Login() {
 	}
 
 	return (
-		<Form className="d-flex flex-column mb-2" onSubmit={!isLoggingIn ? loginFunction : null}>
+		<Form
+			className="d-flex flex-column mb-2"
+			onSubmit={!isLoggingIn ? loginFunction : null}
+		>
 			<Form.Group className="mb-2" controlId="formBasicUsername">
 				<Form.Label className="fs-6">Username</Form.Label>
-				<Form.Control type="text" placeholder="Enter username" ref={username} />
+				<Form.Control
+					type="text"
+					placeholder="Enter username"
+					ref={username}
+				/>
 			</Form.Group>
 
 			<Form.Group className="mb-2" controlId="formBasicPassword">
 				<Form.Label className="fs-6">Password</Form.Label>
-				<Form.Control type="password" placeholder="Password" ref={password} />
+				<Form.Control
+					type="password"
+					placeholder="Password"
+					ref={password}
+				/>
 			</Form.Group>
 
 			{isLoggingIn ? (
 				<Button variant="primary" disabled>
-					<Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
+					<Spinner
+						as="span"
+						animation="border"
+						size="sm"
+						role="status"
+						aria-hidden="true"
+						className="me-1"
+					/>
 					Logging in...
 				</Button>
 			) : (
-				<Button className="" variant="primary" type="submit" disabled={isLoggingIn}>
+				<Button
+					className=""
+					variant="primary"
+					type="submit"
+					disabled={isLoggingIn}
+				>
 					Login
 				</Button>
 			)}

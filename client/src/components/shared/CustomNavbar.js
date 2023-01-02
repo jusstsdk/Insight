@@ -39,13 +39,18 @@ export default function CustomNavbar() {
 				className="navbarZ-index"
 			>
 				<Container>
-					<Navbar.Brand
-						href="#"
-						onClick={() => {
-							navigate("/");
-						}}
-					>
-						Home
+					<Navbar.Brand href="#home">
+						<img
+							alt=""
+							src="../../../public/logo.png"
+							width="30"
+							height="30"
+							className="d-inline-block align-top"
+							onClick={() => {
+								navigate("/");
+							}}
+						/>
+						React Bootstrap
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
