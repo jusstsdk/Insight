@@ -223,7 +223,7 @@ export default function CreateCourse() {
 						status === "Draft" ? "saved" : "published"
 					} successfully`}</i>
 				),
-				icon: "error",
+				icon: "success",
 				timerProgressBar: true,
 				grow: "row",
 			});

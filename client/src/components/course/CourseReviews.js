@@ -118,7 +118,7 @@ function CourseReviews(props) {
 				timer: 4000,
 				title: <strong>Refund Requested</strong>,
 				html: <i>We've recieved your refund request. You can no longer view the course.</i>,
-				icon: "error",
+				icon: "info",
 				timerProgressBar: true,
 				grow:'row'
 			});
