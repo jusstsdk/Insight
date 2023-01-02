@@ -5,7 +5,7 @@ import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
 import UniversalCourseCard from "../UniversalCourseCard";
 
-let pageSize = 2;
+let pageSize = 5;
 export default function CourseList({ courses, currentPage, setCurrentPage }) {
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;

@@ -90,10 +90,14 @@ const updateInstructor = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(instructorId)) {
 		return res.status(400).json({ error: "No such instructor" });
 	}
-
+	let instructorInfo = req.body;
+	instructorInfo.password = await bcrypt.hash(
+		instructorInfo.password,
+		10
+	);
 	const instructor = await Instructor.findOneAndUpdate(
 		{ _id: instructorId },
-		req.body,
+		instructorInfo,
 		{
 			new: true,
 		}
