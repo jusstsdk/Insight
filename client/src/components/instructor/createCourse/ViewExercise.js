@@ -36,7 +36,7 @@ export default function ViewExercise(props) {
 							</Col>
 							<Col sm={1} className="d-flex justify-content-end">
 								<Button
-									variant="dark"
+									variant="secondary"
 									className="accordionTrash accordionLikeEditButton"
 									key={`exercise_edit_button_${question_key}`}
 									onClick={() => handleEditModalShow(question, question_key)}
@@ -45,7 +45,7 @@ export default function ViewExercise(props) {
 								</Button>
 								<Button
 									className="accordionTrash accordionLikeDeleteButton"
-									variant="secondary2"
+									variant="danger"
 									key={`exercise_trash_button_${question_key}`}
 									onClick={() => props.handleDeleteQuestion(question_key, props.exerciseKey)}>
 									<BsTrash key={"exercise_trash_" + question_key} />

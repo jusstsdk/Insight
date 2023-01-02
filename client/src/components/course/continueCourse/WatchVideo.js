@@ -143,7 +143,7 @@ export default function WatchVideo(props) {
 									<Col sm={1}>
 										<Button
 											className=" w-auto"
-											variant="secondary2"
+											variant="secondary"
 											key={`video_${Content._id}_notes_trash_button_${note_index}`}
 											onClick={() => handleDeleteNote(note_index)}
 										>

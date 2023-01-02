@@ -45,7 +45,7 @@ export default function ViewSubtitles() {
 								</Col>
 								<Col sm={1} className="d-flex justify-content-end">
 									<Button
-										variant="dark"
+										variant="secondary"
 										className="accordionTrash accordionLikeEditButton"
 										key={`subtitle_edit_button_${subtitle_key}`}
 										onClick={() =>
@@ -56,7 +56,7 @@ export default function ViewSubtitles() {
 									</Button>
 									<Button
 										className="accordionTrash accordionLikeDeleteButton"
-										variant="secondary2"
+										variant="danger"
 										key={`subtitle_trash_button_${subtitle_key}`}
 										onClick={() => dispatch(removeSubtitle(subtitle_key))}
 									>

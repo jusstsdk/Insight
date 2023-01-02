@@ -51,10 +51,17 @@ const getCoursesInstructor = async (req, res) => {
 	// create filter query from querystring
 	let query = {};
 	if (Object.keys(req.query).length > 0) query = { $and: [] };
-	if (req.query.price != null) {
+	if (req.query.maxPrice != null) {
 		query["$and"].push({
 			price: {
-				$lte: req.query.price,
+				$lte: req.query.maxPrice,
+			},
+		});
+	}
+	if (req.query.minPrice != null) {
+		query["$and"].push({
+			price: {
+				$gte: req.query.minPrice,
 			},
 		});
 	}
