@@ -12,7 +12,6 @@ import { IoIosPin } from "react-icons/io";
 import RatingStats from "../components/RatingStats";
 
 export default function ViewInstructor({ isInstructor }) {
-
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -21,7 +20,8 @@ export default function ViewInstructor({ isInstructor }) {
 	const instructorId = !isInstructor ? id : userID;
 	const user = useSelector((state) => state.userReducer.user);
 	const userType = useSelector((state) => state.userReducer.type);
-	const [instructorTeachesTrainee, setInstructorTeachesTrainee] = useState(false);
+	const [instructorTeachesTrainee, setInstructorTeachesTrainee] =
+		useState(false);
 
 	const [InstructorInfo, setInstructorInfo] = useState([]);
 	const [InstructorCourses, setInstructorCourses] = useState([]);
@@ -30,16 +30,21 @@ export default function ViewInstructor({ isInstructor }) {
 	const [loaded, setLoaded] = useState(true);
 
 	//modal
-	const [showReviewInstructorModal, setShowReviewInstructorModal] = useState(false);
-	const handleCloseReviewInstructorModal = () => setShowReviewInstructorModal(false);
-	const handleShowReviewInstructorModal = () => setShowReviewInstructorModal(true);
+	const [showReviewInstructorModal, setShowReviewInstructorModal] =
+		useState(false);
+	const handleCloseReviewInstructorModal = () =>
+		setShowReviewInstructorModal(false);
+	const handleShowReviewInstructorModal = () =>
+		setShowReviewInstructorModal(true);
 	const reviewInstructorDescription = useRef();
 
 	const getInstructorCourses = async () => {
 		try {
 			const response = await API.get(`/instructors/${instructorId}/courses`);
 			response.data.courses.forEach((course) => {
-				course.originalPrice = (course.originalPrice * user.exchangeRate).toFixed(2);
+				course.originalPrice = (
+					course.originalPrice * user.exchangeRate
+				).toFixed(2);
 				course.price = (course.price * user.exchangeRate).toFixed(2);
 			});
 			response.data.courses = response.data.courses.filter(
@@ -61,7 +66,7 @@ export default function ViewInstructor({ isInstructor }) {
 				});
 			}
 		} catch (err) {
-			navigate("/notFound");
+			//navigate("/notFound");
 			console.log(err);
 		}
 	};
@@ -117,15 +122,20 @@ export default function ViewInstructor({ isInstructor }) {
 								: InstructorInfo.username}
 						</h1>
 					</Col>
-					<Col>
-						<Rating
-							allowFraction="true"
-							initialValue={InstructorInfo.rating}
-							readonly="true"
-							size={22}
-						/>
+					<Col className="d-flex align-items-center">
+						<div className="fitWidth fitHeight pe-1 ">
+							<Rating
+								allowFraction="true"
+								initialValue={InstructorInfo.rating}
+								readonly="true"
+								size={22}
+							/>
+						</div>
 						{InstructorReviews.length > 0 && (
-							<small>&nbsp;({InstructorReviews.length})</small>
+							<small className="text-muted fitWidth my-auto ps-0">
+								({InstructorReviews.length}{" "}
+								{InstructorReviews.length === 1 ? "Rating" : "Ratings"})
+							</small>
 						)}
 					</Col>
 					<Col className="d-flex justify-content-end">
@@ -154,25 +164,11 @@ export default function ViewInstructor({ isInstructor }) {
 				</Row>
 				<p className="lh-base text-muted">{InstructorInfo.biography}</p>
 
-				<Row className="mb-2">
-					<h5 className="text-muted fitWidth mb-0">{InstructorInfo.email}</h5>
-					<div className="fitWidth px-0">
-						<Rating
-							allowFraction="true"
-							initialValue={InstructorInfo.rating}
-							readonly="true"
-							size={22}
-						/>
-					</div>
-					{InstructorReviews.length > 0 && (
-						<small className="text-muted fitWidth mt-auto ps-0">
-							({InstructorReviews.length} Ratings)
-						</small>
-					)}
-				</Row>
-
-				<p className="lh-base">{InstructorInfo.biography}</p>
-				<Tabs id="controlled-tab-example" defaultActiveKey="Courses" className="mb-3">
+				<Tabs
+					id="controlled-tab-example"
+					defaultActiveKey="Courses"
+					className="mb-3"
+				>
 					<Tab eventKey="Courses" title="Courses">
 						{InstructorCourses.map((course, i) => (
 							<UniversalCourseCard
@@ -185,31 +181,42 @@ export default function ViewInstructor({ isInstructor }) {
 					<Tab eventKey="Reviews" title="Reviews">
 						<Row>
 							{/* Stats */}
-							<RatingStats rating={InstructorInfo.rating} reviews={InstructorReviews} />
+							<RatingStats
+								rating={InstructorInfo.rating}
+								reviews={InstructorReviews}
+							/>
 							{/* Reviews */}
 							<Col sm={8}>
-								{InstructorReviews.slice().reverse().map((review) => (
-									<InstructorReviewCard key={"review_" + review.trainee._id} review={review} />
-								))}
+								{InstructorReviews.slice()
+									.reverse()
+									.map((review) => (
+										<InstructorReviewCard
+											key={"review_" + review.trainee._id}
+											review={review}
+										/>
+									))}
 							</Col>
 						</Row>
 					</Tab>
 				</Tabs>
 
-				<Modal show={showReviewInstructorModal} onHide={handleCloseReviewInstructorModal}>
+				<Modal
+					show={showReviewInstructorModal}
+					onHide={handleCloseReviewInstructorModal}
+				>
 					<Modal.Header closeButton>
 						<Modal.Title>Rate Instructor</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<Form>
-							<Form.Group className="mb-3" controlId="rateCourse">
+							<Form.Group className="mb-3">
 								<Rating
 									allowFraction="true"
 									onClick={handleInstructorRating}
 									/* Available Props */
 								/>
 							</Form.Group>
-							<Form.Group className="mb-3" controlId="ratingDescription">
+							<Form.Group className="mb-3">
 								<Form.Label>Description</Form.Label>
 								<Form.Control
 									as="textarea"
@@ -222,7 +229,10 @@ export default function ViewInstructor({ isInstructor }) {
 						</Form>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button variant="secondary" onClick={handleCloseReviewInstructorModal}>
+						<Button
+							variant="secondary"
+							onClick={handleCloseReviewInstructorModal}
+						>
 							Cancel
 						</Button>
 						<Button variant="primary" onClick={reviewInstructor}>

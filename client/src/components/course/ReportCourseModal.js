@@ -68,7 +68,7 @@ function ReportCourseModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<Form>
-					<Form.Group className="mb-3" controlId="reportTitle">
+					<Form.Group className="mb-3">
 						<Form.Label>Title</Form.Label>
 						<Form.Control ref={reportTitle} type="text" placeholder="Title of report." />
 					</Form.Group>
@@ -92,7 +92,7 @@ function ReportCourseModal(props) {
 							/>
 						</Col>
 					</Form.Group>
-					<Form.Group className="" controlId="reportDescription">
+					<Form.Group className="">
 						<Form.Label>Description</Form.Label>
 						<Form.Control
 							as="textarea"

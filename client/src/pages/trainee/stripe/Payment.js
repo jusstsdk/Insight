@@ -11,6 +11,8 @@ import { loadStripe } from "@stripe/stripe-js";
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);
 	const [clientSecret, setClientSecret] = useState("");
+	const navigate = useNavigate();
+
 	const params = useParams();
 	const navigate = useNavigate();
 	let courseId = params.id;

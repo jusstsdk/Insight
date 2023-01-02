@@ -7,6 +7,7 @@ import InstructorNavbarButtons from "../instructor/InstructorNavbarButtons";
 import TraineeNavbarButtons from "../trainee/TraineeNavbarButtons";
 import CorporateTraineeNavbarButtons from "../corporateTrainee/CorporateTraineeNavbarButtons";
 import { useNavigate } from "react-router-dom";
+import logo from "./logo.svg";
 
 export default function CustomNavbar() {
 	const userType = useSelector((state) => state.userReducer.type);
@@ -33,24 +34,26 @@ export default function CustomNavbar() {
 			<Navbar
 				id="main-navbar"
 				fixed="top"
-				bg="primary"
+				bg="dark"
 				variant="dark"
 				expand="lg"
 				className="navbarZ-index"
 			>
 				<Container>
-					<Navbar.Brand href="#home">
+					<Navbar.Brand
+						href="#home"
+						onClick={() => {
+							navigate("/");
+						}}
+					>
 						<img
 							alt=""
-							src="../../../public/logo.png"
-							width="30"
-							height="30"
-							className="d-inline-block align-top"
-							onClick={() => {
-								navigate("/");
-							}}
+							src={logo}
+							width="40"
+							height="40"
+							className="d-inline-block me-2"
 						/>
-						React Bootstrap
+						Education Enjoyer
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">

@@ -104,6 +104,12 @@ router.post("/forgotPassword", async (req, res) => {
 		});
 	}
 
+	if(!user)
+	{
+		res.sendStatus(404);
+		return;
+	}
+
 	let mailTransporter = nodemailer.createTransport({
 		service: "Gmail",
 		auth: {

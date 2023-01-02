@@ -64,7 +64,7 @@ export default function ViewVideos(props) {
 										</Col>
 										<Col sm={1} className="d-flex justify-content-end">
 											<Button
-												variant="success"
+												variant="secondary"
 												className="accordionTrash accordionLikeEditButton"
 												key={`video_edit_button_${video_key}`}
 												onClick={() => handleEditVideoModalShow(video, video_key)}>

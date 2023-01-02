@@ -30,36 +30,45 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 	return (
 		<>
 			<Card bg="lightGrey" className="h-100">
+				<Card.Header>
+					<Card.Title className="fitWidth">
+						<Row>
+							<Col xs>{report.title}</Col>
+							<Col md="auto">
+								<div style={{ float: "right" }}>
+									{report.isSeen ? (
+										<BsFillEyeFill className="fitWidth" />
+									) : (
+										<BsFillEyeSlashFill className="fitWidth" />
+									)}
+								</div>
+							</Col>
+						</Row>
+					</Card.Title>
+				</Card.Header>
 				<Card.Body className="d-flex flex-column justify-content-between">
-					<Row className="justify-content-between align-items-center">
-						<Card.Title className="fitWidth">{report.title}</Card.Title>
-						{report.isSeen ? (
-							<BsFillEyeFill className="fitWidth" />
-						) : (
-							<BsFillEyeSlashFill className="fitWidth" />
-						)}
-					</Row>
 					<Row>
-						<CardGroup className="mb-2">
+						<Col sm={3}>
 							<h6 className="text-muted my-auto me-2">Type</h6>
-							<Col sm={3}>
-								<Card.Text className="fitWidth my-auto">{report.type}</Card.Text>
-							</Col>
-						</CardGroup>
-						<CardGroup className="mb-2">
+
+							<Card.Text className="fitWidth my-auto">{report.type}</Card.Text>
+						</Col>
+						<Col sm={3}>
 							<h6 className="text-muted my-auto me-2">Status</h6>
-							<Col sm={3}>
-								<Card.Text className="fitWidth my-auto">
-									{report.isResolved ? "Resolved" : "Pending"}
-								</Card.Text>
-							</Col>
-						</CardGroup>
-						<Card.Text>
-							{report.description.length < 200
-								? report.description
-								: report.description.substring(0, 200) + "..."}
-						</Card.Text>
+
+							<Card.Text className="fitWidth my-auto">
+								{report.isResolved ? "Resolved" : "Pending"}
+							</Card.Text>
+						</Col>
 					</Row>
+
+					<Card.Text>
+						<br />
+						<h6>Description:</h6>
+						{report.description.length < 200
+							? report.description
+							: report.description.substring(0, 200) + "..."}
+					</Card.Text>
 
 					{/* <Card.Text className="mb-1">Description : {report.description}</Card.Text> */}
 					<Button
@@ -67,7 +76,8 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 						variant="primary"
 						onClick={() => {
 							handleShow();
-						}}>
+						}}
+					>
 						View comments
 					</Button>
 				</Card.Body>
@@ -82,7 +92,9 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 							<ListGroup.Item className="reportComments" key={i}>
 								<Row>
 									<Col sm={3}>
-										<h6 className="text-muted my-auto me-2">{comment.username}</h6>
+										<h6 className="text-muted my-auto me-2">
+											{comment.username}
+										</h6>
 										{/* <h6>{comment.username}:</h6> */}
 									</Col>
 									<Col>
@@ -94,9 +106,14 @@ function MyReportCard({ report, detectChange, setDetectChange }) {
 					</ListGroup>
 					{!report.isResolved && (
 						<Form.Group
-							className={`${comments.length === 0 ? "" : "mt-3"} d-flex flex-column`}
-							controlId="Add comment">
-							<Form.Label className="text-muted my-auto">Type new comment:</Form.Label>
+							className={`${
+								comments.length === 0 ? "" : "mt-3"
+							} d-flex flex-column`}
+							controlId="Add comment"
+						>
+							<Form.Label className="text-muted my-auto">
+								Type new comment:
+							</Form.Label>
 							<Form.Control
 								className="my-2"
 								as="textarea"

@@ -14,15 +14,18 @@ import {
 
 import ViewExercise from "../createCourse/ViewExercise";
 import AddQuestion from "../createCourse/AddQuestion";
-import { addNotification } from "../../../redux/notificationsSlice";
 
 export default function AddExam(props) {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const status = location.state.status;
 
-	const ExamTitle = useSelector((state) => state.createCourseReducer.examTitle);
-	const ExamQuestions = useSelector((state) => state.createCourseReducer.examQuestions);
+	const ExamTitle = useSelector(
+		(state) => state.createCourseReducer.examTitle
+	);
+	const ExamQuestions = useSelector(
+		(state) => state.createCourseReducer.examQuestions
+	);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const handleAddModalClose = () => setShowAddModal(false);
 	const handleAddModalShow = () => setShowAddModal(true);
@@ -41,33 +44,45 @@ export default function AddExam(props) {
 		} else {
 			props.setNoExamQuestions(false);
 		}
-			if(action === "save"){
-				if (status === "New") props.handleCreateCourse("Draft");
-						else props.handleEditCourse("Draft");
-			} else {
-				if (status === "New") props.handleCreateCourse("Published");
-						else props.handleEditCourse("Published");
-			}
-			
-		
-
-
+		if (action === "save") {
+			if (status === "New") props.handleCreateCourse("Draft");
+			else props.handleEditCourse("Draft");
+		} else {
+			if (status === "New") props.handleCreateCourse("Published");
+			else props.handleEditCourse("Published");
+		}
 	};
 
 	return (
 		<>
 			<Row>
 				<Col>
-					<h1 className="fs-3 fw-semibold text-muted">Adding Course Exam</h1>
+					<h1 className="fs-3 fw-semibold text-muted">
+						Adding Course Exam
+					</h1>
 				</Col>
-				<Col className="d-flex justify-content-end">
+				<Col className="d-flex justify-content-end fitWidth">
+					{props.displayErrors && props.NoExamQuestions && (
+						<h6 className="error ">
+							you must add at least one question <MdOutlineError />
+						</h6>
+					)}
 					<Button onClick={handleAddModalShow}>Add a Question</Button>
 				</Col>
 			</Row>
-			<Row >{props.displayErrors && props.NoExamQuestions && <span className="error">"you must add atleast one question<MdOutlineError/>"</span>}</Row>
-			<Form.Group as={Row} className="mb-3 d-flex align-items-center justify-content-start">
+			
+			<Form.Group
+				as={Row}
+				className="mb-3 d-flex align-items-center justify-content-start"
+			>
 				<Form.Label column sm={2}>
-					Exam title {props.displayErrors && props.MissingExamTitle && <span className="error">"missing<MdOutlineError/>"</span>}
+					Exam title{" "}
+					{props.displayErrors && props.MissingExamTitle && (
+						<h6 className="error">
+							missing
+							<MdOutlineError />
+						</h6>
+					)}
 				</Form.Label>
 				<Col sm={7}>
 					<Form.Control
@@ -87,9 +102,16 @@ export default function AddExam(props) {
 					key="view_exam_questions"
 					Questions={ExamQuestions}
 					handleAddQuestion={(key, newQuestion) =>
-						dispatch(editExamQuestion({ key: key, question: newQuestion }))
+						dispatch(
+							editExamQuestion({
+								key: key,
+								question: newQuestion,
+							})
+						)
 					}
-					handleDeleteQuestion={(key) => dispatch(removeExamQuestions(key))}
+					handleDeleteQuestion={(key) =>
+						dispatch(removeExamQuestions(key))
+					}
 				/>
 			</Accordion>
 			{/* Navigation and Actions */}
@@ -98,23 +120,26 @@ export default function AddExam(props) {
 				<Button
 					className="me-3"
 					onClick={() => {
-						props.setCurrentTab("addSubtitle")
-					}}>
+						props.setCurrentTab("addSubtitle");
+					}}
+				>
 					<AiOutlineArrowLeft />
 				</Button>
 				{/* Save Course */}
 				<Button
 					className="me-3"
 					onClick={() => {
-						handleButtons("save");	
-					}}>
+						handleButtons("save");
+					}}
+				>
 					Save Course
 				</Button>
 				{/* Publish Course */}
 				<Button
 					onClick={() => {
 						handleButtons("publish");
-					}}>
+					}}
+				>
 					Publish Course
 				</Button>
 			</Col>

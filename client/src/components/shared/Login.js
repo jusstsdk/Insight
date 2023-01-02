@@ -62,7 +62,7 @@ export default function Login() {
 			className="d-flex flex-column mb-2"
 			onSubmit={!isLoggingIn ? loginFunction : null}
 		>
-			<Form.Group className="mb-2" controlId="formBasicUsername">
+			<Form.Group className="mb-2">
 				<Form.Label className="fs-6">Username</Form.Label>
 				<Form.Control
 					type="text"
@@ -71,7 +71,7 @@ export default function Login() {
 				/>
 			</Form.Group>
 
-			<Form.Group className="mb-2" controlId="formBasicPassword">
+			<Form.Group className="mb-2">
 				<Form.Label className="fs-6">Password</Form.Label>
 				<Form.Control
 					type="password"
