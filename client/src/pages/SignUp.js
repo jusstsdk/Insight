@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../components/shared/CountryDropdown";
 import { Col, Container, Modal, Row, Spinner } from "react-bootstrap";
-import { addNotification } from "../redux/notificationsSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../redux/userSlice";
@@ -66,28 +65,28 @@ export default function SignUp() {
 
 			MySwal.fire({
 				toast: true,
-				position: 'bottom-end',
+				position: "bottom-end",
 				showConfirmButton: false,
 				timer: 4000,
 				title: <strong>Signed up SuccessFully</strong>,
 				html: <i>Account Created SuccessFully, Have fun!</i>,
 				icon: "success",
 				timerProgressBar: true,
-				grow:'row'
+				grow: "row",
 			});
 		} catch (err) {
 			console.log(err);
 			setIsLoggingIn(false);
 			MySwal.fire({
 				toast: true,
-				position: 'bottom-end',
+				position: "bottom-end",
 				showConfirmButton: false,
 				timer: 4000,
 				title: <strong>Something Went Wrong</strong>,
 				html: <i>Try again another time please</i>,
 				icon: "error",
 				timerProgressBar: true,
-				grow:'row'
+				grow: "row",
 			});
 		}
 	}
@@ -110,12 +109,7 @@ export default function SignUp() {
 					<Col sm={4}>
 						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic"> Last name </Form.Label>
-							<Form.Control
-								ref={lastName}
-								type="lastName"
-								placeholder="Enter Last Name"
-								required
-							/>
+							<Form.Control ref={lastName} type="lastName" placeholder="Enter Last Name" required />
 						</Form.Group>
 					</Col>
 				</Row>
@@ -123,23 +117,13 @@ export default function SignUp() {
 					<Col sm={4}>
 						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic">Username</Form.Label>
-							<Form.Control
-								ref={username}
-								type="Username"
-								placeholder="Enter Username"
-								required
-							/>
+							<Form.Control ref={username} type="Username" placeholder="Enter Username" required />
 						</Form.Group>
 					</Col>
 					<Col sm={4}>
 						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic">Password</Form.Label>
-							<Form.Control
-								ref={password}
-								type="password"
-								placeholder="Enter Password"
-								required
-							/>
+							<Form.Control ref={password} type="password" placeholder="Enter Password" required />
 						</Form.Group>
 					</Col>
 				</Row>
@@ -147,12 +131,7 @@ export default function SignUp() {
 					<Col sm={8}>
 						<Form.Group className="mb-3">
 							<Form.Label className="fst-italic">Email</Form.Label>
-							<Form.Control
-								ref={email}
-								type="email"
-								placeholder="Enter Email"
-								required
-							/>
+							<Form.Control ref={email} type="email" placeholder="Enter Email" required />
 						</Form.Group>
 					</Col>
 				</Row>
@@ -165,8 +144,7 @@ export default function SignUp() {
 								setGender(e.target.value);
 							}}
 							aria-label="Default select example"
-							required="true"
-						>
+							required="true">
 							<option value="" className="fst-italic">
 								Select Gender
 							</option>
@@ -176,23 +154,14 @@ export default function SignUp() {
 					</Col>
 					<Col sm={4}>
 						<Form.Label className="fst-italic">Select Country </Form.Label>
-						<CountryDropdown
-							Country={country}
-							setCountry={setCountry}
-							required
-						/>
+						<CountryDropdown Country={country} setCountry={setCountry} required />
 					</Col>
 				</Row>
 				<Row className="justify-content-center mt-3">
 					<Col className="d-flex justify-content-center">
 						<Form.Group>
 							<Container className="d-flex">
-								<Form.Check
-									className="my-auto"
-									type="checkbox"
-									label="I agree to the"
-									required
-								/>
+								<Form.Check className="my-auto" type="checkbox" label="I agree to the" required />
 								<Button variant="link" onClick={handleShowTermsModal}>
 									terms and conditions
 								</Button>
@@ -215,12 +184,7 @@ export default function SignUp() {
 								Sign Up...
 							</Button>
 						) : (
-							<Button
-								className=""
-								variant="primary"
-								type="submit"
-								disabled={isLoggingIn}
-							>
+							<Button className="" variant="primary" type="submit" disabled={isLoggingIn}>
 								Sign Up
 							</Button>
 						)}
@@ -234,18 +198,17 @@ export default function SignUp() {
 				<Modal.Body>
 					<h5>As an Instructor:</h5>
 					<p className="text-muted">
-						You give up all rights to all content, videos, exercises, emails,
-						ads. Money wise we will take 90% of all money paid on our platform.
+						You give up all rights to all content, videos, exercises, emails, ads. Money wise we
+						will take 90% of all money paid on our platform.
 					</p>
 					<h5>As an Coporate Trainee:</h5>
 					<p className="text-muted">
-						You will be beholden to your companies policies and what they allow
-						you to subscribe to.
+						You will be beholden to your companies policies and what they allow you to subscribe to.
 					</p>
 					<h5>As a Trainee:</h5>
 					<p className="text-muted">
-						You allow us to take collect and sell data about you, including your
-						name,email,credit card number.
+						You allow us to take collect and sell data about you, including your name,email,credit
+						card number.
 					</p>
 				</Modal.Body>
 				<Modal.Footer>

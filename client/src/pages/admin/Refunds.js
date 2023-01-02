@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import API from "../../functions/api";
-import { Container, Badge, CardGroup, Row, Card, Col, Button } from "react-bootstrap";
+import { Badge, Row, Card, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import RefundCard from "../../components/admin/RefundCard";
 import { Rating } from "react-simple-star-rating";
-import { useNavigate } from "react-router-dom";
 
 const Refunds = () => {
 	const user = useSelector((state) => state.userReducer.user);
 	const userType = useSelector((state) => state.userReducer.type);
-	const navigate = useNavigate();
 
 	const [refundCourses, setRefundCourses] = useState([]);
 	const token = useSelector((state) => state.userReducer.token);

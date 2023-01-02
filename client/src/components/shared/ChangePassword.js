@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
 
-import { addNotification } from "../../redux/notificationsSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";

@@ -151,6 +151,10 @@ const getCourses = async (req, res) => {
 
 	// create filter query from querystring
 	if (req.query.searchQuery != null) {
+		const instructorIds = await Instructor.find(
+			{ username: { $regex: req.query.searchQuery, $options: "i" } },
+			"id"
+		);
 		query["$and"].push({
 			$or: [
 				{ title: { $regex: req.query.searchQuery, $options: "i" } },
@@ -163,10 +167,7 @@ const getCourses = async (req, res) => {
 					},
 				},
 				{
-					"instructors.username": {
-						$regex: req.query.searchQuery,
-						$options: "i",
-					},
+					instructors: { $in: instructorIds },
 				},
 			],
 		});
@@ -179,11 +180,10 @@ const getCourses = async (req, res) => {
 		rankedCourses = rankedCourses.filter((course) => course.status === "Published");
 		rankedCourses.sort(comparePopularity);
 		course.forEach((course) => {
-			if(course.status === "Published"){
+			if (course.status === "Published") {
 				course.rank = rankedCourses.indexOf(course) + 1;
 				course.save();
 			}
-			
 		});
 
 		res.status(200).json(course);
@@ -331,9 +331,7 @@ const watchVideo = async (req, res) => {
 	let trainee;
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
-		videoIndex
-	].isWatched = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].isWatched = true;
 	await trainee.save();
 	res.status(200).json(trainee);
 };
@@ -350,11 +348,8 @@ const addNoteToVideoNotes = async (req, res) => {
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
 
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
-		videoIndex
-	].notes = [
-		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex]
-			.notes,
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = [
+		...trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes,
 		note,
 	];
 	trainee.save();
@@ -375,9 +370,7 @@ const deleteNoteFromVideoNotes = async (req, res) => {
 	let newNotes = trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
 		videoIndex
 	].notes.filter((_, i) => i !== noteIndex);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
-		videoIndex
-	].notes = newNotes;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].videos[videoIndex].notes = newNotes;
 	trainee.save();
 	res.status(200).json(trainee);
 };
@@ -393,12 +386,9 @@ const solveExercise = async (req, res) => {
 	let trainee;
 	if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
 	else trainee = await CorporateTrainee.findById(traineeId);
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
-		exerciseIndex
-	].isSolved = true;
-	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
-		exerciseIndex
-	].questions = questions;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].isSolved = true;
+	trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[exerciseIndex].questions =
+		questions;
 	await trainee.save();
 	res.status(200).json(trainee);
 };

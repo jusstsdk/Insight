@@ -1,21 +1,17 @@
-import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import Stars from "../Stars";
+import { Button, Card, Col } from "react-bootstrap";
+import { useState } from "react";
 import api from "../../functions/api";
 import { useSelector, useDispatch } from "react-redux";
-import { addNotification } from "../../redux/notificationsSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 function RefundCard({ request, course }) {
 	const [handled, setHandled] = useState(false);
-	const [show, setShow] = useState(true);
 	const trainee = request.trainee;
 	const token = useSelector((state) => state.userReducer.token);
-	const dispatch = useDispatch();
 	const MySwal = withReactContent(Swal);
 
 	async function handleRefund() {
-		const response = await api.put(
+		await api.put(
 			"/administrators/refunds/" + request._id,
 			{},
 			{
