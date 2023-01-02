@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../../functions/api";
-import {
-	Container,
-	Badge,
-	CardGroup,
-	Row,
-	Card,
-	Col,
-	Button,
-} from "react-bootstrap";
+import { Container, Badge, CardGroup, Row, Card, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import RefundCard from "../../components/admin/RefundCard";
 import { Rating } from "react-simple-star-rating";
@@ -35,14 +27,11 @@ const Refunds = () => {
 	}, []);
 	return (
 		<>
-			<h1>Refund Requests</h1>
 			{refundCourses.map((course) => (
-				<Card key={course._id}>
+				<Card key={course._id} className="mb-3">
 					<Card.Header>
 						<Row>
-							<Card.Title className="courseCardTitle pe-0">
-								{course.title}
-							</Card.Title>
+							<Card.Title className="courseCardTitle pe-0">{course.title}</Card.Title>
 							<Col sm={4}>
 								{course.subjects.map((subject, i) =>
 									i <= 1 ? (
@@ -76,34 +65,23 @@ const Refunds = () => {
 									return courseInstructor._id === user._id;
 								})) ||
 								userType === "Administrator") && (
-								<Badge
-									pill
-									bg={course.status === "Draft" ? "secondary" : "success"}
-								>
+								<Badge pill bg={course.status === "Draft" ? "secondary" : "success"}>
 									{course.status}
 								</Badge>
 							)
 						)}
-						{course.status === "Published" &&
-							course.rank > 0 &&
-							course.rank < 6 && (
-								<Badge pill bg="danger" className=" mx-1 ">
-									<span style={{ color: "#ffffff" }}>
-										#{course.rank} in Popularity
-									</span>
-								</Badge>
-							)}
+						{course.status === "Published" && course.rank > 0 && course.rank < 6 && (
+							<Badge pill bg="danger" className=" mx-1 ">
+								<span style={{ color: "#ffffff" }}>#{course.rank} in Popularity</span>
+							</Badge>
+						)}
 					</Card.Header>
-					<Card.Body>
-						<Row>
-							{course.refundRequests.map((request) => (
-								<RefundCard
-									key={request._id}
-									request={request}
-									course={course}
-								/>
-							))}
-						</Row>
+					<Card.Body className="d-flex flex-wrap">
+						{course.refundRequests.map((request, i) => (
+							<Col sm={4} className=" p-1 ">
+								<RefundCard key={request._id} request={request} course={course} />
+							</Col>
+						))}
 					</Card.Body>
 				</Card>
 			))}
