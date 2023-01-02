@@ -1,12 +1,4 @@
-import {
-	Button,
-	Badge,
-	Card,
-	CardGroup,
-	Col,
-	Row,
-	ListGroup,
-} from "react-bootstrap";
+import { Button, Badge, Card, CardGroup, Col, Row, ListGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import Stars from "../Stars";
 import api from "../../functions/api";
@@ -39,9 +31,13 @@ function RefundCard({ request, course }) {
 			title: <strong>Course Refunded</strong>,
 			html: (
 				<i>
-					{"Course '" + course.title + "' refunded to " +
-					trainee.username + ".\n Amount refunded : " +
-					request.paidPrice + "$"}
+					{"Course '" +
+						course.title +
+						"' refunded to " +
+						trainee.username +
+						".\n Amount refunded : " +
+						request.paidPrice +
+						"$"}
 				</i>
 			),
 			icon: "success",
@@ -51,42 +47,20 @@ function RefundCard({ request, course }) {
 	}
 
 	return (
-		<Card bg="lightGrey" className="my-3">
-			<Card.Body>
-				{/* Title and Stars */}
-				<Row>
-					<Col>
-						<Card.Title className="courseCardTitle">
-							Username: {trainee.username}
-						</Card.Title>
-					</Col>
+		<Card className="h-100">
+			<Card.Body className=" d-flex flex-column justify-content-start">
+				<Card.Title className="courseCardTitle">Username: {trainee.username}</Card.Title>
 
-					{/* Summary and Price */}
+				<Card.Text className="priceLabel">Amount to be Refunded: {request.paidPrice} USD</Card.Text>
 
-					<Col>
-						<Card.Text className="priceLabel">
-							Amount to be Refunded: {request.paidPrice} USD
-						</Card.Text>
-					</Col>
-					<Col
-						className="viewCourseButton d-flex  justify-content-end"
-						sm={2}
-						md={2}
-						lg={2}
-					>
-						{!handled && (
-							<Button
-								variant="outline-pinkish"
-								onClick={handleRefund}
-							>
-								Refund
-							</Button>
-						)}
-						{handled && <h6 className="success">Granted</h6>}
-					</Col>
-				</Row>
-
-				{/* Instructors and View Course*/}
+				<Col className="viewCourseButton d-flex  justify-content-end mt-auto" sm={2} md={2} lg={2}>
+					{!handled && (
+						<Button variant="primary" onClick={handleRefund}>
+							Refund
+						</Button>
+					)}
+					{handled && <h6 className="success">Granted</h6>}
+				</Col>
 			</Card.Body>
 		</Card>
 	);
