@@ -24,9 +24,12 @@ import {
 
 import { addNotification } from "../redux/notificationsSlice";
 import { deleteCourseInstructor } from "../redux/userSlice";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function UniversalCourseCard(props) {
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	const course = props.course;
 	const cardType = props.cardType;
@@ -120,13 +123,18 @@ function UniversalCourseCard(props) {
 		await API.put(`/courses/${course._id}`, { status: "Published" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Published Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Published Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -134,13 +142,17 @@ function UniversalCourseCard(props) {
 		await API.put(`/courses/${course._id}`, { status: "Closed" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Closed Successfully!",
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Closed Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -152,13 +164,18 @@ function UniversalCourseCard(props) {
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
 		dispatch(deleteCourseInstructor({ courseId: props.course._id }));
-		dispatch(
-			addNotification({
-				title: "Delete Course",
-				info: "Draft Deleted Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Delete Course</strong>,
+			html: <i>Draft Deleted Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 

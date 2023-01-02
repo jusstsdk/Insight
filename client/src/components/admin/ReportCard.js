@@ -31,23 +31,21 @@ function ReportCard(props) {
 	};
 	return (
 		<>
-			<Card bg="lightGrey">
-				<Card.Body>
+			<Card bg="lightGrey" className="h-100">
+				<Card.Body className="d-flex flex-column justify-content-start">
 					{!props.report.isSeen && <BsFillEyeSlashFill />}
 					{props.report.isSeen && <BsFillEyeFill />}
 					<Card.Title>{props.report.title}</Card.Title>
-					<Card.Text className="mb-1">
-						{props.report.isResolved ? "Resolved" : "Pending"}
-					</Card.Text>
+					<Card.Text className="mb-1">{props.report.isResolved ? "Resolved" : "Pending"}</Card.Text>
 					<Card.Text>{props.report.author.username}</Card.Text>
 					<Button
+						className="mt-auto"
 						variant="outline-primary"
 						onClick={() => {
 							handleReport({ seen: true });
 							props.seenReport(props.report);
 							handleShow();
-						}}
-					>
+						}}>
 						View details
 					</Button>
 				</Card.Body>
@@ -93,8 +91,7 @@ function ReportCard(props) {
 								handleReport({ resolved: true });
 								props.resolvingReport(props.report);
 								handleClose();
-							}}
-						>
+							}}>
 							Resolve
 						</Button>
 					)}

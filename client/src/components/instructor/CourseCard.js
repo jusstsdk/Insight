@@ -23,9 +23,12 @@ import { deleteCourseInstructor } from "../../redux/userSlice";
 
 import Stars from "../Stars";
 import UniversalCourseCard from "../UniversalCourseCard";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function CourseCard(props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 	const currency = useSelector((state) => state.userReducer.user.currency);
 	const instructorId = useSelector((state) => state.userReducer.user._id);
 
@@ -42,13 +45,17 @@ function CourseCard(props) {
 		await API.put(`/courses/${props.course._id}`, { status: "Published" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Published Successfully!",
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Published Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -56,13 +63,18 @@ function CourseCard(props) {
 		await API.put(`/courses/${props.course._id}`, { status: "Closed" });
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
-		dispatch(
-			addNotification({
-				title: "Create Course",
-				info: "Course Closed Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Create Course</strong>,
+			html: <i>Course Closed Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 
@@ -74,13 +86,18 @@ function CourseCard(props) {
 		dispatch(clearInfo());
 		dispatch(clearCreateCourse());
 		dispatch(deleteCourseInstructor({ courseId: props.course._id }));
-		dispatch(
-			addNotification({
-				title: "Delete Course",
-				info: "Draft Deleted Successfully!",
-				color: "success",
-			})
-		);
+		
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Delete Course</strong>,
+			html: <i>Draft Deleted Successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		props.setDetectChange(!props.DetectChange);
 	};
 

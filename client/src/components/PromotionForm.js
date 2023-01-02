@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import api from "../functions/api";
 import { addNotification } from "../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function PromotionForm({ courses }) {
 	const navigate = useNavigate();
@@ -13,18 +15,43 @@ export default function PromotionForm({ courses }) {
 	const discount = useRef();
 	const userType = useSelector((state) => state.userReducer.type);
 	const dispatch = useDispatch();
+	const MySwal = withReactContent(Swal);
 
 	async function setPromotion(e) {
 		e.preventDefault();
-
-		if (endDate.current.value < startDate.current.value) {
+		if(courses.length === 0) {
 			dispatch(
 				addNotification({
-					title: "You entered wrong information.",
-					info: "Start date must be before end date.",
+					title: "Selection error",
+					info: "You must select at least one course.",
 					color: "error",
 				})
 			);
+			return;
+		}
+		if (startDate.current.value === "" || endDate.current.value === "" || discount.current.value === "" || discount.current.value <= 0 || discount.current.value > 100) {
+			dispatch(
+				addNotification({
+					title: "Wrong information",
+					info: "You must enter a start,end date, and an amount between 1 and 100.",
+					color: "error",
+				})
+			);
+			return;
+		}
+
+		if (endDate.current.value < startDate.current.value) {
+			MySwal.fire({
+				toast: true,
+				position: 'bottom-end',
+				showConfirmButton: false,
+				timer: 4000,
+				title: <strong>You entered wrong information.</strong>,
+				html: <i>Start date must be before end date.</i>,
+				icon: "error",
+				timerProgressBar: true,
+				grow:'row'
+			});
 			return;
 		}
 
@@ -36,18 +63,24 @@ export default function PromotionForm({ courses }) {
 			offeredBy: userType,
 		});
 
-		dispatch(
-			addNotification({
-				title: "Success",
-				info: response.data,
-				color: "success",
-			})
-		);
+
+		MySwal.fire({
+			toast: true,
+			position: 'bottom-end',
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Success</strong>,
+			html: <i>Promotion set successfully!</i>,
+			icon: "success",
+			timerProgressBar: true,
+			grow:'row'
+		});
 		if (userType === "Instructor") {
 			navigate("../viewInstructorCourses");
 		} else {
 			navigate("../courses");
 		}
+		
 	}
 
 	return (

@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notificationsSlice";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 function RequestCard({
 	request,
 	course,
@@ -28,6 +30,7 @@ function RequestCard({
 	const token = useSelector((state) => state.userReducer.token);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 	async function grantAccess() {
 		await api.put(
 			"/administrators/requests",
@@ -42,17 +45,24 @@ function RequestCard({
 		setHandled(true);
 		setMessage("Access Granted");
 		setVariant("success");
-		dispatch(
-			addNotification({
-				title: "Access granted",
-				info:
-					"Access to course '" +
-					course.title +
-					"' granted to " +
-					username,
-				color: "success",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: "bottom-end",
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Access granted</strong>,
+			html: (
+				<i>
+					{"Access to course '" +
+						course.title +
+						"' granted to " +
+						username}
+				</i>
+			),
+			icon: "success",
+			timerProgressBar: true,
+			grow: "row",
+		});
 		setDetectChange(!DetectChange);
 	}
 	async function denyAccess() {
@@ -69,17 +79,24 @@ function RequestCard({
 		setHandled(true);
 		setMessage("Access Denied");
 		setVariant("danger");
-		dispatch(
-			addNotification({
-				title: "Access denied",
-				info:
-					"Access to course '" +
-					course.title +
-					"' denied to " +
-					username,
-				color: "danger",
-			})
-		);
+		MySwal.fire({
+			toast: true,
+			position: "bottom-end",
+			showConfirmButton: false,
+			timer: 4000,
+			title: <strong>Access denied</strong>,
+			html: (
+				<i>
+					{"Access to course '" +
+						course.title +
+						"' denied to " +
+						username}
+				</i>
+			),
+			icon: "error",
+			timerProgressBar: true,
+			grow: "row",
+		});
 		setDetectChange(!DetectChange);
 	}
 	useEffect(() => {

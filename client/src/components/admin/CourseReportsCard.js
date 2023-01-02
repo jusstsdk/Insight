@@ -7,11 +7,11 @@ function CourseReportsCard(props) {
 		navigate("/admin/viewCourseReports", { state: props.course });
 	};
 	return (
-		<Card bg="lightGrey">
-			<Card.Body>
+		<Card bg="lightGrey" className="h-100">
+			<Card.Body className="d-flex flex-column justify-content-start">
 				<Card.Title>{props.course.title}</Card.Title>
 				<Card.Text>Number of reports: {props.course.reports.length}</Card.Text>
-				<Button onClick={() => ViewCourseReports()} variant="outline-primary">
+				<Button className="mt-auto" onClick={() => ViewCourseReports()} variant="outline-primary">
 					View Reports
 				</Button>
 			</Card.Body>

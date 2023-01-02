@@ -5,9 +5,10 @@ import API from "../functions/api";
 import { useSelector, useDispatch } from "react-redux";
 import { setCourses } from "../redux/userSlice";
 import CourseCard from "./CourseCard";
-import Pagination from "./shared/pagination/Pagination";
 import "./shared/pagination/style.scss";
 import UniversalCourseCard from "./UniversalCourseCard";
+import { Tab, Tabs } from "react-bootstrap";
+import Pagination from "./shared/pagination/Pagination";
 let pageSize = 2;
 const MyCourses = () => {
 	const [myCourses, setMyCourses] = useState([]);
@@ -18,7 +19,27 @@ const MyCourses = () => {
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = myCourses.slice(firstPageIndex, lastPageIndex);
 
-	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
+	const [InProgressCourses, setInProgressCourses] = useState([]);
+	const [InProgressCurrentPage, setInProgressCurrentPage] = useState(1);
+	let InProgressFirstPageIndex = (InProgressCurrentPage - 1) * pageSize;
+	let InProgressLastPageIndex = InProgressFirstPageIndex + pageSize;
+	let InProgressCurrentCourses = InProgressCourses.slice(
+		InProgressFirstPageIndex,
+		InProgressLastPageIndex
+	);
+
+	const [CompletedCourses, setCompletedCourses] = useState([]);
+	const [CompletedCurrentPage, setCompletedCurrentPage] = useState(1);
+	let CompletedFirstPageIndex = (CompletedCurrentPage - 1) * pageSize;
+	let CompletedLastPageIndex = CompletedFirstPageIndex + pageSize;
+	let CompletedCurrentCourses = CompletedCourses.slice(
+		CompletedFirstPageIndex,
+		CompletedLastPageIndex
+	);
+
+	const coursesWithId = useSelector(
+		(state) => state.userReducer.user.courses
+	);
 
 	async function getCourses() {
 		let newCourses = [];
@@ -43,10 +64,18 @@ const MyCourses = () => {
 				fullCourse.originalPrice = (
 					fullCourse.originalPrice * user.exchangeRate
 				).toFixed(2);
-				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
+				fullCourse.price = (
+					fullCourse.price * user.exchangeRate
+				).toFixed(2);
 
 				newCourses.push(fullCourse);
 			})
+		);
+		setCompletedCourses(
+			newCourses.filter((course) => course.progress === 1)
+		);
+		setInProgressCourses(
+			newCourses.filter((course) => course.progress < 1)
 		);
 		setMyCourses(newCourses);
 	}
@@ -60,18 +89,41 @@ const MyCourses = () => {
 			<div className="course-list">
 				{myCourses.length > 0 ? (
 					<>
-						{currentCourses.map((course) => (
-							<div className="course-preview" key={course._id}>
+						<Tabs
+					defaultActiveKey="InProgress"
+					id="justify-tab-example"
+					className="mb-3"
+					justify
+				>
+					<Tab eventKey="InProgress" title="In progress">
+						<div className="course-list">
+							{InProgressCurrentCourses.map((course) => (
 								<UniversalCourseCard course={course} cardType={"Basic"} />
-							</div>
-						))}
-						<Pagination
-							className="pagination-bar"
-							currentPage={currentPage}
-							totalCount={myCourses.length}
-							pageSize={pageSize}
-							onPageChange={(page) => setCurrentPage(page)}
-						/>
+							))}
+							<Pagination
+								className="pagination-bar"
+								currentPage={InProgressCurrentPage}
+								totalCount={InProgressCourses.length}
+								pageSize={pageSize}
+								onPageChange={(page) => setInProgressCurrentPage(page)}
+							/>
+						</div>								
+					</Tab>
+					<Tab eventKey="Completed" title="Completed courses">
+						<div className="course-list">
+							{CompletedCurrentCourses.map((course) => (
+								<UniversalCourseCard course={course} cardType={"Basic"} />
+							))}
+							<Pagination 
+								className="pagination-bar"
+								currentPage={CompletedCurrentPage}
+								totalCount={CompletedCourses.length}
+								pageSize={pageSize}
+								onPageChange={(page) => setCompletedCurrentPage(page)}
+							/>
+						</div>
+					</Tab>
+				</Tabs>
 					</>
 				) : (
 					<h5 className="text-muted">You don't own any courses</h5>
