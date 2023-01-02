@@ -52,7 +52,7 @@ function Payment() {
 			url: "http://localhost:4000/create-payment-intent",
 			data: {
 				currency: "usd",
-				amount: amount * 100,
+				amount: (amount * 100).toFixed(0),
 				automatic_payment_methods: { enabled: true },
 			},
 		};
