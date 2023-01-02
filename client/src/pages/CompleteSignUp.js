@@ -133,13 +133,17 @@ export default function CompleteSignUp() {
 						<CountryDropdown Country={country} setCountry={setCountry} required={true} />
 					</Col>
 				</Row>
-				<Form.Group className={userType == "CorporateTrainee" ? "d-none" : ""}>
-					<Form.Label> Biography </Form.Label>
-					<Form.Control ref={biography} placeholder="Enter Biography" as="textarea" rows={3} />
-				</Form.Group>
-				<Row sm={8} className="mt-3">
+				<Row sm={8} className="justify-content-center mt-2">
+					<Col sm={8}>
+						<Form.Group className={userType == "CorporateTrainee" ? "d-none" : ""}>
+							<Form.Label> Biography </Form.Label>
+							<Form.Control ref={biography} placeholder="Enter Biography" as="textarea" rows={3} />
+						</Form.Group>
+					</Col>
+				</Row>
+				<Row sm={8} className="mt-3 ">
 					<Form.Group>
-						<Container className="d-flex">
+						<Container className="d-flex justify-content-center">
 							<Form.Check className="my-auto" type="checkbox" label="I agree to the" required />
 							<Button variant="link" onClick={handleShowTermsModal}>
 								terms and conditions
