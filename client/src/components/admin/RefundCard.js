@@ -48,19 +48,20 @@ function RefundCard({ request, course }) {
 		<Card bg="lightGrey" className="my-3">
 			<Card.Body>
 				{/* Title and Stars */}
-				<CardGroup className=" align-items-center">
-					<Card.Title className="courseCardTitle">
-						{trainee.username}
-					</Card.Title>
-					<Col className="priceContainer d-flex justify-content-end"></Col>
-				</CardGroup>
+				<Row>
+					<Col>
+						<Card.Title className="courseCardTitle">
+							Username: {trainee.username}
+						</Card.Title>
+					</Col>
 
-				{/* Summary and Price */}
-				<CardGroup className="my-2">
-					<h6 className="text-muted ">
-						{trainee.firstName} {trainee.lastName}
-					</h6>
+					{/* Summary and Price */}
 
+					<Col>
+						<Card.Text className="priceLabel">
+							Amount to be Refunded: {request.paidPrice} USD
+						</Card.Text>
+					</Col>
 					<Col
 						className="viewCourseButton d-flex  justify-content-end"
 						sm={2}
@@ -74,12 +75,7 @@ function RefundCard({ request, course }) {
 						)}
 						{handled && <h6 className="success">Granted</h6>}
 					</Col>
-				</CardGroup>
-				<CardGroup className="my-2">
-					<Card.Text className="priceLabel">
-						price paid : {request.paidPrice}$
-					</Card.Text>
-				</CardGroup>
+				</Row>
 
 				{/* Instructors and View Course*/}
 			</Card.Body>

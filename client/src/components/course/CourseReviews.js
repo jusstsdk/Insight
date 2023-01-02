@@ -59,7 +59,8 @@ function CourseReviews(props) {
 	const traineeOwnsCourse = props.traineeOwnsCourse;
 	const traineeVersionOfCourse = props.traineeVersionOfCourse;
 	const traineeAlreadyRequestedRefund = props.traineeAlreadyRequestedRefund;
-	const setTraineeAlreadyRequestedRefund = props.setTraineeAlreadyRequestedRefund;
+	const setTraineeAlreadyRequestedRefund =
+		props.setTraineeAlreadyRequestedRefund;
 
 	const courseID = course._id;
 
@@ -71,7 +72,8 @@ function CourseReviews(props) {
 
 	//Trainee Data
 	const [traineeCanRefund, setTraineeCanRefund] = useState(true);
-	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] = useState(false);
+	const [traineePastFiftyPercentOfCourse, setTraineePastFiftyPercentOfCourse] =
+		useState(false);
 
 	const [showRefundRequestModal, setShowRefundRequestModal] = useState(false);
 
@@ -139,7 +141,9 @@ function CourseReviews(props) {
 				) : new Date(review.createdAt).toUTCString() === "Invalid Date" ? (
 					""
 				) : (
-					<h6 className="fitWidth">{new Date(review.createdAt).toUTCString()}</h6>
+					<h6 className="fitWidth">
+						{new Date(review.createdAt).toUTCString()}
+					</h6>
 				)}
 			</>
 		);
@@ -156,44 +160,45 @@ function CourseReviews(props) {
 					</Col>
 					{/* Buttons */}
 					<Col>
-						{(userType === "Trainee" || userType === "CorporateTrainee") && ownsCourse && (
-							<>
-								<div className="d-flex justify-content-end">
-									{!traineeAlreadyRequestedRefund && (
-										<>
-											<Button className="ms-2" onClick={handleShowReviewCourseModal}>
-												Review
-											</Button>
-
-											<Button
-												className="ms-2"
-												variant="danger"
-												onClick={handleShowReportCourseModal}>
-												Report
-											</Button>
-										</>
-									)}
-									{userType === "Trainee" && !traineePastFiftyPercentOfCourse && (
-										<Button
-											className="ms-2"
-											variant={traineeCanRefund ? "warning" : "secondary"}
-											onClick={handleShowRefundCourseModal}
-											disabled={!traineeCanRefund}>
-											{traineeCanRefund ? "Request Refund" : "Refund Request Sent"}
-										</Button>
-									)}
-								</div>
-							</>
-						)}
-						{userType === "Instructor" && (
-							<>
-								<div style={{ float: "right" }}>
-									<Button variant="outline-secondary2" onClick={handleShowReportCourseModal}>
-										Report
-									</Button>
-								</div>
-							</>
-						)}
+						<div className="d-flex justify-content-end">
+							{(userType === "Trainee" || userType === "CorporateTrainee") &&
+								ownsCourse && (
+									<>
+										{!traineeAlreadyRequestedRefund && (
+											<>
+												<Button
+													className="ms-2"
+													onClick={handleShowReviewCourseModal}
+												>
+													Review
+												</Button>
+											</>
+										)}
+										{userType === "Trainee" &&
+											!traineePastFiftyPercentOfCourse && (
+												<Button
+													className="ms-2"
+													variant={traineeCanRefund ? "warning" : "secondary"}
+													onClick={handleShowRefundCourseModal}
+													disabled={!traineeCanRefund}
+												>
+													{traineeCanRefund
+														? "Request Refund"
+														: "Refund Request Sent"}
+												</Button>
+											)}
+									</>
+								)}
+							{userType !== "Administrator" && (
+								<Button
+									className="ms-2"
+									variant="outline-secondary2"
+									onClick={handleShowReportCourseModal}
+								>
+									Report
+								</Button>
+							)}
+						</div>
 					</Col>
 				</Row>
 				{/* Ratings */}
@@ -212,11 +217,15 @@ function CourseReviews(props) {
 										<Card.Body>
 											<CardGroup
 												as={Row}
-												className="justify-content-between align-items-center mb-2">
+												className="justify-content-between align-items-center mb-2"
+											>
 												<Card.Title>
 													<Row sm={10}>
 														{ReviewHeader(review)}
-														<Col className="ms-auto justify-contend-end fitWidth" sm={2}>
+														<Col
+															className="ms-auto justify-contend-end fitWidth"
+															sm={2}
+														>
 															<Rating
 																className="fitWidth starsContainer"
 																allowFraction="true"
@@ -238,7 +247,8 @@ function CourseReviews(props) {
 				<ReportCourseModal
 					course={course}
 					showReportCourseModal={showReportCourseModal}
-					setShowReportCourseModal={setShowReportCourseModal}></ReportCourseModal>
+					setShowReportCourseModal={setShowReportCourseModal}
+				></ReportCourseModal>
 				<ReviewCourseModal
 					course={course}
 					showReviewCourseModal={showReviewCourseModal}
@@ -246,8 +256,12 @@ function CourseReviews(props) {
 					reviews={reviews}
 					setReviews={setReviews}
 					setCourse={setCourse}
-					getCourseFromDB={getCourseFromDB}></ReviewCourseModal>
-				<Modal show={showRefundRequestModal} onHide={handleCloseRefundCourseModal}>
+					getCourseFromDB={getCourseFromDB}
+				></ReviewCourseModal>
+				<Modal
+					show={showRefundRequestModal}
+					onHide={handleCloseRefundCourseModal}
+				>
 					<Modal.Header closeButton>
 						<Modal.Title>Refund</Modal.Title>
 					</Modal.Header>
