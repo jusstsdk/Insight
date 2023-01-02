@@ -9,7 +9,7 @@ export default function ProfilePopover() {
 	return (
 		<>
 			<Button
-				variant="outline-secondary2 fitWidth"
+				variant="outline-secondary fitWidth"
 				onClick={() => {
 					dispatch(logout());
 					navigate("/guest");

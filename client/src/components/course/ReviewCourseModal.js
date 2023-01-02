@@ -61,7 +61,6 @@ function ReviewCourseModal(props) {
 				})
 			);
 		} catch (err) {
-			console.log("omgggggg");
 			console.log(err);
 		}
 	}

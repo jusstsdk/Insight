@@ -168,6 +168,7 @@ function CourseReviews(props) {
 											<>
 												<Button
 													className="ms-2"
+													variant="outline-primary"
 													onClick={handleShowReviewCourseModal}
 												>
 													Review
@@ -178,7 +179,7 @@ function CourseReviews(props) {
 											!traineePastFiftyPercentOfCourse && (
 												<Button
 													className="ms-2"
-													variant={traineeCanRefund ? "warning" : "secondary"}
+													variant={traineeCanRefund ? "outline-warning" : "outline-secondary"}
 													onClick={handleShowRefundCourseModal}
 													disabled={!traineeCanRefund}
 												>
@@ -192,7 +193,7 @@ function CourseReviews(props) {
 							{userType !== "Administrator" && (
 								<Button
 									className="ms-2"
-									variant="outline-secondary2"
+									variant="outline-danger"
 									onClick={handleShowReportCourseModal}
 								>
 									Report

@@ -106,24 +106,6 @@ export default function AddInfo(props) {
 		} else {
 			props.setMissingSubjects(false);
 		}
-		if (
-			InfoTitle === "" ||
-			InfoSummary === "" ||
-			InfoPreviewVideo === "" || invalidUrl ||
-			InfoSubjects.length === 0 || InfoOriginalPrice<0
-		) {
-			dispatch(
-				addNotification({
-					title: "Create Course",
-					info: `Please fill in all fields in the Info tab with valid info!`,
-					color: "error",
-				})
-			);
-			
-		} else {
-			console.log(InfoTitle);
-			
-		}
 		props.setCurrentTab("addSubtitle");
 	};
 

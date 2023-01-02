@@ -14,6 +14,7 @@ import EditProfilePopover from "./EditProfilePopover";
 import Login from "./Login";
 import ProfilePopover from "./ProfilePopover";
 import SelectCountryPopover from "./SelectCountryPopover";
+import { CgProfile } from "react-icons/cg";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
@@ -36,7 +37,7 @@ export default function Profile() {
 								<Col className="d-flex justify-content-between">
 									<Button
 										className="fitWidth"
-										variant="Link"
+										variant="link"
 										onClick={() => {
 											navigate("/guest/signUp");
 										}}
@@ -45,7 +46,7 @@ export default function Profile() {
 									</Button>
 									<Button
 										className="fitWidth"
-										variant="Link"
+										variant="link"
 										onClick={() => {
 											navigate("/guest/forgotPassword");
 										}}
@@ -58,7 +59,9 @@ export default function Profile() {
 					}
 					rootClose
 				>
-					<Button>Profile</Button>
+					<Button>
+						<CgProfile size={30} />
+					</Button>
 				</OverlayTrigger>
 			</>
 		);

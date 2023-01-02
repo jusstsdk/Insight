@@ -75,10 +75,14 @@ const updateCorporateTrainee = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(traineeId)) {
 		return res.status(400).json({ error: "No such corporate trainee" });
 	}
-
+	let corporateTraineeInfo = req.body;
+	corporateTraineeInfo.password = await bcrypt.hash(
+		corporateTraineeInfo.password,
+		10
+	);
 	const corporateTrainee = await CorporateTrainee.findOneAndUpdate(
 		{ _id: traineeId },
-		req.body,
+		corporateTraineeInfo,
 		{
 			new: true,
 		}

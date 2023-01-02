@@ -95,7 +95,6 @@ function CourseCard({ course }) {
 									<Badge
 										key={"subject_badge_" + i}
 										className="p-2 mx-1"
-										bg="dark"
 									>
 										{subject}
 									</Badge>

@@ -31,7 +31,7 @@ function UniversalCourseCard(props) {
 	const course = props.course;
 	const cardType = props.cardType;
 
-	//DEULEXE EDITION STUFF
+	//deluxe EDITION STUFF
 	const instructorId = props.instructorId;
 
 	//DISCOUNT EDITION STUFF
@@ -45,7 +45,7 @@ function UniversalCourseCard(props) {
 
 	//price data (owned/refunded/price etc)
 	const [traineeOwnsCourse, setTraineeOwnsCourse] = useState(false);
-	const [traineeRequestedRefund, setTraineeRequestedrefund] = useState(false);
+	const [traineeRequestedRefund, setTraineeRequestedRefund] = useState(false);
 
 	const [
 		corpTraineeAlreadyRequestedAccess,
@@ -57,12 +57,12 @@ function UniversalCourseCard(props) {
 
 	useEffect(() => {
 		setTraineeOwnsCourse(false);
-		setTraineeRequestedrefund(false);
+		setTraineeRequestedRefund(false);
 		if (userType === "Trainee" || userType === "CorporateTrainee") {
 			user.courses.forEach((userCourse) => {
 				if (userCourse.course === course._id) {
 					if (userCourse.requestedRefund) {
-						setTraineeRequestedrefund(true);
+						setTraineeRequestedRefund(true);
 					} else {
 						setTraineeOwnsCourse(true);
 					}
@@ -107,7 +107,7 @@ function UniversalCourseCard(props) {
 		);
 	}
 
-	//DEULEXE EDITION STUFF : EDIT COURSE fOR INSTRUCOTR TO EDIT SHIT
+	//deluxe EDITION STUFF : EDIT COURSE fOR instructor TO EDIT SHIT
 	const handleEditCourse = () => {
 		dispatch(setInfo(course));
 		dispatch(setExamsAndSubtitles(course));
@@ -239,7 +239,7 @@ function UniversalCourseCard(props) {
 							return courseInstructor._id === user._id;
 						})) ||
 						userType === "Administrator") &&
-					cardType === "Deulexe" && (
+					cardType === "Deluxe" && (
 						<Badge
 							pill
 							bg={course.status === "Draft" ? "secondary" : "success"}
@@ -371,7 +371,7 @@ function UniversalCourseCard(props) {
 								</>
 							)}
 						</Col>
-					) : cardType === "Deulexe" ? (
+					) : cardType === "Deluxe" ? (
 						<Col
 							className="ms-auto fitWidth d-flex  justify-content-end"
 							sm={2}
