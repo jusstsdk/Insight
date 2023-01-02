@@ -107,7 +107,7 @@ code {
 }
 #continueCourseBreadcrumbs {
 	height: auto;
-	min-height: 2.5rem !important;
+	min-height: 3rem !important;
 }
 #continueCourseBreadcrumbs > div > nav > ol {
 	margin-bottom: 0 !important;

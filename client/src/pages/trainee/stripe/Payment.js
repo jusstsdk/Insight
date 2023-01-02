@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import API from "../../../functions/api";
 import { Elements } from "@stripe/react-stripe-js";
@@ -10,6 +10,8 @@ import { loadStripe } from "@stripe/stripe-js";
 function Payment() {
 	const [stripePromise, setStripePromise] = useState(null);
 	const [clientSecret, setClientSecret] = useState("");
+	const navigate = useNavigate();
+
 	const params = useParams();
 	let courseId = params.id;
 
