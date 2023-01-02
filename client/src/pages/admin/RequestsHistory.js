@@ -14,14 +14,19 @@ const RequestsHistory = () => {
 	let currentRequests = traineeRequests.slice(firstPageIndex, lastPageIndex);
 
 	function filterHandledRequests(requests) {
-		return requests.filter((request) => request.status.toLowerCase() !== "pending").length>0;
+		return (
+			requests.filter((request) => request.status.toLowerCase() !== "pending")
+				.length > 0
+		);
 	}
-	
+
 	async function getHandledTrainees() {
-		const response = await api.get("/administrators/requests",{
-			headers: { authorization: "Bearer " + token }
+		const response = await api.get("/administrators/requests", {
+			headers: { authorization: "Bearer " + token },
 		});
-		const handled = response.data.filter((trainee) => filterHandledRequests(trainee.requests));
+		const handled = response.data.filter((trainee) =>
+			filterHandledRequests(trainee.requests)
+		);
 		setTraineeRequests(handled);
 	}
 	useEffect(() => {
@@ -29,7 +34,7 @@ const RequestsHistory = () => {
 	}, []);
 	return (
 		<>
-			<h1>Course Requests</h1>
+			<h1>Course Requests History</h1>
 			<Pagination
 				className="pagination-bar"
 				currentPage={currentPage}
@@ -38,16 +43,18 @@ const RequestsHistory = () => {
 				onPageChange={(page) => setCurrentPage(page)}
 			/>
 			{currentRequests.map((traineeRequests) => (
-				<Container  key={traineeRequests._id}>
+				<Container key={traineeRequests._id}>
 					<h4>{traineeRequests.username}</h4>
 					<h5 className="text-muted">{traineeRequests.corporate}</h5>
 					{traineeRequests.requests.map((request) => (
-						
-						<RequestHistoryCard key={request._id} request={request} course={request.courseId} />
+						<RequestHistoryCard
+							key={request._id}
+							request={request}
+							course={request.courseId}
+						/>
 					))}
 				</Container>
 			))}
-			
 		</>
 	);
 };
