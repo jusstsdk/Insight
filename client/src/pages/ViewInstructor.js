@@ -9,7 +9,7 @@ import {
 	Form,
 	Button,
 } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CourseCard from "../components/CourseCard";
 import InstructorReviewCard from "../components/instructor/InstructorReviewCard";
 import API from "../functions/api";
@@ -22,6 +22,7 @@ import { IoIosPin } from "react-icons/io";
 export default function ViewInstructor() {
 	const location = useLocation();
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	// const instructorId = location.state.instructorId;
 	const instructorId = id;
@@ -74,6 +75,7 @@ export default function ViewInstructor() {
 				});
 			}
 		} catch (err) {
+			navigate("/notFound");
 			console.log(err);
 		}
 	};

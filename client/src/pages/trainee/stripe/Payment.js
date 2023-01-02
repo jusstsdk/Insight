@@ -16,13 +16,20 @@ function Payment() {
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
 
 	async function setup() {
-		let response = await API.get(`courses/${courseId}`);
+		let response;
+		try {
+			response = await API.get(`courses/${courseId}`);
+		} catch (error) {
+			navigate("/notFound");
+			console.log(error);
+			return;
+		}
 		const course = response.data;
 		let amount;
-		if  (
+		if (
 			course.promotion.endDate > new Date().toISOString() &&
 			course.promotion.discount > 0
-		)  {
+		) {
 			amount = course.price - wallet;
 		} else {
 			amount = course.originalPrice - wallet;

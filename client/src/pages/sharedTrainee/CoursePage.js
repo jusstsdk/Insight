@@ -54,6 +54,7 @@ export default function CoursePage() {
 
 				setInstructors(tempInstructors);
 			} catch (err) {
+				navigate("/notFound");
 				console.log(err);
 			}
 		});
