@@ -1,4 +1,12 @@
-import { Button, Col, Nav, NavLink, OverlayTrigger, Popover, Row } from "react-bootstrap";
+import {
+	Button,
+	Col,
+	Nav,
+	NavLink,
+	OverlayTrigger,
+	Popover,
+	Row,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChangePasswordPopOver from "./ChangePasswordPopOver";
@@ -6,6 +14,7 @@ import EditProfilePopover from "./EditProfilePopover";
 import Login from "./Login";
 import ProfilePopover from "./ProfilePopover";
 import SelectCountryPopover from "./SelectCountryPopover";
+import { CgProfile } from "react-icons/cg";
 
 export default function Profile() {
 	const userType = useSelector((state) => state.userReducer.type);
@@ -28,26 +37,31 @@ export default function Profile() {
 								<Col className="d-flex justify-content-between">
 									<Button
 										className="fitWidth"
-										variant="Link"
+										variant="link"
 										onClick={() => {
 											navigate("/guest/signUp");
-										}}>
+										}}
+									>
 										Sign Up
 									</Button>
 									<Button
 										className="fitWidth"
-										variant="Link"
+										variant="link"
 										onClick={() => {
 											navigate("/guest/forgotPassword");
-										}}>
+										}}
+									>
 										Forgot password?
 									</Button>
 								</Col>
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose>
-					<Button>Profile</Button>
+					rootClose
+				>
+					<Button>
+						<CgProfile size={30} />
+					</Button>
 				</OverlayTrigger>
 			</>
 		);
@@ -60,18 +74,29 @@ export default function Profile() {
 					placement="bottom"
 					overlay={
 						<Popover id={`popover-positioned-bottom`}>
-							<Popover.Header as="h3">Hello, {user.username}</Popover.Header>
+							<Popover.Header as="h3">
+								Hello, {user.username}
+							</Popover.Header>
 							<Popover.Body>
 								{userType === "Trainee" && (
 									<h6>
-										Balance: {Math.trunc(user.wallet * user.exchangeRate * 100) / 100}{" "}
+										Balance:{" "}
+										{Math.trunc(
+											user.wallet *
+												user.exchangeRate *
+												100
+										) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
 								{userType === "Instructor" && (
 									<h6>
 										Monthly Wage:{" "}
-										{Math.trunc(user.monthlyPay.amount * user.exchangeRate * 100) / 100}{" "}
+										{Math.trunc(
+											user.monthlyPay.amount *
+												user.exchangeRate *
+												100
+										) / 100}{" "}
 										{user.currency}
 									</h6>
 								)}
@@ -89,8 +114,12 @@ export default function Profile() {
 							</Popover.Body>
 						</Popover>
 					}
-					rootClose>
-					<NavLink id="profileButton" className="secondaryText linkDecor">
+					rootClose
+				>
+					<NavLink
+						id="profileButton"
+						className="secondaryText linkDecor"
+					>
 						Profile
 					</NavLink>
 				</OverlayTrigger>

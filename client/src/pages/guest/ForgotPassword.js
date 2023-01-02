@@ -16,8 +16,8 @@ export default function ForgotPassword() {
 			});
 			dispatch(
 				addNotification({
-					title: "Create Course",
-					info: "Course Closed Successfully!",
+					title: "Request Sent",
+					info: "if the username you entered is correct you will get a message on the attached email to reset your password",
 					color: "success",
 				})
 			);
