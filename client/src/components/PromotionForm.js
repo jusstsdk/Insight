@@ -16,6 +16,26 @@ export default function PromotionForm({ courses }) {
 
 	async function setPromotion(e) {
 		e.preventDefault();
+		if(courses.length === 0) {
+			dispatch(
+				addNotification({
+					title: "Selection error",
+					info: "You must select at least one course.",
+					color: "error",
+				})
+			);
+			return;
+		}
+		if (startDate.current.value === "" || endDate.current.value === "" || discount.current.value === "" || discount.current.value <= 0 || discount.current.value > 100) {
+			dispatch(
+				addNotification({
+					title: "Wrong information",
+					info: "You must enter a start,end date, and an amount between 1 and 100.",
+					color: "error",
+				})
+			);
+			return;
+		}
 
 		if (endDate.current.value < startDate.current.value) {
 			MySwal.fire({

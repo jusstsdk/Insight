@@ -13,6 +13,7 @@ export default function Promotion() {
 	const [allCourses, setAllCourses] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const userType = useSelector((state) => state.userReducer.type);
+	const user = useSelector((state) => state.userReducer.user);
 
 	function handleCheck(event) {
 		let updatedList = [...checkedCourses];
@@ -47,6 +48,10 @@ export default function Promotion() {
 	async function getAllCourses() {
 		try {
 			let response = await api.get(`courses/`);
+			response.data.forEach((course) => {
+				course.price = (course.price * user.exchangeRate).toFixed(2);
+				course.originalPrice = (course.originalPrice * user.exchangeRate).toFixed(2);
+			});
 			setAllCourses(response.data);
 		} catch (e) {}
 	}
