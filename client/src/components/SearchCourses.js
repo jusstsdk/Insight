@@ -37,8 +37,7 @@ export default function SearchCourses({
 
 	async function getCourses() {
 		let searchParams = {};
-		if (searchQuery.current.value)
-			searchParams.searchQuery = searchQuery.current.value;
+		if (searchQuery.current.value) searchParams.searchQuery = searchQuery.current.value;
 		if (subjectFilter) searchParams.subject = subjectFilter;
 		if (maxPriceFilter.current.value)
 			searchParams.maxPrice = (maxPriceFilter.current.value / user.exchangeRate).toFixed(2);
@@ -59,7 +58,7 @@ export default function SearchCourses({
 			});
 			courses = response.data;
 		}
-
+		console.log(courses);
 		courses.forEach((course) => {
 			course.originalPrice = Math.trunc(course.originalPrice * user.exchangeRate * 100) / 100;
 			course.price = Math.trunc(course.price * user.exchangeRate * 100) / 100;
@@ -67,7 +66,7 @@ export default function SearchCourses({
 		if (!includeAll) {
 			courses = courses.filter((course) => course.status === "Published");
 		}
-    
+
 		if (sort) courses.sort(comparePopularity);
 		setCourses(courses);
 		setCurrentPage(1);
@@ -131,9 +130,7 @@ export default function SearchCourses({
 					</Col>
 
 					{!searchInInstructorCourses && (
-						<Col
-							sm={3}
-							className="d-flex  justify-content-between align-items-center ">
+						<Col sm={3} className="d-flex  justify-content-between align-items-center ">
 							<Form.Label className="fitWidth my-auto">Min Rating</Form.Label>
 							<div className="fitWidth me-2">
 								<Rating
