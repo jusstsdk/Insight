@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import updateCurrency from "../functions/updateCurrency";
 import { login, setUser } from "../redux/userSlice";
-import { Spinner } from "react-bootstrap";
+import { Container, Modal, Row, Spinner } from "react-bootstrap";
 
 export default function CompleteSignUp() {
 	const dispatch = useDispatch();
@@ -29,6 +29,10 @@ export default function CompleteSignUp() {
 	const [gender, setGender] = useState("");
 	const [country, setCountry] = useState("");
 	const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+	const [showTermsModal, setShowTermsModal] = useState(false);
+	const handleCloseTermsModal = () => setShowTermsModal(false);
+	const handleShowTermsModal = () => setShowTermsModal(true);
 
 	async function handleFinishSignUp(e) {
 		e.preventDefault();
@@ -109,9 +113,7 @@ export default function CompleteSignUp() {
 						required
 					/>
 				</Form.Group>
-				<Form.Group
-					className={userType == "CorporateTrainee" ? "d-none" : ""}
-				>
+				<Form.Group className={userType == "CorporateTrainee" ? "d-none" : ""}>
 					<Form.Label> Biography </Form.Label>
 					<Form.Control
 						ref={biography}
@@ -140,11 +142,17 @@ export default function CompleteSignUp() {
 					required={true}
 				/>
 				<Form.Group>
-					<Form.Check
-						type="checkbox"
-						label="I agree to the terms and conditions"
-						required
-					/>
+					<Container className="d-flex">
+						<Form.Check
+							className="my-auto"
+							type="checkbox"
+							label="I agree to the"
+							required
+						/>
+						<Button variant="link" onClick={handleShowTermsModal}>
+							terms and conditions
+						</Button>
+					</Container>
 				</Form.Group>
 				{isLoggingIn ? (
 					<Button variant="primary" disabled>
@@ -169,6 +177,33 @@ export default function CompleteSignUp() {
 					</Button>
 				)}
 			</Form>
+			<Modal show={showTermsModal} onHide={handleCloseTermsModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Terms And Conditions</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<h5>As an Instructor:</h5>
+					<p className="text-muted">
+						You give up all rights to all content, videos, exercises, emails,
+						ads. Money wise we will take 90% of all money paid on our platform.
+					</p>
+					<h5>As an Coporate Trainee:</h5>
+					<p className="text-muted">
+						You will be beholden to your companies policies and what they allow
+						you to subscribe to.
+					</p>
+					<h5>As a Trainee:</h5>
+					<p className="text-muted">
+						You allow us to take collect and sell data about you, including your
+						name,email,credit card number.
+					</p>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleCloseTermsModal}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 }

@@ -86,9 +86,11 @@ export default function Profile() {
 								{userType === "Instructor" && (
 									<h6>
 										Month's Pay:{" "}
-										{Math.trunc(
+										{(Math.trunc(
 											user.monthlyPay.amount * user.exchangeRate * 100
-										) / 100}{" "}
+										) /
+											100) *
+											0.1}{" "}
 										{user.currency}
 									</h6>
 								)}
