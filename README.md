@@ -7,8 +7,14 @@
 - [Demo](#demo)
 - [Technologies](#technologies)
 - [Architecture](#architecture)
+- [API reference](api-reference)
 - [Extra Features](#extra-features)
+- [Tests](#tests)
 - [Installation](#installation)
+- [How to Use?](#how-to-use)
+- [Contribute](#contribute)
+- [Credits](#credits)
+- [License](#license)
 
 ## Description
 This is a university project that we worked on during the semester to train on coding a website from scratch (backend and frontend).
@@ -149,11 +155,32 @@ https://github.com/Advanced-Computer-Lab-2022/Newcomers/blob/03d5967c34b4e23ba8c
 Course title component that is rendered by the course page:
 https://github.com/Advanced-Computer-Lab-2022/Newcomers/blob/03d5967c34b4e23ba8cfb348f81dfe0de31a36d7/client/src/components/course/CourseTitle.js#L18-L74
 
+## API reference
+
 ## Extra Features
 we added the ability of the course to be drafted and published on a later time
+
+## Tests
+due to the size of the project and the time limitations there was no automatic testing involved and all tests were manual
 
 ## Installation
 1. download repo
 2. npm install in client and server
 3. npm start both
 4. head to localhost:3000
+
+## How to Use?
+this project servers as a demo/poc so you can install it and test it
+
+## Contribute
+right now you can not contribute to this project
+
+## Credits
+1. [Mohamed Wael Gallab](https://github.com/MohamedGallab)
+2. [Yousef Allam](https://github.com/YousefAllam221b)
+3. [Mahmoud Elshirbeny](https://github.com/Mahmoud-Elshirbeny)
+4. [Ahmed Wadgy](https://github.com/crosshuntter)
+5. [Aamena Saleh](https://github.com/amna97531)
+
+## License
+MIT
