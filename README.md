@@ -157,6 +157,8 @@ https://github.com/Advanced-Computer-Lab-2022/Newcomers/blob/03d5967c34b4e23ba8c
 
 ## API reference
 the backend API is built on rest principals so most of the endpoints act in a very predictable manner. Most of the endpoints were published [here](https://documenter.getpostman.com/view/21886355/2s8Z73xW1d)
+
+Example:
 <img width="1280" alt="image" src="https://user-images.githubusercontent.com/74183135/210832047-43c87ced-b6c2-4df8-9320-8c8be2e82997.png">
 
 ## Extra Features
