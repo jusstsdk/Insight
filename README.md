@@ -4,7 +4,7 @@
 - [Motivation](#motivation)
 - [Build Status](#build-status)
 - [Code Style](#code-style)
-- [Demo](#demo) //gifs
+- [Demo](#demo)
 - [Technologies](#technologies)
 - [Architecture](#architecture)
 - [Extra Features](#extra-features)
