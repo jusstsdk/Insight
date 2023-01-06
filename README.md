@@ -7,7 +7,7 @@
 - [Demo](#demo)
 - [Technologies](#technologies)
 - [Architecture](#architecture)
-- [API reference](api-reference)
+- [API reference](#api-reference)
 - [Extra Features](#extra-features)
 - [Tests](#tests)
 - [Installation](#installation)
