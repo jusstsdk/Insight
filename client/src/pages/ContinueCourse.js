@@ -23,6 +23,7 @@ import DrawerListItems from "../components/course/continueCourse/DrawerListItems
 import ContinueCourseNavbar from "../components/course/continueCourse/ContinueCourseNavbar";
 import ReportCourseModal from "../components/course/ReportCourseModal";
 import { Button } from "react-bootstrap";
+import ReadContent from "../components/course/continueCourse/ReadContent";
 const drawerWidth = "20%";
 
 export default function ContinueCourse() {
@@ -66,7 +67,11 @@ export default function ContinueCourse() {
 			...exercise,
 			type: "Exercise",
 		}));
-		let content = [...videos, ...exercises].sort((a, b) =>
+		let contents = subtitle.content.map((exercise) => ({
+			...exercise,
+			type: "Content",
+		}));
+		let content = [...videos, ...exercises, ...contents].sort((a, b) =>
 			a.index > b.index ? 1 : b.index > a.index ? -1 : 0
 		);
 		return content;
@@ -313,20 +318,22 @@ export default function ContinueCourse() {
 					/>
 				))}
 				{/* Exam */}
-				<ListItem
-					style={{
-						backgroundColor: ContentType === "Exam" ? "#939d9e" : "",
-					}}
-					key={`Exam_${Exam._id}_title_and_icon`}
-					button
-					onClick={() => {
-						handlePressOnExam();
-					}}>
-					<ListItemIcon key={`Exam_${Exam._id}_listItemIcon`}>
-						<ArticleIcon key={`Exam_${Exam._id}_articleIcon`} />
-					</ListItemIcon>
-					<ListItemText primary={Exam.title} key={`Exam_${Exam._id}_listItemTex`} />
-				</ListItem>
+				{Exam.questions.length !== 0 && (
+					<ListItem
+						style={{
+							backgroundColor: ContentType === "Exam" ? "#939d9e" : "",
+						}}
+						key={`Exam_${Exam._id}_title_and_icon`}
+						button
+						onClick={() => {
+							handlePressOnExam();
+						}}>
+						<ListItemIcon key={`Exam_${Exam._id}_listItemIcon`}>
+							<ArticleIcon key={`Exam_${Exam._id}_articleIcon`} />
+						</ListItemIcon>
+						<ListItemText primary={Exam.title} key={`Exam_${Exam._id}_listItemTex`} />
+					</ListItem>
+				)}
 			</List>
 		</div>
 	);
@@ -427,7 +434,12 @@ export default function ContinueCourse() {
 							CourseId={Course._id}
 							setupExercise={setupExercise}
 						/>
-					) : (
+					) : ContentType === "Content" ? (
+						<ReadContent
+							key={`course_${Course._id}_Content`}
+							CourseId={Course._id}
+						/>
+					) :  (
 						<SolveExercise key={`course_${Course._id}_SolveExam`} CourseId={Course._id} />
 					)}
 				</Box>

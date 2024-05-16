@@ -37,7 +37,7 @@ const videoSchema = new Schema({
   notes: [String],
 });
 
-const ContentSchema = new Schema({
+const ContentItemsSchema = new Schema({
   imageAlt: { type: String, required: false },
   imageUrl: { type: String, required: false },
   text: { type: String, required: false },
@@ -48,12 +48,17 @@ const ContentSchema = new Schema({
   index: Number,
 });
 
+const ContentSchema = new Schema({
+  title: String,
+  items: [ContentItemsSchema]
+});
+
 const subtitleSchema = new Schema({
   title: String,
   seconds: Number,
   videos: [videoSchema],
   exercises: [exerciseSchema],
-  contents: [ContentSchema],
+  content: [ContentSchema],
 });
 
 questionSchema.pre("save", function (next) {

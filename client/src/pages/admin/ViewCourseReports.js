@@ -116,7 +116,6 @@ function ViewCourseReports() {
 						<DropdownButton
 							className="me-3"
 							variant="pinkish"
-							id="courseReportsFilter"
 							title={selectedItem}>
 							<Dropdown.Item as="button" onClick={() => setSelectedItem("No-Filter")}>
 								No Filter
@@ -178,7 +177,6 @@ function ViewCourseReports() {
 					<Card.Body className="d-flex justify-content-between p-1 my-2">
 						<DropdownButton
 							variant="pinkish"
-							className="reportFilterButton"
 							id="dropdown-item-button"
 							title={selectedItem}>
 							<Dropdown.Item as="button" onClick={() => setSelectedItem("No-Filter")}>

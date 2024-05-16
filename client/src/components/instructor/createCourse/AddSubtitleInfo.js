@@ -42,7 +42,7 @@ export default function AddSubtitleInfo(props) {
           seconds: 0,
           exercises: [],
           videos: [],
-          contens: [],
+          content: [],
         };
         dispatch(addSubtitle(newSubtitle));
         break;

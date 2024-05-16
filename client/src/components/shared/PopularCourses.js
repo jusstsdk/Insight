@@ -27,7 +27,9 @@ const PopularCourses = () => {
       course.price = (course.price * user.exchangeRate).toFixed(2);
     });
 
-    setCourses(response.data.sort(comparePopularity));
+    const result = response.data.sort(comparePopularity)
+
+    setCourses(result.slice(0, 3));
   }
   useEffect(() => {
     getCourses();

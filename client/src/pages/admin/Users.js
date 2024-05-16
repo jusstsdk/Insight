@@ -79,11 +79,12 @@ const Users = () => {
                 <Card.Body className={"d-flex justify-content-end gap-2"}>
                   <Button
                     disabled={trainee.isBanned}
+                    variant={'danger'}
                     onClick={() =>
                       toggleBunUser(!trainee.isBanned, "Trainee", trainee._id)
                     }
                   >
-                    Ban
+                    Блокировать
                   </Button>
                   <Button
                     disabled={!trainee.isBanned}
@@ -91,7 +92,7 @@ const Users = () => {
                       toggleBunUser(!trainee.isBanned, "Trainee", trainee._id)
                     }
                   >
-                    Unban
+                    Разблокировать
                   </Button>
                 </Card.Body>
               </Card.Body>
@@ -111,6 +112,7 @@ const Users = () => {
                   <Card.Body className={"d-flex justify-content-end gap-2"}>
                     <Button
                       disabled={trainee.isBanned}
+                      variant={'danger'}
                       onClick={() =>
                         toggleBunUser(
                           !trainee.isBanned,
@@ -119,7 +121,7 @@ const Users = () => {
                         )
                       }
                     >
-                      Ban
+                      Блокировать
                     </Button>
                     <Button
                       disabled={!trainee.isBanned}
@@ -131,7 +133,7 @@ const Users = () => {
                         )
                       }
                     >
-                      Unban
+                      Разблокироват
                     </Button>
                   </Card.Body>
                 </Card.Body>

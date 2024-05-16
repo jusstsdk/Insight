@@ -139,20 +139,26 @@ export const createCourseSlice = createSlice({
     // 	state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
     // 		action.payload.title;
     // },
-    // removeExerciseFromSubtitle: (state, action) => {
-    // 	let updatedExercises = action.payload.newExercises.map((exercise) =>
-    // 		exercise.index > action.payload.exerciseIndex
-    // 			? { ...exercise, index: exercise.index - 1 }
-    // 			: exercise
-    // 	);
-    // 	let updatedVideos = state.subtitles[action.payload.subtitleKey].videos.map((video) =>
-    // 		video.index > action.payload.exerciseIndex ? { ...video, index: video.index - 1 } : video
-    // 	);
-    // 	state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
-    // 	state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
-    // 	state.subtitlesIndices[action.payload.subtitleKey] -= 1;
-    // 	state.subtitles[action.payload.subtitleKey].seconds -= 120 * action.payload.numberOfQuestions;
-    // },
+    removeContentFromSubtitle: (state, action) => {
+      let updatedExercises = state.subtitles[
+          action.payload.subtitleKey
+          ].exercises.map((exercise) =>
+          exercise.index > action.payload.videoIndex
+              ? { ...exercise, index: exercise.index - 1 }
+              : exercise,
+      );
+    	let updatedVideos = state.subtitles[action.payload.subtitleKey].videos.map((video) =>
+    		video.index > action.payload.exerciseIndex ? { ...video, index: video.index - 1 } : video
+    	);
+    	let updatedContent = action.payload.newContent.map((content) =>
+    		content.index > action.payload.exerciseIndex ? { ...content, index: content.index - 1 } : content
+    	);
+    	state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
+    	state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
+    	state.subtitles[action.payload.subtitleKey].content = updatedContent;
+    	state.subtitlesIndices[action.payload.subtitleKey] -= 1;
+    	// state.subtitles[action.payload.subtitleKey].seconds -= 120 * action.payload.numberOfQuestions;
+    },
 
     // Questions
     addQuestionToExercise: (state, action) => {
@@ -192,7 +198,6 @@ export const createCourseSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setExamsAndSubtitles,
-  setInfo,
   setExamTitle,
   addToExamQuestions,
   editExamQuestion,
@@ -211,6 +216,7 @@ export const {
   removeSubtitle,
   clearCreateCourse,
   addContentToSubtitle,
+  removeContentFromSubtitle,
 } = createCourseSlice.actions;
 
 export default createCourseSlice.reducer;

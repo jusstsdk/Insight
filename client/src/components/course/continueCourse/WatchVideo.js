@@ -139,7 +139,7 @@ export default function WatchVideo(props) {
       <Col>
         {/* Added Notes */}
         <ListGroup className="px-3">
-          {Content.notes.map((note, note_index) => (
+          {Content?.notes?.map((note, note_index) => (
             <>
               <ListGroup.Item
                 key={`subtitle_${Content._id}_note_${note_index}_container`}

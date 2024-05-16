@@ -76,6 +76,7 @@ export default function ViewSubtitles() {
                     setSubtitlekey={setSubtitlekey}
                     SubtitleExercises={subtitle.exercises}
                     SubtitleVideos={subtitle.videos}
+                    SubtitleContent={subtitle.content}
                   />
                 </Accordion>
               </Accordion.Body>

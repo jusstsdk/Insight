@@ -9,7 +9,7 @@ import {
   editQuestionOfExercise,
   removeQuestionFromExercise,
   removeExerciseFromSubtitle,
-  removeVideoFromSubtitle,
+  removeVideoFromSubtitle, removeContentFromSubtitle,
 } from "../../../redux/createCourseSlice";
 
 import ViewExercise from "./ViewExercise";
@@ -20,6 +20,7 @@ import AddQuestion from "./AddQuestion";
 import AddVideo from "./AddVideo";
 import API from "../../../functions/api";
 import AddContent from "./AddContent";
+
 export default function ViewBoth(props) {
   const dispatch = useDispatch();
 
@@ -122,7 +123,9 @@ export default function ViewBoth(props) {
   };
 
   const [ShowEditVideoModal, setShowEditVideoModal] = useState(false);
+
   const handleEditVideoModalClose = () => setShowEditVideoModal(false);
+
   const handleEditVideoModalShow = (video, video_key) => {
     setVideo(video);
     setVideoKey(video_key);
@@ -138,6 +141,7 @@ export default function ViewBoth(props) {
     //Return the result
     return match && match[2].length === 11 ? match[2] : undefined;
   };
+
   const getVideoDuration = async (url) => {
     let videoId = getYouTubeVideoIdFromUrl(url);
     // videoId = videoId[videoId.length - 1].split("watch?v=")[1];
@@ -178,19 +182,36 @@ export default function ViewBoth(props) {
       }),
     );
   };
+
+  const handleDeleteContent = async (content_key) => {
+     let newVideos = props.SubtitleContent.filter((_, i) => i !== content_key);
+    let videoIndex = props.SubtitleContent[content_key].index;
+    dispatch(
+      removeContentFromSubtitle({
+        subtitleKey: props.subtitleKey,
+        newContent: newVideos,
+      }),
+    );
+  };
+
   const getContentIndex = (content) => {
     let index;
     if (content.type === "Video") {
       index = props.SubtitleVideos.findIndex(
         (video) => video.index === content.index,
       );
-    } else {
+    } else if (content.type === "Exercise") {
       index = props.SubtitleExercises.findIndex(
         (exercise) => exercise.index === content.index,
+      );
+    } else {
+      index = props.SubtitleContent.findIndex(
+          (item) => item.index === content.index,
       );
     }
     return index;
   };
+
   const combineContent = () => {
     let videos = props.SubtitleVideos.map((video) => ({
       ...video,
@@ -200,12 +221,17 @@ export default function ViewBoth(props) {
       ...exercise,
       type: "Exercise",
     }));
-    let content = [...videos, ...exercises].sort((a, b) =>
+    let contents = props.SubtitleContent.map((content) => ({
+      ...content,
+      type: "Content",
+    }));
+    let contentw = [...videos, ...exercises, ...contents].sort((a, b) =>
       a.index > b.index ? 1 : b.index > a.index ? -1 : 0,
     );
-    return content;
+    return contentw;
     // let exercises = subtitle.videos;
   };
+
   return (
     <>
       <Accordion key={`subtitle_${SubtitleKey}`}>
@@ -332,6 +358,62 @@ export default function ViewBoth(props) {
                   <p>{content.description}</p>
                 </Accordion.Body>
               </Accordion.Item>
+            )}
+            {content.type === "Content" && (
+                <Accordion.Item
+                    eventKey={`content_${getContentIndex(content)}`}
+                    key={`content_${getContentIndex(content)}`}
+                >
+                  <div className="d-flex">
+                    <Col sm={11} className="me-auto">
+                      <Accordion.Header className="accordionHeaderWidth">
+                        <OndemandVideoIcon />
+                        <h6 className="mb-0 ms-2">{content.title}</h6>
+                      </Accordion.Header>
+                    </Col>
+                    <Col sm={1} className="d-flex justify-content-end">
+                      <Button
+                          variant="secondary"
+                          className="accordionTrash accordionLikeEditButton"
+                          key={`content_edit_button_${getContentIndex(content)}`}
+                          onClick={() =>
+                              handleEditVideoModalShow(
+                                  content,
+                                  getContentIndex(content),
+                              )
+                          }
+                      >
+                        <AiOutlineEdit
+                            key={`content_edit_${getContentIndex(content)}`}
+                        />
+                      </Button>
+                      <Button
+                          className="accordionTrash accordionLikeDeleteButton"
+                          variant="danger"
+                          key={`content_trash_button_${getContentIndex(content)}`}
+                          onClick={async () =>
+                              await handleDeleteContent(
+                                  getContentIndex(content, content_index),
+                              )
+                          }
+                      >
+                        <BsTrash
+                            key={"content_trash_" + getContentIndex(content)}
+                        />
+                      </Button>
+                    </Col>
+                  </div>
+                  <Accordion.Body>
+                    <div>
+                      {content.items.map(item => (
+                          <div>
+                            {item.text && <p>{item.text}</p>}
+                            {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt}/>}
+                          </div>
+                      ))}
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
             )}
           </>
         ))}

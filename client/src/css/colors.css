@@ -7,16 +7,6 @@
     text-decoration: none !important;
 }
 
-.secondaryText, .reportFilterButton>button{
-    color: #FEFEFE!important;
-}
-
-#courseReportsFilter
-{
-        color: #FEFEFE!important;
-
-}
-
 .reportComments{
     background-color: #f8f8f8!important;
 }

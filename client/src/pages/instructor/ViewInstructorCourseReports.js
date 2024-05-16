@@ -147,7 +147,6 @@ const ViewInstructorCourseReports = () => {
             <DropdownButton
               className="me-3"
               variant="pinkish"
-              id="courseReportsFilter"
               title={selectedItem}
             >
               <Dropdown.Item
@@ -231,7 +230,6 @@ const ViewInstructorCourseReports = () => {
             <DropdownButton
               className="me-3"
               variant="pinkish"
-              id="courseReportsFilter"
               title={selectedItem}
             >
               <Dropdown.Item

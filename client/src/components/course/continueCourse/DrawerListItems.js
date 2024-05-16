@@ -27,9 +27,14 @@ export default function DrawerListItems({
 		setOpenCollapses(openCollapsesArray);
 		let type;
 		if (content.type === "Video") type = "Video";
-		else {
+		else if (content.type === "Exercise") {
 			type = "Exercise";
 			setupExercise(content);
+		}
+		else {
+			type = "Content";
+			console.log(87)
+			// setupExercise(content);
 		}
 		dispatch(
 			setContentInfo({

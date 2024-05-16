@@ -2,7 +2,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
 import { addContentToSubtitle } from "../../../redux/createCourseSlice";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const AddContent = (props) => {
   const dispatch = useDispatch();
@@ -12,14 +12,39 @@ const AddContent = (props) => {
   const [contentText, setContentText] = useState("");
   const [missingText, setMissingText] = useState(false);
 
+  const [contentTitle, setContentTitle] = useState("");
+  const [missingTitle, setMissingTitle] = useState(false);
+
   const [contentImage, setContentImage] = useState("");
   const [missingImage, setMissingImage] = useState(false);
   const [contentAlt, setContentAlt] = useState("");
   const [missingAlt, setMissingAlt] = useState(false);
 
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState({title: "qwew", index: null,  items: []});
+  const subtitle = useSelector((state) => state.createCourseReducer.subtitles[props.subtitleKey]);
 
-  const handleAddContent = () => {};
+
+  const contentIndex = useSelector(
+      (state) => state.createCourseReducer.subtitlesIndices[props.subtitleKey]
+  );
+
+  console.log(subtitle)
+
+  const handleAddContent = () => {
+    if (contentTitle === "") {
+      setMissingTitle(true);
+      return;
+    } else {
+      setMissingTitle(false);
+    }
+
+    console.log(content)
+
+    dispatch(addContentToSubtitle({ subtitleKey: props.subtitleKey, content: {...content, index: contentIndex} }));
+
+    setContent({title: "", items: []})
+    props.handleClose()
+  };
 
   const handleAddImage = () => {
     if (contentImage === "") {
@@ -36,10 +61,13 @@ const AddContent = (props) => {
 
     if (contentImage === "" || contentAlt === "") return;
 
-    const result = content.concat({
+    content.items.push({
       imageAlt: contentAlt,
       imageUrl: "contentImage",
-    });
+
+    })
+
+    const result = JSON.parse(JSON.stringify(content));
 
     setContent(result);
 
@@ -56,9 +84,9 @@ const AddContent = (props) => {
       setMissingText(false);
     }
 
-    const result = content.concat({ text: contentText });
+    content.items.push({ text: contentText })
 
-    dispatch(addContentToSubtitle({ subtitleKey: props.subtitleKey, content }));
+    const result = JSON.parse(JSON.stringify(content));
 
     setContent(result);
 
@@ -84,9 +112,36 @@ const AddContent = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        {content.length > 0 &&
+        {!contentType && (
+            <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
+              <Form.Label column sm={2}>
+                Title
+                <br />
+                <span>
+                {missingTitle && (
+                    <span className="error">
+                    Missing
+                    <MdOutlineError />
+                  </span>
+                )}
+              </span>
+              </Form.Label>
+              <Col sm={7}>
+                <Form.Control
+                    type="text"
+                    placeholder="Title"
+                    value={contentTitle}
+                    onChange={(e) => {
+                      setContentTitle(e.target.value);
+                    }}
+                />
+              </Col>
+            </Form.Group>
+        )}
+
+        {content.items.length > 0 &&
           !contentType &&
-          content.map((item) => (
+            content.items.map((item) => (
             <div>
               {item.text && <p>{item.text}</p>}
               {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt} />}
@@ -94,20 +149,20 @@ const AddContent = (props) => {
           ))}
 
         {!contentType && (
-          <Row className={"justify-content-center"}>
-            <Col
-              sm={"auto"}
-              className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
-            >
-              <Button onClick={() => setContentType("text")}>Add Text</Button>
-            </Col>
-            <Col
-              sm={"auto"}
-              className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
-            >
-              <Button onClick={() => setContentType("image")}>Add Image</Button>
-            </Col>
-          </Row>
+              <Row className={"justify-content-center"}>
+                <Col
+                    sm={"auto"}
+                    className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
+                >
+                  <Button onClick={() => setContentType("text")}>Add Text</Button>
+                </Col>
+                <Col
+                    sm={"auto"}
+                    className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
+                >
+                  <Button onClick={() => setContentType("image")}>Add Image</Button>
+                </Col>
+              </Row>
         )}
 
         {contentType === "text" && (
