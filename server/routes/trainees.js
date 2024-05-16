@@ -1,16 +1,17 @@
 const express = require("express");
 
 const {
-	createTrainee,
-	getTrainees,
-	getTrainee,
-	updateTrainee,
-	deleteTrainee,
-	payCourse,
-	addPaymentMethod,
-	deletePaymentMethod,
-	requestRefund,
+  createTrainee,
+  getTrainees,
+  getTrainee,
+  updateTrainee,
+  deleteTrainee,
+  payCourse,
+  addPaymentMethod,
+  deletePaymentMethod,
+  requestRefund,
 } = require("../controllers/traineeController");
+const ban = require("../middleware/ban");
 
 const router = express.Router();
 

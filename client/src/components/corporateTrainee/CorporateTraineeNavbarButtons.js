@@ -11,7 +11,7 @@ export default function CorporateTraineeNavbarButtons() {
 					navigate("courses");
 				}}
 			>
-				Search
+				Catalog
 			</Nav.Link>
 			<Nav.Link
 				onClick={() => {

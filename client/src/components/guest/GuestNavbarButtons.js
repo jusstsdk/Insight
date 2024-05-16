@@ -9,7 +9,7 @@ export default function GuestNavbarButtons() {
 				onClick={() => {
 					navigate("courses");
 				}}>
-				Search
+				Catalog
 			</Nav.Link>
 		</>
 	);

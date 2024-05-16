@@ -9,9 +9,10 @@ const corporateTrainees = require("./routes/corporateTrainees");
 const courseRoutes = require("./routes/courses");
 const reportRoutes = require("./routes/reports");
 const usersRoute = require("./routes/users");
+const ban = require("./middleware/ban");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-	apiVersion: "2022-08-01",
+  apiVersion: "2022-08-01",
 });
 // express app
 const app = express();
@@ -20,7 +21,9 @@ app.use(cors());
 
 // middleware
 app.use(express.json());
-
+app.use((req, res, next) => {
+  ban(req, res, next);
+});
 // routes
 app.use("/api/users", usersRoute);
 app.use("/api/administrators", administratorRoutes);
@@ -34,42 +37,42 @@ app.use("/api/reports", reportRoutes);
 app.get("/test", async (req, res) => {});
 
 app.get("/config", (req, res) => {
-	res.send({
-		publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-	});
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
 });
 
 app.post("/create-payment-intent", async (req, res) => {
-	try {
-		const paymentIntent = await stripe.paymentIntents.create({
-			currency: req.body.currency,
-			amount: req.body.amount,
-			automatic_payment_methods: { enabled: true },
-		});
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: req.body.currency,
+      amount: req.body.amount,
+      automatic_payment_methods: { enabled: true },
+    });
 
-		// Send publishable key and PaymentIntent details to client
-		res.send({
-			clientSecret: paymentIntent.client_secret,
-		});
-	} catch (e) {
-		return res.status(400).send({
-			error: {
-				message: e.message,
-			},
-		});
-	}
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
 });
 
 // connect to db
 mongoose
-	.connect(process.env.MONGO_URI)
-	.then(() => {
-		console.log("connected to database");
-		// listen to port
-		app.listen(process.env.PORT, () => {
-			console.log("listening for requests on port", process.env.PORT);
-		});
-	})
-	.catch((err) => {
-		console.log(err);
-	});
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("connected to database");
+    // listen to port
+    app.listen(process.env.PORT, () => {
+      console.log("listening for requests on port", process.env.PORT);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

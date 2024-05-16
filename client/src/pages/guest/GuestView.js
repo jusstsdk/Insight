@@ -1,10 +1,13 @@
-import PopularCourses from '../../components/shared/PopularCourses';
+import PopularCourses from "../../components/shared/PopularCourses";
+import Banner from "../../components/trainee/banner/banner";
 export default function GuestView() {
-	return (
-		<>
-			<h1>Popular courses</h1>
+  return (
+    <>
+      <Banner />
 
-			<PopularCourses/>
-		</>
-	);
+      <h1>Popular courses</h1>
+
+      <PopularCourses />
+    </>
+  );
 }

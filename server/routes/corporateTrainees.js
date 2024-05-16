@@ -1,12 +1,13 @@
 const express = require("express");
 const {
-	getCorporateTrainees,
-	getCorporateTrainee,
-	createCorporateTrainee,
-	deleteCorporateTrainee,
-	updateCorporateTrainee,
-	requestCourseAccess,
+  getCorporateTrainees,
+  getCorporateTrainee,
+  createCorporateTrainee,
+  deleteCorporateTrainee,
+  updateCorporateTrainee,
+  requestCourseAccess,
 } = require("../controllers/corporateTraineeController");
+const ban = require("../middleware/ban");
 
 const router = express.Router();
 

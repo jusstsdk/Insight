@@ -1,23 +1,23 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const {
-	getAdministrators,
-	getAdministrator,
-	createAdministrator,
-	deleteAdministrator,
-	updateAdministrator,
-	getRefundRequests,
-	refundToWallet,
-	getAllCoursesRequests,
-	handleCourseRequest,
+  getAdministrators,
+  getAdministrator,
+  createAdministrator,
+  deleteAdministrator,
+  updateAdministrator,
+  getRefundRequests,
+  refundToWallet,
+  getAllCoursesRequests,
+  handleCourseRequest,
 } = require("../controllers/administratorController");
+const ban = require("../middleware/ban");
 
 const router = express.Router();
-
-// middleware
 router.use((req, res, next) => {
-	auth(req, res, next, 'Administrator');
+  ban(req, res, next);
 });
+// middleware
 
 // Get all Courses with Refunds
 router.get("/refunds", getRefundRequests);
