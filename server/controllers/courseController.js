@@ -416,14 +416,31 @@ const solveExercise = async (req, res) => {
   if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
   else trainee = await CorporateTrainee.findById(traineeId);
 
-  console.log(trainee.courses[courseIndex].subtitles[subtitleIndex]);
-
   trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
     exerciseIndex
   ].isSolved = true;
   trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
     exerciseIndex
   ].questions = questions;
+  await trainee.save();
+  res.status(200).json(trainee);
+};
+
+const readContent = async (req, res) => {
+  const traineeId = req.params.id;
+  const userType = req.body.userType;
+  const courseIndex = req.body.courseIndex;
+  const subtitleIndex = req.body.subtitleIndex;
+  const contentIndex = req.body.contentIndex;
+
+  let trainee;
+  if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
+  else trainee = await CorporateTrainee.findById(traineeId);
+
+  trainee.courses[courseIndex].subtitles[subtitleIndex].content[
+    contentIndex
+  ].isWatched = true;
+
   await trainee.save();
   res.status(200).json(trainee);
 };
@@ -494,4 +511,5 @@ module.exports = {
   deleteNoteFromVideoNotes,
   solveExercise,
   solveExam,
+  readContent,
 };

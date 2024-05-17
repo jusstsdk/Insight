@@ -41,16 +41,16 @@ const ContentItemsSchema = new Schema({
   imageAlt: { type: String, required: false },
   imageUrl: { type: String, required: false },
   text: { type: String, required: false },
-  isWatched: {
-    type: Boolean,
-    default: false,
-  },
   index: Number,
 });
 
 const ContentSchema = new Schema({
   title: String,
-  items: [ContentItemsSchema]
+  items: [ContentItemsSchema],
+  isWatched: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const subtitleSchema = new Schema({
