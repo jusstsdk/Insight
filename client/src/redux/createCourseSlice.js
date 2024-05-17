@@ -135,10 +135,11 @@ export const createCourseSlice = createSlice({
       ];
       state.subtitlesIndices[action.payload.subtitleKey] += 1;
     },
-    // editExerciseOfSubtitle: (state, action) => {
-    // 	state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
-    // 		action.payload.title;
-    // },
+    editContentOfSubtitle: (state, action) => {
+      state.subtitles[action.payload.subtitleKey].content = action.payload.content
+    	// state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
+    	// 	action.payload.title;
+    },
     removeContentFromSubtitle: (state, action) => {
       let updatedExercises = state.subtitles[
         action.payload.subtitleKey
@@ -222,6 +223,7 @@ export const {
   removeSubtitle,
   clearCreateCourse,
   addContentToSubtitle,
+  editContentToSubtitle,
   removeContentFromSubtitle,
 } = createCourseSlice.actions;
 

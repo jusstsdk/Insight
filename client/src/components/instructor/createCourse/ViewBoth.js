@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Button, Accordion, Col, Row } from "react-bootstrap";
+import {Button, Accordion, Col, Row, Image} from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -29,6 +29,9 @@ export default function ViewBoth(props) {
 
   const [Exercise, setExercise] = useState({});
   const [ExerciseKey, setExerciseKey] = useState();
+
+  const [Content, setContent] = useState({});
+  const [ContentKey, setContentKey] = useState();
 
   const [ShowAddExerciseModal, setShowAddExerciseModal] = useState(false);
   const handleAddExerciseModalClose = () => setShowAddExerciseModal(false);
@@ -124,13 +127,21 @@ export default function ViewBoth(props) {
   };
 
   const [ShowEditVideoModal, setShowEditVideoModal] = useState(false);
+  const [ShowEditContentModal, setShowEditContentModal] = useState(false);
 
   const handleEditVideoModalClose = () => setShowEditVideoModal(false);
+  const handleEditContentModalClose = () => setShowEditContentModal(false);
 
   const handleEditVideoModalShow = (video, video_key) => {
     setVideo(video);
     setVideoKey(video_key);
     setShowEditVideoModal(true);
+  };
+
+  const handleEditContentModalShow = (content, content_key) => {
+    setContent(content);
+    setContentKey(content_key);
+    setShowEditContentModal(true);
   };
 
   const getYouTubeVideoIdFromUrl = (url) => {
@@ -378,7 +389,7 @@ export default function ViewBoth(props) {
                       className="accordionTrash accordionLikeEditButton"
                       key={`content_edit_button_${getContentIndex(content)}`}
                       onClick={() =>
-                        handleEditVideoModalShow(
+                        handleEditContentModalShow(
                           content,
                           getContentIndex(content),
                         )
@@ -410,7 +421,7 @@ export default function ViewBoth(props) {
                       <div>
                         {item.text && <p>{item.text}</p>}
                         {item.imageUrl && (
-                          <img src={item.imageUrl} alt={item.imageAlt} />
+                          <Image src={item.imageUrl} alt={item.imageAlt} className={'w-100'} />
                         )}
                       </div>
                     ))}
@@ -456,6 +467,16 @@ export default function ViewBoth(props) {
           subtitleKey={props.subtitleKey}
           show={ShowAddContentModal}
           handleClose={handleAddContentModalClose}
+        />
+      )}
+
+      {ShowEditContentModal && (
+        <AddContent
+          case="Edit"
+          content={Content}
+          contentKey={ContentKey}
+          show={ShowEditContentModal}
+          handleClose={handleEditContentModalClose}
         />
       )}
 

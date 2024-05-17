@@ -84,8 +84,6 @@ export default function CreateCourse() {
         setInfoHasErrors(false);
       }
 
-      console.log(Subtitles);
-
       if (Subtitles.length === 0) {
         setDisplayErrors(true);
         setSubtitleHasErrors(true);

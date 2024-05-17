@@ -1,7 +1,7 @@
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import {Button, Col, Form, Image, Modal, Row} from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
-import { addContentToSubtitle } from "../../../redux/createCourseSlice";
+import {addContentToSubtitle, editContentToSubtitle} from "../../../redux/createCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddContent = (props) => {
@@ -12,7 +12,6 @@ const AddContent = (props) => {
   const [contentText, setContentText] = useState("");
   const [missingText, setMissingText] = useState(false);
 
-  const [contentTitle, setContentTitle] = useState("");
   const [missingTitle, setMissingTitle] = useState(false);
 
   const [contentImage, setContentImage] = useState("");
@@ -21,10 +20,11 @@ const AddContent = (props) => {
   const [missingAlt, setMissingAlt] = useState(false);
 
   const [content, setContent] = useState({
-    title: "qwew",
-    index: null,
-    items: [],
+    title: props.case === 'Add' ? "" : props.content.title,
+    index: props.content.index || null,
+    items: props.content.items || [],
   });
+
   const subtitle = useSelector(
     (state) => state.createCourseReducer.subtitles[props.subtitleKey],
   );
@@ -34,19 +34,29 @@ const AddContent = (props) => {
   );
 
   const handleAddContent = () => {
-    if (contentTitle === "") {
+    if (content.title === "") {
       setMissingTitle(true);
       return;
     } else {
       setMissingTitle(false);
     }
 
-    dispatch(
-      addContentToSubtitle({
-        subtitleKey: props.subtitleKey,
-        content: { ...content, index: contentIndex },
-      }),
-    );
+   if (props.case === 'Add') {
+     dispatch(
+         addContentToSubtitle({
+           subtitleKey: props.subtitleKey,
+           content: { ...content, index: contentIndex },
+         }),
+     );
+   } else {
+     dispatch(
+         editContentToSubtitle({
+           subtitleKey: props.subtitleKey,
+           contentKey: props.contentKey,
+           content: { ...content, index: contentIndex },
+         }),
+     );
+   }
 
     setContent({ title: "", items: [] });
     props.handleClose();
@@ -69,7 +79,7 @@ const AddContent = (props) => {
 
     content.items.push({
       imageAlt: contentAlt,
-      imageUrl: "contentImage",
+      imageUrl: contentImage,
     });
 
     const result = JSON.parse(JSON.stringify(content));
@@ -135,9 +145,9 @@ const AddContent = (props) => {
               <Form.Control
                 type="text"
                 placeholder="Title"
-                value={contentTitle}
+                value={content.title}
                 onChange={(e) => {
-                  setContentTitle(e.target.value);
+                  setContent({...content, title: e.target.value});
                 }}
               />
             </Col>
@@ -149,7 +159,7 @@ const AddContent = (props) => {
           content.items.map((item) => (
             <div>
               {item.text && <p>{item.text}</p>}
-              {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt} />}
+              {item.imageUrl && <Image className={'w-100'} src={item.imageUrl} alt={item.imageAlt} />}
             </div>
           ))}
 
@@ -240,7 +250,15 @@ const AddContent = (props) => {
               <Col sm={7}>
                 <Form.Control
                   type="file"
-                  onChange={(e) => setContentImage(e.target.files[0])}
+                  onChange={(e) => {
+                    // console.log(e.target.files[0])
+                    const reader = new FileReader();
+                    reader.readAsDataURL(e.target.files[0]);
+
+                    reader.onload = function () {
+                      setContentImage(reader.result);
+                    };
+                  }}
                 />
               </Col>
             </Form.Group>
@@ -301,7 +319,7 @@ const AddContent = (props) => {
           Close
         </Button>
         <Button id="addSubject" onClick={handleAddContent}>
-          {props.case} Exercise
+          {props.case} Content
         </Button>
       </Modal.Footer>
     </Modal>
