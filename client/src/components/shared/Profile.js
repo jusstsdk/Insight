@@ -10,9 +10,7 @@ export default function Profile() {
   if (userType === "Guest")
     return (
       <>
-        <Button onClick={() => navigate("/guest/login")}>
-          <CgLogIn size={30} />
-        </Button>
+        <Button onClick={() => navigate("/guest/login")}>Войти</Button>
       </>
     );
   else

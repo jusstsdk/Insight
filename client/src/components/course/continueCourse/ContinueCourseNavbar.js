@@ -4,11 +4,14 @@ import { Breadcrumb, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import API from "../../../functions/api";
-import { addNotification } from "../../../redux/notificationsSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
-import { solveExercise, watchVideo } from "../../../redux/userSlice";
+import {
+  readContentDispatch,
+  solveExercise,
+  watchVideo,
+} from "../../../redux/userSlice";
 export default function ContinueCourseNavbar({
   Course,
   handleNext,
@@ -135,19 +138,19 @@ export default function ContinueCourseNavbar({
           subtitleIndex: SubtitleIndex,
           contentIndex: ContentIndex,
           questions: userQuestions,
-          receivedGrade: 2,
+          receivedGrade: 60,
         },
       };
 
       await axios(config);
 
       dispatch(
-        solveExercise({
+        readContentDispatch({
           courseIndex: CourseIndex,
           subtitleIndex: SubtitleIndex,
-          exerciseIndex: ExerciseIndex,
+          contentIndex: ContentIndex,
           questions: userQuestions,
-          receivedGrade: 2,
+          receivedGrade: 11160,
         }),
       );
     }

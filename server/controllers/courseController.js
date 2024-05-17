@@ -437,9 +437,9 @@ const readContent = async (req, res) => {
   if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
   else trainee = await CorporateTrainee.findById(traineeId);
 
-  trainee.courses[courseIndex].subtitles[subtitleIndex].content[
-    contentIndex
-  ].isWatched = true;
+  console.log(
+    trainee.courses[courseIndex].subtitles[subtitleIndex].content[contentIndex],
+  );
 
   await trainee.save();
   res.status(200).json(trainee);

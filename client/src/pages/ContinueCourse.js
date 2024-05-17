@@ -55,7 +55,6 @@ export default function ContinueCourse() {
   const Progress = useSelector(
     (state) => state.userReducer.user.courses[CourseIndex].progress,
   );
-  console.log(Subtitles);
 
   // Current Content: Intially, the Content displayed depends on course.lastDone where SubtitleIndex and ContentIndex are intiallized with the last Content in the last Subtitle  in which the trainee made progress.
   const ContentType = useSelector(
