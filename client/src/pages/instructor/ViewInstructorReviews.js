@@ -19,11 +19,11 @@ function ViewInstructorReviews() {
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentReviews = Reviews.slice(firstPageIndex, lastPageIndex);
-
+	const token = useSelector((state) => state.userReducer.token);
 	// Gets all Instructor's Review populated with Trainee's information.
 	const getInstructorReviews = async () => {
 		const config = {
-			method: "GET",
+			method: "GET",				headers: { authorization: "Bearer " + token },
 			url: `http://localhost:4000/api/instructors/${instructorId}/reviews`,
 		};
 		try {

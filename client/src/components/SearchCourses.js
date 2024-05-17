@@ -21,7 +21,7 @@ export default function SearchCourses({
   const [ratingFilter, setRatingFilter] = useState(0);
   const [subjectFilter, setSubjectFilter] = useState([]);
   const user = useSelector((state) => state.userReducer.user);
-
+  const token = useSelector((state) => state.userReducer.token);
   const [sort, setSort] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -55,6 +55,7 @@ export default function SearchCourses({
     if (searchInInstructorCourses) {
       const response = await API.get(`instructors/${user._id}/courses`, {
         params: searchParams,
+        headers: { authorization: "Bearer " + token }
       });
       courses = response.data.courses;
     } else {

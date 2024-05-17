@@ -24,6 +24,7 @@ function ViewInstructorCourses() {
 		coursesLastPageIndex
 	);
 	//DRAFTS
+
 	const [Drafts, setDrafts] = useState([]);
 	const [draftsCurrentPage, setDraftsCurrentPage] = useState(1);
 
@@ -49,12 +50,12 @@ function ViewInstructorCourses() {
 	const [closedCurrentPage, setClosedCurrentPage] = useState(1);
 	let closedFirstPageIndex = (closedCurrentPage - 1) * pageSize;
 	let closedLastPageIndex = closedFirstPageIndex + pageSize;
-	let currentClosed = Closed.slice(closedFirstPageIndex, closedLastPageIndex);
+	let currentClosed = Closed.slice(closedFirstPageIndex, closedLastPageIndex);	const token = useSelector((state) => state.userReducer.token);
 	const [DetectChange, setDetectChange] = useState(false);
 	// Gets all Instructor's Review populated with Trainee's information.
 	const getCourses = async () => {
 		const config = {
-			method: "GET",
+			method: "GET",				headers: { authorization: "Bearer " + token },
 			url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
 		};
 		try {

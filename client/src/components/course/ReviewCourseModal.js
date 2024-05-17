@@ -36,13 +36,13 @@ function ReviewCourseModal(props) {
 	const handleCourseRating = (rating) => {
 		courseRating = rating;
 	};
-
+	const token = useSelector((state) => state.userReducer.token);
 	const rateCourseDescription = useRef();
 
 	async function reviewCourse() {
 		let config = {
 			method: "POST",
-			url: `http://localhost:4000/api/courses/${courseID}/review`,
+			url: `http://localhost:4000/api/courses/${courseID}/review`,				headers: { authorization: "Bearer " + token },
 			data: {
 				rating: courseRating,
 				review: rateCourseDescription.current.value,

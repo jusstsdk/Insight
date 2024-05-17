@@ -475,6 +475,7 @@ export default function ViewBoth(props) {
           case="Edit"
           content={Content}
           contentKey={ContentKey}
+          subtitleKey={props.subtitleKey}
           show={ShowEditContentModal}
           handleClose={handleEditContentModalClose}
         />

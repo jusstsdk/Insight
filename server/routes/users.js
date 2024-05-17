@@ -226,4 +226,30 @@ router.put("/toggle-ban", async (req, res) => {
   }
 });
 
+router.put("/check-banned", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    let user = null
+    user = await Trainee.findById(id);
+
+    if (!user) {
+      user = await Instructor.findById(id);
+
+      if (!user) {
+        user = await CorporateTrainee.findById(id);
+      }
+    }
+
+    console.log(user)
+
+    // user.isBanned = isBanned;
+    // await user.save();
+    res.json({ message: "Успех" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Что-то пошло не так" });
+  }
+});
+
 module.exports = router;

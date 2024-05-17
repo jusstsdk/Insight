@@ -26,7 +26,7 @@ function ReportCourseModal(props) {
 
 	const [reportType, setReportType] = useState("Technical");
 	const handleCloseReportCourseModal = () => setShowReportCourseModal(false);
-
+	const token = useSelector((state) => state.userReducer.token);
 	//REPORT DATA
 	const reportTitle = useRef();
 	const reportDescription = useRef();
@@ -34,7 +34,7 @@ function ReportCourseModal(props) {
 	async function submitReport() {
 		let config = {
 			method: "POST",
-			url: `http://localhost:4000/api/reports/courses/${courseID}`,
+			url: `http://localhost:4000/api/reports/courses/${courseID}`,				headers: { authorization: "Bearer " + token },
 			data: {
 				title: reportTitle.current.value,
 				type: reportType,

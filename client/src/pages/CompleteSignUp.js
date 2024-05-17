@@ -29,7 +29,7 @@ export default function CompleteSignUp() {
   const [gender, setGender] = useState("");
   const [country, setCountry] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-
+	const token = useSelector((state) => state.userReducer.token);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const handleCloseTermsModal = () => setShowTermsModal(false);
   const handleShowTermsModal = () => setShowTermsModal(true);
@@ -40,7 +40,7 @@ export default function CompleteSignUp() {
     setIsLoggingIn(true);
     const config = {
       method: "PUT",
-      url: `http://localhost:4000/api/${userType}s/${user._id}`,
+      url: `http://localhost:4000/api/${userType}s/${user._id}`,				headers: { authorization: "Bearer " + token },
       data: {
         password: password.current.value,
         email: email.current.value,

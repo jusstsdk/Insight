@@ -38,16 +38,16 @@ const MyCourses = () => {
 	);
 
 	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
-
+	const token = useSelector((state) => state.userReducer.token);
 	async function getCourses() {
 		let newCourses = [];
 		await Promise.all(
 			coursesWithId.map(async (course) => {
 				let courseFromDb;
 				if (course.course === undefined) {
-					courseFromDb = await API.get("courses/" + course._id);
+					courseFromDb = await API.get("courses/" + course._id, {        headers: { authorization: "Bearer " + token }});
 				} else {
-					courseFromDb = await API.get("courses/" + course.course);
+					courseFromDb = await API.get("courses/" + course.course, {});
 				}
 
 				const fullCourse = {

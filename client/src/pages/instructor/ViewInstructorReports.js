@@ -14,10 +14,10 @@ const ViewInstructorReports = () => {
   const lastPageIndex = firstPageIndex + pageSize;
   const currentCourses = Courses.slice(firstPageIndex, lastPageIndex);
   const user = useSelector((state) => state.userReducer.user);
-
+	const token = useSelector((state) => state.userReducer.token);
   const getReports = async () => {
     const config = {
-      method: "GET",
+      method: "GET",				headers: { authorization: "Bearer " + token },
       url: `http://localhost:4000/api/reports/instructor/${user._id}`,
     };
     try {

@@ -3,6 +3,7 @@ import { Card, Col, Container } from "react-bootstrap";
 import axios from "axios";
 import CourseReportsCard from "../../components/admin/CourseReportsCard";
 import Pagination from "../../components/shared/pagination/Pagination";
+import {useSelector} from "react-redux";
 let pageSize = 12;
 function ViewReports() {
   const [Courses, setCourses] = useState([]);
@@ -10,9 +11,10 @@ function ViewReports() {
   let firstPageIndex = (currentPage - 1) * pageSize;
   let lastPageIndex = firstPageIndex + pageSize;
   let currentCourses = Courses.slice(firstPageIndex, lastPageIndex);
+  const token = useSelector((state) => state.userReducer.token);
   const getReports = async () => {
     const config = {
-      method: "GET",
+      method: "GET",				headers: { authorization: "Bearer " + token },
       url: `http://localhost:4000/api/reports/`,
     };
     try {

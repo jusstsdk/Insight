@@ -53,7 +53,7 @@ function CourseReviews(props) {
 	//review course modal
 	const [showReviewCourseModal, setShowReviewCourseModal] = useState(false);
 	const handleShowReviewCourseModal = () => setShowReviewCourseModal(true);
-
+	const token = useSelector((state) => state.userReducer.token);
 	const [reviews, setReviews] = useState(course.reviews);
 
 	//request refund
@@ -100,7 +100,7 @@ function CourseReviews(props) {
 
 	async function traineeRefundCourseRequest() {
 		let config = {
-			method: "POST",
+			method: "POST",				headers: { authorization: "Bearer " + token },
 			url: `http://localhost:4000/api/trainees/${userID}/requestRefund/courses/${courseID}`,
 		};
 		setShowRefundRequestModal(false);

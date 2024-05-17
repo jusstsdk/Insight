@@ -136,7 +136,7 @@ export const createCourseSlice = createSlice({
       state.subtitlesIndices[action.payload.subtitleKey] += 1;
     },
     editContentOfSubtitle: (state, action) => {
-      state.subtitles[action.payload.subtitleKey].content = action.payload.content
+      state.subtitles[action.payload.subtitleKey].content[action.payload.contentKey] = action.payload.content
     	// state.subtitles[action.payload.subtitleKey].exercises[action.payload.exerciseKey].title =
     	// 	action.payload.title;
     },
@@ -223,7 +223,7 @@ export const {
   removeSubtitle,
   clearCreateCourse,
   addContentToSubtitle,
-  editContentToSubtitle,
+  editContentOfSubtitle,
   removeContentFromSubtitle,
 } = createCourseSlice.actions;
 

@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../components/shared/CountryDropdown";
 import { Col, Container, Modal, Row, Spinner } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../redux/userSlice";
 import updateCurrency from "../functions/updateCurrency";
@@ -31,7 +31,7 @@ export default function SignUp() {
   const [usernameValidation, setUsernameValidation] = useState(null);
   const [passwordValidation, setPasswordValidation] = useState(null);
   const [emailValidation, setEmailValidation] = useState(null);
-
+	const token = useSelector((state) => state.userReducer.token);
   async function handleCreateTrainee(e) {
     e.preventDefault();
 
@@ -64,7 +64,7 @@ export default function SignUp() {
     setIsLoggingIn(true);
     const config = {
       method: "POST",
-      url: "http://localhost:4000/api/trainees/",
+      url: "http://localhost:4000/api/trainees/",				headers: { authorization: "Bearer " + token },
       data: {
         username: username.current.value,
         password: password.current.value,

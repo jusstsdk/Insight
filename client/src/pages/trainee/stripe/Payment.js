@@ -16,7 +16,7 @@ function Payment() {
 	let courseId = params.id;
 
 	const wallet = useSelector((state) => state.userReducer.user.wallet);
-
+	const token = useSelector((state) => state.userReducer.token);
 	async function setup() {
 		let response;
 		try {
@@ -41,7 +41,7 @@ function Payment() {
 			amount = 0;
 		}
 		let config = {
-			method: "GET",
+			method: "GET",				headers: { authorization: "Bearer " + token },
 			url: "http://localhost:4000/config",
 		};
 		response = await axios(config);
@@ -50,6 +50,7 @@ function Payment() {
 		config = {
 			method: "POST",
 			url: "http://localhost:4000/create-payment-intent",
+			headers: { authorization: "Bearer " + token },
 			data: {
 				currency: "usd",
 				amount: (amount * 100).toFixed(0),

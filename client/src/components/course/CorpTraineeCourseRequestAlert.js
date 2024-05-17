@@ -17,7 +17,7 @@ function CorpTraineeRequestCourseAlert(props) {
 	const dispatch = useDispatch();
 	const MySwal = withReactContent(Swal);
 	const [loaded, setLoaded] = useState(false);
-
+	const token = useSelector((state) => state.userReducer.token);
 	//CorpTrainee Data
 	const [corpTraineeAlreadyRequestedAccess, setCorpTraineeAlreadyRequestedAccess] = useState(false);
 	const [corpTraineeRequestStatus, setCorpTraineeRequestStatus] = useState();
@@ -26,6 +26,7 @@ function CorpTraineeRequestCourseAlert(props) {
 		let config = {
 			method: "POST",
 			url: `http://localhost:4000/api/corporateTrainees/${userID}/request`,
+			headers: { authorization: "Bearer " + token },
 			data: {
 				courseId: courseID,
 			},

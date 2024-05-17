@@ -37,10 +37,10 @@ export default function ViewInstructor({ isInstructor }) {
 	const handleShowReviewInstructorModal = () =>
 		setShowReviewInstructorModal(true);
 	const reviewInstructorDescription = useRef();
-
+	const token = useSelector((state) => state.userReducer.token);
 	const getInstructorCourses = async () => {
 		try {
-			const response = await API.get(`/instructors/${instructorId}/courses`);
+			const response = await API.get(`/instructors/${instructorId}/courses`, {headers: { authorization: "Bearer " + token },});
 			response.data.courses.forEach((course) => {
 				course.originalPrice = (
 					course.originalPrice * user.exchangeRate

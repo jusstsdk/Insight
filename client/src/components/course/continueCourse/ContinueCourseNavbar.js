@@ -64,7 +64,7 @@ export default function ContinueCourseNavbar({
           (video) => video._id === Content._id,
         )
       : -1;
-
+	const token = useSelector((state) => state.userReducer.token);
   let userQuestions = Content?.questions?.map((question, questionIndex) => {
     return { ...question, studentAnswer: Answers[questionIndex].choice };
   });
@@ -73,7 +73,7 @@ export default function ContinueCourseNavbar({
     if (Content.type === "Video") {
       const config = {
         method: "PUT",
-        url: `http://localhost:4000/api/courses/${User._id}/watchVideo`,
+        url: `http://localhost:4000/api/courses/${User._id}/watchVideo`,				headers: { authorization: "Bearer " + token },
         data: {
           userType: UserType,
           courseIndex: CourseIndex,
@@ -99,7 +99,7 @@ export default function ContinueCourseNavbar({
     } else if (Content.type === "Exercise") {
       const config = {
         method: "PUT",
-        url: `http://localhost:4000/api/courses/${User._id}/solveExercise`,
+        url: `http://localhost:4000/api/courses/${User._id}/solveExercise`,				headers: { authorization: "Bearer " + token },
         data: {
           userType: UserType,
           courseIndex: CourseIndex,

@@ -7,14 +7,14 @@ const Users = () => {
   const [trainees, setTrainees] = useState();
   const [instructors, setInstructors] = useState();
 
-  const token = useSelector((state) => state.userReducer.token);
+	const token = useSelector((state) => state.userReducer.token);
 
   console.log(trainees);
   console.log(instructors);
 
   const getTrainees = async () => {
     const config = {
-      method: "GET",
+      method: "GET",				headers: { authorization: "Bearer " + token },
       url: `http://localhost:4000/api/trainees`,
     };
     try {
@@ -29,6 +29,7 @@ const Users = () => {
     const config = {
       method: "GET",
       url: `http://localhost:4000/api/instructors`,
+      headers: { authorization: "Bearer " + token },
     };
     try {
       const response = await axios(config);
@@ -42,6 +43,7 @@ const Users = () => {
     const config = {
       method: "PUT",
       url: `http://localhost:4000/api/users/toggle-ban`,
+      headers: { authorization: "Bearer " + token },
       data: { isBanned, userType, userId },
     };
     try {

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { login } from "../../redux/userSlice";
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -18,7 +18,7 @@ export default function Login() {
 
   const [usernameValidation, setUsernameValidation] = useState(null);
   const [passwordValidation, setPasswordValidation] = useState(null);
-
+	const token = useSelector((state) => state.userReducer.token);
   async function loginFunction(e) {
     e.preventDefault();
 
@@ -46,7 +46,7 @@ export default function Login() {
     const config = {
       method: "POST",
       url: "http://localhost:4000/api/users/login",
-      headers: {},
+				headers: { authorization: "Bearer " + token },
       data: {
         username: username.current.value,
         password: password.current.value,

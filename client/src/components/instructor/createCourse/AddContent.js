@@ -1,7 +1,7 @@
 import {Button, Col, Form, Image, Modal, Row} from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
-import {addContentToSubtitle, editContentToSubtitle} from "../../../redux/createCourseSlice";
+import {addContentToSubtitle, editContentOfSubtitle, editContentToSubtitle} from "../../../redux/createCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddContent = (props) => {
@@ -20,14 +20,14 @@ const AddContent = (props) => {
   const [missingAlt, setMissingAlt] = useState(false);
 
   const [content, setContent] = useState({
-    title: props.case === 'Add' ? "" : props.content.title,
-    index: props.content.index || null,
-    items: props.content.items || [],
+    title: props.case === 'Add' ? "" : props?.content?.title,
+    index: props?.content?.index || null,
+    items: props?.content?.items || [],
   });
 
-  const subtitle = useSelector(
-    (state) => state.createCourseReducer.subtitles[props.subtitleKey],
-  );
+  // const subtitle = useSelector(
+  //   (state) => state.createCourseReducer.subtitles[props.subtitleKey],
+  // );
 
   const contentIndex = useSelector(
     (state) => state.createCourseReducer.subtitlesIndices[props.subtitleKey],
@@ -49,8 +49,9 @@ const AddContent = (props) => {
          }),
      );
    } else {
+     console.log(props.subtitleKey)
      dispatch(
-         editContentToSubtitle({
+         editContentOfSubtitle({
            subtitleKey: props.subtitleKey,
            contentKey: props.contentKey,
            content: { ...content, index: contentIndex },

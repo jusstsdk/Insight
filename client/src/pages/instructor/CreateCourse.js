@@ -137,7 +137,7 @@ export default function CreateCourse() {
       return true;
     }
   };
-
+	const token = useSelector((state) => state.userReducer.token);
   const handleCreateCourse = async (status) => {
     let valid = validatePublish(status);
     if (!valid) {
@@ -146,7 +146,7 @@ export default function CreateCourse() {
     const config = {
       method: "POST",
       url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
-      headers: {},
+				headers: { authorization: "Bearer " + token },
       data: {
         title: InfoTitle,
         summary: InfoSummary,
