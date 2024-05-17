@@ -352,6 +352,7 @@ const watchVideo = async (req, res) => {
   let trainee;
   if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
   else trainee = await CorporateTrainee.findById(traineeId);
+
   trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
     videoIndex
   ].isWatched = true;
@@ -414,6 +415,9 @@ const solveExercise = async (req, res) => {
   let trainee;
   if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
   else trainee = await CorporateTrainee.findById(traineeId);
+
+  console.log(trainee.courses[courseIndex].subtitles[subtitleIndex]);
+
   trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
     exerciseIndex
   ].isSolved = true;

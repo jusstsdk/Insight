@@ -9,7 +9,8 @@ import {
   editQuestionOfExercise,
   removeQuestionFromExercise,
   removeExerciseFromSubtitle,
-  removeVideoFromSubtitle, removeContentFromSubtitle,
+  removeVideoFromSubtitle,
+  removeContentFromSubtitle,
 } from "../../../redux/createCourseSlice";
 
 import ViewExercise from "./ViewExercise";
@@ -184,7 +185,7 @@ export default function ViewBoth(props) {
   };
 
   const handleDeleteContent = async (content_key) => {
-     let newVideos = props.SubtitleContent.filter((_, i) => i !== content_key);
+    let newVideos = props.SubtitleContent.filter((_, i) => i !== content_key);
     let videoIndex = props.SubtitleContent[content_key].index;
     dispatch(
       removeContentFromSubtitle({
@@ -206,7 +207,7 @@ export default function ViewBoth(props) {
       );
     } else {
       index = props.SubtitleContent.findIndex(
-          (item) => item.index === content.index,
+        (item) => item.index === content.index,
       );
     }
     return index;
@@ -360,60 +361,62 @@ export default function ViewBoth(props) {
               </Accordion.Item>
             )}
             {content.type === "Content" && (
-                <Accordion.Item
-                    eventKey={`content_${getContentIndex(content)}`}
-                    key={`content_${getContentIndex(content)}`}
-                >
-                  <div className="d-flex">
-                    <Col sm={11} className="me-auto">
-                      <Accordion.Header className="accordionHeaderWidth">
-                        <OndemandVideoIcon />
-                        <h6 className="mb-0 ms-2">{content.title}</h6>
-                      </Accordion.Header>
-                    </Col>
-                    <Col sm={1} className="d-flex justify-content-end">
-                      <Button
-                          variant="secondary"
-                          className="accordionTrash accordionLikeEditButton"
-                          key={`content_edit_button_${getContentIndex(content)}`}
-                          onClick={() =>
-                              handleEditVideoModalShow(
-                                  content,
-                                  getContentIndex(content),
-                              )
-                          }
-                      >
-                        <AiOutlineEdit
-                            key={`content_edit_${getContentIndex(content)}`}
-                        />
-                      </Button>
-                      <Button
-                          className="accordionTrash accordionLikeDeleteButton"
-                          variant="danger"
-                          key={`content_trash_button_${getContentIndex(content)}`}
-                          onClick={async () =>
-                              await handleDeleteContent(
-                                  getContentIndex(content, content_index),
-                              )
-                          }
-                      >
-                        <BsTrash
-                            key={"content_trash_" + getContentIndex(content)}
-                        />
-                      </Button>
-                    </Col>
+              <Accordion.Item
+                eventKey={`content_${getContentIndex(content)}`}
+                key={`content_${getContentIndex(content)}`}
+              >
+                <div className="d-flex">
+                  <Col sm={11} className="me-auto">
+                    <Accordion.Header className="accordionHeaderWidth">
+                      <OndemandVideoIcon />
+                      <h6 className="mb-0 ms-2">{content.title}</h6>
+                    </Accordion.Header>
+                  </Col>
+                  <Col sm={1} className="d-flex justify-content-end">
+                    <Button
+                      variant="secondary"
+                      className="accordionTrash accordionLikeEditButton"
+                      key={`content_edit_button_${getContentIndex(content)}`}
+                      onClick={() =>
+                        handleEditVideoModalShow(
+                          content,
+                          getContentIndex(content),
+                        )
+                      }
+                    >
+                      <AiOutlineEdit
+                        key={`content_edit_${getContentIndex(content)}`}
+                      />
+                    </Button>
+                    <Button
+                      className="accordionTrash accordionLikeDeleteButton"
+                      variant="danger"
+                      key={`content_trash_button_${getContentIndex(content)}`}
+                      onClick={async () =>
+                        await handleDeleteContent(
+                          getContentIndex(content, content_index),
+                        )
+                      }
+                    >
+                      <BsTrash
+                        key={"content_trash_" + getContentIndex(content)}
+                      />
+                    </Button>
+                  </Col>
+                </div>
+                <Accordion.Body>
+                  <div>
+                    {content.items.map((item) => (
+                      <div>
+                        {item.text && <p>{item.text}</p>}
+                        {item.imageUrl && (
+                          <img src={item.imageUrl} alt={item.imageAlt} />
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <Accordion.Body>
-                    <div>
-                      {content.items.map(item => (
-                          <div>
-                            {item.text && <p>{item.text}</p>}
-                            {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt}/>}
-                          </div>
-                      ))}
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
+                </Accordion.Body>
+              </Accordion.Item>
             )}
           </>
         ))}

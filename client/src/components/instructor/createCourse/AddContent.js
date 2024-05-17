@@ -2,7 +2,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
 import { addContentToSubtitle } from "../../../redux/createCourseSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddContent = (props) => {
   const dispatch = useDispatch();
@@ -20,15 +20,18 @@ const AddContent = (props) => {
   const [contentAlt, setContentAlt] = useState("");
   const [missingAlt, setMissingAlt] = useState(false);
 
-  const [content, setContent] = useState({title: "qwew", index: null,  items: []});
-  const subtitle = useSelector((state) => state.createCourseReducer.subtitles[props.subtitleKey]);
-
-
-  const contentIndex = useSelector(
-      (state) => state.createCourseReducer.subtitlesIndices[props.subtitleKey]
+  const [content, setContent] = useState({
+    title: "qwew",
+    index: null,
+    items: [],
+  });
+  const subtitle = useSelector(
+    (state) => state.createCourseReducer.subtitles[props.subtitleKey],
   );
 
-  console.log(subtitle)
+  const contentIndex = useSelector(
+    (state) => state.createCourseReducer.subtitlesIndices[props.subtitleKey],
+  );
 
   const handleAddContent = () => {
     if (contentTitle === "") {
@@ -38,12 +41,15 @@ const AddContent = (props) => {
       setMissingTitle(false);
     }
 
-    console.log(content)
+    dispatch(
+      addContentToSubtitle({
+        subtitleKey: props.subtitleKey,
+        content: { ...content, index: contentIndex },
+      }),
+    );
 
-    dispatch(addContentToSubtitle({ subtitleKey: props.subtitleKey, content: {...content, index: contentIndex} }));
-
-    setContent({title: "", items: []})
-    props.handleClose()
+    setContent({ title: "", items: [] });
+    props.handleClose();
   };
 
   const handleAddImage = () => {
@@ -64,8 +70,7 @@ const AddContent = (props) => {
     content.items.push({
       imageAlt: contentAlt,
       imageUrl: "contentImage",
-
-    })
+    });
 
     const result = JSON.parse(JSON.stringify(content));
 
@@ -84,7 +89,7 @@ const AddContent = (props) => {
       setMissingText(false);
     }
 
-    content.items.push({ text: contentText })
+    content.items.push({ text: contentText });
 
     const result = JSON.parse(JSON.stringify(content));
 
@@ -113,35 +118,35 @@ const AddContent = (props) => {
 
       <Modal.Body>
         {!contentType && (
-            <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
-              <Form.Label column sm={2}>
-                Title
-                <br />
-                <span>
+          <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
+            <Form.Label column sm={2}>
+              Title
+              <br />
+              <span>
                 {missingTitle && (
-                    <span className="error">
+                  <span className="error">
                     Missing
                     <MdOutlineError />
                   </span>
                 )}
               </span>
-              </Form.Label>
-              <Col sm={7}>
-                <Form.Control
-                    type="text"
-                    placeholder="Title"
-                    value={contentTitle}
-                    onChange={(e) => {
-                      setContentTitle(e.target.value);
-                    }}
-                />
-              </Col>
-            </Form.Group>
+            </Form.Label>
+            <Col sm={7}>
+              <Form.Control
+                type="text"
+                placeholder="Title"
+                value={contentTitle}
+                onChange={(e) => {
+                  setContentTitle(e.target.value);
+                }}
+              />
+            </Col>
+          </Form.Group>
         )}
 
         {content.items.length > 0 &&
           !contentType &&
-            content.items.map((item) => (
+          content.items.map((item) => (
             <div>
               {item.text && <p>{item.text}</p>}
               {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt} />}
@@ -149,20 +154,20 @@ const AddContent = (props) => {
           ))}
 
         {!contentType && (
-              <Row className={"justify-content-center"}>
-                <Col
-                    sm={"auto"}
-                    className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
-                >
-                  <Button onClick={() => setContentType("text")}>Add Text</Button>
-                </Col>
-                <Col
-                    sm={"auto"}
-                    className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
-                >
-                  <Button onClick={() => setContentType("image")}>Add Image</Button>
-                </Col>
-              </Row>
+          <Row className={"justify-content-center"}>
+            <Col
+              sm={"auto"}
+              className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
+            >
+              <Button onClick={() => setContentType("text")}>Add Text</Button>
+            </Col>
+            <Col
+              sm={"auto"}
+              className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
+            >
+              <Button onClick={() => setContentType("image")}>Add Image</Button>
+            </Col>
+          </Row>
         )}
 
         {contentType === "text" && (

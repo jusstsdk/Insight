@@ -130,7 +130,7 @@ export const createCourseSlice = createSlice({
     // ContentInfo
     addContentToSubtitle: (state, action) => {
       state.subtitles[action.payload.subtitleKey].content = [
-        ...state.subtitles[action.payload.subtitleKey].content,
+        ...(state.subtitles[action.payload.subtitleKey].content || []),
         action.payload.content,
       ];
       state.subtitlesIndices[action.payload.subtitleKey] += 1;
@@ -141,23 +141,29 @@ export const createCourseSlice = createSlice({
     // },
     removeContentFromSubtitle: (state, action) => {
       let updatedExercises = state.subtitles[
-          action.payload.subtitleKey
-          ].exercises.map((exercise) =>
-          exercise.index > action.payload.videoIndex
-              ? { ...exercise, index: exercise.index - 1 }
-              : exercise,
+        action.payload.subtitleKey
+      ].exercises.map((exercise) =>
+        exercise.index > action.payload.videoIndex
+          ? { ...exercise, index: exercise.index - 1 }
+          : exercise,
       );
-    	let updatedVideos = state.subtitles[action.payload.subtitleKey].videos.map((video) =>
-    		video.index > action.payload.exerciseIndex ? { ...video, index: video.index - 1 } : video
-    	);
-    	let updatedContent = action.payload.newContent.map((content) =>
-    		content.index > action.payload.exerciseIndex ? { ...content, index: content.index - 1 } : content
-    	);
-    	state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
-    	state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
-    	state.subtitles[action.payload.subtitleKey].content = updatedContent;
-    	state.subtitlesIndices[action.payload.subtitleKey] -= 1;
-    	// state.subtitles[action.payload.subtitleKey].seconds -= 120 * action.payload.numberOfQuestions;
+      let updatedVideos = state.subtitles[
+        action.payload.subtitleKey
+      ].videos.map((video) =>
+        video.index > action.payload.exerciseIndex
+          ? { ...video, index: video.index - 1 }
+          : video,
+      );
+      let updatedContent = action.payload.newContent.map((content) =>
+        content.index > action.payload.exerciseIndex
+          ? { ...content, index: content.index - 1 }
+          : content,
+      );
+      state.subtitles[action.payload.subtitleKey].exercises = updatedExercises;
+      state.subtitles[action.payload.subtitleKey].videos = updatedVideos;
+      state.subtitles[action.payload.subtitleKey].content = updatedContent;
+      state.subtitlesIndices[action.payload.subtitleKey] -= 1;
+      // state.subtitles[action.payload.subtitleKey].seconds -= 120 * action.payload.numberOfQuestions;
     },
 
     // Questions
