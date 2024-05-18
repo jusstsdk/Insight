@@ -57,8 +57,8 @@ function CourseCard(props) {
     props.setDetectChange(!props.DetectChange);
   };
 
-  const handleCloseCourse = async () => {
-    await API.put(`/courses/${props.course._id}`, { status: "Closed" });
+  const handleToggleCourse = async (status) => {
+    await API.put(`/courses/${props.course._id}`, { status });
     dispatch(clearInfo());
     dispatch(clearCreateCourse());
 
@@ -119,8 +119,17 @@ function CourseCard(props) {
       case "Published": {
         return (
           <>
-            <Button className="me-3" onClick={handleCloseCourse}>
+            <Button className="me-3" onClick={() => handleToggleCourse("Closed")}>
               Close Course
+            </Button>
+          </>
+        );
+      }
+      case "Closed": {
+        return (
+          <>
+            <Button className="me-3" onClick={() => handleToggleCourse("Published")}>
+              Open Course
             </Button>
           </>
         );

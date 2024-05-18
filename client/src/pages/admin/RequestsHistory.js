@@ -32,6 +32,11 @@ const RequestsHistory = () => {
 	useEffect(() => {
 		getHandledTrainees();
 	}, []);
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [currentPage]);
+
 	return (
 		<>
 			<h1>Course Requests History</h1>

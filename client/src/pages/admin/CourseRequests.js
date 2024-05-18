@@ -40,7 +40,11 @@ const CourseRequests = () => {
 	useEffect(() => {
 		getPendingTrainees();
 	}, [DetectChange]);
-	
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [currentPage]);
+
 	return (
 		<>
 			<h1>Course Requests</h1>

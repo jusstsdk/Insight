@@ -7,6 +7,7 @@ import { Multiselect } from "multiselect-react-dropdown";
 import { Rating } from "react-simple-star-rating";
 import { BsFilter } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
+import axios from "axios";
 
 export default function SearchCourses({
   setCourses,
@@ -53,15 +54,26 @@ export default function SearchCourses({
     let courses;
 
     if (searchInInstructorCourses) {
-      const response = await API.get(`instructors/${user._id}/courses`, {
+      const config = {
+        method: "GET",
+        url: `http://localhost:4000/api/instructors/${user._id}/courses`,
         params: searchParams,
         headers: { authorization: "Bearer " + token }
-      });
+      };
+
+      const response = await axios(config);
       courses = response.data.courses;
     } else {
-      const response = await API.get("courses", {
+
+      const config = {
+        method: "GET",
+        url: `http://localhost:4000/api/courses`,
         params: searchParams,
-      });
+        headers: { authorization: "Bearer " + token }
+      };
+
+      const response = await axios(config);
+
       courses = response.data;
     }
     courses.forEach((course) => {
@@ -91,7 +103,7 @@ export default function SearchCourses({
     <>
       {!hideSearch && (
         <div className="d-flex">
-          <Col sm={5} className=" align-items-center">
+          <Col sm={3} className=" align-items-center">
             <Multiselect
               id="singleSelectSubjects"
               options={SUBJECTS}
@@ -109,6 +121,16 @@ export default function SearchCourses({
               showArrow={true}
               avoidHighlightFirstOption={true}
               hidePlaceholder={true}
+            />
+          </Col>
+
+          <Col sm={3} className={'d-flex justify-content-center align-items-center'}>
+            <Form.Check
+                type="checkbox"
+                id={"default-checkbox"}
+                label="Курсы, не содержащие видео"
+                className=""
+                onChange={() => setSort(!sort)}
             />
           </Col>
 

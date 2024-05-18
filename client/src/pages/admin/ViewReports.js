@@ -28,6 +28,10 @@ function ViewReports() {
     getReports();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentCourses]);
+
   return (
     <Container className="my-2 d-flex flex-wrap">
       <Card.Body className="d-flex flex-wrap">

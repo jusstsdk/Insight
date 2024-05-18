@@ -16,6 +16,8 @@ export default function EditProfilePopover() {
           navigate("/trainee/editProfile");
         } else if (type === "CorporateTrainee") {
           navigate("/corporateTrainee/editProfile");
+        } else if (type === "Administrator") {
+          navigate("/admin/editProfile");
         }
       }}
     >

@@ -14,6 +14,10 @@ function ViewCourseReports() {
 	let reportsLastPageIndex = reportsFirstPageIndex + pageSize;
 	let currentReports = Reports.slice(reportsFirstPageIndex, reportsLastPageIndex);
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [reportsCurrentPage]);
+
 	const [Resolved, setResolved] = useState([]);
 	const [resolvedCurrentPage, setResolvedCurrentPage] = useState(1);
 	let resolvedFirstPageIndex = (resolvedCurrentPage - 1) * pageSize;

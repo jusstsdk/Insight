@@ -29,6 +29,10 @@ const ViewInstructorReports = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentPage]);
+
+  useEffect(() => {
     getReports();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

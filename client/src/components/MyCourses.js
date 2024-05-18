@@ -28,6 +28,7 @@ const MyCourses = () => {
 		InProgressLastPageIndex
 	);
 
+
 	const [CompletedCourses, setCompletedCourses] = useState([]);
 	const [CompletedCurrentPage, setCompletedCurrentPage] = useState(1);
 	let CompletedFirstPageIndex = (CompletedCurrentPage - 1) * pageSize;
@@ -36,6 +37,10 @@ const MyCourses = () => {
 		CompletedFirstPageIndex,
 		CompletedLastPageIndex
 	);
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [InProgressCurrentPage, CompletedCurrentPage]);
 
 	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
 	const token = useSelector((state) => state.userReducer.token);

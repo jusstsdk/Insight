@@ -37,6 +37,10 @@ const ViewInstructorCourseReports = () => {
     pendingLastPageIndex,
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pendingCurrentPage, resolvedCurrentPage, reportsCurrentPage]);
+
   const [selectedItem, setSelectedItem] = useState("No-Filter");
   const location = useLocation();
 

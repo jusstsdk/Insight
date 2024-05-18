@@ -138,8 +138,8 @@ function UniversalCourseCard(props) {
     props.setDetectChange(!props.DetectChange);
   };
 
-  const handleCloseCourse = async () => {
-    await API.put(`/courses/${course._id}`, { status: "Closed" });
+  const handleToggleCourse = async (status) => {
+    await API.put(`/courses/${course._id}`, { status });
     dispatch(clearInfo());
     dispatch(clearCreateCourse());
     MySwal.fire({
@@ -199,10 +199,19 @@ function UniversalCourseCard(props) {
       case "Published": {
         return (
           <>
-            <Button className="me-1" onClick={handleCloseCourse}>
+            <Button className="me-1" onClick={() => handleToggleCourse('Closed')}>
               Close Course
             </Button>
           </>
+        );
+      }
+      case "Closed": {
+        return (
+            <>
+              <Button className="me-1" onClick={() => handleToggleCourse('Published')}>
+                Open Course
+              </Button>
+            </>
         );
       }
       default: {

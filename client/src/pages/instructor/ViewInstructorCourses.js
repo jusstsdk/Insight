@@ -90,6 +90,13 @@ function ViewInstructorCourses() {
 	};
 
 	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [coursesCurrentPage,
+		draftsCurrentPage,
+		publishedCurrentPage,
+		closedCurrentPage]);
+
+	useEffect(() => {
 		getCourses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [DetectChange]);

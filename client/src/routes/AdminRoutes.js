@@ -18,6 +18,7 @@ import Courses from "../pages/sharedTrainee/Courses";
 import NotFound from "../pages/NotFound";
 import Profile from "../pages/Profile";
 import Users from "../pages/admin/Users";
+import EditProfile from "../pages/admin/editProfile";
 
 export function AdminRoutes() {
   return (
@@ -36,6 +37,7 @@ export function AdminRoutes() {
             <Route path="changePassword" element={<ChangePassword />} />
             <Route path="createInstructor" element={<CreateInstructor />} />
             <Route path="courseRequests" element={<CourseRequests />} />
+            <Route path="editProfile" element={<EditProfile />} />
             <Route path="requestsHistory" element={<RequestsHistory />} />
             <Route path="refunds" element={<Refunds />} />
             <Route path="viewReports" element={<ViewReports />} />

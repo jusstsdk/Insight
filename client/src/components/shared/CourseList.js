@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CourseCard from "../CourseCard";
 import { useState, useMemo, useEffect } from "react";
 import Pagination from "./pagination/Pagination";
 import "./pagination/style.scss";
 import UniversalCourseCard from "../UniversalCourseCard";
+import axios from "axios";
 
 let pageSize = 5;
-export default function CourseList({ courses, currentPage, setCurrentPage }) {
+export default function CourseList({ courses, currentPage, setCurrentPage, setDetectChange, DetectChange }) {
 	let firstPageIndex = (currentPage - 1) * pageSize;
 	let lastPageIndex = firstPageIndex + pageSize;
 	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
+
 	// currentCourses = useMemo(() => {
 	// 	firstPageIndex = (currentPage - 1) * pageSize;
 	// 	lastPageIndex = firstPageIndex + pageSize;
@@ -17,10 +18,15 @@ export default function CourseList({ courses, currentPage, setCurrentPage }) {
 	// 	return courses.slice(firstPageIndex, lastPageIndex);
 	// }, [currentPage]);
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [currentPage]);
+
+
 	return (
 		<>
 			{currentCourses.map((course, i) => (
-				<UniversalCourseCard course={course} cardType={"Basic"} />
+				<UniversalCourseCard course={course} cardType={"Deluxe"} setDetectChange={setDetectChange} DetectChange={DetectChange} />
 			))}
 			<Pagination
 				className="pagination-bar"
