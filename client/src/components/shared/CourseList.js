@@ -6,35 +6,46 @@ import UniversalCourseCard from "../UniversalCourseCard";
 import axios from "axios";
 
 let pageSize = 5;
-export default function CourseList({ courses, currentPage, setCurrentPage, setDetectChange, DetectChange }) {
-	let firstPageIndex = (currentPage - 1) * pageSize;
-	let lastPageIndex = firstPageIndex + pageSize;
-	let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
+export default function CourseList({
+  courses,
+  currentPage,
+  setCurrentPage,
+  setDetectChange,
+  DetectChange,
+  isAdmin,
+}) {
+  let firstPageIndex = (currentPage - 1) * pageSize;
+  let lastPageIndex = firstPageIndex + pageSize;
+  let currentCourses = courses.slice(firstPageIndex, lastPageIndex);
 
-	// currentCourses = useMemo(() => {
-	// 	firstPageIndex = (currentPage - 1) * pageSize;
-	// 	lastPageIndex = firstPageIndex + pageSize;
-	// 	console.log(courses);
-	// 	return courses.slice(firstPageIndex, lastPageIndex);
-	// }, [currentPage]);
+  // currentCourses = useMemo(() => {
+  // 	firstPageIndex = (currentPage - 1) * pageSize;
+  // 	lastPageIndex = firstPageIndex + pageSize;
+  // 	console.log(courses);
+  // 	return courses.slice(firstPageIndex, lastPageIndex);
+  // }, [currentPage]);
 
-	useEffect(() => {
-		window.scrollTo(0, 0)
-	}, [currentPage]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
-
-	return (
-		<>
-			{currentCourses.map((course, i) => (
-				<UniversalCourseCard course={course} cardType={"Deluxe"} setDetectChange={setDetectChange} DetectChange={DetectChange} />
-			))}
-			<Pagination
-				className="pagination-bar"
-				currentPage={currentPage}
-				totalCount={courses.length}
-				pageSize={pageSize}
-				onPageChange={(page) => setCurrentPage(page)}
-			/>
-		</>
-	);
+  return (
+    <>
+      {currentCourses.map((course, i) => (
+        <UniversalCourseCard
+          course={course}
+          cardType={isAdmin ? "Deluxe" : "Basic"}
+          setDetectChange={setDetectChange}
+          DetectChange={DetectChange}
+        />
+      ))}
+      <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={courses.length}
+        pageSize={pageSize}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
+    </>
+  );
 }

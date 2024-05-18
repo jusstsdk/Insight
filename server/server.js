@@ -20,7 +20,7 @@ const app = express();
 app.use(cors());
 
 // middleware
-app.use(express.json());
+app.use(express.json({ limit: "50mb", extended: true }));
 app.use((req, res, next) => {
   ban(req, res, next);
 });

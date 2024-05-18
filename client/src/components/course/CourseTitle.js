@@ -17,7 +17,10 @@ function CourseTitle({
   const ExchangeRate = useSelector(
     (state) => state.userReducer.user.exchangeRate,
   );
+
   const userType = useSelector((state) => state.userReducer.type);
+  console.log(course);
+
   return (
     <Row>
       <Col sm={8}>
@@ -38,9 +41,7 @@ function CourseTitle({
                 <></>
               )}
 
-              {course.subtitles.some(
-                (subtitle) => subtitle?.videos && subtitle.videos.length > 0,
-              ) && (
+              {course.previewVideo !== "" && (
                 <Badge bg="danger" className="p-2 mx-1">
                   Курс содержит видео
                 </Badge>

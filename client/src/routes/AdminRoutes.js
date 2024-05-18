@@ -45,7 +45,7 @@ export function AdminRoutes() {
             <Route path="promotion" element={<Promotion />} />
             <Route path="viewInstructor/:id" element={<ViewInstructor />} />
             <Route path="courses/:id" element={<CoursePage />} />
-            <Route path="courses" element={<Courses />} />
+            <Route path="courses" element={<Courses isAdmin={true} />} />
             <Route path="viewInstructor/:id" element={<ViewInstructor />} />
             <Route path="*" element={<NotFound />} />
           </Route>
