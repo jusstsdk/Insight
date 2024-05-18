@@ -1,7 +1,10 @@
 import {Button, Col, Form, Image, Modal, Row} from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
-import {addContentToSubtitle, editContentOfSubtitle, editContentToSubtitle} from "../../../redux/createCourseSlice";
+import {
+  addContentToSubtitle,
+  editContentToSubtitle,
+} from "../../../redux/createCourseSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddContent = (props) => {
@@ -20,7 +23,7 @@ const AddContent = (props) => {
   const [missingAlt, setMissingAlt] = useState(false);
 
   const [content, setContent] = useState({
-    title: props.case === 'Add' ? "" : props?.content?.title,
+    title: props.case === "Add" ? "" : props?.content?.title,
     index: props?.content?.index || null,
     items: props?.content?.items || [],
   });
@@ -41,23 +44,22 @@ const AddContent = (props) => {
       setMissingTitle(false);
     }
 
-   if (props.case === 'Add') {
-     dispatch(
-         addContentToSubtitle({
-           subtitleKey: props.subtitleKey,
-           content: { ...content, index: contentIndex },
-         }),
-     );
-   } else {
-     console.log(props.subtitleKey)
-     dispatch(
-         editContentOfSubtitle({
-           subtitleKey: props.subtitleKey,
-           contentKey: props.contentKey,
-           content: { ...content, index: contentIndex },
-         }),
-     );
-   }
+    if (props.case === "Add") {
+      dispatch(
+        addContentToSubtitle({
+          subtitleKey: props.subtitleKey,
+          content: { ...content, index: contentIndex },
+        }),
+      );
+    } else {
+      dispatch(
+        editContentToSubtitle({
+          subtitleKey: props.subtitleKey,
+          contentKey: props.contentKey,
+          content: { ...content, index: contentIndex },
+        }),
+      );
+    }
 
     setContent({ title: "", items: [] });
     props.handleClose();
@@ -148,7 +150,7 @@ const AddContent = (props) => {
                 placeholder="Title"
                 value={content.title}
                 onChange={(e) => {
-                  setContent({...content, title: e.target.value});
+                  setContent({ ...content, title: e.target.value });
                 }}
               />
             </Col>
@@ -160,7 +162,13 @@ const AddContent = (props) => {
           content.items.map((item) => (
             <div>
               {item.text && <p>{item.text}</p>}
-              {item.imageUrl && <Image className={'w-100'} src={item.imageUrl} alt={item.imageAlt} />}
+              {item.imageUrl && (
+                <Image
+                  className={"w-100"}
+                  src={item.imageUrl}
+                  alt={item.imageAlt}
+                />
+              )}
             </div>
           ))}
 

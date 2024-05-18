@@ -38,19 +38,13 @@ function CourseTitle({
                 <></>
               )}
 
-              {course.subtitles.map((subtitle, i) => {
-                if (subtitle?.videos && subtitle.videos.length > 0) {
-                  return (
-                    <Badge
-                      key={"subject_badge_" + i}
-                      bg="danger"
-                      className="p-2 mx-1"
-                    >
-                      Курс содержит видео
-                    </Badge>
-                  );
-                }
-              })}
+              {course.subtitles.some(
+                (subtitle) => subtitle?.videos && subtitle.videos.length > 0,
+              ) && (
+                <Badge bg="danger" className="p-2 mx-1">
+                  Курс содержит видео
+                </Badge>
+              )}
             </div>
           </Col>
         </Row>

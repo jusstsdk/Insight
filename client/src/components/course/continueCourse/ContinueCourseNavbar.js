@@ -4,11 +4,14 @@ import { Breadcrumb, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import API from "../../../functions/api";
-import { addNotification } from "../../../redux/notificationsSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
-import { solveExercise, watchVideo } from "../../../redux/userSlice";
+import {
+  readContentDispatch,
+  solveExercise,
+  watchVideo,
+} from "../../../redux/userSlice";
 export default function ContinueCourseNavbar({
   Course,
   handleNext,
@@ -38,11 +41,14 @@ export default function ContinueCourseNavbar({
   const SubtitleIndex = useSelector(
     (state) => state.continueCourseReducer.subtitleIndex,
   );
+
   const SelectedContentIndex = useSelector(
     (state) => state.continueCourseReducer.selectedContentIndex,
   );
 
   const Content = useSelector((state) => state.continueCourseReducer.content);
+
+  console.log(Content);
 
   const ContentType = useSelector(
     (state) => state.continueCourseReducer.contentType,
@@ -51,12 +57,15 @@ export default function ContinueCourseNavbar({
     (state) => state.userReducer.user.courses[CourseIndex].progress,
   );
   const mainNavbar = document.getElementById("main-navbar");
-  console.log(Content);
-  console.log(User.courses[CourseIndex].subtitles[SubtitleIndex].videos);
+
   const VideoIndex = User.courses[CourseIndex].subtitles[
     SubtitleIndex
-  ].videos.findIndex((video) => video._id === Content._id);
+  ]?.videos?.findIndex((video) => video._id === Content._id);
   const Answers = useSelector((state) => state.continueCourseReducer.answers);
+
+  const ContentIndex = User.courses[CourseIndex].subtitles[
+    SubtitleIndex
+  ]?.content?.findIndex((content) => content._id === Content._id);
 
   const ExerciseIndex =
     ContentType === "Exercise"
@@ -85,8 +94,6 @@ export default function ContinueCourseNavbar({
       const response = await axios(config);
 
       let progress = response.data.courses[CourseIndex].progress;
-
-      console.log(progress);
 
       dispatch(
         watchVideo({
@@ -119,6 +126,31 @@ export default function ContinueCourseNavbar({
           exerciseIndex: ExerciseIndex,
           questions: userQuestions,
           receivedGrade: 2,
+        }),
+      );
+    } else if (Content.type === "Content") {
+      const config = {
+        method: "PUT",
+        url: `http://localhost:4000/api/courses/${User._id}/readContent`,
+        data: {
+          userType: UserType,
+          courseIndex: CourseIndex,
+          subtitleIndex: SubtitleIndex,
+          contentIndex: ContentIndex,
+          questions: userQuestions,
+          receivedGrade: 60,
+        },
+      };
+
+      await axios(config);
+
+      dispatch(
+        readContentDispatch({
+          courseIndex: CourseIndex,
+          subtitleIndex: SubtitleIndex,
+          contentIndex: ContentIndex,
+          questions: userQuestions,
+          receivedGrade: 11160,
         }),
       );
     }
@@ -205,7 +237,7 @@ export default function ContinueCourseNavbar({
                 onClick={handlePrevious}
               >
                 <AiOutlineArrowLeft />
-                Previous
+                Назад
               </Button>
             )}
             {/* Next */}
@@ -215,7 +247,7 @@ export default function ContinueCourseNavbar({
                 className="blackText linkDecor"
                 onClick={handleNext}
               >
-                Next
+                Дальше
                 <AiOutlineArrowRight />
               </Button>
             )}
@@ -227,7 +259,7 @@ export default function ContinueCourseNavbar({
                 navigate(`/${UserType.toLowerCase()}/courses/${Course._id}`)
               }
             >
-              Back to Course
+              Назад к курсам
             </Button>
             {/* Mark as a finish */}
             <Button

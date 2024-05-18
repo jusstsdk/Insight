@@ -28,7 +28,7 @@ export default function WatchVideo(props) {
   ).findIndex((course) => course.course === props.CourseId);
   const VideoIndex = User.courses[CourseIndex].subtitles[
     SubtitleIndex
-  ].videos.findIndex((video) => video._id === Content._id);
+  ]?.videos?.findIndex((video) => video._id === Content._id);
   const NoteRef = useRef();
   const [Note, setNote] = useState("");
 

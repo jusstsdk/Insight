@@ -1,22 +1,23 @@
 const express = require("express");
 
 const {
-	getCourse,
-	getCourses,
-	updateCourse,
-	deleteCourse,
-	reportCourse,
-	populateReports,
-	getReports,
-	reviewCourse,
-	promotionCourses,
-	watchVideo,
-	addNoteToVideoNotes,
-	deleteNoteFromVideoNotes,
-	solveExercise,
-	solveExam,
-	sendCertificate,
-	getCourseWithReviews,
+  getCourse,
+  getCourses,
+  updateCourse,
+  deleteCourse,
+  reportCourse,
+  populateReports,
+  getReports,
+  reviewCourse,
+  promotionCourses,
+  watchVideo,
+  addNoteToVideoNotes,
+  deleteNoteFromVideoNotes,
+  solveExercise,
+  solveExam,
+  sendCertificate,
+  getCourseWithReviews,
+  readContent,
 } = require("../controllers/courseController");
 
 const router = express.Router();
@@ -32,6 +33,9 @@ router.put("/:id/deleteNoteFromVideoNotes", deleteNoteFromVideoNotes);
 
 // Solve an Exercise
 router.put("/:id/solveExercise", solveExercise);
+
+// Read a content
+router.put("/:id/readContent", readContent);
 
 // Solve an Exam
 router.put("/:id/solveExam", solveExam);
