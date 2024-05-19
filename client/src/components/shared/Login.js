@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/userSlice";
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -18,18 +18,18 @@ export default function Login() {
 
   const [usernameValidation, setUsernameValidation] = useState(null);
   const [passwordValidation, setPasswordValidation] = useState(null);
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
   async function loginFunction(e) {
     e.preventDefault();
 
     if (!username.current.value.match(/^[a-zA-Z0-9]+$/)) {
-      setUsernameValidation("Username can only contain letters and numbers");
+      setUsernameValidation("Логин может содержать только буквы и цифры");
     } else {
       setUsernameValidation(null);
     }
 
     if (password.current.value.length < 8) {
-      setPasswordValidation("Password must contains at least 8 characters");
+      setPasswordValidation("Пароль должен состоять хотя бы из 8 символов");
     } else {
       setPasswordValidation(null);
     }
@@ -46,7 +46,7 @@ export default function Login() {
     const config = {
       method: "POST",
       url: "http://localhost:4000/api/users/login",
-				headers: { authorization: "Bearer " + token },
+      headers: { authorization: "Bearer " + token },
       data: {
         username: username.current.value,
         password: password.current.value,
@@ -77,8 +77,8 @@ export default function Login() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Wrong Credentials</strong>,
-        html: <i>Your password or username is wrong try again please</i>,
+        title: <strong>Неверные данные</strong>,
+        html: <i>Ваш логин или пароль неверны, пожалуйста повторите попытку</i>,
         icon: "error",
         timerProgressBar: true,
         grow: "row",
@@ -93,14 +93,18 @@ export default function Login() {
       onSubmit={!isLoggingIn ? loginFunction : null}
     >
       <Form.Group className="mb-2">
-        <Form.Label className="fs-6">Username</Form.Label>
-        <Form.Control type="text" placeholder="Enter username" ref={username} />
+        <Form.Label className="fs-6">Логин</Form.Label>
+        <Form.Control type="text" placeholder="Введите логин" ref={username} />
         {usernameValidation && <Form.Text>{usernameValidation}</Form.Text>}
       </Form.Group>
 
       <Form.Group className="mb-2">
-        <Form.Label className="fs-6">Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" ref={password} />
+        <Form.Label className="fs-6">Пароль</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Введите пароль"
+          ref={password}
+        />
         {passwordValidation && <Form.Text>{passwordValidation}</Form.Text>}
       </Form.Group>
 
@@ -114,7 +118,7 @@ export default function Login() {
             aria-hidden="true"
             className="me-1"
           />
-          Logging in...
+          Загрузка...
         </Button>
       ) : (
         <Button
@@ -123,7 +127,7 @@ export default function Login() {
           type="submit"
           disabled={isLoggingIn}
         >
-          Login
+          Войти
         </Button>
       )}
     </Form>

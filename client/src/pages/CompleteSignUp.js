@@ -26,10 +26,9 @@ export default function CompleteSignUp() {
   const firstName = useRef();
   const lastName = useRef();
   const biography = useRef();
-  const [gender, setGender] = useState("");
   const [country, setCountry] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const handleCloseTermsModal = () => setShowTermsModal(false);
   const handleShowTermsModal = () => setShowTermsModal(true);
@@ -40,7 +39,8 @@ export default function CompleteSignUp() {
     setIsLoggingIn(true);
     const config = {
       method: "PUT",
-      url: `http://localhost:4000/api/${userType}s/${user._id}`,				headers: { authorization: "Bearer " + token },
+      url: `http://localhost:4000/api/${userType}s/${user._id}`,
+      headers: { authorization: "Bearer " + token },
       data: {
         password: password.current.value,
         email: email.current.value,
@@ -75,27 +75,27 @@ export default function CompleteSignUp() {
   }
   return (
     <div>
-      <h1 className="fst-italic mx-auto fitWidth">Fill in your details</h1>
+      <h1 className="fst-italic mx-auto fitWidth">Заполните свои данные</h1>
       <Form onSubmit={handleFinishSignUp}>
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Password</Form.Label>
+              <Form.Label className="fst-italic">Пароль</Form.Label>
               <Form.Control
                 ref={password}
                 type="password"
-                placeholder="Password"
+                placeholder="Введите пароль"
                 required
               />
             </Form.Group>
           </Col>
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Email</Form.Label>
+              <Form.Label className="fst-italic">Почта</Form.Label>
               <Form.Control
                 ref={email}
                 type="email"
-                placeholder="Enter Email"
+                placeholder="Введите почту"
                 required
               />
             </Form.Group>
@@ -104,22 +104,22 @@ export default function CompleteSignUp() {
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">First name</Form.Label>
+              <Form.Label className="fst-italic">Имя</Form.Label>
               <Form.Control
                 ref={firstName}
                 type="firstName"
-                placeholder="Enter firstName"
+                placeholder="Введите имя"
                 required
               />
             </Form.Group>
           </Col>
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Last name</Form.Label>
+              <Form.Label className="fst-italic">Фамилия</Form.Label>
               <Form.Control
                 ref={lastName}
                 type="lastName"
-                placeholder="Enter lastName"
+                placeholder="Введите фамилию"
                 required
               />
             </Form.Group>
@@ -127,24 +127,7 @@ export default function CompleteSignUp() {
         </Row>
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
-            <Form.Label className="fst-italic"> Gender </Form.Label>
-            <Form.Select
-              value={gender}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-              aria-label="Default select example"
-              required="true"
-            >
-              <option value="" className="fst-italic">
-                Select Gender
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </Form.Select>
-          </Col>
-          <Col sm={4}>
-            <Form.Label className="fst-italic"> Country </Form.Label>
+            <Form.Label className="fst-italic"> Страна </Form.Label>
             <CountryDropdown
               Country={country}
               setCountry={setCountry}
@@ -157,10 +140,10 @@ export default function CompleteSignUp() {
             <Form.Group
               className={userType == "CorporateTrainee" ? "d-none" : ""}
             >
-              <Form.Label> Biography </Form.Label>
+              <Form.Label>Биография</Form.Label>
               <Form.Control
                 ref={biography}
-                placeholder="Enter Biography"
+                placeholder="Введите биографию"
                 as="textarea"
                 rows={3}
               />
@@ -173,11 +156,11 @@ export default function CompleteSignUp() {
               <Form.Check
                 className="my-auto"
                 type="checkbox"
-                label="I agree to the"
+                label="Я согласен с"
                 required
               />
               <Button variant="link" onClick={handleShowTermsModal}>
-                terms and conditions
+                правилами и условиями
               </Button>
             </Container>
           </Form.Group>
@@ -193,7 +176,7 @@ export default function CompleteSignUp() {
                 aria-hidden="true"
                 className="me-1"
               />
-              Sign Up...
+              Загрузка...
             </Button>
           ) : (
             <Button
@@ -202,35 +185,31 @@ export default function CompleteSignUp() {
               type="submit"
               disabled={isLoggingIn}
             >
-              Sign Up
+              Зарегистрироваться
             </Button>
           )}
         </Col>
       </Form>
       <Modal show={showTermsModal} onHide={handleCloseTermsModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Terms And Conditions</Modal.Title>
+          <Modal.Title>Правила и условия</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>As an Instructor:</h5>
+          <h5>В качестве инструктора:</h5>
           <p className="text-muted">
-            You give up all rights to all content, videos, exercises, emails,
-            ads. Money wise we will take 90% of all money paid on our platform.
+            Вы отказываетесь от всех прав на весь контент, видео, упражнения,
+            электронные письма, рекламу. В денежном отношении мы будем брать 90%
+            от всех денег, выплаченных на нашей платформе.
           </p>
-          <h5>As an Coporate Trainee:</h5>
+          <h5>В качестве стажера:</h5>
           <p className="text-muted">
-            You will be beholden to your companies policies and what they allow
-            you to subscribe to.
-          </p>
-          <h5>As a Trainee:</h5>
-          <p className="text-muted">
-            You allow us to take collect and sell data about you, including your
-            name,email,credit card number.
+            Вы разрешаете нам собирать и продавать данные о вас, включая ваше
+            имя, электронную почту, номер кредитной карты.
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseTermsModal}>
-            Close
+            Закрыть
           </Button>
         </Modal.Footer>
       </Modal>

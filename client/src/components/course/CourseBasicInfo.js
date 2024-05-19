@@ -43,13 +43,6 @@ function CourseBasicInfo(props) {
         <h3 className="fst-italic fitWidth">Основная информация</h3>
         {/* Stats */}
         <Col className="d-flex justify-content-end mt-2 mb-3">
-          {/* Hours */}
-          <div className="fitWidth d-flex align-items-center me-2">
-            <AiFillClockCircle size={30} />
-            <h5 className="ms-2 my-auto fitWidth fw-light">
-              Approx. {Math.ceil(course.totalSeconds / 3600)} hours to complete
-            </h5>
-          </div>
           {/* Students */}
           <div className="d-flex align-items-center fitWidth">
             <HiUsers size={30} />

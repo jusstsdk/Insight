@@ -11,29 +11,22 @@ export default function AdminNavbarButtons() {
           navigate("courses");
         }}
       >
-        Catalog
+        Каталог
       </Nav.Link>
-      <NavDropdown title="Create User" id="basic-nav-dropdown">
+      <NavDropdown title="Создать пользователя" id="basic-nav-dropdown">
         <NavDropdown.Item
           onClick={() => {
             navigate("createAdmin");
           }}
         >
-          Admin
-        </NavDropdown.Item>
-        <NavDropdown.Item
-          onClick={() => {
-            navigate("createCorporateTrainee");
-          }}
-        >
-          Corporate Trainee
+          Админ
         </NavDropdown.Item>
         <NavDropdown.Item
           onClick={() => {
             navigate("createInstructor");
           }}
         >
-          Instructor
+          Инструктор
         </NavDropdown.Item>
       </NavDropdown>
       <Nav.Link
@@ -41,7 +34,7 @@ export default function AdminNavbarButtons() {
           navigate("users");
         }}
       >
-        Users
+        Пользователи
       </Nav.Link>
 
       <Nav.Link
@@ -49,7 +42,7 @@ export default function AdminNavbarButtons() {
           navigate("viewReports");
         }}
       >
-        Reports
+        Отчеты
       </Nav.Link>
 
       <Nav.Link
@@ -57,28 +50,21 @@ export default function AdminNavbarButtons() {
           navigate("courseRequests");
         }}
       >
-        Course Requests
-      </Nav.Link>
-      <Nav.Link
-        onClick={() => {
-          navigate("requestsHistory");
-        }}
-      >
-        Requests history
+        Заявки на курсы
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("refunds");
         }}
       >
-        Refunds
+        Возврат
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("promotion");
         }}
       >
-        Discounts
+        Скидки
       </Nav.Link>
     </>
   );

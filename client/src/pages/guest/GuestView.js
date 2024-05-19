@@ -5,7 +5,7 @@ export default function GuestView() {
     <>
       <Banner />
 
-      <h1>Popular courses</h1>
+      <h1>Популярные курсы</h1>
 
       <PopularCourses />
     </>

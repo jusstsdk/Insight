@@ -10,48 +10,42 @@ export default function InstructorNavbarButtons() {
           navigate("createCourse", { state: { status: "New" } });
         }}
       >
-        Create Course
+        Создать курс
       </Nav.Link>
-      {/* <Nav.Link
-				onClick={() => {
-					navigate("viewInstructorReviews");
-				}}>
-				My Reviews
-			</Nav.Link> */}
       <Nav.Link
         onClick={() => {
           navigate("viewInstructorCourses");
         }}
       >
-        My Courses
+        Мои курсы
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("viewInstructorReports");
         }}
       >
-        Reports
+        Отчеты
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("promotion");
         }}
       >
-        Add Discounts
+        Добавить скидку
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("courses");
         }}
       >
-        Catalog
+        Каталог
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           navigate("myReports");
         }}
       >
-        Support
+        Поддержка
       </Nav.Link>
     </>
   );

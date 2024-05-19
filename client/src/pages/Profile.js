@@ -22,7 +22,7 @@ const Profile = () => {
           sm={"auto"}
           className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
         >
-          <h3 className={"fw-bold mb-2 fs-2"}>Hello, {user.username}</h3>
+          <h3 className={"fw-bold mb-2 fs-2"}>Привет, {user.username}</h3>
         </Col>
 
         <Col className={"d-flex justify-content-end"}>
@@ -37,7 +37,7 @@ const Profile = () => {
       <p className={"mb-4 fs-4"}>{user.email}</p>
 
       <p className={"fs-4"}>
-        Registration date: {formattedData(user.createdAt)}
+        Дата регистрации: {formattedData(user.createdAt)}
       </p>
 
       <div className="d-flex justify-content-start gap-3 mb-3">

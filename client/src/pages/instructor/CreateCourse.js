@@ -137,7 +137,8 @@ export default function CreateCourse() {
       return true;
     }
   };
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
+
   const handleCreateCourse = async (status) => {
     let valid = validatePublish(status);
     if (!valid) {
@@ -146,7 +147,7 @@ export default function CreateCourse() {
     const config = {
       method: "POST",
       url: `http://localhost:4000/api/instructors/${instructorId}/courses`,
-				headers: { authorization: "Bearer " + token },
+      headers: { authorization: "Bearer " + token },
       data: {
         title: InfoTitle,
         summary: InfoSummary,
@@ -171,11 +172,11 @@ export default function CreateCourse() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Create Course</strong>,
+        title: <strong>Создание курса</strong>,
         html: (
-          <i>{`Course ${
-            status === "Draft" ? "saved" : "published"
-          } successfully`}</i>
+          <i>{`Курс ${
+            status === "Draft" ? "сохранен" : "отправлен на модерацию"
+          } успешно`}</i>
         ),
         icon: "success",
         timerProgressBar: true,
@@ -188,12 +189,8 @@ export default function CreateCourse() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Create Course</strong>,
-        html: (
-          <i>{`Error while ${
-            status === "Draft" ? "saving" : "publishing"
-          } course!`}</i>
-        ),
+        title: <strong>Создание курса</strong>,
+        html: <i>{`Произошла ошибка`}</i>,
         icon: "error",
         timerProgressBar: true,
         grow: "row",

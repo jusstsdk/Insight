@@ -83,7 +83,7 @@ const courseSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Draft", "Published", "Closed"],
+      enum: ["Draft", "Published", "Closed", "Deleted", "Review"],
     },
     rank: {
       type: Number,

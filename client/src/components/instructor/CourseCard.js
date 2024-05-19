@@ -119,7 +119,10 @@ function CourseCard(props) {
       case "Published": {
         return (
           <>
-            <Button className="me-3" onClick={() => handleToggleCourse("Closed")}>
+            <Button
+              className="me-3"
+              onClick={() => handleToggleCourse("Closed")}
+            >
               Close Course
             </Button>
           </>
@@ -128,7 +131,10 @@ function CourseCard(props) {
       case "Closed": {
         return (
           <>
-            <Button className="me-3" onClick={() => handleToggleCourse("Published")}>
+            <Button
+              className="me-3"
+              onClick={() => handleToggleCourse("Published")}
+            >
               Open Course
             </Button>
           </>
@@ -210,7 +216,7 @@ function CourseCard(props) {
               <h6 className="text-muted me-3">{props.course.status}</h6>
             )}
             {displayButtons()}
-            <Button variant="outline-primary">View Course</Button>
+            <Button variant="outline-primary">Просмотр курса</Button>
           </Col>
         </CardGroup>
       </Card.Body>

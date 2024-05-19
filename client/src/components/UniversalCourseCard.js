@@ -139,7 +139,14 @@ function UniversalCourseCard(props) {
   };
 
   const handleToggleCourse = async (status) => {
-    await API.put(`/courses/${course._id}`, { status });
+    if (props.isAdmin) {
+      await API.put(`/courses/${course._id}`, {
+        status: status === "Published" ? "Published" : "Deleted",
+      });
+    } else {
+      await API.put(`/courses/${course._id}`, { status });
+    }
+
     dispatch(clearInfo());
     dispatch(clearCreateCourse());
     MySwal.fire({
@@ -147,8 +154,16 @@ function UniversalCourseCard(props) {
       position: "bottom-end",
       showConfirmButton: false,
       timer: 4000,
-      title: <strong>Create Course</strong>,
-      html: <i>Course Closed Successfully!</i>,
+      title: <strong>Курс</strong>,
+      html: (
+        <i>
+          {status === "Published"
+            ? "Курс успешно опубликован!"
+            : status === "Deleted"
+              ? "Курс успешно удален!"
+              : "Курс успешно закрыт!"}
+        </i>
+      ),
       icon: "success",
       timerProgressBar: true,
       grow: "row",
@@ -203,9 +218,29 @@ function UniversalCourseCard(props) {
               className="me-1"
               onClick={() => handleToggleCourse("Closed")}
             >
-              Close Course
+              Закрыть курс
             </Button>
           </>
+        );
+      }
+      case "Review": {
+        return (
+          props.isAdmin && (
+            <>
+              <Button
+                className="me-1"
+                onClick={() => handleToggleCourse("Deleted")}
+              >
+                Удалить курс
+              </Button>
+              <Button
+                className="me-1"
+                onClick={() => handleToggleCourse("Published")}
+              >
+                Опубликовать курс
+              </Button>
+            </>
+          )
         );
       }
       case "Closed": {
@@ -215,7 +250,7 @@ function UniversalCourseCard(props) {
               className="me-1"
               onClick={() => handleToggleCourse("Published")}
             >
-              Open Course
+              Открыть курс
             </Button>
           </>
         );
@@ -233,10 +268,6 @@ function UniversalCourseCard(props) {
           <Card.Title className="courseCardTitle pe-0">
             {course.title}{" "}
           </Card.Title>
-
-          <p className="textFit my-auto text-muted">
-            {Math.ceil(course.totalSeconds / 3600)} Hours
-          </p>
 
           <Col sm={4}>
             <div className={"d-flex flex-md-nowrap flex-wrap gap-2 mb-2"}>
@@ -282,7 +313,13 @@ function UniversalCourseCard(props) {
           cardType === "Deluxe" && (
             <Badge
               pill
-              bg={course.status === "Draft" ? "secondary" : "success"}
+              bg={
+                course.status === "Draft"
+                  ? "secondary"
+                  : course.status === "Deleted"
+                    ? "danger"
+                    : "success"
+              }
             >
               {course.status}
             </Badge>
@@ -293,7 +330,7 @@ function UniversalCourseCard(props) {
           course.rank < 6 && (
             <Badge pill bg="danger" className=" mx-1 ">
               <span style={{ color: "#ffffff" }}>
-                #{course.rank} in Popularity
+                #{course.rank} по популярности
               </span>
             </Badge>
           )}
@@ -301,7 +338,7 @@ function UniversalCourseCard(props) {
       <Card.Body>
         <Row>
           <h6 className="text-muted textFit courseCardLabel  my-1">
-            Instructor
+            Инструктор
           </h6>
 
           {course.instructors.map((instructor, i) => (
@@ -336,7 +373,7 @@ function UniversalCourseCard(props) {
         <br />
         <Row>
           <Col sm={8}>
-            <h6 className="text-muted textFit courseCardLabel">Summary</h6>
+            <h6 className="text-muted textFit courseCardLabel">Резюме</h6>
 
             <Card.Text>
               {course.summary.length < 200
@@ -357,7 +394,7 @@ function UniversalCourseCard(props) {
               course.promotion.startDate <= new Date().toISOString() ? (
                 <>
                   {Math.trunc(course.price * 100) === 0 ? (
-                    <h5>FREE</h5>
+                    <h5>Бесплатно</h5>
                   ) : (
                     <>
                       <h6>{course.price + " " + currency}</h6>
@@ -365,7 +402,7 @@ function UniversalCourseCard(props) {
                       <p>
                         <del>{course.originalPrice}</del>{" "}
                         <span style={{ color: "red" }}>
-                          {course.promotion.discount + "% OFF"}
+                          {course.promotion.discount + "% скидка"}
                         </span>
                       </p>
                     </>
@@ -374,7 +411,7 @@ function UniversalCourseCard(props) {
               ) : (
                 <h6 style={{ display: "inline-block" }}>
                   {Math.trunc(course.originalPrice * 100) === 0
-                    ? "FREE"
+                    ? "Бесплатно"
                     : course.originalPrice + " " + currency}
                 </h6>
               ))
@@ -396,7 +433,7 @@ function UniversalCourseCard(props) {
               md={2}
               lg={2}
             >
-              <Button onClick={handleViewCourse}>View Course</Button>
+              <Button onClick={handleViewCourse}>Просмотр курса</Button>
               {traineeOwnsCourse && (
                 <>
                   &nbsp;
@@ -406,7 +443,7 @@ function UniversalCourseCard(props) {
                     className=""
                     onClick={continueCourse}
                   >
-                    Continue Course
+                    Продолжить курс
                   </Button>
                 </>
               )}
@@ -420,7 +457,7 @@ function UniversalCourseCard(props) {
             >
               {displayInstructorEditCourseButtons()}{" "}
               {course.status !== "Draft" && (
-                <Button onClick={handleViewCourse}>View Course</Button>
+                <Button onClick={handleViewCourse}>Просмотр курса</Button>
               )}
             </Col>
           ) : (
@@ -440,7 +477,7 @@ function UniversalCourseCard(props) {
                 }}
               />
               &nbsp; &nbsp;
-              <Button onClick={handleViewCourse}>View Course</Button>
+              <Button onClick={handleViewCourse}>Просмотр курса</Button>
             </Col>
           )}
         </Row>

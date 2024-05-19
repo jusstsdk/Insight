@@ -196,7 +196,7 @@ export default function ContinueCourseNavbar({
             </Breadcrumb>
           )}
         </Col>
-        {/* Page Naviagtion */}
+        {/* Page Navigation */}
 
         <Col sm={5}>
           <div className="ms-auto d-flex">

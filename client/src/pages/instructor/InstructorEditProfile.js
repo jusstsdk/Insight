@@ -49,8 +49,8 @@ function InstructorEditProfile() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Edit Profile</strong>,
-        html: <i>Updated Profile Successfully!</i>,
+        title: <strong>Редактирование профиля</strong>,
+        html: <i>Профиль успешно обновлен!</i>,
         icon: "success",
         timerProgressBar: true,
         grow: "row",
@@ -61,8 +61,8 @@ function InstructorEditProfile() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Edit Profile</strong>,
-        html: <i>Updating Profile Failed!</i>,
+        title: <strong>Редактирование профиля</strong>,
+        html: <i>Произошла ошибка!</i>,
         icon: "error",
         timerProgressBar: true,
         grow: "row",
@@ -87,7 +87,7 @@ function InstructorEditProfile() {
   return (
     <Form className="d-flex flex-row justify-content-center mt-3">
       <Col sm={6}>
-        <h1 className="display-5">Edit Profile</h1>
+        <h1 className="display-5">Редактирование профиля</h1>
         <Col sm={6}>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>

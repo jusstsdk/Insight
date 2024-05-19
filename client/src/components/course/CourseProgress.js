@@ -98,7 +98,7 @@ function CourseProgress(props) {
                     style={{ float: "right" }}
                     onClick={continueCourse}
                   >
-                    Continue Course
+                    Продолжить курс
                   </Button>
                 )}
               </Col>

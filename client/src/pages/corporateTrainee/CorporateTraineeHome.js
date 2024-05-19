@@ -6,7 +6,7 @@ export default function CorporateTraineeHome() {
     <>
       <Banner />
 
-      <h2>Popular Courses</h2>
+      <h2>Популярные курсы</h2>
 
       <PopularCourses />
     </>

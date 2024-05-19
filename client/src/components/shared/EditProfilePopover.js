@@ -21,7 +21,7 @@ export default function EditProfilePopover() {
         }
       }}
     >
-      Edit Profile
+      Редактировать профиль
     </Button>
   );
 }

@@ -7,14 +7,15 @@ const Users = () => {
   const [trainees, setTrainees] = useState();
   const [instructors, setInstructors] = useState();
 
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
 
   console.log(trainees);
   console.log(instructors);
 
   const getTrainees = async () => {
     const config = {
-      method: "GET",				headers: { authorization: "Bearer " + token },
+      method: "GET",
+      headers: { authorization: "Bearer " + token },
       url: `http://localhost:4000/api/trainees`,
     };
     try {
@@ -72,7 +73,7 @@ const Users = () => {
         defaultActiveKey="Trainees"
         className="d-flex justify-content-start reportTabs"
       >
-        <Tab eventKey="Trainees" title="Trainees">
+        <Tab eventKey="Trainees" title="Стажеры">
           {trainees?.map((trainee) => (
             <>
               <Card.Body className={"d-flex justify-content-between my-4"}>
@@ -81,7 +82,7 @@ const Users = () => {
                 <Card.Body className={"d-flex justify-content-end gap-2"}>
                   <Button
                     disabled={trainee.isBanned}
-                    variant={'danger'}
+                    variant={"danger"}
                     onClick={() =>
                       toggleBunUser(!trainee.isBanned, "Trainee", trainee._id)
                     }
@@ -102,7 +103,7 @@ const Users = () => {
           ))}
         </Tab>
 
-        <Tab eventKey="Instructors" title="Instructors">
+        <Tab eventKey="Instructors" title="Инструкторы">
           <Card.Body className="d-flex justify-content-end p-1 my-2">
             {instructors?.map((trainee) => (
               <>
@@ -114,7 +115,7 @@ const Users = () => {
                   <Card.Body className={"d-flex justify-content-end gap-2"}>
                     <Button
                       disabled={trainee.isBanned}
-                      variant={'danger'}
+                      variant={"danger"}
                       onClick={() =>
                         toggleBunUser(
                           !trainee.isBanned,
@@ -135,7 +136,7 @@ const Users = () => {
                         )
                       }
                     >
-                      Разблокироват
+                      Разблокировать
                     </Button>
                   </Card.Body>
                 </Card.Body>

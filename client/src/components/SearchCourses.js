@@ -118,7 +118,7 @@ export default function SearchCourses({
                 setSubjectFilter(lastItem);
               }}
               isObject={false}
-              placeholder="Select Subject Filter"
+              placeholder="Выбрать предмет"
               closeOnSelect={true}
               showArrow={true}
               avoidHighlightFirstOption={true}
@@ -199,7 +199,7 @@ export default function SearchCourses({
             ref={searchQuery}
             type="search"
             onChange={async () => await getCourses()}
-            placeholder="Search for a course by name, subject or instructors"
+            placeholder="Поиск курсов по названию, предметам или инструктору"
           />
         </Col>
 
@@ -207,7 +207,7 @@ export default function SearchCourses({
           <Form.Check
             type="checkbox"
             id={"default-checkbox"}
-            label="Sort by popularity"
+            label="Сортировать по популярности"
             className="fitWidth"
             onChange={() => setSort(!sort)}
           />

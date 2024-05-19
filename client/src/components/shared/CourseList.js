@@ -37,6 +37,7 @@ export default function CourseList({
           cardType={isAdmin ? "Deluxe" : "Basic"}
           setDetectChange={setDetectChange}
           DetectChange={DetectChange}
+          isAdmin={isAdmin}
         />
       ))}
       <Pagination

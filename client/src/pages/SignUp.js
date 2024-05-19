@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import CountryDropdown from "../components/shared/CountryDropdown";
 import { Col, Container, Modal, Row, Spinner } from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../redux/userSlice";
 import updateCurrency from "../functions/updateCurrency";
@@ -31,7 +31,7 @@ export default function SignUp() {
   const [usernameValidation, setUsernameValidation] = useState(null);
   const [passwordValidation, setPasswordValidation] = useState(null);
   const [emailValidation, setEmailValidation] = useState(null);
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
   async function handleCreateTrainee(e) {
     e.preventDefault();
 
@@ -64,7 +64,8 @@ export default function SignUp() {
     setIsLoggingIn(true);
     const config = {
       method: "POST",
-      url: "http://localhost:4000/api/trainees/",				headers: { authorization: "Bearer " + token },
+      url: "http://localhost:4000/api/trainees/",
+      headers: { authorization: "Bearer " + token },
       data: {
         username: username.current.value,
         password: password.current.value,
@@ -130,27 +131,27 @@ export default function SignUp() {
   }
   return (
     <div>
-      <h1 className="fst-italic mx-auto fitWidth">Sign Up</h1>
+      <h1 className="fst-italic mx-auto fitWidth">Регистрация</h1>
       <Form onSubmit={handleCreateTrainee}>
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">First name</Form.Label>
+              <Form.Label className="fst-italic">Имя</Form.Label>
               <Form.Control
                 ref={firstName}
                 type="firstName"
-                placeholder="Enter First Name"
+                placeholder="Введите имя"
                 required
               />
             </Form.Group>
           </Col>
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic"> Last name </Form.Label>
+              <Form.Label className="fst-italic">Фамилия</Form.Label>
               <Form.Control
                 ref={lastName}
                 type="lastName"
-                placeholder="Enter Last Name"
+                placeholder="Введите фамилию"
                 required
               />
             </Form.Group>
@@ -159,11 +160,11 @@ export default function SignUp() {
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Username</Form.Label>
+              <Form.Label className="fst-italic">Логин</Form.Label>
               <Form.Control
                 ref={username}
                 type="Username"
-                placeholder="Enter Username"
+                placeholder="Введите логин"
                 required
               />
             </Form.Group>
@@ -171,11 +172,11 @@ export default function SignUp() {
           </Col>
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Password</Form.Label>
+              <Form.Label className="fst-italic">Пароль</Form.Label>
               <Form.Control
                 ref={password}
                 type="password"
-                placeholder="Enter Password"
+                placeholder="Введите пароль"
                 required
               />
             </Form.Group>
@@ -185,18 +186,18 @@ export default function SignUp() {
         <Row sm={8} className="justify-content-center">
           <Col sm={4}>
             <Form.Group className="mb-3">
-              <Form.Label className="fst-italic">Email</Form.Label>
+              <Form.Label className="fst-italic">Почта</Form.Label>
               <Form.Control
                 ref={email}
                 type="email"
-                placeholder="Enter Email"
+                placeholder="Введите почту"
                 required
               />
             </Form.Group>
             {emailValidation && <Form.Text>{emailValidation}</Form.Text>}
           </Col>
           <Col sm={4}>
-            <Form.Label className="fst-italic">Select Country </Form.Label>
+            <Form.Label className="fst-italic">Выберите страну </Form.Label>
             <CountryDropdown
               Country={country}
               setCountry={setCountry}
@@ -211,11 +212,11 @@ export default function SignUp() {
                 <Form.Check
                   className="my-auto"
                   type="checkbox"
-                  label="I agree to the"
+                  label="Я согласен с"
                   required
                 />
                 <Button variant="link" onClick={handleShowTermsModal}>
-                  terms and conditions
+                  правилами и условиями
                 </Button>
               </Container>
             </Form.Group>
@@ -233,7 +234,7 @@ export default function SignUp() {
                   aria-hidden="true"
                   className="me-1"
                 />
-                Sign Up...
+                Загрузка...
               </Button>
             ) : (
               <Button
@@ -242,7 +243,7 @@ export default function SignUp() {
                 type="submit"
                 disabled={isLoggingIn}
               >
-                Sign Up
+                Зарегистрироваться
               </Button>
             )}
           </Col>
@@ -250,28 +251,24 @@ export default function SignUp() {
       </Form>
       <Modal show={showTermsModal} onHide={handleCloseTermsModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Terms And Conditions</Modal.Title>
+          <Modal.Title>Правила и условия</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5>As an Instructor:</h5>
+          <h5>В качестве инструктора:</h5>
           <p className="text-muted">
-            You give up all rights to all content, videos, exercises, emails,
-            ads. Money wise we will take 90% of all money paid on our platform.
+            Вы отказываетесь от всех прав на весь контент, видео, упражнения,
+            электронные письма, рекламу. В денежном отношении мы будем брать 90%
+            от всех денег, выплаченных на нашей платформе.
           </p>
-          <h5>As an Coporate Trainee:</h5>
+          <h5>В качестве стажера:</h5>
           <p className="text-muted">
-            You will be beholden to your companies policies and what they allow
-            you to subscribe to.
-          </p>
-          <h5>As a Trainee:</h5>
-          <p className="text-muted">
-            You allow us to take collect and sell data about you, including your
-            name,email,credit card number.
+            Вы разрешаете нам собирать и продавать данные о вас, включая ваше
+            имя, электронную почту, номер кредитной карты.
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseTermsModal}>
-            Close
+            Закрыть
           </Button>
         </Modal.Footer>
       </Modal>

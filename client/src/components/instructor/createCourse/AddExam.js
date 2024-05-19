@@ -41,7 +41,7 @@ export default function AddExam(props) {
       if (status === "New") props.handleCreateCourse("Draft");
       else props.handleEditCourse("Draft");
     } else {
-      if (status === "New") props.handleCreateCourse("Published");
+      if (status === "New") props.handleCreateCourse("Review");
       else props.handleEditCourse("Published");
     }
   };

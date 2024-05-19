@@ -34,7 +34,7 @@ function CourseTitle({
             >
               {course.rank > 0 && course.status === "Published" ? (
                 <Badge bg="warning" className="lead  fitHeight fs-6">
-                  #{course.rank} in Popularity
+                  #{course.rank} по популярности
                 </Badge>
               ) : (
                 <></>

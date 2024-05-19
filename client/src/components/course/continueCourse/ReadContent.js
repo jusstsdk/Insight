@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Image } from "react-bootstrap";
 
 const ReadContent = (props) => {
   const Content = useSelector((state) => state.continueCourseReducer.content);
@@ -10,7 +11,13 @@ const ReadContent = (props) => {
         {Content.items.map((item) => (
           <div>
             {item.text && <p>{item.text}</p>}
-            {item.imageUrl && <img src={item.imageUrl} alt={item.imageAlt} />}
+            {item.imageUrl && (
+              <Image
+                className={"w-100"}
+                src={item.imageUrl}
+                alt={item.imageAlt}
+              />
+            )}
           </div>
         ))}
       </div>

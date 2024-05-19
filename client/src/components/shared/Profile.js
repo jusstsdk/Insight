@@ -21,7 +21,7 @@ export default function Profile() {
           id="profileButton"
           className="secondaryText linkDecor"
         >
-          Profile
+          Профиль
         </Nav.Link>
       </>
     );

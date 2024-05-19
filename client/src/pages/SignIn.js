@@ -7,7 +7,7 @@ const SignIn = () => {
 
   return (
     <div>
-      <h1 className="fst-italic mx-auto fitWidth">Login</h1>
+      <h1 className="fst-italic mx-auto fitWidth">Логин</h1>
 
       <Row>
         <Col md={{ span: 4, offset: 4 }}>
@@ -21,7 +21,7 @@ const SignIn = () => {
                 navigate("/guest/signUp");
               }}
             >
-              Sign Up
+              Зарегистрироваться
             </Button>
 
             <Button
@@ -31,7 +31,7 @@ const SignIn = () => {
                 navigate("/guest/forgotPassword");
               }}
             >
-              Forgot password?
+              Забыли пароль?
             </Button>
           </Col>
         </Col>

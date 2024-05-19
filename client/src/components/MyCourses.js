@@ -11,117 +11,118 @@ import { Tab, Tabs } from "react-bootstrap";
 import Pagination from "./shared/pagination/Pagination";
 let pageSize = 2;
 const MyCourses = () => {
-	const [myCourses, setMyCourses] = useState([]);
-	const user = useSelector((state) => state.userReducer.user);
-	const dispatch = useDispatch();
-	const [currentPage, setCurrentPage] = useState(1);
-	let firstPageIndex = (currentPage - 1) * pageSize;
-	let lastPageIndex = firstPageIndex + pageSize;
-	let currentCourses = myCourses.slice(firstPageIndex, lastPageIndex);
+  const [myCourses, setMyCourses] = useState([]);
+  const user = useSelector((state) => state.userReducer.user);
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  let firstPageIndex = (currentPage - 1) * pageSize;
+  let lastPageIndex = firstPageIndex + pageSize;
+  let currentCourses = myCourses.slice(firstPageIndex, lastPageIndex);
 
-	const [InProgressCourses, setInProgressCourses] = useState([]);
-	const [InProgressCurrentPage, setInProgressCurrentPage] = useState(1);
-	let InProgressFirstPageIndex = (InProgressCurrentPage - 1) * pageSize;
-	let InProgressLastPageIndex = InProgressFirstPageIndex + pageSize;
-	let InProgressCurrentCourses = InProgressCourses.slice(
-		InProgressFirstPageIndex,
-		InProgressLastPageIndex
-	);
+  const [InProgressCourses, setInProgressCourses] = useState([]);
+  const [InProgressCurrentPage, setInProgressCurrentPage] = useState(1);
+  let InProgressFirstPageIndex = (InProgressCurrentPage - 1) * pageSize;
+  let InProgressLastPageIndex = InProgressFirstPageIndex + pageSize;
+  let InProgressCurrentCourses = InProgressCourses.slice(
+    InProgressFirstPageIndex,
+    InProgressLastPageIndex,
+  );
 
+  const [CompletedCourses, setCompletedCourses] = useState([]);
+  const [CompletedCurrentPage, setCompletedCurrentPage] = useState(1);
+  let CompletedFirstPageIndex = (CompletedCurrentPage - 1) * pageSize;
+  let CompletedLastPageIndex = CompletedFirstPageIndex + pageSize;
+  let CompletedCurrentCourses = CompletedCourses.slice(
+    CompletedFirstPageIndex,
+    CompletedLastPageIndex,
+  );
 
-	const [CompletedCourses, setCompletedCourses] = useState([]);
-	const [CompletedCurrentPage, setCompletedCurrentPage] = useState(1);
-	let CompletedFirstPageIndex = (CompletedCurrentPage - 1) * pageSize;
-	let CompletedLastPageIndex = CompletedFirstPageIndex + pageSize;
-	let CompletedCurrentCourses = CompletedCourses.slice(
-		CompletedFirstPageIndex,
-		CompletedLastPageIndex
-	);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [InProgressCurrentPage, CompletedCurrentPage]);
 
-	useEffect(() => {
-		window.scrollTo(0, 0)
-	}, [InProgressCurrentPage, CompletedCurrentPage]);
+  const coursesWithId = useSelector((state) => state.userReducer.user.courses);
+  const token = useSelector((state) => state.userReducer.token);
+  async function getCourses() {
+    let newCourses = [];
+    await Promise.all(
+      coursesWithId.map(async (course) => {
+        let courseFromDb;
+        if (course.course === undefined) {
+          courseFromDb = await API.get("courses/" + course._id, {
+            headers: { authorization: "Bearer " + token },
+          });
+        } else {
+          courseFromDb = await API.get("courses/" + course.course, {});
+        }
 
-	const coursesWithId = useSelector((state) => state.userReducer.user.courses);
-	const token = useSelector((state) => state.userReducer.token);
-	async function getCourses() {
-		let newCourses = [];
-		await Promise.all(
-			coursesWithId.map(async (course) => {
-				let courseFromDb;
-				if (course.course === undefined) {
-					courseFromDb = await API.get("courses/" + course._id, {        headers: { authorization: "Bearer " + token }});
-				} else {
-					courseFromDb = await API.get("courses/" + course.course, {});
-				}
+        const fullCourse = {
+          _id: course.course,
+          ...courseFromDb.data,
+          subtitles: course.subtitles,
+          exam: course.exam,
+          progress: course.progress,
+          paidPrice: course.paidPrice,
+        };
 
-				const fullCourse = {
-					_id: course.course,
-					...courseFromDb.data,
-					subtitles: course.subtitles,
-					exam: course.exam,
-					progress: course.progress,
-					paidPrice: course.paidPrice,
-				};
+        fullCourse.originalPrice = (
+          fullCourse.originalPrice * user.exchangeRate
+        ).toFixed(2);
+        fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
 
-				fullCourse.originalPrice = (
-					fullCourse.originalPrice * user.exchangeRate
-				).toFixed(2);
-				fullCourse.price = (fullCourse.price * user.exchangeRate).toFixed(2);
+        newCourses.push(fullCourse);
+      }),
+    );
+    setCompletedCourses(newCourses.filter((course) => course.progress === 1));
+    setInProgressCourses(newCourses.filter((course) => course.progress < 1));
+    setMyCourses(newCourses);
+  }
 
-				newCourses.push(fullCourse);
-			})
-		);
-		setCompletedCourses(newCourses.filter((course) => course.progress === 1));
-		setInProgressCourses(newCourses.filter((course) => course.progress < 1));
-		setMyCourses(newCourses);
-	}
+  useEffect(() => {
+    getCourses();
+  }, []);
 
-	useEffect(() => {
-		getCourses();
-	}, []);
-
-	return (
-		myCourses && (
-			<div className="course-list">
-				<Tabs
-					defaultActiveKey="InProgress"
-					id="justify-tab-example"
-					className="mb-3"
-					justify
-				>
-					<Tab eventKey="InProgress" title="In progress">
-						<div className="course-list">
-							{InProgressCurrentCourses.map((course) => (
-								<UniversalCourseCard course={course} cardType={"Basic"} />
-							))}
-							<Pagination
-								className="pagination-bar"
-								currentPage={InProgressCurrentPage}
-								totalCount={InProgressCourses.length}
-								pageSize={pageSize}
-								onPageChange={(page) => setInProgressCurrentPage(page)}
-							/>
-						</div>
-					</Tab>
-					<Tab eventKey="Completed" title="Completed courses">
-						<div className="course-list">
-							{CompletedCurrentCourses.map((course) => (
-								<UniversalCourseCard course={course} cardType={"Basic"} />
-							))}
-							<Pagination
-								className="pagination-bar"
-								currentPage={CompletedCurrentPage}
-								totalCount={CompletedCourses.length}
-								pageSize={pageSize}
-								onPageChange={(page) => setCompletedCurrentPage(page)}
-							/>
-						</div>
-					</Tab>
-				</Tabs>
-			</div>
-		)
-	);
+  return (
+    myCourses && (
+      <div className="course-list">
+        <Tabs
+          defaultActiveKey="InProgress"
+          id="justify-tab-example"
+          className="mb-3"
+          justify
+        >
+          <Tab eventKey="InProgress" title="В процессе">
+            <div className="course-list">
+              {InProgressCurrentCourses.map((course) => (
+                <UniversalCourseCard course={course} cardType={"Basic"} />
+              ))}
+              <Pagination
+                className="pagination-bar"
+                currentPage={InProgressCurrentPage}
+                totalCount={InProgressCourses.length}
+                pageSize={pageSize}
+                onPageChange={(page) => setInProgressCurrentPage(page)}
+              />
+            </div>
+          </Tab>
+          <Tab eventKey="Completed" title="Пройденные курсы">
+            <div className="course-list">
+              {CompletedCurrentCourses.map((course) => (
+                <UniversalCourseCard course={course} cardType={"Basic"} />
+              ))}
+              <Pagination
+                className="pagination-bar"
+                currentPage={CompletedCurrentPage}
+                totalCount={CompletedCourses.length}
+                pageSize={pageSize}
+                onPageChange={(page) => setCompletedCurrentPage(page)}
+              />
+            </div>
+          </Tab>
+        </Tabs>
+      </div>
+    )
+  );
 };
 
 export default MyCourses;

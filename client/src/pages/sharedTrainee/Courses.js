@@ -36,8 +36,6 @@ export default function Courses({ isAdmin }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [DetectChange]);
 
-  console.log(isAdmin);
-
   return (
     <div className="search-course-list">
       <SearchCourses setCourses={setCourses} setCurrentPage={setCurrentPage} />
