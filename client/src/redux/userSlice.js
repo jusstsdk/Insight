@@ -92,6 +92,9 @@ export const userSlice = createSlice({
         action.payload.subtitleIndex
       ].exercises[action.payload.exerciseIndex].receivedGrade =
         action.payload.receivedGrade;
+
+      state.user.courses[action.payload.courseIndex].progress =
+        action.payload.progress;
     },
     solveExam: (state, action) => {
       state.user.courses[action.payload.courseIndex].exam.isSolved = true;
@@ -104,6 +107,9 @@ export const userSlice = createSlice({
       state.user.courses[action.payload.courseIndex].subtitles[
         action.payload.subtitleIndex
       ].content[action.payload.contentIndex].isWatched = true;
+
+      state.user.courses[action.payload.courseIndex].progress =
+        action.payload.progress;
 
       state.user.courses[action.payload.courseIndex].subtitles[
         action.payload.subtitleIndex
@@ -133,6 +139,9 @@ export const userSlice = createSlice({
         (courseId) => courseId !== action.payload.courseId,
       );
     },
+    setProgressForCourse: (state, action) => {
+      state.user.courses[action.payload.courseIndex] = action.payload.progress;
+    },
   },
 });
 
@@ -157,6 +166,7 @@ export const {
   deleteCourseInstructor,
   setCourseRefund,
   readContentDispatch,
+  setProgressForCourse,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -40,21 +40,4 @@ corporateTraineeSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-corporateTraineeSchema.pre("save", async function (next) {
-  // calculate progress
-  this.courses.forEach((course) => {
-    let finishedVideos = 0;
-    let totalVideos = 0;
-    course.progress = 0;
-    course.subtitles.forEach((subtitle) => {
-      subtitle.videos.forEach((video) => {
-        totalVideos++;
-        if (video.isWatched) finishedVideos++;
-      });
-    });
-    course.progress = finishedVideos / totalVideos;
-  });
-  next();
-});
-
 module.exports = mongoose.model("CorporateTrainee", corporateTraineeSchema);

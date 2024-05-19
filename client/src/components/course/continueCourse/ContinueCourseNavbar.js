@@ -37,7 +37,7 @@ export default function ContinueCourseNavbar({
   const Subtitles = useSelector(
     (state) => state.userReducer.user.courses[CourseIndex].subtitles,
   );
-
+  console.log(CourseCurrent);
   const SubtitleIndex = useSelector(
     (state) => state.continueCourseReducer.subtitleIndex,
   );
@@ -47,8 +47,6 @@ export default function ContinueCourseNavbar({
   );
 
   const Content = useSelector((state) => state.continueCourseReducer.content);
-
-  console.log(Content);
 
   const ContentType = useSelector(
     (state) => state.continueCourseReducer.contentType,
@@ -73,7 +71,7 @@ export default function ContinueCourseNavbar({
           (video) => video._id === Content._id,
         )
       : -1;
-	const token = useSelector((state) => state.userReducer.token);
+  const token = useSelector((state) => state.userReducer.token);
   let userQuestions = Content?.questions?.map((question, questionIndex) => {
     return { ...question, studentAnswer: Answers[questionIndex].choice };
   });
@@ -82,7 +80,8 @@ export default function ContinueCourseNavbar({
     if (Content.type === "Video") {
       const config = {
         method: "PUT",
-        url: `http://localhost:4000/api/courses/${User._id}/watchVideo`,				headers: { authorization: "Bearer " + token },
+        url: `http://localhost:4000/api/courses/${User._id}/watchVideo`,
+        headers: { authorization: "Bearer " + token },
         data: {
           userType: UserType,
           courseIndex: CourseIndex,
@@ -100,25 +99,24 @@ export default function ContinueCourseNavbar({
           courseIndex: CourseIndex,
           subtitleIndex: SubtitleIndex,
           videoIndex: VideoIndex,
-          progress: progress,
+          progress,
         }),
       );
     } else if (Content.type === "Exercise") {
       const config = {
         method: "PUT",
-        url: `http://localhost:4000/api/courses/${User._id}/solveExercise`,				headers: { authorization: "Bearer " + token },
+        url: `http://localhost:4000/api/courses/${User._id}/solveExercise`,
+        headers: { authorization: "Bearer " + token },
         data: {
           userType: UserType,
           courseIndex: CourseIndex,
           subtitleIndex: SubtitleIndex,
           exerciseIndex: ExerciseIndex,
           questions: userQuestions,
-          receivedGrade: 2,
         },
       };
 
-      await axios(config);
-
+      const response = await axios(config);
       dispatch(
         solveExercise({
           courseIndex: CourseIndex,
@@ -126,6 +124,7 @@ export default function ContinueCourseNavbar({
           exerciseIndex: ExerciseIndex,
           questions: userQuestions,
           receivedGrade: 2,
+          progress: response.data.courses[CourseIndex].progress,
         }),
       );
     } else if (Content.type === "Content") {
@@ -142,7 +141,7 @@ export default function ContinueCourseNavbar({
         },
       };
 
-      await axios(config);
+      const response = await axios(config);
 
       dispatch(
         readContentDispatch({
@@ -151,6 +150,7 @@ export default function ContinueCourseNavbar({
           contentIndex: ContentIndex,
           questions: userQuestions,
           receivedGrade: 11160,
+          progress: response.data.courses[CourseIndex].progress,
         }),
       );
     }
@@ -203,31 +203,33 @@ export default function ContinueCourseNavbar({
             {/* Progress and Get Certificate */}
             <div className="d-flex ms-auto my-auto">
               {/* Get Certificate */}
-              {Progress === 1 && (
-                <Button
-                  variant="link"
-                  className="ms-3 blackText "
-                  onClick={async () => {
-                    MySwal.fire({
-                      toast: true,
-                      position: "bottom-end",
-                      showConfirmButton: false,
-                      timer: 4000,
-                      title: <strong>Continue Course</strong>,
-                      html: <i>We have sent to you your Certificate.</i>,
-                      icon: "success",
-                      timerProgressBar: true,
-                      grow: "row",
-                    });
-                    await API.post(`/courses/sendCertificate`, {
-                      courseTitle: Course.title,
-                      email: User.email,
-                    });
-                  }}
-                >
-                  Get Certificate
-                </Button>
-              )}
+              {Progress === 1 &&
+                (CourseCurrent.exam.questions.length === 0 ||
+                  CourseCurrent.exam.isSolved) && (
+                  <Button
+                    variant="link"
+                    className="ms-3 blackText "
+                    onClick={async () => {
+                      MySwal.fire({
+                        toast: true,
+                        position: "bottom-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        title: <strong>Continue Course</strong>,
+                        html: <i>We have sent to you your Certificate.</i>,
+                        icon: "success",
+                        timerProgressBar: true,
+                        grow: "row",
+                      });
+                      await API.post(`/courses/sendCertificate`, {
+                        courseTitle: Course.title,
+                        email: User.email,
+                      });
+                    }}
+                  >
+                    Получить сертификат
+                  </Button>
+                )}
             </div>
             {/* Previous */}
             {(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (

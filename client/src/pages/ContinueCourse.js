@@ -325,6 +325,8 @@ export default function ContinueCourse() {
   //report course data
   const [showReportCourseModal, setShowReportCourseModal] = useState(false);
 
+  console.log(Progress);
+
   // Displays the Drawer Content based on props.subtitles
   const drawer = (
     <div className="mb-5">

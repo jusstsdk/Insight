@@ -42,15 +42,20 @@ export default function CheckoutForm() {
       return;
     }
 
-    setIsProcessing(true);
+    // setIsProcessing(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/trainee/courses",
-      },
+      // confirmParams: {
+      //   // Make sure to change this to your payment completion page
+      //   // redirect: "if_required",
+      //
+      //   return_url: "http://localhost:3000/",
+      // },
+      redirect: "if_required",
     });
+
+    console.log(error);
 
     // const response2 = await API.post(
     // 	`/trainees/${userID}/courses/${courseId}/payment`

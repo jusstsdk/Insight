@@ -43,7 +43,6 @@ export default function DrawerListItems({
       setupExercise(content);
     } else {
       type = "Content";
-      console.log(87);
       // setupExercise(content);
     }
     dispatch(

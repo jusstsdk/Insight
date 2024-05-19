@@ -25,6 +25,7 @@ export default function SearchCourses({
   const token = useSelector((state) => state.userReducer.token);
   const [sort, setSort] = useState(false);
   const [open, setOpen] = useState(false);
+  const [withoutVideo, setWithoutVideo] = useState(false);
 
   function comparePopularity(a, b) {
     if (a.enrolledTrainees.length > b.enrolledTrainees.length) return -1;
@@ -34,13 +35,14 @@ export default function SearchCourses({
 
   useEffect(() => {
     getCourses();
-  }, [user.country, sort, ratingFilter, subjectFilter]);
+  }, [user.country, sort, ratingFilter, subjectFilter, withoutVideo]);
 
   async function getCourses() {
     let searchParams = {};
     if (searchQuery.current.value)
       searchParams.searchQuery = searchQuery.current.value;
     if (subjectFilter) searchParams.subject = subjectFilter;
+    if (withoutVideo) searchParams.withoutVideo = withoutVideo;
     if (maxPriceFilter.current.value)
       searchParams.maxPrice = (
         maxPriceFilter.current.value / user.exchangeRate
@@ -58,18 +60,17 @@ export default function SearchCourses({
         method: "GET",
         url: `http://localhost:4000/api/instructors/${user._id}/courses`,
         params: searchParams,
-        headers: { authorization: "Bearer " + token }
+        headers: { authorization: "Bearer " + token },
       };
 
       const response = await axios(config);
       courses = response.data.courses;
     } else {
-
       const config = {
         method: "GET",
         url: `http://localhost:4000/api/courses`,
         params: searchParams,
-        headers: { authorization: "Bearer " + token }
+        headers: { authorization: "Bearer " + token },
       };
 
       const response = await axios(config);
@@ -95,6 +96,7 @@ export default function SearchCourses({
     maxPriceFilter.current.value = "";
     setSubjectFilter("");
     setRatingFilter(0);
+    setWithoutVideo(false);
     await getCourses();
   };
 
@@ -124,13 +126,16 @@ export default function SearchCourses({
             />
           </Col>
 
-          <Col sm={3} className={'d-flex justify-content-center align-items-center'}>
+          <Col
+            sm={3}
+            className={"d-flex justify-content-center align-items-center"}
+          >
             <Form.Check
-                type="checkbox"
-                id={"default-checkbox"}
-                label="Курсы, не содержащие видео"
-                className=""
-                onChange={() => setSort(!sort)}
+              type="checkbox"
+              id={"default-checkbox-video"}
+              label="Курсы, не содержащие видео"
+              className=""
+              onChange={() => setWithoutVideo(!withoutVideo)}
             />
           </Col>
 

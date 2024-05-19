@@ -159,6 +159,12 @@ const getCourses = async (req, res) => {
     });
   }
 
+  if (req.query.withoutVideo != null) {
+    query["$and"].push({
+      previewVideo: { $eq: "" },
+    });
+  }
+
   // create filter query from querystring
   if (req.query.searchQuery != null) {
     const instructorIds = await Instructor.find(
@@ -342,6 +348,31 @@ async function promotionCourses(req, res) {
   res.sendStatus(200);
 }
 
+const countProgress = (subtitles) => {
+  const subtitlesLength = subtitles.length;
+  let subtitlesFinished = 0;
+
+  subtitles.forEach((item) => {
+    console.log("==");
+    console.log(item.videos.every((obj) => obj.isWatched));
+    console.log(item.exercises.every((obj) => obj.isSolved));
+    console.log(item.content.every((obj) => obj.isWatched));
+    console.log("==");
+    if (
+      item.videos.every((obj) => obj.isWatched) &&
+      item.exercises.every((obj) => obj.isSolved) &&
+      item.content.every((obj) => obj.isWatched)
+    ) {
+      console.log(item);
+      subtitlesFinished++;
+    }
+  });
+
+  return subtitlesLength === subtitlesFinished
+    ? 1
+    : subtitlesFinished / subtitlesLength;
+};
+
 // updates isWatched to true in trainee.courses.subtitles.videos
 const watchVideo = async (req, res) => {
   const traineeId = req.params.id;
@@ -356,6 +387,12 @@ const watchVideo = async (req, res) => {
   trainee.courses[courseIndex].subtitles[subtitleIndex].videos[
     videoIndex
   ].isWatched = true;
+
+  console.log(countProgress(trainee.courses[courseIndex].subtitles));
+
+  trainee.courses[courseIndex].progress = countProgress(
+    trainee.courses[courseIndex].subtitles,
+  );
   await trainee.save();
   res.status(200).json(trainee);
 };
@@ -422,6 +459,11 @@ const solveExercise = async (req, res) => {
   trainee.courses[courseIndex].subtitles[subtitleIndex].exercises[
     exerciseIndex
   ].questions = questions;
+  console.log(countProgress(trainee.courses[courseIndex].subtitles));
+  trainee.courses[courseIndex].progress = countProgress(
+    trainee.courses[courseIndex].subtitles,
+  );
+
   await trainee.save();
   res.status(200).json(trainee);
 };
@@ -437,10 +479,13 @@ const readContent = async (req, res) => {
   if (userType === "Trainee") trainee = await Trainee.findById(traineeId);
   else trainee = await CorporateTrainee.findById(traineeId);
 
-  console.log(
-    trainee.courses[courseIndex].subtitles[subtitleIndex].content[contentIndex],
-  );
+  trainee.courses[courseIndex].subtitles[subtitleIndex].content[
+    contentIndex
+  ].isWatched = true;
 
+  trainee.courses[courseIndex].progress = countProgress(
+    trainee.courses[courseIndex].subtitles,
+  );
   await trainee.save();
   res.status(200).json(trainee);
 };

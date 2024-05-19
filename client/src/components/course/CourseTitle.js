@@ -19,7 +19,6 @@ function CourseTitle({
   );
 
   const userType = useSelector((state) => state.userReducer.type);
-  console.log(course);
 
   return (
     <Row>
