@@ -19,6 +19,7 @@ export default function Login() {
   const [usernameValidation, setUsernameValidation] = useState(null);
   const [passwordValidation, setPasswordValidation] = useState(null);
   const token = useSelector((state) => state.userReducer.token);
+
   async function loginFunction(e) {
     e.preventDefault();
 

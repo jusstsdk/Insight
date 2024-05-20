@@ -437,10 +437,13 @@ function UniversalCourseCard(props) {
             )}
           </Col>
         </Row>
-        <Row>
+
+        <Row className="d-flex align-items-end">
+          <Col sm={2}><h6 className={'text-muted textFit courseCardLabel d-inline'}>Участников:</h6> {course?.popularity}</Col>
+
           {cardType === "Basic" ? (
             <Col
-              className="ms-auto fitWidth d-flex  justify-content-end"
+              className="ms-auto fitWidth d-flex justify-content-end"
               sm={2}
               md={2}
               lg={2}
