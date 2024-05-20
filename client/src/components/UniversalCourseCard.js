@@ -214,6 +214,12 @@ function UniversalCourseCard(props) {
       case "Published": {
         return (
           <>
+            {instructorId && (
+              <Button className="me-1" onClick={handleEditCourse}>
+                Редактировать курс
+              </Button>
+            )}
+
             <Button
               className="me-1"
               onClick={() => handleToggleCourse("Closed")}
@@ -246,6 +252,12 @@ function UniversalCourseCard(props) {
       case "Closed": {
         return (
           <>
+            {instructorId && (
+              <Button className="me-1" onClick={handleEditCourse}>
+                Редактировать курс
+              </Button>
+            )}
+
             <Button
               className="me-1"
               onClick={() => handleToggleCourse("Published")}

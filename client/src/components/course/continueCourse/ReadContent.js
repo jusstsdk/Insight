@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
 import { Image } from "react-bootstrap";
 
-const ReadContent = (props) => {
+const ReadContent = () => {
   const Content = useSelector((state) => state.continueCourseReducer.content);
+
   return (
     <div>
       <h3>{Content?.title}</h3>
