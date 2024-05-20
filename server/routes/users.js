@@ -13,6 +13,7 @@ router.post("/login", async (req, res) => {
   let user = await Administrator.findOne({
     username: { $regex: req.body.username, $options: "i" },
   });
+
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const token = user.generateAuthToken();
