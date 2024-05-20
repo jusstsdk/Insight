@@ -231,28 +231,28 @@ export default function ContinueCourseNavbar({
                   </Button>
                 )}
             </div>
-            {/* Previous */}
-            {(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (
-              <Button
-                variant="link"
-                className="blackText linkDecor"
-                onClick={handlePrevious}
-              >
-                <AiOutlineArrowLeft />
-                Назад
-              </Button>
-            )}
-            {/* Next */}
-            {ContentType !== "Exam" && (
-              <Button
-                variant="link"
-                className="blackText linkDecor"
-                onClick={handleNext}
-              >
-                Дальше
-                <AiOutlineArrowRight />
-              </Button>
-            )}
+            {/*/!* Previous *!/*/}
+            {/*{(SubtitleIndex !== 0 || SelectedContentIndex !== 0) && (*/}
+            {/*  <Button*/}
+            {/*    variant="link"*/}
+            {/*    className="blackText linkDecor"*/}
+            {/*    onClick={handlePrevious}*/}
+            {/*  >*/}
+            {/*    <AiOutlineArrowLeft />*/}
+            {/*    Назад*/}
+            {/*  </Button>*/}
+            {/*)}*/}
+            {/*/!* Next *!/*/}
+            {/*{ContentType !== "Exam" && (*/}
+            {/*  <Button*/}
+            {/*    variant="link"*/}
+            {/*    className="blackText linkDecor"*/}
+            {/*    onClick={handleNext}*/}
+            {/*  >*/}
+            {/*    Дальше*/}
+            {/*    <AiOutlineArrowRight />*/}
+            {/*  </Button>*/}
+            {/*)}*/}
             {/* View Course */}
             <Button
               variant="primary"

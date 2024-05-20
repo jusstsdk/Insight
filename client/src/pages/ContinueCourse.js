@@ -156,13 +156,13 @@ export default function ContinueCourse() {
       dispatch(
         setContentInfo({
           content: nextContent[0],
-          contentType: nextContent[0].type,
+          contentType: nextContent[0]?.type,
           subtitleIndex: SubtitleIndex,
           selectedContentIndex: SelectedContentIndex + 1,
         }),
       );
       // If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
-      if (nextContent[0].type === "Exercise") setupExercise(nextContent[0]);
+      if (nextContent[0]?.type === "Exercise") setupExercise(nextContent[0]);
     } else {
       // If there is no more Content, Check if there is more Subtitles
       // Two Cases: No more Subtitles or There are More Subtitles
@@ -175,13 +175,13 @@ export default function ContinueCourse() {
         dispatch(
           setContentInfo({
             content: nextContent[0],
-            contentType: nextContent[0].type,
+            contentType: nextContent[0]?.type,
             subtitleIndex: SubtitleIndex + 1,
             selectedContentIndex: 0,
           }),
         );
         // If the content is Exercise, it resets the Exercise info in ContinueCourseSlice.
-        if (nextContent[0].type === "Exercise") setupExercise(nextContent[0]);
+        if (nextContent[0]?.type === "Exercise") setupExercise(nextContent[0]);
 
         let openCollapsesArray = [...openCollapses].map(
           (_, index) => index === SubtitleIndex + 1,
