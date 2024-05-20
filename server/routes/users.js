@@ -85,23 +85,22 @@ router.post("/forgotPassword", async (req, res) => {
   let user = await Administrator.findOne({
     username: req.body.username,
   });
+  let type = 'Admin'
 
   if (!user) {
     user = await Instructor.findOne({
       username: req.body.username,
     });
-  }
 
-  if (!user) {
-    user = await CorporateTrainee.findOne({
-      username: req.body.username,
-    });
+    type = 'Instructor'
   }
 
   if (!user) {
     user = await Trainee.findOne({
       username: req.body.username,
     });
+
+    type = 'Trainee'
   }
 
   if (!user) {
@@ -119,11 +118,44 @@ router.post("/forgotPassword", async (req, res) => {
 
   const token = user.generateAuthToken();
 
+  const generateNewPassword = () => {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    let password = "";
+    for (let i = 0, n = charset.length; i < 9; ++i) {
+      password += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return password;
+  }
+
+  const newPassword = generateNewPassword()
+
   let mailDetails = {
     to: `${user.email}`,
-    subject: "Reset Password",
-    text: `if you requested a password reset please click this line${process.env.CLIENT_URL}/guest/resetPassword?jwt=${token} but if you did not then contact the website admins to resolve this issue`,
+    subject: "Восстановление пароля",
+    text: `Ваш новый пароль ${newPassword}`,
   };
+
+  const bcryptPassword = await bcrypt.hash(
+      newPassword,
+      10
+  )
+
+  if (type === 'Admin') {
+    await Administrator.findOneAndUpdate(
+        { _id: user._id },
+        { password: bcryptPassword },
+        { new: true })
+  } else if (type === 'Instructor') {
+    await Instructor.findOneAndUpdate(
+        { _id: user._id },
+        { password: bcryptPassword },
+        { new: true })
+  } else if (type === 'Trainee') {
+    await Trainee.findOneAndUpdate(
+        { _id: user._id },
+        { password: bcryptPassword },
+        { new: true })
+  }
 
   mailTransporter.sendMail(mailDetails, function (err, data) {
     if (err) {
@@ -152,35 +184,47 @@ router.post("/resetPassword", async (req, res) => {
 
   let user;
 
-  password = await bcrypt.hash(req.body.password, 10);
+  let userForCheckPassword;
+
+  switch (decoded.userType) {
+    case "Administrator":
+      userForCheckPassword = await Administrator.findById(decoded._id);
+      break;
+    case "Instructor":
+      userForCheckPassword = await Instructor.findById(decoded._id);
+      break;
+    case "Trainee":
+      userForCheckPassword = await Trainee.findById(decoded._id);
+      break;
+  }
+
+
+  if (!(await bcrypt.compare(req.body.oldPassword, userForCheckPassword.password))) {
+    return res.status(400).json({ error: "Invalid password" });
+  }
+
+  const password = await bcrypt.hash(req.body.password, 10);
 
   switch (decoded.userType) {
     case "Administrator":
       user = await Administrator.findOneAndUpdate(
-        { _id: decoded._id },
-        { password: password },
-        { new: true },
+          { _id: decoded._id },
+          { password: password },
+          { new: true },
       );
       break;
     case "Instructor":
       user = await Instructor.findOneAndUpdate(
-        { _id: decoded._id },
-        { password: password },
-        { new: true },
+          { _id: decoded._id },
+          { password: password },
+          { new: true },
       );
       break;
     case "Trainee":
       user = await Trainee.findOneAndUpdate(
-        { _id: decoded._id },
-        { password: password },
-        { new: true },
-      );
-      break;
-    case "CorporateTrainee":
-      user = await CorporateTrainee.findOneAndUpdate(
-        { _id: decoded._id },
-        { password: password },
-        { new: true },
+          { _id: decoded._id },
+          { password: password },
+          { new: true },
       );
       break;
   }

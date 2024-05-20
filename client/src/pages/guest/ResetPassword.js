@@ -54,7 +54,7 @@ export default function ResetPassword() {
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Change Password
+          Изменить пароль
         </Button>
         {error && <p className="text-danger">Passwords don't match!</p>}
         {passwordValidation && (

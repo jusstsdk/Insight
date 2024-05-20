@@ -10,6 +10,7 @@ function ChangePassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const oldPassword = useRef();
   const password = useRef();
   const confirmPassword = useRef();
   const token = useSelector((state) => state.userReducer.token);
@@ -38,7 +39,7 @@ function ChangePassword() {
         method: "POST",
         url: "http://localhost:4000/api/users/resetPassword",
         headers: { authorization: "Bearer " + token },
-        data: { password: password.current.value },
+        data: { password: password.current.value, oldPassword: oldPassword.current.value },
       };
 
       await axios(config);
@@ -48,8 +49,8 @@ function ChangePassword() {
         position: "bottom-end",
         showConfirmButton: false,
         timer: 4000,
-        title: <strong>Change password</strong>,
-        html: <i>Changed password Successfully!</i>,
+        title: <strong>Изменить пароль</strong>,
+        html: <i>Пароль успешно изменен!</i>,
         icon: "success",
         timerProgressBar: true,
         grow: "row",
@@ -57,35 +58,51 @@ function ChangePassword() {
       setError(false);
       navigate("../");
     } catch (err) {
-      MySwal.fire({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 4000,
-        title: <strong>Change password</strong>,
-        html: <i>Changing password Failed!</i>,
-        icon: "error",
-        timerProgressBar: true,
-        grow: "row",
-      });
+      if (err.response.data.error) {
+        MySwal.fire({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 4000,
+          title: <strong>Изменить пароль</strong>,
+          html: <i>Старый пароль неверный!</i>,
+          icon: "error",
+          timerProgressBar: true,
+          grow: "row",
+        })
+      } else {
+        MySwal.fire({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 4000,
+          title: <strong>Изменить пароль</strong>,
+          html: <i>Произошла ошибка!</i>,
+          icon: "error",
+          timerProgressBar: true,
+          grow: "row",
+        })
+      };
     }
   };
   return (
     <Form className="d-flex flex-row justify-content-center mt-3">
       <Col sm={6}>
-        <h1 className="display-5">Change Password</h1>
+        <h1 className="display-5">Изменить пароль</h1>
         <Form.Group className="mb-3">
-          <Form.Label>Enter new password</Form.Label>
-          <Form.Control type="password" ref={password} placeholder="password" />
-          <Form.Label>Confirm password</Form.Label>
+          <Form.Label>Введите старый пароль</Form.Label>
+          <Form.Control type="password" ref={oldPassword} placeholder="Старый пароль" />
+          <Form.Label>Введите новый пароль</Form.Label>
+          <Form.Control type="password" ref={password} placeholder="Новый пароль" />
+          <Form.Label>Подтвердите пароль</Form.Label>
           <Form.Control
             type="password"
             ref={confirmPassword}
-            placeholder="Confirm Password"
+            placeholder="Подтвердите пароль"
           />
         </Form.Group>
         <Button variant="primary" onClick={handleChangePassword}>
-          Submit
+          Сохранить
         </Button>
         {error && (
           <p className="text-danger mb-0 mt-2">Passwords don't match!</p>
