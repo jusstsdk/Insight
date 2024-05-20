@@ -315,14 +315,14 @@ export default function CreateCourse() {
             active={CurrentTab === "addInfo" ? true : false}
             onClick={() => setCurrentTab("addInfo")}
           >
-            Info {InfoHasErrors && <MdOutlineError color="red" />}
+            Информация {InfoHasErrors && <MdOutlineError color="red" />}
           </Breadcrumb.Item>
           <Breadcrumb.Item
             className="fw-semibold"
             active={CurrentTab === "addSubtitle" ? true : false}
             onClick={() => setCurrentTab("addSubtitle")}
           >
-            Subtitles
+            Урок
             {SubtitleHasErrors && <MdOutlineError color="red" />}
           </Breadcrumb.Item>
           <Breadcrumb.Item
@@ -330,7 +330,7 @@ export default function CreateCourse() {
             active={CurrentTab === "addExam" ? true : false}
             onClick={() => setCurrentTab("addExam")}
           >
-            Exam {ExamHasErrors && <MdOutlineError color="red" />}
+            Экзамен {ExamHasErrors && <MdOutlineError color="red" />}
           </Breadcrumb.Item>
         </Breadcrumb>
       </Col>

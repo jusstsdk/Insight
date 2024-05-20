@@ -122,7 +122,9 @@ export default function AddInfo(props) {
     <>
       <Col className="d-flex justify-content-center">
         <Col sm={9}>
-          <h1 className="fs-3 fw-semibold text-muted">Adding Course Info</h1>
+          <h1 className="fs-3 fw-semibold text-muted">
+            Добавить информацию о курсе
+          </h1>
         </Col>
       </Col>
       {/* Title and Price */}
@@ -131,10 +133,10 @@ export default function AddInfo(props) {
         className="mb-3 d-flex align-items-center justify-content-center"
       >
         <Form.Label column sm={1}>
-          Title{" "}
+          Назвние{" "}
           {props.displayErrors && props.MissingCourseTitle && (
             <span className="error">
-              missing
+              пропущено
               <MdOutlineError />
             </span>
           )}
@@ -142,7 +144,7 @@ export default function AddInfo(props) {
         <Col sm={4}>
           <Form.Control
             type="text"
-            placeholder="Title"
+            placeholder="Назвние"
             value={InfoTitle}
             onChange={(e) => {
               dispatch(setTitle(e.target.value));
@@ -151,12 +153,12 @@ export default function AddInfo(props) {
         </Col>
 
         <Form.Label column sm={1}>
-          Price
+          Цена
         </Form.Label>
         <Col sm={2}>
           <Form.Control
             type="number"
-            placeholder="Price"
+            placeholder="Цена"
             value={InfoOriginalPrice}
             onChange={(e) => {
               dispatch(setOriginalPrice(e.target.value));
@@ -164,7 +166,7 @@ export default function AddInfo(props) {
           />
           {props.displayErrors && props.InvalidPrice && (
             <h6 className="error">
-              Invalid Price <MdOutlineError />
+              Некорректная цена <MdOutlineError />
             </h6>
           )}
         </Col>
@@ -179,10 +181,10 @@ export default function AddInfo(props) {
         className="mb-3 d-flex align-items-center justify-content-center"
       >
         <Form.Label column sm={1}>
-          Subjects{" "}
+          Предметы{" "}
           {props.displayErrors && props.MissingSubjects && (
             <span className="error">
-              missing
+              пропущено
               <MdOutlineError />
             </span>
           )}
@@ -196,8 +198,8 @@ export default function AddInfo(props) {
               dispatch(setSubjects(selectedList));
             }}
             isObject={false}
-            placeholder="Select Course Subjects"
-            emptyRecordMsg="You can't add more Subjects."
+            placeholder="Выбрать предметы курса"
+            emptyRecordMsg="Вы не можете добавить больше предметов."
           />
         </Col>
       </Form.Group>
@@ -208,10 +210,10 @@ export default function AddInfo(props) {
         className="mb-3 d-flex align-items-center justify-content-center"
       >
         <Form.Label column sm={1}>
-          Summary{" "}
+          Резюме{" "}
           {props.displayErrors && props.MissingSummary && (
             <span className="error">
-              missing
+              пропущено
               <MdOutlineError />
             </span>
           )}
@@ -221,7 +223,7 @@ export default function AddInfo(props) {
             ref={SummaryRef}
             as="textarea"
             type="text"
-            placeholder="Summary"
+            placeholder="Резюме"
             rows={3}
             value={InfoSummary}
             onChange={(e) => {
@@ -239,7 +241,7 @@ export default function AddInfo(props) {
         className="mb-3 d-flex align-items-center justify-content-center"
       >
         <Form.Label column sm={1}>
-          Preview Video{" "}
+          Стратовое видео{" "}
           {props.displayErrors && props.BadPreviewUrl && (
             <span className="error">
               Invalid URL
@@ -250,7 +252,7 @@ export default function AddInfo(props) {
         <Col sm={8}>
           <Form.Control
             type="text"
-            placeholder="Preview Video"
+            placeholder="Стратовое видео"
             value={InfoPreviewVideo}
             onChange={(e) => {
               dispatch(setPreviewVideo(e.target.value));
@@ -263,7 +265,7 @@ export default function AddInfo(props) {
       {/* Navigation */}
       <Col className="mb-3 me-3 fixed-bottom d-flex justify-content-center">
         <Button onClick={() => handleNext()}>
-          <AiOutlineArrowRight /> Add subtitles
+          <AiOutlineArrowRight /> Добавить уроки
         </Button>
       </Col>
     </>

@@ -57,37 +57,38 @@ export default function CheckoutForm() {
 
     console.log(error);
 
-    // const response2 = await API.post(
-    // 	`/trainees/${userID}/courses/${courseId}/payment`
-    // );
-    //
-    // dispatch(setCourses(response2.data.courses));
+    const response2 = await API.post(
+      `/trainees/${userID}/courses/${courseId}/payment`,
+    );
 
-    // if (course.price > wallet) {
-    // 	dispatch(payFromWallet(wallet));
-    // } else {
-    // 	dispatch(payFromWallet(course.price));
-    // }
-    //
-    //
-    // MySwal.fire({
-    // 	toast: true,
-    // 	position: 'bottom-end',
-    // 	showConfirmButton: false,
-    // 	timer: 4000,
-    // 	title: <strong>purchase successful</strong>,
-    // 	html: <i>course successfully purchased,you can now access all the content!</i>,
-    // 	icon: "success",
-    // 	timerProgressBar: true,
-    // 	grow:'row'
-    // });
-    // navigate("/");
+    dispatch(setCourses(response2.data.courses));
 
-    // if (error.type === "card_error" || error.type === "validation_error") {
-    //   setMessage(error.message);
-    // } else {
-    //   setMessage(error.message);
-    // }
+    if (course.price > wallet) {
+      dispatch(payFromWallet(wallet));
+    } else {
+      dispatch(payFromWallet(course.price));
+    }
+
+    MySwal.fire({
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 4000,
+      title: <strong>purchase successful</strong>,
+      html: (
+        <i>course successfully purchased,you can now access all the content!</i>
+      ),
+      icon: "success",
+      timerProgressBar: true,
+      grow: "row",
+    });
+    navigate("/");
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
+    } else {
+      setMessage(error.message);
+    }
 
     setIsProcessing(false);
   };

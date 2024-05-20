@@ -52,9 +52,7 @@ export default function AddSubtitle(props) {
     <>
       <Row>
         <Col>
-          <h1 className="fs-3 fw-semibold text-muted">
-            Adding Course Subtitles
-          </h1>
+          <h1 className="fs-3 fw-semibold text-muted">Добавить уроки курса</h1>
         </Col>
         <Col className="d-flex justify-content-end">
           {props.displayErrors && props.NoSubtitles && (
@@ -76,7 +74,7 @@ export default function AddSubtitle(props) {
         </Col>
         <Col className="d-flex justify-content-end">
           <Button onClick={() => setAddSubtitleModalShow(true)}>
-            Add a Subtitle
+            Добавить урок
           </Button>
         </Col>
       </Row>
@@ -90,7 +88,7 @@ export default function AddSubtitle(props) {
             props.setCurrentTab("addInfo");
           }}
         >
-          <AiOutlineArrowLeft /> Add info
+          <AiOutlineArrowLeft /> Добавить информацию
         </Button>
 
         <Button
@@ -98,7 +96,7 @@ export default function AddSubtitle(props) {
             handleNext();
           }}
         >
-          <AiOutlineArrowRight /> Add exam
+          <AiOutlineArrowRight /> Добавить экзамен
         </Button>
       </Col>
       {AddSubtitleModalShow && (
