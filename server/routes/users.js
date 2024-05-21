@@ -33,6 +33,11 @@ router.post("/login", async (req, res) => {
   });
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      if (user.isBanned) {
+        res.status(401).json("You are banned");
+        return;
+      }
+
       const token = user.generateAuthToken();
       res.status(200).json({
         "x-auth-token": token,
@@ -50,6 +55,11 @@ router.post("/login", async (req, res) => {
   });
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      if (user.isBanned) {
+        res.status(401).json("You are banned");
+        return;
+      }
+
       const token = user.generateAuthToken();
       res.status(200).json({
         "x-auth-token": token,
@@ -62,22 +72,22 @@ router.post("/login", async (req, res) => {
     return;
   }
   // find CorporateTrainee
-  user = await CorporateTrainee.findOne({
-    username: { $regex: req.body.username, $options: "i" },
-  });
-  if (user) {
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      const token = user.generateAuthToken();
-      res.status(200).json({
-        "x-auth-token": token,
-        userType: "CorporateTrainee",
-        user: user._doc,
-      });
-    } else {
-      res.status(401).json("wrong password");
-    }
-    return;
-  }
+  // user = await CorporateTrainee.findOne({
+  //   username: { $regex: req.body.username, $options: "i" },
+  // });
+  // if (user) {
+  //   if (await bcrypt.compare(req.body.password, user.password)) {
+  //     const token = user.generateAuthToken();
+  //     res.status(200).json({
+  //       "x-auth-token": token,
+  //       userType: "CorporateTrainee",
+  //       user: user._doc,
+  //     });
+  //   } else {
+  //     res.status(401).json("wrong password");
+  //   }
+  //   return;
+  // }
   // no user
   res.sendStatus(404);
 });
@@ -86,14 +96,14 @@ router.post("/forgotPassword", async (req, res) => {
   let user = await Administrator.findOne({
     username: req.body.username,
   });
-  let type = 'Admin'
+  let type = "Admin";
 
   if (!user) {
     user = await Instructor.findOne({
       username: req.body.username,
     });
 
-    type = 'Instructor'
+    type = "Instructor";
   }
 
   if (!user) {
@@ -101,7 +111,7 @@ router.post("/forgotPassword", async (req, res) => {
       username: req.body.username,
     });
 
-    type = 'Trainee'
+    type = "Trainee";
   }
 
   if (!user) {
@@ -120,15 +130,16 @@ router.post("/forgotPassword", async (req, res) => {
   const token = user.generateAuthToken();
 
   const generateNewPassword = () => {
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
     let password = "";
     for (let i = 0, n = charset.length; i < 9; ++i) {
       password += charset.charAt(Math.floor(Math.random() * n));
     }
     return password;
-  }
+  };
 
-  const newPassword = generateNewPassword()
+  const newPassword = generateNewPassword();
 
   let mailDetails = {
     to: `${user.email}`,
@@ -136,26 +147,26 @@ router.post("/forgotPassword", async (req, res) => {
     text: `Ваш новый пароль ${newPassword}`,
   };
 
-  const bcryptPassword = await bcrypt.hash(
-      newPassword,
-      10
-  )
+  const bcryptPassword = await bcrypt.hash(newPassword, 10);
 
-  if (type === 'Admin') {
+  if (type === "Admin") {
     await Administrator.findOneAndUpdate(
-        { _id: user._id },
-        { password: bcryptPassword },
-        { new: true })
-  } else if (type === 'Instructor') {
+      { _id: user._id },
+      { password: bcryptPassword },
+      { new: true },
+    );
+  } else if (type === "Instructor") {
     await Instructor.findOneAndUpdate(
-        { _id: user._id },
-        { password: bcryptPassword },
-        { new: true })
-  } else if (type === 'Trainee') {
+      { _id: user._id },
+      { password: bcryptPassword },
+      { new: true },
+    );
+  } else if (type === "Trainee") {
     await Trainee.findOneAndUpdate(
-        { _id: user._id },
-        { password: bcryptPassword },
-        { new: true })
+      { _id: user._id },
+      { password: bcryptPassword },
+      { new: true },
+    );
   }
 
   mailTransporter.sendMail(mailDetails, function (err, data) {
@@ -199,8 +210,9 @@ router.post("/resetPassword", async (req, res) => {
       break;
   }
 
-
-  if (!(await bcrypt.compare(req.body.oldPassword, userForCheckPassword.password))) {
+  if (
+    !(await bcrypt.compare(req.body.oldPassword, userForCheckPassword.password))
+  ) {
     return res.status(400).json({ error: "Invalid password" });
   }
 
@@ -209,23 +221,23 @@ router.post("/resetPassword", async (req, res) => {
   switch (decoded.userType) {
     case "Administrator":
       user = await Administrator.findOneAndUpdate(
-          { _id: decoded._id },
-          { password: password },
-          { new: true },
+        { _id: decoded._id },
+        { password: password },
+        { new: true },
       );
       break;
     case "Instructor":
       user = await Instructor.findOneAndUpdate(
-          { _id: decoded._id },
-          { password: password },
-          { new: true },
+        { _id: decoded._id },
+        { password: password },
+        { new: true },
       );
       break;
     case "Trainee":
       user = await Trainee.findOneAndUpdate(
-          { _id: decoded._id },
-          { password: password },
-          { new: true },
+        { _id: decoded._id },
+        { password: password },
+        { new: true },
       );
       break;
   }
@@ -275,22 +287,23 @@ router.post("/check-banned", async (req, res) => {
   try {
     let token = req.headers["x-access-token"] || req.headers["authorization"];
     //if no token found, return response (without going to the next middelware)
-    if (!token) return res.status(401).send("Access denied. No token provided.");
+    if (!token)
+      return res.status(401).send("Access denied. No token provided.");
 
-    token = token.substring(7)
+    token = token.substring(7);
 
     const decoded = jwt.verify(token, process.env.SECRET);
 
-    if (!decoded) return
+    if (!decoded) return;
 
-    let user = null
+    let user = null;
     user = await Trainee.findById(decoded._id);
 
     if (!user) {
       user = await Instructor.findById(decoded._id);
     }
 
-    if (!user) return
+    if (!user) return;
 
     if (!user.isBanned) {
       res.json({ message: "Успех" });
