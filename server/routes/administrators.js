@@ -11,12 +11,8 @@ const {
   getAllCoursesRequests,
   handleCourseRequest,
 } = require("../controllers/administratorController");
-const ban = require("../middleware/ban");
 
 const router = express.Router();
-router.use((req, res, next) => {
-  ban(req, res, next);
-});
 // middleware
 
 // Get all Courses with Refunds

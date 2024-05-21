@@ -7,7 +7,6 @@ const {
   updateCorporateTrainee,
   requestCourseAccess,
 } = require("../controllers/corporateTraineeController");
-const ban = require("../middleware/ban");
 
 const router = express.Router();
 

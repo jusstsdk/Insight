@@ -11,7 +11,6 @@ const {
   deletePaymentMethod,
   requestRefund,
 } = require("../controllers/traineeController");
-const ban = require("../middleware/ban");
 
 const router = express.Router();
 

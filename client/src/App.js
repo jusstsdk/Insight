@@ -6,11 +6,32 @@ import { CorporateTraineeRoutes } from "./routes/CorporateTraineeRoutes";
 import { GuestRoutes } from "./routes/GuestRoutes";
 import { RedirectToHome } from "./components/shared/RedirectToHome";
 import NotFound from "./pages/NotFound";
-import CompleteSignUp from "./pages/CompleteSignUp";
-import Layout from "./components/shared/Layout";
 import { CompleteSignUpRoutes } from "./routes/CompleteSignUpRoutes";
+import {useSelector} from "react-redux";
+import {useEffect} from "react";
+import axios from "axios";
 
 function App() {
+	const token = useSelector((state) => state.userReducer.token);
+	const userType = useSelector((state) => state.userReducer.type);
+
+
+	useEffect(() => {
+		const checkBan = async () => {
+			const config = {
+				method: "POST",
+				url: "http://localhost:4000/api/users/check-banned",
+				headers: { authorization: `Bearer ${token}` },
+			};
+
+			await axios(config);
+		}
+
+		if (token && userType !== 'Administrator') {
+			 checkBan()
+		}
+	}, [])
+
 	return (
 		<>
 			<Routes>

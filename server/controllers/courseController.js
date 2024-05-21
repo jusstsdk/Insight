@@ -192,10 +192,11 @@ const getCourses = async (req, res) => {
   if (query["$and"] && query["$and"].length === 0) {
     delete query["$and"];
   }
-
   // find results
   try {
+    console.log(1)
     const course = await Course.find(query).populate("instructors");
+    console.log(2)
     let rankedCourses = [...course];
     rankedCourses = rankedCourses.filter(
       (course) => course.status === "Published",
@@ -207,7 +208,6 @@ const getCourses = async (req, res) => {
         course.save();
       }
     });
-
     res.status(200).json(course);
   } catch (error) {
     res.status(400).json({ error: error.message });

@@ -14,7 +14,6 @@ const {
   createCourseInstructor,
   getCoursesInstructor,
 } = require("../controllers/courseController");
-const ban = require("../middleware/ban");
 
 const router = express.Router();
 

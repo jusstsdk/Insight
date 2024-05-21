@@ -271,26 +271,32 @@ router.put("/toggle-ban", async (req, res) => {
   }
 });
 
-router.put("/check-banned", async (req, res) => {
-  const { id } = req.body;
-
+router.post("/check-banned", async (req, res) => {
   try {
+    let token = req.headers["x-access-token"] || req.headers["authorization"];
+    //if no token found, return response (without going to the next middelware)
+    if (!token) return res.status(401).send("Access denied. No token provided.");
+
+    token = token.substring(7)
+
+    const decoded = jwt.verify(token, process.env.SECRET);
+
+    if (!decoded) return
+
     let user = null
-    user = await Trainee.findById(id);
+    user = await Trainee.findById(decoded._id);
 
     if (!user) {
-      user = await Instructor.findById(id);
-
-      if (!user) {
-        user = await CorporateTrainee.findById(id);
-      }
+      user = await Instructor.findById(decoded._id);
     }
 
-    console.log(user)
+    if (!user) return
 
-    // user.isBanned = isBanned;
-    // await user.save();
-    res.json({ message: "Успех" });
+    if (!user.isBanned) {
+      res.json({ message: "Успех" });
+    } else {
+      res.json({ message: "Вы забанены" });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Что-то пошло не так" });

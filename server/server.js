@@ -9,7 +9,6 @@ const corporateTrainees = require("./routes/corporateTrainees");
 const courseRoutes = require("./routes/courses");
 const reportRoutes = require("./routes/reports");
 const usersRoute = require("./routes/users");
-const ban = require("./middleware/ban");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-08-01",
@@ -21,9 +20,6 @@ app.use(cors());
 
 // middleware
 app.use(express.json({ limit: "50mb", extended: true }));
-app.use((req, res, next) => {
-  ban(req, res, next);
-});
 // routes
 app.use("/api/users", usersRoute);
 app.use("/api/administrators", administratorRoutes);
