@@ -71,7 +71,7 @@ export default function AddSubtitleInfo(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="example-custom-modal-styling-title">
-          Adding a Subtitle
+          Добавить урок
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -80,12 +80,12 @@ export default function AddSubtitleInfo(props) {
           className="mb-3 d-flex align-items-center justify-content-start"
         >
           <Form.Label column sm={2}>
-            <span>Subtitle title</span>
+            <span>Название урока</span>
             <br />
             <span>
               {MissingTitle && (
                 <span className="error">
-                  Missing
+                  пропущено
                   <MdOutlineError />
                 </span>
               )}
@@ -95,7 +95,7 @@ export default function AddSubtitleInfo(props) {
           <Col sm={6}>
             <Form.Control
               type="text"
-              placeholder="Title"
+              placeholder="Введите название"
               value={Title}
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -106,10 +106,10 @@ export default function AddSubtitleInfo(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.handleClose}>
-          Close
+          Закрыть
         </Button>
         <Button className="me-3" onClick={handleAddSubtitle}>
-          Add Subtitle
+          Добавить
         </Button>
       </Modal.Footer>
     </Modal>

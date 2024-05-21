@@ -395,7 +395,7 @@ function UniversalCourseCard(props) {
           </Col>
           <Col sm={1} className="priceContainer textFit  justify-content-end">
             {traineeOwnsCourse ? (
-              <h6>Owned</h6>
+              <h6>Принадлежит</h6>
             ) : traineeRequestedRefund ? (
               <h6>Requested Refund</h6>
             ) : userType !== "CorporateTrainee" ? (
@@ -439,7 +439,12 @@ function UniversalCourseCard(props) {
         </Row>
 
         <Row className="d-flex align-items-end">
-          <Col sm={2}><h6 className={'text-muted textFit courseCardLabel d-inline'}>Участников:</h6> {course?.popularity}</Col>
+          <Col sm={2}>
+            <h6 className={"text-muted textFit courseCardLabel d-inline"}>
+              Участников:
+            </h6>{" "}
+            {course?.popularity}
+          </Col>
 
           {cardType === "Basic" ? (
             <Col

@@ -50,10 +50,10 @@ export default function AddExam(props) {
     <>
       <Row>
         <Col>
-          <h1 className="fs-3 fw-semibold text-muted">Adding Course Exam</h1>
+          <h1 className="fs-3 fw-semibold text-muted">Добавить экзамен</h1>
         </Col>
         <Col className="d-flex justify-content-end fitWidth">
-          <Button onClick={handleAddModalShow}>Add a Question</Button>
+          <Button onClick={handleAddModalShow}>Добавить вопрос</Button>
         </Col>
       </Row>
 
@@ -62,12 +62,12 @@ export default function AddExam(props) {
         className="mb-3 d-flex align-items-center justify-content-start"
       >
         <Form.Label column sm={2}>
-          Exam title
+          Название экзамена
         </Form.Label>
         <Col sm={7}>
           <Form.Control
             type="text"
-            placeholder="Title"
+            placeholder="Введите название"
             onChange={(e) => {
               dispatch(setExamTitle(e.target.value));
             }}
@@ -101,7 +101,7 @@ export default function AddExam(props) {
             props.setCurrentTab("addSubtitle");
           }}
         >
-          <AiOutlineArrowLeft /> Add subtitles
+          <AiOutlineArrowLeft /> Добавить урок
         </Button>
         {/* Save Course */}
         <Button
@@ -110,7 +110,7 @@ export default function AddExam(props) {
             handleButtons("save");
           }}
         >
-          Save Course
+          Сохранить курс
         </Button>
         {/* Publish Course */}
         <Button
@@ -118,7 +118,7 @@ export default function AddExam(props) {
             handleButtons("publish");
           }}
         >
-          Publish Course
+          Опубликовать курс
         </Button>
       </Col>
       <AddQuestion

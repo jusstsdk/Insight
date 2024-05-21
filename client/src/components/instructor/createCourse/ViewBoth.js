@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import {Button, Accordion, Col, Row, Image} from "react-bootstrap";
+import { Button, Accordion, Col, Row, Image } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -421,7 +421,11 @@ export default function ViewBoth(props) {
                       <div>
                         {item.text && <p>{item.text}</p>}
                         {item.imageUrl && (
-                          <Image src={item.imageUrl} alt={item.imageAlt} className={'w-100'} />
+                          <Image
+                            src={item.imageUrl}
+                            alt={item.imageAlt}
+                            className={"w-100"}
+                          />
                         )}
                       </div>
                     ))}
@@ -440,7 +444,7 @@ export default function ViewBoth(props) {
           }
           className="me-3 w-auto"
         >
-          Add Exercise
+          Добавить упражнение
         </Button>
         <Button
           onClick={() =>
@@ -448,7 +452,7 @@ export default function ViewBoth(props) {
           }
           className="me-3 w-auto"
         >
-          Add Video
+          Добавить видео
         </Button>
         <Button
           onClick={() =>
@@ -456,7 +460,7 @@ export default function ViewBoth(props) {
           }
           className="me-3 w-auto"
         >
-          Add Content
+          Добавить контент
         </Button>
       </Row>
 

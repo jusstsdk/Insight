@@ -161,7 +161,7 @@ function CourseCard({ course }) {
             >
               <Card.Text className="priceLabel">
                 {ownsCourse ? (
-                  <h5>Owned</h5>
+                  <h5>Принадлежит</h5>
                 ) : traineeRequestedRefund ? (
                   <h5>Refund Requested</h5>
                 ) : userType !== "CorporateTrainee" ? (

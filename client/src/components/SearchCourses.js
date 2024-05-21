@@ -145,13 +145,13 @@ export default function SearchCourses({
               !searchInInstructorCourses ? "mx-auto" : "ms-2"
             }`}
           >
-            <Form.Label className="fitWidth my-auto">Price</Form.Label>
+            <Form.Label className="fitWidth my-auto">Цена</Form.Label>
             <Col className="me-1" sm={4}>
               <Form.Control
                 ref={minPriceFilter}
                 onChange={async () => await getCourses()}
                 type="number"
-                placeholder="Min"
+                placeholder="Мин"
               />
             </Col>
             <Col className="" sm={4}>
@@ -159,7 +159,7 @@ export default function SearchCourses({
                 ref={maxPriceFilter}
                 onChange={async () => await getCourses()}
                 type="number"
-                placeholder="Max"
+                placeholder="Макс"
               />
             </Col>
           </Col>
@@ -169,7 +169,7 @@ export default function SearchCourses({
               sm={3}
               className="d-flex  justify-content-between align-items-center "
             >
-              <Form.Label className="fitWidth my-auto">Min Rating</Form.Label>
+              <Form.Label className="fitWidth my-auto">Мин. рейтинг</Form.Label>
               <div className="fitWidth me-2">
                 <Rating
                   allowFraction="true"
