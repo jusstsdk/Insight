@@ -353,17 +353,12 @@ const countProgress = (subtitles) => {
   let subtitlesFinished = 0;
 
   subtitles.forEach((item) => {
-    console.log("==");
-    console.log(item.videos.every((obj) => obj.isWatched));
-    console.log(item.exercises.every((obj) => obj.isSolved));
-    console.log(item.content.every((obj) => obj.isWatched));
-    console.log("==");
+    console.log(item);
     if (
       item.videos.every((obj) => obj.isWatched) &&
       item.exercises.every((obj) => obj.isSolved) &&
       item.content.every((obj) => obj.isWatched)
     ) {
-      console.log(item);
       subtitlesFinished++;
     }
   });
@@ -460,6 +455,10 @@ const solveExercise = async (req, res) => {
     exerciseIndex
   ].questions = questions;
   console.log(countProgress(trainee.courses[courseIndex].subtitles));
+  trainee.courses[courseIndex].progress = countProgress(
+    trainee.courses[courseIndex].subtitles,
+  );
+
   trainee.courses[courseIndex].progress = countProgress(
     trainee.courses[courseIndex].subtitles,
   );
