@@ -59,7 +59,7 @@ export default function Login() {
       const responseUserType = response.data["userType"];
 
       let responseUser = response.data["user"];
-      // responseUser = await updateCurrency(responseUser);
+      responseUser = await updateCurrency(responseUser);
 
       dispatch(
         login({
