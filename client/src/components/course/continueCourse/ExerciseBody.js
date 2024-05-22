@@ -82,14 +82,15 @@ export default function ExerciseBody({ handleSubmitAnswers, MissingAnswer, Grade
 									}
 									disabled={IsSolved}
 								/>
-
 								{/* Choice */}
 								<Form.Check.Label
 									className={
-										IsSolved ? (Answers[question_index].choice === choice ? "solved" : "") : ""
+										IsSolved ? (ShowAnswers && Answers[question_index].choice === choice ? "solved" : "") : ""
 									}
 									key={`question_${question._id}_choice_${choice}_${choice_index}_label`}>
-									{choice}
+									{choice} {IsSolved && choice === Answers[question_index].choice ? IsSolved
+									&& question.correctAnswer !== choice &&
+									Answers[question_index].choice === choice ? '(Неверно)' : '(Верно)' : '' }
 								</Form.Check.Label>
 							</Form.Check>
 						</Col>

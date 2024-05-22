@@ -54,13 +54,6 @@ export default function AdminNavbarButtons() {
       </Nav.Link>
       <Nav.Link
         onClick={() => {
-          navigate("refunds");
-        }}
-      >
-        Возврат
-      </Nav.Link>
-      <Nav.Link
-        onClick={() => {
           navigate("promotion");
         }}
       >
