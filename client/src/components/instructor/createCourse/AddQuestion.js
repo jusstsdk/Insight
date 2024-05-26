@@ -174,10 +174,10 @@ export default function AddQuestion(props) {
             className="mb-3 d-flex align-items-center justify-content-start"
           >
             <Form.Label column sm={2}>
-              Question{" "}
+              Вопрос{" "}
               {MissingTitle && (
                 <span className="error">
-                  missing
+                  пропущено
                   <MdOutlineError />
                 </span>
               )}
@@ -187,7 +187,7 @@ export default function AddQuestion(props) {
                 as="textarea"
                 ref={QuestionRef}
                 type="text"
-                placeholder="Question"
+                placeholder="Вопрос"
                 value={Question}
                 onChange={(e) => setQuestion(e.target.value)}
               />
@@ -197,10 +197,10 @@ export default function AddQuestion(props) {
             <Row className="mb-2 d-flex align-items-center">
               <Col sm={2}>
                 <FormLabel>
-                  Choice 1{" "}
+                  Выбор 1{" "}
                   {MissingFirstChoice && (
                     <span className="error">
-                      missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -210,7 +210,7 @@ export default function AddQuestion(props) {
                 <Form.Control
                   as="textarea"
                   ref={FirstChoiceRef}
-                  placeholder="First Answer"
+                  placeholder="Первый ответ"
                   aria-label="First Answer"
                   value={FirstChoice}
                   onChange={(e) => setFirstChoice(e.target.value)}
@@ -220,10 +220,10 @@ export default function AddQuestion(props) {
             <Row className="mb-2 d-flex align-items-center">
               <Col sm={2}>
                 <FormLabel>
-                  Choice 2{" "}
+                  Выбор 2{" "}
                   {MissingSecondChoice && (
                     <span className="error">
-                      missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -233,7 +233,7 @@ export default function AddQuestion(props) {
                 <Form.Control
                   ref={SecondChoiceRef}
                   as="textarea"
-                  placeholder="Second Answer"
+                  placeholder="Второй ответ"
                   aria-label="Second Answer"
                   value={SecondChoice}
                   onChange={(e) => setSecondChoice(e.target.value)}
@@ -243,10 +243,10 @@ export default function AddQuestion(props) {
             <Row className="mb-2 d-flex align-items-center">
               <Col sm={2}>
                 <FormLabel>
-                  Choice 3{" "}
+                  Выбор 3{" "}
                   {MissingThirdChoice && (
                     <span className="error">
-                      missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -256,7 +256,7 @@ export default function AddQuestion(props) {
                 <Form.Control
                   ref={ThirdChoiceRef}
                   as="textarea"
-                  placeholder="Third Answer"
+                  placeholder="Третий ответ"
                   aria-label="Third Answer"
                   value={ThirdChoice}
                   onChange={(e) => setThirdChoice(e.target.value)}
@@ -266,10 +266,10 @@ export default function AddQuestion(props) {
             <Row className="mb-2 d-flex align-items-center">
               <Col sm={2}>
                 <FormLabel>
-                  Choice 4{" "}
+                  Выбор 4{" "}
                   {MissingFourthChoice && (
                     <span className="error">
-                      missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -279,7 +279,7 @@ export default function AddQuestion(props) {
                 <Form.Control
                   ref={FourthChoiceRef}
                   as="textarea"
-                  placeholder="Fourth Answer"
+                  placeholder="Четвертый ответ"
                   aria-label="Fourth Answer"
                   value={FourthChoice}
                   onChange={(e) => setFourthChoice(e.target.value)}
@@ -292,7 +292,7 @@ export default function AddQuestion(props) {
             className="mb-3 d-flex align-items-center justify-content-start"
           >
             <Form.Label column sm={2}>
-              Correct Answer
+              Правильный ответ
             </Form.Label>
             <Col sm={3}>
               <Form.Select
@@ -303,11 +303,11 @@ export default function AddQuestion(props) {
                   setMissingCorrectAnswer(false);
                 }}
               >
-                <option value="default">Choose the correct answer</option>
-                <option value={Choices[0]}>Choice 1</option>
-                <option value={Choices[1]}>Choice 2</option>
-                <option value={Choices[2]}>Choice 3</option>
-                <option value={Choices[3]}>Choice 4</option>
+                <option value="default">Выберите правильный ответ</option>
+                <option value={Choices[0]}>Выбор 1</option>
+                <option value={Choices[1]}>Выбор 2</option>
+                <option value={Choices[2]}>Выбор 3</option>
+                <option value={Choices[3]}>Выбор 4</option>
               </Form.Select>
             </Col>
             <Col sm={3}>
@@ -334,7 +334,7 @@ export default function AddQuestion(props) {
               props.handleClose();
             }}
           >
-            Close
+            Закрыть
           </Button>
           <OverlayTrigger
             trigger="click"

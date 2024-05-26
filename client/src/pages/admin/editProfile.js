@@ -87,17 +87,17 @@ const EditProfile = () => {
         <h1 className="display-5">Редактирование профиля</h1>
         <Col sm={6}>
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Почта</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Email"
+              placeholder="Почта"
               value={Email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
             <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
+              Мы ни с кем не делимся вашей почтой.
             </Form.Text>
             <div>
               {emailValidation && <Form.Text>{emailValidation}</Form.Text>}
@@ -106,11 +106,11 @@ const EditProfile = () => {
         </Col>
 
         <Form.Group className="mb-3">
-          <Form.Label>Biography</Form.Label>
+          <Form.Label>Биография</Form.Label>
           <Form.Control
             as="textarea"
             ref={BiographyRef}
-            placeholder="Biography"
+            placeholder="Биография"
             rows={4}
             value={Biography}
             onChange={(e) => {
@@ -119,7 +119,7 @@ const EditProfile = () => {
           />
         </Form.Group>
         <Button variant="primary" onClick={handleEditProfile}>
-          Submit
+          Сохранить
         </Button>
       </Col>
     </Form>

@@ -92,7 +92,7 @@ export default function PromotionForm({ courses }) {
       <Form onSubmit={setPromotion} className="mb-3 row">
         <Col sm={3}>
           <Form.Group className="">
-            <Form.Label>Start Date of the promotion</Form.Label>
+            <Form.Label>Дата начала скидки</Form.Label>
             <Form.Control
               type="date"
               ref={startDate}
@@ -102,7 +102,7 @@ export default function PromotionForm({ courses }) {
         </Col>
         <Col sm={3}>
           <Form.Group className="">
-            <Form.Label>End Date of the promotion</Form.Label>
+            <Form.Label>Дата окончания скидки</Form.Label>
             <Form.Control
               type="date"
               ref={endDate}
@@ -112,9 +112,9 @@ export default function PromotionForm({ courses }) {
         </Col>
         <Col sm={3}>
           <Form.Group className="">
-            <Form.Label>Discount Amount (%)</Form.Label>
+            <Form.Label>Сумма скидки (%)</Form.Label>
             <Form.Control
-              placeholder="Amount"
+              placeholder="Сумма"
               type="number"
               ref={discount}
               min="0"
@@ -124,7 +124,7 @@ export default function PromotionForm({ courses }) {
         </Col>
         <Col className="d-flex" sm={3}>
           <Button className="mt-auto" variant="primary" type="submit">
-            Set Promotion
+            Установить
           </Button>
         </Col>
       </Form>

@@ -241,10 +241,10 @@ export default function AddInfo(props) {
         className="mb-3 d-flex align-items-center justify-content-center"
       >
         <Form.Label column sm={1}>
-          Стратовое видео{" "}
+          Стартовое видео{" "}
           {props.displayErrors && props.BadPreviewUrl && (
             <span className="error">
-              Invalid URL
+              Невалидный URL
               <MdOutlineError />
             </span>
           )}
@@ -252,7 +252,7 @@ export default function AddInfo(props) {
         <Col sm={8}>
           <Form.Control
             type="text"
-            placeholder="Стратовое видео"
+            placeholder="Стартовое"
             value={InfoPreviewVideo}
             onChange={(e) => {
               dispatch(setPreviewVideo(e.target.value));

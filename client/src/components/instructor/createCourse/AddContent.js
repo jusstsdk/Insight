@@ -1,4 +1,4 @@
-import {Button, Col, Form, Image, Modal, Row} from "react-bootstrap";
+import { Button, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { useState } from "react";
 import { MdOutlineError } from "react-icons/md";
 import {
@@ -125,7 +125,7 @@ const AddContent = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="example-custom-modal-styling-title">
-          {props.case === "Add" ? "Adding" : "Editting"} a Content
+          {props.case === "Add" ? "Добавление" : "Редактирование"} a контента
         </Modal.Title>
       </Modal.Header>
 
@@ -133,7 +133,7 @@ const AddContent = (props) => {
         {!contentType && (
           <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
             <Form.Label column sm={2}>
-              Title
+              Название
               <br />
               <span>
                 {missingTitle && (
@@ -147,7 +147,7 @@ const AddContent = (props) => {
             <Col sm={7}>
               <Form.Control
                 type="text"
-                placeholder="Title"
+                placeholder="Название"
                 value={content.title}
                 onChange={(e) => {
                   setContent({ ...content, title: e.target.value });
@@ -178,13 +178,17 @@ const AddContent = (props) => {
               sm={"auto"}
               className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
             >
-              <Button onClick={() => setContentType("text")}>Add Text</Button>
+              <Button onClick={() => setContentType("text")}>
+                Добавить текст
+              </Button>
             </Col>
             <Col
               sm={"auto"}
               className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-auto"}
             >
-              <Button onClick={() => setContentType("image")}>Add Image</Button>
+              <Button onClick={() => setContentType("image")}>
+                Добавить картинку
+              </Button>
             </Col>
           </Row>
         )}
@@ -192,12 +196,12 @@ const AddContent = (props) => {
         {contentType === "text" && (
           <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
             <Form.Label column sm={2}>
-              Content text
+              Текст
               <br />
               <span>
                 {missingText && (
                   <span className="error">
-                    Missing
+                    пропущено
                     <MdOutlineError />
                   </span>
                 )}
@@ -208,7 +212,7 @@ const AddContent = (props) => {
                 as={"textarea"}
                 rows={5}
                 type="text"
-                placeholder="Content text"
+                placeholder="Текст"
                 value={contentText}
                 onChange={(e) => {
                   setContentText(e.target.value);
@@ -225,7 +229,7 @@ const AddContent = (props) => {
                     className={"w-100"}
                     onClick={() => setContentType(null)}
                   >
-                    Cancel
+                    Отменить
                   </Button>
                 </Col>
                 <Col
@@ -233,7 +237,7 @@ const AddContent = (props) => {
                   className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-25"}
                 >
                   <Button className={"w-100"} onClick={handleAddText}>
-                    Add
+                    Добавить
                   </Button>
                 </Col>
               </Row>
@@ -245,12 +249,12 @@ const AddContent = (props) => {
           <>
             <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
               <Form.Label column sm={2}>
-                Choose an image
+                Выбрать картинку
                 <br />
                 <span>
                   {missingImage && (
                     <span className="error">
-                      Missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -274,12 +278,12 @@ const AddContent = (props) => {
 
             <Form.Group as={Row} className="mb-3 d-flex justify-content-start">
               <Form.Label column sm={2}>
-                Alt for image
+                Текст к картинке
                 <br />
                 <span>
                   {missingAlt && (
                     <span className="error">
-                      Missing
+                      пропущено
                       <MdOutlineError />
                     </span>
                   )}
@@ -288,7 +292,7 @@ const AddContent = (props) => {
               <Col sm={7}>
                 <Form.Control
                   type="text"
-                  placeholder="Alt for image"
+                  placeholder="Текст к картинке"
                   value={contentAlt}
                   onChange={(e) => {
                     setContentAlt(e.target.value);
@@ -305,7 +309,7 @@ const AddContent = (props) => {
                       className={"w-100"}
                       onClick={() => setContentType(null)}
                     >
-                      Cancel
+                      Отменить
                     </Button>
                   </Col>
                   <Col
@@ -313,7 +317,7 @@ const AddContent = (props) => {
                     className={"flex-grow-0 flex-shrink-0 flex-basis-auto w-25"}
                   >
                     <Button className={"w-100"} onClick={handleAddImage}>
-                      Add
+                      Добавить
                     </Button>
                   </Col>
                 </Row>

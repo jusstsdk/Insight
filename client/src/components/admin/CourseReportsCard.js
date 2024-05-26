@@ -10,13 +10,13 @@ function CourseReportsCard(props) {
     <Card bg="lightGrey" className="h-100">
       <Card.Body className="d-flex flex-column justify-content-start">
         <Card.Title>{props.course.title}</Card.Title>
-        <Card.Text>Number of reports: {props.course.reports.length}</Card.Text>
+        <Card.Text>Количество отчетов: {props.course.reports.length}</Card.Text>
         <Button
           className="mt-auto"
           onClick={() => ViewCourseReports()}
           variant="outline-primary"
         >
-          View Reports
+          Посмотреть отчеты
         </Button>
       </Card.Body>
     </Card>
